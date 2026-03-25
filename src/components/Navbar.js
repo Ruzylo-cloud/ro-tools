@@ -108,27 +108,9 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* 4. Directives (dropdown) */}
+          {/* 4. Directives (standalone page) */}
           <div className={styles.navItem}>
-            <button
-              className={`${styles.navLink} ${openDropdown === 'directives' ? styles.navLinkActive : ''}`}
-              onClick={() => toggleDropdown('directives')}
-              aria-expanded={openDropdown === 'directives'}
-              aria-haspopup="true"
-            >
-              Directives <span className={`${styles.chevron} ${openDropdown === 'directives' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
-            </button>
-            {openDropdown === 'directives' && (
-              <div className={styles.dropdown}>
-                <span className={`${styles.dropdownItem} ${styles.comingSoon}`}>
-                  <span className={styles.dropdownIcon}>&#x1F4DD;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Coming Soon <span className={styles.comingSoonBadge}>Soon</span></div>
-                    <div className={styles.dropdownHint}>Company directives and policies</div>
-                  </div>
-                </span>
-              </div>
-            )}
+            <Link href="/dashboard/directives" className={styles.navLink} onClick={closeDropdown}>Directives</Link>
           </div>
 
           {/* 5. Store Profile */}
@@ -194,16 +176,7 @@ export default function Navbar() {
           </div>
         )}
 
-        <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_directives')}>
-          Directives <span className={`${styles.chevron} ${openDropdown === 'm_directives' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
-        </button>
-        {openDropdown === 'm_directives' && (
-          <div className={styles.mobileDropdownItems}>
-            <span className={styles.mobileDropdownItem} style={{ color: 'var(--gray-400)' }}>
-              <span>&#x1F4DD;</span> Coming Soon
-            </span>
-          </div>
-        )}
+        <Link href="/dashboard/directives" className={styles.mobileNavLink} onClick={closeMobileMenu}>Directives</Link>
 
         <Link href="/dashboard/profile" className={styles.mobileNavLink} onClick={closeMobileMenu}>Store Profile</Link>
         <Link href="/dashboard/support" className={styles.mobileNavLink} onClick={closeMobileMenu}>Support</Link>
