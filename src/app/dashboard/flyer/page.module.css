@@ -47,6 +47,7 @@
 }
 
 .input {
+  width: 100%;
   padding: 8px 12px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -54,6 +55,7 @@
   font-family: inherit;
   color: var(--charcoal);
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -129,6 +131,20 @@
 
   .preview {
     overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    padding: 24px 16px;
+  }
+
+  .sidebarTitle {
+    font-size: 20px;
+  }
+
+  .previewContainer {
+    padding: 16px;
   }
 }
 

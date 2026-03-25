@@ -2,6 +2,7 @@
   max-width: 700px;
   margin: 0 auto;
   padding: 48px 24px;
+  overflow-x: hidden;
 }
 
 .header {
@@ -123,6 +124,7 @@
 }
 
 .input {
+  width: 100%;
   padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -130,6 +132,7 @@
   font-family: inherit;
   color: var(--charcoal);
   transition: border-color 0.2s;
+  box-sizing: border-box;
 }
 
 .input:focus {

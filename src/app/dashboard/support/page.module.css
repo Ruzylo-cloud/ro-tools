@@ -74,6 +74,7 @@
   font-size: 13px;
   font-family: inherit;
   color: var(--charcoal);
+  box-sizing: border-box;
 }
 
 .input:focus {
@@ -92,6 +93,7 @@
   color: var(--charcoal);
   min-height: 80px;
   resize: vertical;
+  box-sizing: border-box;
 }
 
 .textarea:focus {
