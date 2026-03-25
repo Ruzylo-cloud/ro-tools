@@ -131,3 +131,33 @@
     overflow-x: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 20px 16px;
+  }
+
+  .sidebarTitle {
+    font-size: 18px;
+  }
+
+  .input {
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+
+  .downloadBtn {
+    padding: 16px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+
+  .preview {
+    padding: 12px;
+  }
+
+  .previewContainer {
+    padding: 12px;
+    border-radius: 8px;
+  }
+}

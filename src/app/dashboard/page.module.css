@@ -209,4 +209,50 @@
   .grid {
     grid-template-columns: 1fr;
   }
+
+  .container {
+    padding: 32px 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .updatesSection {
+    padding: 16px;
+  }
+
+  .updateRow {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 12px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .card {
+    padding: 24px 18px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .updatesSection {
+    padding: 14px;
+  }
+
+  .updateRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding: 12px 0;
+  }
 }

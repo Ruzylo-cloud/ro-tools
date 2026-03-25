@@ -164,3 +164,52 @@
   line-height: 1.6;
   margin: 0;
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+  .container {
+    padding: 32px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .entryContent {
+    padding: 14px 16px;
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 12px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .entries {
+    padding-left: 18px;
+  }
+
+  .dot {
+    left: -25px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .entryContent {
+    padding: 12px 14px;
+  }
+
+  .entryTitle {
+    font-size: 14px;
+  }
+
+  .versionHeader {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

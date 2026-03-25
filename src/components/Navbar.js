@@ -10,6 +10,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -35,6 +36,16 @@ export default function Navbar() {
   }, []);
 
   const closeDropdown = useCallback(() => {
+    setOpenDropdown(null);
+  }, []);
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileMenuOpen(false);
+    setOpenDropdown(null);
+  }, []);
+
+  const toggleMobileMenu = useCallback(() => {
+    setMobileMenuOpen(prev => !prev);
     setOpenDropdown(null);
   }, []);
 
@@ -147,6 +158,68 @@ export default function Navbar() {
             <span className={styles.userName}>{user.name}</span>
             <button onClick={logout} className={styles.signOut}>Sign Out</button>
           </>
+        )}
+      </div>
+
+      {/* Hamburger button (visible on mobile) */}
+      <button className={styles.hamburger} onClick={toggleMobileMenu} aria-label="Toggle menu" aria-expanded={mobileMenuOpen}>
+        <span className={styles.hamburgerLine}></span>
+        <span className={styles.hamburgerLine}></span>
+        <span className={styles.hamburgerLine}></span>
+      </button>
+
+      {/* Mobile menu */}
+      <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
+        <Link href="/dashboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Dashboard</Link>
+
+        <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_generators')}>
+          Generators <span className={`${styles.chevron} ${openDropdown === 'm_generators' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
+        </button>
+        {openDropdown === 'm_generators' && (
+          <div className={styles.mobileDropdownItems}>
+            <Link href="/dashboard/flyer" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F4CB;</span> Catering Flyer
+            </Link>
+          </div>
+        )}
+
+        <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_catering')}>
+          Catering <span className={`${styles.chevron} ${openDropdown === 'm_catering' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
+        </button>
+        {openDropdown === 'm_catering' && (
+          <div className={styles.mobileDropdownItems}>
+            <span className={styles.mobileDropdownItem} style={{ color: 'var(--gray-400)' }}>
+              <span>&#x1F4CA;</span> Catering Tracker (Coming Soon)
+            </span>
+          </div>
+        )}
+
+        <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_directives')}>
+          Directives <span className={`${styles.chevron} ${openDropdown === 'm_directives' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
+        </button>
+        {openDropdown === 'm_directives' && (
+          <div className={styles.mobileDropdownItems}>
+            <span className={styles.mobileDropdownItem} style={{ color: 'var(--gray-400)' }}>
+              <span>&#x1F4DD;</span> Coming Soon
+            </span>
+          </div>
+        )}
+
+        <Link href="/dashboard/profile" className={styles.mobileNavLink} onClick={closeMobileMenu}>Store Profile</Link>
+        <Link href="/dashboard/support" className={styles.mobileNavLink} onClick={closeMobileMenu}>Support</Link>
+
+        {isAdmin && (
+          <Link href="/dashboard/admin" className={styles.mobileNavLink} onClick={closeMobileMenu}>Admin Panel</Link>
+        )}
+
+        <div className={styles.mobileDivider}></div>
+
+        {user && (
+          <div className={styles.mobileUserInfo}>
+            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--charcoal)', marginBottom: 4 }}>{user.name}</div>
+            <div style={{ fontSize: 12, color: 'var(--gray-400)' }}>{user.email}</div>
+            <button onClick={() => { closeMobileMenu(); logout(); }} className={styles.mobileSignOut}>Sign Out</button>
+          </div>
         )}
       </div>
     </nav>

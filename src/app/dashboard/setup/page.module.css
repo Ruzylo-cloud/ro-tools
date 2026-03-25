@@ -239,3 +239,125 @@
   font-size: 13px;
   margin-bottom: 16px;
 }
+
+/* Tablet */
+@media (max-width: 768px) {
+  .container {
+    padding: 32px 16px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .roleGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .roleCard {
+    padding: 20px 16px;
+  }
+
+  .form {
+    padding: 20px 16px;
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .storeCard {
+    padding: 16px;
+  }
+
+  .input {
+    width: 100%;
+  }
+}
+
+/* Phone */
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 12px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .roleGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .roleCard {
+    padding: 18px 14px;
+  }
+
+  .roleIcon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .roleName {
+    font-size: 15px;
+  }
+
+  .form {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+
+  .sectionTitle {
+    font-size: 17px;
+  }
+
+  .fieldGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .storeCard {
+    padding: 14px 12px;
+    border-radius: 10px;
+  }
+
+  .storeCardHeader {
+    margin-bottom: 12px;
+  }
+
+  .input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px; /* prevents iOS zoom */
+  }
+
+  .addStoreBtn {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .submitBtn {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  .removeBtn {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
