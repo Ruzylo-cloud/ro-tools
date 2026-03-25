@@ -11,23 +11,36 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check admin status
-    fetch('/api/profile')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.isAdmin) {
+    let cancelled = false;
+
+    async function loadAdmin() {
+      try {
+        const profileRes = await fetch('/api/profile');
+        const profileData = await profileRes.json();
+
+        if (cancelled) return;
+
+        if (!profileData.isAdmin) {
           router.push('/dashboard');
           return;
         }
+
         setIsAdmin(true);
-        return fetch('/api/admin/users');
-      })
-      .then(res => res?.json())
-      .then(data => {
-        if (data?.users) setUsers(data.users);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+
+        const usersRes = await fetch('/api/admin/users');
+        const usersData = await usersRes.json();
+
+        if (!cancelled && usersData.users) {
+          setUsers(usersData.users);
+        }
+      } catch {
+        // Silently handle — user sees empty state
+      }
+      if (!cancelled) setLoading(false);
+    }
+
+    loadAdmin();
+    return () => { cancelled = true; };
   }, [router]);
 
   const [actionLoading, setActionLoading] = useState(null);

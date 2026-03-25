@@ -64,7 +64,7 @@ export default function ProfilePage() {
   const removeStore = (idx) => {
     setProfile(prev => ({
       ...prev,
-      stores: prev.stores.filter((_, i) => i !== idx),
+      stores: (prev.stores || []).filter((_, i) => i !== idx),
     }));
     setSaved(false);
   };
@@ -84,6 +84,7 @@ export default function ProfilePage() {
         body: JSON.stringify(saveData),
       });
       setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
     } catch {
       alert('Failed to save. Please try again.');
     }

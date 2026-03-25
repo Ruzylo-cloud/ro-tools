@@ -9,13 +9,27 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     fetch('/api/auth/me')
-      .then(res => res.json())
-      .then(data => {
-        setUser(data.user || null);
-        setLoading(false);
+      .then(res => {
+        if (!res.ok) throw new Error('Auth check failed');
+        return res.json();
       })
-      .catch(() => setLoading(false));
+      .then(data => {
+        if (!cancelled) {
+          setUser(data.user || null);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setUser(null);
+          setLoading(false);
+        }
+      });
+
+    return () => { cancelled = true; };
   }, []);
 
   const login = () => {

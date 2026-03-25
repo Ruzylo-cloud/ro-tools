@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import FlyerPreview from '@/components/FlyerPreview';
 import styles from './page.module.css';
@@ -39,7 +39,10 @@ export default function FlyerPage() {
     setForm(prev => ({ ...prev, [key]: value }));
   };
 
-  const handleDownload = async () => {
+  const mountedRef = useRef(true);
+  useEffect(() => { return () => { mountedRef.current = false; }; }, []);
+
+  const handleDownload = useCallback(async () => {
     if (!flyerRef.current) return;
     setGenerating(true);
     try {
@@ -54,6 +57,8 @@ export default function FlyerPage() {
         height: 792,
       });
 
+      if (!mountedRef.current) return;
+
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'pt',
@@ -65,10 +70,10 @@ export default function FlyerPage() {
       pdf.save('catering-flyer.pdf');
     } catch (err) {
       console.error('PDF generation error:', err);
-      alert('Failed to generate PDF. Please try again.');
+      if (mountedRef.current) alert('Failed to generate PDF. Please try again.');
     }
-    setGenerating(false);
-  };
+    if (mountedRef.current) setGenerating(false);
+  }, []);
 
   if (loading) {
     return (
@@ -114,7 +119,6 @@ export default function FlyerPage() {
           <h2 className={styles.previewTitle}>Live Preview</h2>
         </div>
         <div className={styles.previewContainer}>
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
           <FlyerPreview ref={flyerRef} data={form} />
         </div>
       </div>

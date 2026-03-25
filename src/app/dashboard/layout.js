@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
@@ -18,10 +18,13 @@ export default function DashboardLayout({ children }) {
     }
   }, [user, loading, router]);
 
-  useEffect(() => {
+  const checkSetup = useCallback(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Profile check failed');
+        return res.json();
+      })
       .then(data => {
         const complete = data.profile?.setupComplete === true;
         setSetupComplete(complete);
@@ -31,8 +34,11 @@ export default function DashboardLayout({ children }) {
         }
       })
       .catch(() => setSetupChecked(true));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, pathname, router]);
+
+  useEffect(() => {
+    checkSetup();
+  }, [checkSetup]);
 
   if (loading || !setupChecked) {
     return (
@@ -44,7 +50,6 @@ export default function DashboardLayout({ children }) {
 
   if (!user) return null;
 
-  // On setup page, show without navbar
   if (pathname === '/dashboard/setup') {
     return (
       <main style={{ minHeight: '100vh', background: '#fafbfc' }}>
@@ -53,7 +58,6 @@ export default function DashboardLayout({ children }) {
     );
   }
 
-  // Not set up yet — redirect will happen from useEffect
   if (!setupComplete) return null;
 
   return (
