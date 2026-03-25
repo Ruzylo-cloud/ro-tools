@@ -5,16 +5,27 @@ import { getServiceDrive } from '@/lib/google-service';
 
 export const dynamic = 'force-dynamic';
 
+// Hardcoded API key for agent/automated access (read-only endpoint)
+const API_KEY = '02629e14ed2ddcdedaec36e0d113c0420ed7fe717b2d81c28ff899816b737a7e';
+
 // Scan all shared Drive files — read-only, never modifies source files
-// TODO: Re-enable admin check after initial scan
 export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+
+  // Auth: either admin session OR API key
+  const key = searchParams.get('key');
+  if (key !== API_KEY) {
+    const session = getSession();
+    if (!session || !isSuperAdmin(session.email)) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+  }
 
   const drive = getServiceDrive();
   if (!drive) {
     return NextResponse.json({ error: 'Service account not configured' }, { status: 500 });
   }
 
-  const { searchParams } = new URL(request.url);
   const query = searchParams.get('q') || '';
   const type = searchParams.get('type') || '';
 
@@ -22,7 +33,6 @@ export async function GET(request) {
   let q = 'trashed = false';
 
   if (query) {
-    // Sanitize: strip everything except alphanumeric, spaces, hyphens, underscores
     const sanitized = query.replace(/[^a-zA-Z0-9\s\-_]/g, '').slice(0, 100);
     if (sanitized) {
       q += ` and name contains '${sanitized}'`;
@@ -39,7 +49,6 @@ export async function GET(request) {
     let pageToken = null;
     const MAX_FILES = 5000;
 
-    // Paginate through results (capped at MAX_FILES)
     do {
       const res = await drive.files.list({
         q,
@@ -64,6 +73,6 @@ export async function GET(request) {
     });
   } catch (err) {
     console.error('[DriveScan] Error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Drive scan failed' }, { status: 500 });
   }
 }
