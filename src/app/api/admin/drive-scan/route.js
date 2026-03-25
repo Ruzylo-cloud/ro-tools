@@ -25,7 +25,11 @@ export async function GET(request) {
   let q = 'trashed = false';
 
   if (query) {
-    q += ` and name contains '${query.replace(/'/g, "\\'")}'`;
+    // Sanitize: strip everything except alphanumeric, spaces, hyphens, underscores
+    const sanitized = query.replace(/[^a-zA-Z0-9\s\-_]/g, '').slice(0, 100);
+    if (sanitized) {
+      q += ` and name contains '${sanitized}'`;
+    }
   }
 
   if (type === 'folder') q += " and mimeType = 'application/vnd.google-apps.folder'";

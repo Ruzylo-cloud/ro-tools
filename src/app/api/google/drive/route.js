@@ -9,7 +9,8 @@ export async function GET(request) {
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
-  const folderId = searchParams.get('folderId') || 'root';
+  const rawFolderId = searchParams.get('folderId') || 'root';
+  const folderId = rawFolderId.replace(/[^a-zA-Z0-9_\-]/g, '').slice(0, 100) || 'root';
   const query = searchParams.get('q') || '';
   const type = searchParams.get('type') || ''; // 'folder', 'sheet', 'doc', 'pdf'
 
@@ -23,7 +24,10 @@ export async function GET(request) {
     else if (type === 'doc') q += " and mimeType = 'application/vnd.google-apps.document'";
     else if (type === 'pdf') q += " and mimeType = 'application/pdf'";
 
-    if (query) q += ` and name contains '${query.replace(/'/g, "\\'")}'`;
+    if (query) {
+      const sanitized = query.replace(/[^a-zA-Z0-9\s\-_]/g, '').slice(0, 100);
+      if (sanitized) q += ` and name contains '${sanitized}'`;
+    }
 
     const res = await drive.files.list({
       q,

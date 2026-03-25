@@ -30,16 +30,23 @@ export default function AdminPage() {
       .catch(() => setLoading(false));
   }, [router]);
 
+  const [actionLoading, setActionLoading] = useState(null);
+
   const handleAction = async (userId, action) => {
-    await fetch('/api/admin/approve', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, action }),
-    });
-    // Refresh
-    const res = await fetch('/api/admin/users');
-    const data = await res.json();
-    if (data.users) setUsers(data.users);
+    setActionLoading(userId);
+    try {
+      await fetch('/api/admin/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, action }),
+      });
+      const res = await fetch('/api/admin/users');
+      const data = await res.json();
+      if (data.users) setUsers(data.users);
+    } catch {
+      alert('Action failed. Please try again.');
+    }
+    setActionLoading(null);
   };
 
   if (loading) return <div className={styles.container}><p style={{ color: '#6b7280' }}>Loading...</p></div>;
@@ -82,8 +89,12 @@ export default function AdminPage() {
                 Requesting: {roleLabel(u.role)}
               </span>
               <div className={styles.actions}>
-                <button className={styles.approveBtn} onClick={() => handleAction(u.id, 'approve')}>Approve</button>
-                <button className={styles.denyBtn} onClick={() => handleAction(u.id, 'deny')}>Deny</button>
+                <button className={styles.approveBtn} onClick={() => handleAction(u.id, 'approve')} disabled={actionLoading === u.id}>
+                  {actionLoading === u.id ? '...' : 'Approve'}
+                </button>
+                <button className={styles.denyBtn} onClick={() => handleAction(u.id, 'deny')} disabled={actionLoading === u.id}>
+                  {actionLoading === u.id ? '...' : 'Deny'}
+                </button>
               </div>
             </div>
           ))

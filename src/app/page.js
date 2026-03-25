@@ -26,11 +26,18 @@ export default function LandingPage() {
   }, [user, router]);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const nav = document.getElementById('mainNav');
-      if (nav) nav.classList.toggle(styles.scrolled, window.scrollY > 20);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const nav = document.getElementById('mainNav');
+          if (nav) nav.classList.toggle(styles.scrolled, window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

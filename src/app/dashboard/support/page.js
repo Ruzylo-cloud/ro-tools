@@ -47,7 +47,9 @@ export default function SupportPage() {
         }
         setTickets(prev => [...prev, data.ticket]);
       }
-    } catch {}
+    } catch (err) {
+      alert('Failed to submit. Please try again.');
+    }
 
     type === 'bug' ? setBugSubmitting(false) : setFeatureSubmitting(false);
   };

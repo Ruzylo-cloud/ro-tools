@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getTokensFromCode, getUserInfo } from '@/lib/google-auth';
+import { createSessionToken } from '@/lib/session';
+
+export const dynamic = 'force-dynamic';
 
 function getBaseUrl(request) {
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
@@ -26,19 +29,20 @@ export async function GET(request) {
       return NextResponse.redirect(`${baseUrl}/?error=domain_restricted`);
     }
 
-    const sessionData = JSON.stringify({
+    const sessionData = {
       accessToken: tokens.access_token,
       refreshToken: tokens.refresh_token,
       email: userInfo.email,
       name: userInfo.name,
       picture: userInfo.picture,
       id: userInfo.id,
-    });
+    };
 
-    const encoded = Buffer.from(sessionData).toString('base64');
+    // Sign the session token (HMAC-SHA256)
+    const signed = createSessionToken(sessionData);
 
     const response = NextResponse.redirect(`${baseUrl}/dashboard`);
-    response.cookies.set('ro_session', encoded, {
+    response.cookies.set('ro_session', signed, {
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
