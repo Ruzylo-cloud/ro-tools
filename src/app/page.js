@@ -63,7 +63,7 @@ export default function LandingPage() {
         <div className={styles.navLinks}>
           <a href="#tools">Tools</a>
           <a href="#how">How It Works</a>
-          <a href="#cta" className={styles.navCta} onClick={(e) => { e.preventDefault(); login(); }}>Sign In</a>
+          <a href="#cta" className={styles.navCta} onClick={(e) => { e.preventDefault(); login(); }}>Sign In with Google</a>
         </div>
       </nav>
 
@@ -73,7 +73,7 @@ export default function LandingPage() {
           <div>
             <div className={styles.heroBadge}>
               <div className={styles.heroBadgeDot}></div>
-              <span className={styles.heroBadgeText}>Now Live — Catering Flyer Generator</span>
+              <span className={styles.heroBadgeText}>Built by operators, for operators</span>
             </div>
             <h1 className={styles.heroTitle}>
               Every tool you need.<br /><span>One login.</span>
@@ -82,10 +82,11 @@ export default function LandingPage() {
               Generate catering flyers, marketing materials, and branded assets in seconds. Just sign in with your @jmvalley.com account and your store info does the rest.
             </p>
             <div className={styles.heroActions}>
-              <button className={styles.btnPrimary} onClick={login}>
-                <GoogleIcon /> Sign In with Google
-              </button>
-              <a href="#tools" className={styles.btnSecondary}>See What&apos;s Inside</a>
+              <a href="#cta" className={styles.btnPrimary}>
+                Get Started
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#tools" className={styles.btnSecondary}>See the Tools</a>
             </div>
           </div>
           <div className={styles.heroVisual}>
@@ -128,8 +129,8 @@ export default function LandingPage() {
       {/* TOOLS */}
       <section className={styles.tools} id="tools">
         <div className={`${styles.sectionLabel} ${styles.labelRed}`}>WHAT&apos;S INSIDE</div>
-        <h2 className={`${styles.sectionTitle} ${styles.titleBlue}`}>The Operator Toolkit</h2>
-        <p className={styles.sectionSubtitle}>Everything you need to market your store — auto-filled, branded, and ready to print.</p>
+        <h2 className={`${styles.sectionTitle} ${styles.titleBlue}`}>Operator Toolkit</h2>
+        <p className={styles.sectionSubtitle}>Professional tools that auto-fill with your store details. No design skills needed. No wasted time.</p>
         <div className={styles.toolsGrid}>
           <div className={`${styles.toolCard} ${styles.live}`}>
             <div className={styles.toolStatus}>Live Now</div>
@@ -156,7 +157,7 @@ export default function LandingPage() {
       <section className={styles.how} id="how">
         <div className={`${styles.sectionLabel} ${styles.labelBlue}`}>SIMPLE AS A SUB</div>
         <h2 className={`${styles.sectionTitle} ${styles.titleRed}`}>How It Works</h2>
-        <p className={styles.sectionSubtitle}>Three steps. That&apos;s it. No training manuals, no IT tickets.</p>
+        <p className={styles.sectionSubtitle}>Three steps. That&apos;s it.</p>
         <div className={styles.steps}>
           <div className={styles.step}>
             <div className={styles.stepNumber}>1</div>
