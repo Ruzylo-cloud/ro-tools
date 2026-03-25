@@ -2,7 +2,7 @@
 
 ## TOP RULES
 1. **RO Tools is its own separate project.** NOT part of mission-control, money-printer, or any other repo. You may reference other repos for patterns when needed.
-2. **Auto-Push to Main — Always.** Every completed piece of work = immediate `git add` → `git commit` → `git push origin main`. No batching. No "I'll push later." Main must always reflect the latest working state. Build must pass before push.
+2. **Auto-Push to Main — Always.** Every completed piece of work = immediate `git add` → `git commit` → `git push origin main`. No batching. No "I'll push later." Main must always reflect the latest working state. Build must pass before push. Never leave outstanding pull requests, unmerged branches, or stale worktrees. All work lands on main — no feature branches, no open PRs. If working on a non-main branch, merge to main and push immediately when done.
 3. **Never edit shared originals.** When working with Google Drive, Sheets, or Docs via the service account, ALWAYS make a copy first. Never modify, overwrite, or edit the original shared files/templates. Read from originals, write to copies.
 
 ## Identity
