@@ -1,0 +1,68 @@
+import { NextResponse } from 'next/server';
+import { getAuthenticatedClient, getDrive } from '@/lib/google-client';
+
+export const dynamic = 'force-dynamic';
+
+// List files/folders in Drive
+export async function GET(request) {
+  const auth = getAuthenticatedClient();
+  if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  const { searchParams } = new URL(request.url);
+  const folderId = searchParams.get('folderId') || 'root';
+  const query = searchParams.get('q') || '';
+  const type = searchParams.get('type') || ''; // 'folder', 'sheet', 'doc', 'pdf'
+
+  const drive = getDrive(auth.client);
+
+  try {
+    let q = `'${folderId}' in parents and trashed = false`;
+
+    if (type === 'folder') q += " and mimeType = 'application/vnd.google-apps.folder'";
+    else if (type === 'sheet') q += " and mimeType = 'application/vnd.google-apps.spreadsheet'";
+    else if (type === 'doc') q += " and mimeType = 'application/vnd.google-apps.document'";
+    else if (type === 'pdf') q += " and mimeType = 'application/pdf'";
+
+    if (query) q += ` and name contains '${query.replace(/'/g, "\\'")}'`;
+
+    const res = await drive.files.list({
+      q,
+      fields: 'files(id, name, mimeType, modifiedTime, webViewLink, iconLink, parents)',
+      orderBy: 'modifiedTime desc',
+      pageSize: 50,
+    });
+
+    return NextResponse.json({ files: res.data.files || [] });
+  } catch (err) {
+    console.error('[Drive] List error:', err.message);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+// Create a file or folder in Drive
+export async function POST(request) {
+  const auth = getAuthenticatedClient();
+  if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  const drive = getDrive(auth.client);
+  const body = await request.json();
+  const { name, mimeType, folderId } = body;
+
+  try {
+    const fileMetadata = {
+      name,
+      mimeType: mimeType || 'application/vnd.google-apps.folder',
+    };
+    if (folderId) fileMetadata.parents = [folderId];
+
+    const res = await drive.files.create({
+      resource: fileMetadata,
+      fields: 'id, name, mimeType, webViewLink',
+    });
+
+    return NextResponse.json({ file: res.data });
+  } catch (err) {
+    console.error('[Drive] Create error:', err.message);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
