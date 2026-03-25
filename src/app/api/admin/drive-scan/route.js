@@ -40,8 +40,9 @@ export async function GET(request) {
   try {
     const allFiles = [];
     let pageToken = null;
+    const MAX_FILES = 5000;
 
-    // Paginate through all results
+    // Paginate through results (capped at MAX_FILES)
     do {
       const res = await drive.files.list({
         q,
@@ -57,7 +58,7 @@ export async function GET(request) {
         allFiles.push(...res.data.files);
       }
       pageToken = res.data.nextPageToken;
-    } while (pageToken);
+    } while (pageToken && allFiles.length < MAX_FILES);
 
     return NextResponse.json({
       query: query || '(all files)',

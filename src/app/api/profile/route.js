@@ -25,16 +25,29 @@ export async function POST(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const body = await request.json();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
 
-  // Determine approval status for the role
+  // SECURITY: Never trust roleApproved/rolePending from client
+  delete body.roleApproved;
+  delete body.rolePending;
+
+  // Determine approval status server-side only
   if (body.role && needsApproval(body.role)) {
     if (isSuperAdmin(session.email)) {
       body.roleApproved = true;
+      body.rolePending = false;
     } else {
-      // Check if already approved (don't downgrade)
       const current = loadJsonFile('profiles.json')[session.id];
-      if (!current?.roleApproved) {
+      if (current?.roleApproved && current?.role === body.role) {
+        // Already approved for this role — keep it
+        body.roleApproved = true;
+        body.rolePending = false;
+      } else {
         body.roleApproved = false;
         body.rolePending = true;
       }

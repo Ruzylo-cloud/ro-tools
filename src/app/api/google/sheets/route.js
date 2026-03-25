@@ -36,7 +36,7 @@ export async function GET(request) {
     });
   } catch (err) {
     console.error('[Sheets] Read error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Sheets operation failed' }, { status: 500 });
   }
 }
 
@@ -99,6 +99,6 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
   } catch (err) {
     console.error('[Sheets] Write error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Sheets operation failed' }, { status: 500 });
   }
 }

@@ -45,7 +45,7 @@ export async function GET(request) {
     response.cookies.set('ro_session', signed, {
       httpOnly: true,
       secure: true,
-      sameSite: 'lax',
+      sameSite: 'strict',
       path: '/',
       maxAge: 60 * 60 * 24 * 7,
     });

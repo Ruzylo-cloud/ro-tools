@@ -39,7 +39,7 @@ export async function GET(request) {
     return NextResponse.json({ files: res.data.files || [] });
   } catch (err) {
     console.error('[Drive] List error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to list files' }, { status: 500 });
   }
 }
 
@@ -67,6 +67,6 @@ export async function POST(request) {
     return NextResponse.json({ file: res.data });
   } catch (err) {
     console.error('[Drive] Create error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create file' }, { status: 500 });
   }
 }

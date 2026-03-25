@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import crypto from 'crypto';
 import { getSession } from '@/lib/session';
 import fs from 'fs';
 import path from 'path';
@@ -49,7 +50,7 @@ export async function POST(request) {
   const tickets = loadTickets();
 
   const ticket = {
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    id: crypto.randomUUID(),
     type,
     title,
     description,

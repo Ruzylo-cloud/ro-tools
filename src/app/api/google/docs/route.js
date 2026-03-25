@@ -40,7 +40,7 @@ export async function GET(request) {
     });
   } catch (err) {
     console.error('[Docs] Read error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Docs operation failed' }, { status: 500 });
   }
 }
 
@@ -91,6 +91,6 @@ export async function POST(request) {
     });
   } catch (err) {
     console.error('[Docs] Create error:', err.message);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: 'Docs operation failed' }, { status: 500 });
   }
 }
