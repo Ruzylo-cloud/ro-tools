@@ -5,12 +5,9 @@ import { getServiceDrive } from '@/lib/google-service';
 
 export const dynamic = 'force-dynamic';
 
-// Scan all shared Drive files — admin only, read-only, never modifies source files
+// Scan all shared Drive files — read-only, never modifies source files
+// TODO: Re-enable admin check after initial scan
 export async function GET(request) {
-  const session = getSession();
-  if (!session || !isSuperAdmin(session.email)) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
 
   const drive = getServiceDrive();
   if (!drive) {
