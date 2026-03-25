@@ -12,19 +12,19 @@
   font-family: 'Playfair Display', serif;
   font-size: 32px;
   font-weight: 800;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 8px;
 }
 
 .subtitle {
   font-size: 15px;
-  color: #6b7280;
+  color: var(--gray-600);
 }
 
 .form {
-  background: #fff;
+  background: var(--white);
   border-radius: 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   padding: 32px;
 }
 
@@ -36,29 +36,29 @@
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #2D2D2D;
+  color: var(--charcoal);
   margin-bottom: 6px;
 }
 
 .input {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
-  color: #2D2D2D;
+  color: var(--charcoal);
   transition: border-color 0.2s;
 }
 
 .input:focus {
   outline: none;
-  border-color: #134A7C;
+  border-color: var(--jm-blue);
   box-shadow: 0 0 0 3px rgba(19,74,124,0.1);
 }
 
 .input::placeholder {
-  color: #9ca3af;
+  color: var(--gray-400);
 }
 
 .actions {
@@ -69,8 +69,8 @@
 
 .saveBtn {
   padding: 12px 32px;
-  background: #134A7C;
-  color: #fff;
+  background: var(--jm-blue);
+  color: var(--white);
   border: none;
   border-radius: 10px;
   font-size: 14px;
@@ -81,7 +81,7 @@
 }
 
 .saveBtn:hover {
-  background: #1a5a94;
+  background: var(--jm-blue-light);
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(19,74,124,0.25);
 }

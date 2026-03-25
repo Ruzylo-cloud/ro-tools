@@ -13,13 +13,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 32px;
   font-weight: 900;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 8px;
 }
 
 .subtitle {
   font-size: 15px;
-  color: #6b7280;
+  color: var(--gray-600);
   line-height: 1.6;
 }
 
@@ -32,8 +32,8 @@
 }
 
 .roleCard {
-  background: #fff;
-  border: 2px solid #e5e7eb;
+  background: var(--white);
+  border: 2px solid var(--border);
   border-radius: 14px;
   padding: 28px 20px;
   text-align: center;
@@ -42,13 +42,13 @@
 }
 
 .roleCard:hover {
-  border-color: #134A7C;
+  border-color: var(--jm-blue);
   box-shadow: 0 4px 20px rgba(19,74,124,0.1);
   transform: translateY(-2px);
 }
 
 .roleCard.selected {
-  border-color: #134A7C;
+  border-color: var(--jm-blue);
   background: rgba(19,74,124,0.04);
   box-shadow: 0 4px 20px rgba(19,74,124,0.15);
 }
@@ -61,20 +61,20 @@
 .roleName {
   font-size: 16px;
   font-weight: 700;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 6px;
 }
 
 .roleDesc {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--gray-600);
   line-height: 1.5;
 }
 
 /* Form */
 .form {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 32px;
 }
@@ -83,13 +83,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 20px;
   font-weight: 800;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 4px;
 }
 
 .sectionDesc {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--gray-600);
   margin-bottom: 20px;
 }
 
@@ -112,39 +112,39 @@
 .label {
   font-size: 12px;
   font-weight: 600;
-  color: #2D2D2D;
+  color: var(--charcoal);
   margin-bottom: 4px;
 }
 
 .labelOptional {
   font-weight: 400;
-  color: #9ca3af;
+  color: var(--gray-400);
   font-style: italic;
 }
 
 .input {
   padding: 10px 14px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
-  color: #2D2D2D;
+  color: var(--charcoal);
   transition: border-color 0.2s;
 }
 
 .input:focus {
   outline: none;
-  border-color: #134A7C;
+  border-color: var(--jm-blue);
   box-shadow: 0 0 0 2px rgba(19,74,124,0.1);
 }
 
 /* Store card */
 .storeCard {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
   margin-bottom: 16px;
-  background: #fafbfc;
+  background: var(--gray-50);
 }
 
 .storeCardHeader {
@@ -157,12 +157,12 @@
 .storeCardTitle {
   font-size: 15px;
   font-weight: 700;
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .removeBtn {
   font-size: 12px;
-  color: #EE3227;
+  color: var(--jm-red);
   background: none;
   border: none;
   cursor: pointer;
@@ -178,11 +178,11 @@
   width: 100%;
   padding: 12px;
   background: transparent;
-  border: 2px dashed #d1d5db;
+  border: 2px dashed var(--gray-300);
   border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--gray-600);
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s;
@@ -190,15 +190,15 @@
 }
 
 .addStoreBtn:hover {
-  border-color: #134A7C;
-  color: #134A7C;
+  border-color: var(--jm-blue);
+  color: var(--jm-blue);
   background: rgba(19,74,124,0.02);
 }
 
 /* Divider */
 .divider {
   height: 1px;
-  background: #e5e7eb;
+  background: var(--border);
   margin: 24px 0;
 }
 
@@ -206,8 +206,8 @@
 .submitBtn {
   width: 100%;
   padding: 16px;
-  background: #EE3227;
-  color: #fff;
+  background: var(--jm-red);
+  color: var(--white);
   border: none;
   border-radius: 12px;
   font-size: 16px;
@@ -219,7 +219,7 @@
 }
 
 .submitBtn:hover {
-  background: #ff4438;
+  background: var(--jm-red-light);
   transform: translateY(-1px);
   box-shadow: 0 6px 24px rgba(238,50,39,0.35);
 }
@@ -232,8 +232,8 @@
 
 .error {
   background: rgba(238,50,39,0.08);
-  border: 1px solid #EE3227;
-  color: #EE3227;
+  border: 1px solid var(--jm-red);
+  color: var(--jm-red);
   padding: 10px 16px;
   border-radius: 8px;
   font-size: 13px;

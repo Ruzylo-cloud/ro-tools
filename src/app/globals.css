@@ -6,9 +6,18 @@
   --charcoal: #1a1a2e;
   --gray-50: #fafbfc;
   --gray-100: #f0f2f5;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
   --gray-400: #9ca3af;
+  --gray-500: #6b7280;
   --gray-600: #6b7280;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
   --white: #ffffff;
+  --border: #e5e7eb;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -21,7 +30,7 @@ body {
 }
 
 *:focus-visible {
-  outline: 2px solid #134A7C;
+  outline: 2px solid var(--jm-blue);
   outline-offset: 2px;
 }
 

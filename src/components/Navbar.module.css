@@ -4,8 +4,8 @@
   justify-content: space-between;
   padding: 0 32px;
   height: 64px;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -28,11 +28,11 @@
   font-family: 'Playfair Display', serif;
   font-weight: 800;
   font-size: 18px;
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .logoText span {
-  color: #EE3227;
+  color: var(--jm-red);
 }
 
 .links {
@@ -50,7 +50,7 @@
   gap: 4px;
   font-size: 14px;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--gray-600);
   text-decoration: none;
   padding: 8px 14px;
   border-radius: 8px;
@@ -62,12 +62,12 @@
 }
 
 .navLink:hover {
-  color: #134A7C;
+  color: var(--jm-blue);
   background: rgba(19,74,124,0.04);
 }
 
 .navLinkActive {
-  color: #134A7C;
+  color: var(--jm-blue);
   background: rgba(19,74,124,0.06);
 }
 
@@ -86,10 +86,10 @@
   top: calc(100% + 4px);
   left: 0;
   min-width: 260px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-lg);
   padding: 6px;
   z-index: 100;
   animation: dropdownIn 0.15s ease-out;
@@ -115,7 +115,7 @@
   padding: 10px 14px;
   font-size: 13px;
   font-weight: 500;
-  color: #374151;
+  color: var(--gray-700);
   text-decoration: none;
   border-radius: 8px;
   transition: all 0.15s;
@@ -124,7 +124,7 @@
 
 .dropdownItem:hover {
   background: rgba(19,74,124,0.06);
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .dropdownIcon {
@@ -143,23 +143,23 @@
 .dropdownHint {
   font-size: 11px;
   font-weight: 400;
-  color: #9ca3af;
+  color: var(--gray-400);
   margin-top: 1px;
 }
 
 .dropdownItem:hover .dropdownHint {
-  color: #6b7280;
+  color: var(--gray-600);
 }
 
 /* Coming soon state */
 .comingSoon {
-  color: #9ca3af;
+  color: var(--gray-400);
   cursor: default;
 }
 
 .comingSoon:hover {
   background: transparent;
-  color: #9ca3af;
+  color: var(--gray-400);
 }
 
 .comingSoon .dropdownHint {
@@ -174,8 +174,8 @@
   display: inline-block;
   font-size: 9px;
   font-weight: 700;
-  color: #9ca3af;
-  background: #f3f4f6;
+  color: var(--gray-400);
+  background: var(--gray-100);
   padding: 1px 6px;
   border-radius: 4px;
   margin-left: 6px;
@@ -199,38 +199,38 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  color: #6b7280;
+  color: var(--gray-600);
   text-decoration: none;
   transition: all 0.15s;
 }
 
 .gearBtn:hover {
   background: rgba(19,74,124,0.06);
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .userName {
   font-size: 14px;
   font-weight: 500;
-  color: #2D2D2D;
+  color: var(--charcoal);
 }
 
 .signOut {
   padding: 8px 20px;
   background: transparent;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--gray-600);
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s;
 }
 
 .signOut:hover {
-  border-color: #EE3227;
-  color: #EE3227;
+  border-color: var(--jm-red);
+  color: var(--jm-red);
 }
 
 /* Responsive */

@@ -12,13 +12,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 36px;
   font-weight: 800;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 8px;
 }
 
 .subtitle {
   font-size: 16px;
-  color: #6b7280;
+  color: var(--gray-600);
 }
 
 .grid {
@@ -41,8 +41,8 @@
 }
 
 .card.live {
-  background: #134A7C;
-  color: #fff;
+  background: var(--jm-blue);
+  color: var(--white);
   box-shadow: 0 8px 30px rgba(19,74,124,0.25);
   cursor: pointer;
 }
@@ -52,8 +52,8 @@
 }
 
 .card.coming {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   cursor: default;
 }
 
@@ -69,13 +69,13 @@
 }
 
 .live .cardStatus {
-  background: #EE3227;
-  color: #fff;
+  background: var(--jm-red);
+  color: var(--white);
 }
 
 .coming .cardStatus {
-  background: #f0f2f5;
-  color: #9ca3af;
+  background: var(--gray-100);
+  color: var(--gray-400);
 }
 
 .cardIcon {
@@ -91,7 +91,7 @@
 }
 
 .coming .cardTitle {
-  color: #1a1a2e;
+  color: var(--charcoal);
 }
 
 .cardDesc {
@@ -102,20 +102,20 @@
 }
 
 .coming .cardDesc {
-  color: #6b7280;
+  color: var(--gray-600);
 }
 
 .cardAction {
   font-size: 14px;
   font-weight: 700;
-  color: #EE3227;
+  color: var(--jm-red);
 }
 
 /* Recent Updates Widget */
 .updatesSection {
   margin-top: 40px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 24px;
 }
@@ -131,13 +131,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 18px;
   font-weight: 800;
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .updatesViewAll {
   font-size: 13px;
   font-weight: 600;
-  color: #134A7C;
+  color: var(--jm-blue);
   text-decoration: none;
 }
 
@@ -150,7 +150,7 @@
   align-items: center;
   gap: 10px;
   padding: 10px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .updateRow:last-child {
@@ -168,7 +168,7 @@
 
 .badge_new_feature {
   background: rgba(19,74,124,0.1);
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .badge_improvement {
@@ -178,7 +178,7 @@
 
 .badge_bug_fix {
   background: rgba(238,50,39,0.1);
-  color: #EE3227;
+  color: var(--jm-red);
 }
 
 .badge_announcement {
@@ -189,13 +189,13 @@
 .updateText {
   font-size: 13px;
   font-weight: 500;
-  color: #374151;
+  color: var(--gray-700);
   flex: 1;
 }
 
 .updateDate {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--gray-400);
   flex-shrink: 0;
 }
 

@@ -12,13 +12,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 28px;
   font-weight: 800;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--gray-600);
 }
 
 .grid {
@@ -29,8 +29,8 @@
 }
 
 .card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 28px;
 }
@@ -43,13 +43,13 @@
 .cardTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 6px;
 }
 
 .cardDesc {
   font-size: 13px;
-  color: #6b7280;
+  color: var(--gray-600);
   margin-bottom: 20px;
   line-height: 1.5;
 }
@@ -62,41 +62,41 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: #374151;
+  color: var(--gray-700);
   margin-bottom: 4px;
 }
 
 .input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 13px;
   font-family: inherit;
-  color: #2D2D2D;
+  color: var(--charcoal);
 }
 
 .input:focus {
   outline: none;
-  border-color: #134A7C;
+  border-color: var(--jm-blue);
   box-shadow: 0 0 0 2px rgba(19,74,124,0.1);
 }
 
 .textarea {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 13px;
   font-family: inherit;
-  color: #2D2D2D;
+  color: var(--charcoal);
   min-height: 80px;
   resize: vertical;
 }
 
 .textarea:focus {
   outline: none;
-  border-color: #134A7C;
+  border-color: var(--jm-blue);
   box-shadow: 0 0 0 2px rgba(19,74,124,0.1);
 }
 
@@ -110,23 +110,23 @@
   font-family: inherit;
   cursor: pointer;
   transition: all 0.2s;
-  color: #fff;
+  color: var(--white);
 }
 
 .bugBtn {
-  background: #EE3227;
+  background: var(--jm-red);
 }
 
 .bugBtn:hover {
-  background: #ff4438;
+  background: var(--jm-red-light);
 }
 
 .featureBtn {
-  background: #134A7C;
+  background: var(--jm-blue);
 }
 
 .featureBtn:hover {
-  background: #1a5fa0;
+  background: var(--jm-blue-light);
 }
 
 .submitBtn:disabled {
@@ -145,8 +145,8 @@
 }
 
 .ticketsSection {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 24px;
 }
@@ -154,13 +154,13 @@
 .ticketsTitle {
   font-size: 16px;
   font-weight: 700;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 16px;
 }
 
 .ticket {
   padding: 12px 0;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--gray-100);
 }
 
 .ticket:last-child {
@@ -184,35 +184,35 @@
 
 .typeBug {
   background: rgba(238,50,39,0.1);
-  color: #EE3227;
+  color: var(--jm-red);
 }
 
 .typeFeature {
   background: rgba(19,74,124,0.1);
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .ticketTitle {
   font-size: 14px;
   font-weight: 600;
-  color: #374151;
+  color: var(--gray-700);
 }
 
 .ticketDesc {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--gray-600);
   margin-top: 2px;
 }
 
 .ticketDate {
   font-size: 11px;
-  color: #9ca3af;
+  color: var(--gray-400);
   margin-top: 4px;
 }
 
 .empty {
   text-align: center;
   padding: 24px;
-  color: #9ca3af;
+  color: var(--gray-400);
   font-size: 13px;
 }

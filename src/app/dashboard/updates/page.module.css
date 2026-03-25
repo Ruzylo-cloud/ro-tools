@@ -12,13 +12,13 @@
   font-family: 'Playfair Display', serif;
   font-size: 28px;
   font-weight: 800;
-  color: #134A7C;
+  color: var(--jm-blue);
   margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--gray-600);
 }
 
 /* Timeline */
@@ -44,20 +44,20 @@
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 6px;
-  background: #134A7C;
-  color: #fff;
+  background: var(--jm-blue);
+  color: var(--white);
   letter-spacing: 0.3px;
 }
 
 .versionDate {
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--gray-400);
 }
 
 .entries {
   position: relative;
   padding-left: 24px;
-  border-left: 2px solid #e5e7eb;
+  border-left: 2px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -77,13 +77,13 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  border: 3px solid #fafbfc;
+  border: 3px solid var(--gray-50);
   flex-shrink: 0;
 }
 
 .dot_new_feature {
-  background: #134A7C;
-  box-shadow: 0 0 0 2px #134A7C;
+  background: var(--jm-blue);
+  box-shadow: 0 0 0 2px var(--jm-blue);
 }
 
 .dot_improvement {
@@ -92,8 +92,8 @@
 }
 
 .dot_bug_fix {
-  background: #EE3227;
-  box-shadow: 0 0 0 2px #EE3227;
+  background: var(--jm-red);
+  box-shadow: 0 0 0 2px var(--jm-red);
 }
 
 .dot_announcement {
@@ -102,8 +102,8 @@
 }
 
 .entryContent {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px 20px;
   flex: 1;
@@ -111,7 +111,7 @@
 }
 
 .entryContent:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow-md);
 }
 
 .entryHeader {
@@ -134,7 +134,7 @@
 
 .badge_new_feature {
   background: rgba(19,74,124,0.1);
-  color: #134A7C;
+  color: var(--jm-blue);
 }
 
 .badge_improvement {
@@ -144,7 +144,7 @@
 
 .badge_bug_fix {
   background: rgba(238,50,39,0.1);
-  color: #EE3227;
+  color: var(--jm-red);
 }
 
 .badge_announcement {
@@ -155,7 +155,7 @@
 .entryTitle {
   font-size: 15px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--charcoal);
 }
 
 .entryDesc {
