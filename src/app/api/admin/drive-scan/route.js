@@ -1,20 +1,9 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { getSession } from '@/lib/session';
 import { isSuperAdmin } from '@/lib/roles';
 import { getServiceDrive } from '@/lib/google-service';
 
 export const dynamic = 'force-dynamic';
-
-function getSession() {
-  const cookieStore = cookies();
-  const session = cookieStore.get('ro_session');
-  if (!session?.value) return null;
-  try {
-    return JSON.parse(Buffer.from(session.value, 'base64').toString());
-  } catch {
-    return null;
-  }
-}
 
 // Scan all shared Drive files — admin only, read-only, never modifies source files
 export async function GET(request) {

@@ -1,24 +1,24 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { getSession } from '@/lib/session';
 import fs from 'fs';
 import path from 'path';
+
+export const dynamic = 'force-dynamic';
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const TICKETS_FILE = path.join(DATA_DIR, 'support-tickets.json');
 
-function ensureDataDir() {
+function ensureFile() {
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
   if (!fs.existsSync(TICKETS_FILE)) fs.writeFileSync(TICKETS_FILE, '[]');
 }
 
-function getSession() {
-  const cookieStore = cookies();
-  const session = cookieStore.get('ro_session');
-  if (!session?.value) return null;
+function loadTickets() {
+  ensureFile();
   try {
-    return JSON.parse(Buffer.from(session.value, 'base64').toString());
+    return JSON.parse(fs.readFileSync(TICKETS_FILE, 'utf-8'));
   } catch {
-    return null;
+    return [];
   }
 }
 
@@ -26,15 +26,9 @@ export async function GET() {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  ensureDataDir();
-  try {
-    const tickets = JSON.parse(fs.readFileSync(TICKETS_FILE, 'utf-8'));
-    // Return only this user's tickets (admins could see all later)
-    const mine = tickets.filter(t => t.userId === session.id);
-    return NextResponse.json({ tickets: mine });
-  } catch {
-    return NextResponse.json({ tickets: [] });
-  }
+  const tickets = loadTickets();
+  const mine = tickets.filter(t => t.userId === session.id);
+  return NextResponse.json({ tickets: mine });
 }
 
 export async function POST(request) {
@@ -46,15 +40,19 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Type, title, and description required' }, { status: 400 });
   }
 
-  ensureDataDir();
-  let tickets = [];
-  try { tickets = JSON.parse(fs.readFileSync(TICKETS_FILE, 'utf-8')); } catch {}
+  // Sanitize inputs
+  const type = body.type === 'bug' ? 'bug' : 'feature';
+  const title = String(body.title).slice(0, 200);
+  const description = String(body.description).slice(0, 2000);
+
+  ensureFile();
+  const tickets = loadTickets();
 
   const ticket = {
     id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-    type: body.type, // 'bug' | 'feature'
-    title: body.title,
-    description: body.description,
+    type,
+    title,
+    description,
     status: 'open',
     userId: session.id,
     userName: session.name,

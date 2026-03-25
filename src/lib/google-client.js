@@ -1,20 +1,13 @@
 import { google } from 'googleapis';
-import { cookies } from 'next/headers';
+import { getSession } from '@/lib/session';
 
-// Get an authenticated Google client using the user's OAuth tokens from session
+/**
+ * Get an authenticated Google client using the user's OAuth tokens from session.
+ * Used for user-scoped operations (their own Drive, Sheets, Docs).
+ */
 export function getAuthenticatedClient() {
-  const cookieStore = cookies();
-  const session = cookieStore.get('ro_session');
-  if (!session?.value) return null;
-
-  let data;
-  try {
-    data = JSON.parse(Buffer.from(session.value, 'base64').toString());
-  } catch {
-    return null;
-  }
-
-  if (!data.accessToken) return null;
+  const data = getSession();
+  if (!data?.accessToken) return null;
 
   const client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
