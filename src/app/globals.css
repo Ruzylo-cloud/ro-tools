@@ -1,0 +1,21 @@
+:root {
+  --jm-blue: #134A7C;
+  --jm-red: #EE3227;
+  --jm-blue-light: #1a5a94;
+  --jm-red-light: #ff4438;
+  --charcoal: #1a1a2e;
+  --gray-50: #fafbfc;
+  --gray-100: #f0f2f5;
+  --gray-400: #9ca3af;
+  --gray-600: #6b7280;
+  --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--charcoal);
+  overflow-x: hidden;
+}

@@ -1,0 +1,118 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.header {
+  margin-bottom: 40px;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: #134A7C;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  border-radius: 16px;
+  padding: 32px 24px;
+  position: relative;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: block;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card.live {
+  background: #134A7C;
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(19,74,124,0.25);
+  cursor: pointer;
+}
+
+.card.live:hover {
+  box-shadow: 0 16px 50px rgba(19,74,124,0.35);
+}
+
+.card.coming {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  cursor: default;
+}
+
+.cardStatus {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+
+.live .cardStatus {
+  background: #EE3227;
+  color: #fff;
+}
+
+.coming .cardStatus {
+  background: #f0f2f5;
+  color: #9ca3af;
+}
+
+.cardIcon {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.coming .cardTitle {
+  color: #1a1a2e;
+}
+
+.cardDesc {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: 0.8;
+  margin-bottom: 16px;
+}
+
+.coming .cardDesc {
+  color: #6b7280;
+}
+
+.cardAction {
+  font-size: 14px;
+  font-weight: 700;
+  color: #EE3227;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

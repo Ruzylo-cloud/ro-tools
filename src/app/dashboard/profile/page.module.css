@@ -1,0 +1,93 @@
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 32px;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #134A7C;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.form {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 32px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #2D2D2D;
+  margin-bottom: 6px;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #2D2D2D;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #134A7C;
+  box-shadow: 0 0 0 3px rgba(19,74,124,0.1);
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+.actions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveBtn {
+  padding: 12px 32px;
+  background: #134A7C;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveBtn:hover {
+  background: #1a5a94;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(19,74,124,0.25);
+}
+
+.saveBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
