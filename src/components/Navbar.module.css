@@ -37,19 +37,99 @@
 
 .links {
   display: flex;
-  gap: 24px;
+  gap: 4px;
 }
 
-.links a {
+.navItem {
+  position: relative;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   font-size: 14px;
   font-weight: 500;
   color: #6b7280;
   text-decoration: none;
-  transition: color 0.2s;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.15s;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
 }
 
-.links a:hover {
+.navLink:hover {
   color: #134A7C;
+  background: rgba(19,74,124,0.04);
+}
+
+.navLinkActive {
+  color: #134A7C;
+  background: rgba(19,74,124,0.06);
+}
+
+.chevron {
+  font-size: 10px;
+  transition: transform 0.15s;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  padding: 6px;
+  z-index: 100;
+  margin-top: 4px;
+}
+
+.navItem:hover .dropdown {
+  display: block;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.dropdownItem:hover {
+  background: rgba(19,74,124,0.06);
+  color: #134A7C;
+}
+
+.comingSoon {
+  color: #9ca3af;
+  cursor: default;
+}
+
+.comingSoon:hover {
+  background: transparent;
+  color: #9ca3af;
+}
+
+.comingSoonBadge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  color: #9ca3af;
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 8px;
 }
 
 .right {

@@ -26,16 +26,13 @@ export default function FlyerPage() {
 
   useEffect(() => {
     if (!user) return;
-    const load = async () => {
-      const { doc, getDoc } = await import('firebase/firestore');
-      const { db } = await import('@/lib/firebase');
-      const snap = await getDoc(doc(db, 'stores', user.uid));
-      if (snap.exists()) {
-        setForm(snap.data());
-      }
-      setLoading(false);
-    };
-    load();
+    fetch('/api/profile')
+      .then(res => res.json())
+      .then(data => {
+        if (data.profile) setForm(data.profile);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [user]);
 
   const handleChange = (key, value) => {

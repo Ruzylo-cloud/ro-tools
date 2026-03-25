@@ -1,16 +1,27 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import styles from './page.module.css';
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/profile')
+      .then(res => res.json())
+      .then(data => setProfile(data.profile))
+      .catch(() => {});
+  }, []);
+
+  const firstName = profile?.displayName?.split(' ')[0] || user?.name?.split(' ')[0] || '';
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Welcome back{user?.displayName ? `, ${user.displayName.split(' ')[0]}` : ''}</h1>
+        <h1 className={styles.title}>Welcome back{firstName ? `, ${firstName}` : ''}</h1>
         <p className={styles.subtitle}>Pick a tool to get started.</p>
       </div>
       <div className={styles.grid}>
