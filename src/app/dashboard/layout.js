@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 export default function DashboardLayout({ children }) {
   const { user, loading } = useAuth();
@@ -53,7 +54,7 @@ export default function DashboardLayout({ children }) {
   if (pathname === '/dashboard/setup') {
     return (
       <main style={{ minHeight: '100vh', background: '#fafbfc' }}>
-        {children}
+        <ErrorBoundary>{children}</ErrorBoundary>
       </main>
     );
   }
@@ -64,7 +65,7 @@ export default function DashboardLayout({ children }) {
     <>
       <Navbar />
       <main style={{ minHeight: 'calc(100vh - 64px)', background: '#fafbfc' }}>
-        {children}
+        <ErrorBoundary>{children}</ErrorBoundary>
       </main>
     </>
   );
