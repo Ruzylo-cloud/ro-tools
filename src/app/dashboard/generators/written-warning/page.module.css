@@ -1,0 +1,260 @@
+.container {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+.sidebar {
+  width: 340px;
+  min-width: 340px;
+  padding: 32px 24px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  max-height: calc(100vh - 64px);
+}
+
+.sidebarTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--jm-blue);
+  margin-bottom: 4px;
+}
+
+.sidebarDesc {
+  font-size: 13px;
+  color: var(--gray-600);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 4px;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--charcoal);
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--jm-blue);
+  box-shadow: 0 0 0 2px rgba(19,74,124,0.1);
+}
+
+.select {
+  appearance: none;
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232D2D2D' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;
+  padding-right: 28px;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 60px;
+  line-height: 1.5;
+}
+
+.downloadBtn {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  background: var(--jm-red);
+  color: var(--white);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.downloadBtn:hover {
+  background: var(--jm-red-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(238,50,39,0.3);
+}
+
+.downloadBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.preview {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.previewHeader {
+  margin-bottom: 16px;
+}
+
+.previewTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--jm-blue);
+}
+
+.previewContainer {
+  background: var(--gray-200);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* --- Responsive --- */
+
+/* 1024px — reduce sidebar width */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 300px;
+    min-width: 300px;
+    padding: 28px 20px;
+  }
+}
+
+/* 950px — slightly narrower sidebar */
+@media (max-width: 950px) {
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+  }
+}
+
+/* 880px — stack vertically */
+@media (max-width: 880px) {
+  .container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview {
+    overflow-x: auto;
+  }
+}
+
+/* 810px — reduce padding */
+@media (max-width: 810px) {
+  .sidebar {
+    padding: 24px 20px;
+  }
+  .sidebarTitle {
+    font-size: 20px;
+  }
+}
+
+/* 740px — tighter fields */
+@media (max-width: 740px) {
+  .fields {
+    gap: 12px;
+  }
+}
+
+/* 670px — tighter layout */
+@media (max-width: 670px) {
+  .sidebar {
+    padding: 24px 16px;
+  }
+  .previewContainer {
+    padding: 16px;
+  }
+}
+
+/* 600px — touch targets, iOS zoom fix */
+@media (max-width: 600px) {
+  .input,
+  .select,
+  .textarea {
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+  .downloadBtn {
+    padding: 16px;
+    font-size: 16px;
+    min-height: 48px;
+  }
+}
+
+/* 530px — reduce padding further */
+@media (max-width: 530px) {
+  .sidebar {
+    padding: 20px 14px;
+  }
+  .sidebarTitle {
+    font-size: 19px;
+  }
+  .preview {
+    padding: 14px;
+  }
+  .previewContainer {
+    padding: 14px;
+  }
+}
+
+/* 460px — compact */
+@media (max-width: 460px) {
+  .sidebar {
+    padding: 18px 12px;
+  }
+  .sidebarTitle {
+    font-size: 18px;
+  }
+  .preview {
+    padding: 12px;
+  }
+  .previewContainer {
+    padding: 12px;
+    border-radius: 8px;
+  }
+}
+
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .sidebar {
+    padding: 16px 10px;
+  }
+  .sidebarTitle {
+    font-size: 17px;
+  }
+  .preview {
+    padding: 10px;
+  }
+  .previewContainer {
+    padding: 10px;
+  }
+}

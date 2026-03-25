@@ -31,22 +31,45 @@ export default function DashboardPage() {
         <Link href="/dashboard/flyer" className={`${styles.card} ${styles.live}`}>
           <div className={styles.cardStatus}>Live Now</div>
           <div className={styles.cardIcon}>&#x1F4CB;</div>
-          <h3 className={styles.cardTitle}>Catering Flyer Generator</h3>
-          <p className={styles.cardDesc}>Generate print-ready catering flyers with your store info, menu, and pricing. Download as PDF.</p>
+          <h3 className={styles.cardTitle}>Catering Flyer</h3>
+          <p className={styles.cardDesc}>Print-ready catering flyers with store info, menu, and pricing.</p>
           <div className={styles.cardAction}>Open Tool &rarr;</div>
         </Link>
-        <div className={`${styles.card} ${styles.coming}`}>
-          <div className={styles.cardStatus}>Coming Soon</div>
-          <div className={styles.cardIcon}>&#x1F4E3;</div>
-          <h3 className={styles.cardTitle}>Marketing Materials</h3>
-          <p className={styles.cardDesc}>Door hangers, leave-behinds, fundraiser sheets, and social media graphics.</p>
-        </div>
-        <div className={`${styles.card} ${styles.coming}`}>
-          <div className={styles.cardStatus}>Coming Soon</div>
-          <div className={styles.cardIcon}>&#x1F4CA;</div>
-          <h3 className={styles.cardTitle}>Catering Tracker</h3>
-          <p className={styles.cardDesc}>Track prospects, follow-ups, and orders.</p>
-        </div>
+        <Link href="/dashboard/generators/written-warning" className={`${styles.card} ${styles.live}`}>
+          <div className={styles.cardStatus}>Live Now</div>
+          <div className={styles.cardIcon}>&#x1F4DD;</div>
+          <h3 className={styles.cardTitle}>Written Warning</h3>
+          <p className={styles.cardDesc}>Corrective action forms with uniform branding. Auto-fills store info.</p>
+          <div className={styles.cardAction}>Open Tool &rarr;</div>
+        </Link>
+        <Link href="/dashboard/generators/evaluation" className={`${styles.card} ${styles.live}`}>
+          <div className={styles.cardStatus}>Live Now</div>
+          <div className={styles.cardIcon}>&#x2B50;</div>
+          <h3 className={styles.cardTitle}>Performance Evaluation</h3>
+          <p className={styles.cardDesc}>Employee evaluations with scoring rubric. Download as branded PDF.</p>
+          <div className={styles.cardAction}>Open Tool &rarr;</div>
+        </Link>
+        <Link href="/dashboard/generators/catering-order" className={`${styles.card} ${styles.live}`}>
+          <div className={styles.cardStatus}>Live Now</div>
+          <div className={styles.cardIcon}>&#x1F4E6;</div>
+          <h3 className={styles.cardTitle}>Catering Order Form</h3>
+          <p className={styles.cardDesc}>Customer-facing order forms with menu, pricing, and delivery details.</p>
+          <div className={styles.cardAction}>Open Tool &rarr;</div>
+        </Link>
+        <Link href="/dashboard/generators/timesheet-correction" className={`${styles.card} ${styles.live}`}>
+          <div className={styles.cardStatus}>Live Now</div>
+          <div className={styles.cardIcon}>&#x23F0;</div>
+          <h3 className={styles.cardTitle}>Timesheet Correction</h3>
+          <p className={styles.cardDesc}>Clock in/out correction forms for payroll adjustments.</p>
+          <div className={styles.cardAction}>Open Tool &rarr;</div>
+        </Link>
+        <Link href="/dashboard/generators/attestation-correction" className={`${styles.card} ${styles.live}`}>
+          <div className={styles.cardStatus}>Live Now</div>
+          <div className={styles.cardIcon}>&#x1F4CB;</div>
+          <h3 className={styles.cardTitle}>Attestation Correction</h3>
+          <p className={styles.cardDesc}>Meal period and rest break attestation correction forms.</p>
+          <div className={styles.cardAction}>Open Tool &rarr;</div>
+        </Link>
       </div>
       {recentUpdates.length > 0 && (
         <div className={styles.updatesSection}>
