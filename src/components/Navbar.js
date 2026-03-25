@@ -81,6 +81,27 @@ export default function Navbar() {
                     <div className={styles.dropdownHint}>Print-ready PDF with store info</div>
                   </div>
                 </Link>
+                <Link href="/dashboard/generators/catering-order" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x1F4DD;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Catering Order</div>
+                    <div className={styles.dropdownHint}>Customer-facing order form PDF</div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/generators/evaluation" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x2B50;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Performance Evaluation</div>
+                    <div className={styles.dropdownHint}>Employee performance review PDF</div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/generators/written-warning" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x26A0;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Written Warning</div>
+                    <div className={styles.dropdownHint}>Corrective action form PDF</div>
+                  </div>
+                </Link>
               </div>
             )}
           </div>
@@ -97,6 +118,13 @@ export default function Navbar() {
             </button>
             {openDropdown === 'catering' && (
               <div className={styles.dropdown}>
+                <Link href="/dashboard/generators/catering-order" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x1F4DD;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Catering Order</div>
+                    <div className={styles.dropdownHint}>Customer-facing order form PDF</div>
+                  </div>
+                </Link>
                 <span className={`${styles.dropdownItem} ${styles.comingSoon}`}>
                   <span className={styles.dropdownIcon}>&#x1F4CA;</span>
                   <div>
@@ -165,6 +193,15 @@ export default function Navbar() {
             <Link href="/dashboard/flyer" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
               <span>&#x1F4CB;</span> Catering Flyer
             </Link>
+            <Link href="/dashboard/generators/catering-order" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F4DD;</span> Catering Order
+            </Link>
+            <Link href="/dashboard/generators/evaluation" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x2B50;</span> Performance Evaluation
+            </Link>
+            <Link href="/dashboard/generators/written-warning" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x26A0;</span> Written Warning
+            </Link>
           </div>
         )}
 
@@ -173,6 +210,9 @@ export default function Navbar() {
         </button>
         {openDropdown === 'm_catering' && (
           <div className={styles.mobileDropdownItems}>
+            <Link href="/dashboard/generators/catering-order" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F4DD;</span> Catering Order
+            </Link>
             <span className={styles.mobileDropdownItem} style={{ color: 'var(--gray-400)' }}>
               <span>&#x1F4CA;</span> Catering Tracker (Coming Soon)
             </span>
