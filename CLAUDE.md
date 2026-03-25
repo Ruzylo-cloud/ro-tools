@@ -76,7 +76,8 @@ src/
 ```
 
 ## Nav Structure
-Dashboard | Generators (dropdown) | Catering (dropdown) | Directives (dropdown) | Store Profile | Support
+Dashboard | Generators (multi-col dropdown) | Catering (dropdown) | Directives (standalone page) | Store Profile
+Support = ? icon (top-right, always visible)
 Admin = gear icon (top-right, visible to admins only)
 
 ## Development Rules

@@ -9,6 +9,48 @@
 
 export const changelog = [
   {
+    version: 'v2.0.0',
+    date: '2026-03-25',
+    category: 'new_feature',
+    title: '5 New Document Generators',
+    description: 'Written Warning, Performance Evaluation, Catering Order Form, Timesheet Correction, and Attestation Correction. All generators produce uniform, branded PDFs with auto-filled store info.',
+  },
+  {
+    version: 'v2.0.0',
+    date: '2026-03-25',
+    category: 'new_feature',
+    title: 'Directives Page',
+    description: 'New standalone Directives page with the 2026 Marketing Calendar showing quarterly focus areas and monthly campaigns.',
+  },
+  {
+    version: 'v2.0.0',
+    date: '2026-03-25',
+    category: 'improvement',
+    title: 'Enterprise Security Audit',
+    description: 'Signed session cookies (HMAC-SHA256), rate limiting, input sanitization, API timeouts, audit logging, role escalation prevention, and CSRF protection.',
+  },
+  {
+    version: 'v2.0.0',
+    date: '2026-03-25',
+    category: 'improvement',
+    title: 'Full Responsive Redesign',
+    description: '10-breakpoint responsive system (1024px to 360px) across all pages. Hamburger menu on mobile. Fluid scaling with no overflow on any device.',
+  },
+  {
+    version: 'v2.0.0',
+    date: '2026-03-25',
+    category: 'improvement',
+    title: 'Toast Notifications & UI Polish',
+    description: 'Toast notification system replaces all alert() dialogs. CSS variables for consistent theming. Error boundaries prevent full-page crashes. Ticket pagination.',
+  },
+  {
+    version: 'v2.0.0',
+    date: '2026-03-25',
+    category: 'new_feature',
+    title: 'Service Account Integration',
+    description: 'Google Drive, Sheets, and Docs accessible via service account. Drive scanner for file management. Foundation for automated document generation.',
+  },
+  {
     version: 'v1.1.0',
     date: '2026-03-25',
     category: 'new_feature',
