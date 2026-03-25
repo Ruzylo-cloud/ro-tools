@@ -16,7 +16,8 @@ RO Tools is a web app for Jersey Mike's franchise operators (JM Valley). Operato
 - **Framework:** Next.js 14 (App Router)
 - **Auth:** Google OAuth 2.0 (native, via googleapis) — restricted to @jmvalley.com
 - **Data:** Server-side JSON files on GCS-mounted volume (`/data`)
-- **Secrets:** Google Secret Manager (ro-tools-client-id, ro-tools-client-secret, ro-tools-redirect-uri)
+- **Secrets:** Google Secret Manager (ro-tools-client-id, ro-tools-client-secret, ro-tools-redirect-uri, ro-tools-service-account)
+- **Service Account:** `ro-tools@pcsbot-490004.iam.gserviceaccount.com` (read-only Drive/Sheets/Docs access)
 - **PDF:** html2canvas + jsPDF (client-side)
 - **Hosting:** Google Cloud Run (containerized, auto-deploy on push to main via Cloud Build)
 - **Fonts:** Poppins (flyer), DM Sans + Playfair Display (app UI)
@@ -49,7 +50,8 @@ src/
 │   │   ├── auth/              # Google OAuth login/callback/logout/me
 │   │   ├── profile/           # Store profile CRUD
 │   │   ├── support/           # Bug reports + feature requests
-│   │   └── admin/             # User management + role approvals
+│   │   ├── admin/             # User management + role approvals + drive scan
+│   │   └── google/            # Drive, Sheets, Docs API routes
 │   └── dashboard/
 │       ├── layout.js          # Auth guard + setup check + Navbar
 │       ├── page.js            # Dashboard home
@@ -57,6 +59,7 @@ src/
 │       ├── profile/page.js    # Store profile editing
 │       ├── flyer/page.js      # Catering flyer generator
 │       ├── support/page.js    # Bug reports + feature requests
+│       ├── updates/page.js    # Changelog timeline
 │       └── admin/page.js      # Admin panel (role approvals, user mgmt)
 ├── components/
 │   ├── AuthProvider.js        # Google OAuth context (client-only)
@@ -64,11 +67,17 @@ src/
 │   └── FlyerPreview.js        # Flyer HTML for preview + PDF capture
 └── lib/
     ├── google-auth.js         # Google OAuth2 client setup
+    ├── google-client.js       # User OAuth client for Drive/Sheets/Docs
+    ├── google-service.js      # Service account client (read-only)
+    ├── session.js             # Shared session extraction from cookie
+    ├── data.js                # JSON file I/O with write locking
+    ├── changelog.js           # Changelog entries for Updates page
     └── roles.js               # Super admin list + role approval logic
 ```
 
 ## Nav Structure
-Dashboard | Generators (dropdown) | Catering (dropdown) | Directives (dropdown) | Store Profile | Support | Admin (admin only)
+Dashboard | Generators (dropdown) | Catering (dropdown) | Directives (dropdown) | Store Profile | Support
+Admin = gear icon (top-right, visible to admins only)
 
 ## Development Rules
 1. **Auto-push all completed work immediately** — git add, commit, push to main
