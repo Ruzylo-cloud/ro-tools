@@ -3,24 +3,19 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
+import { changelog } from '@/lib/changelog';
 import styles from './page.module.css';
+
+const recentUpdates = changelog.slice(0, 3);
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
-  const [recentUpdates, setRecentUpdates] = useState([]);
 
   useEffect(() => {
     fetch('/api/profile')
       .then(res => res.json())
       .then(data => setProfile(data.profile))
-      .catch(() => {});
-    fetch('/api/updates')
-      .then(res => res.json())
-      .then(data => {
-        const sorted = (data.updates || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setRecentUpdates(sorted.slice(0, 3));
-      })
       .catch(() => {});
   }, []);
 
@@ -59,13 +54,13 @@ export default function DashboardPage() {
             <h2 className={styles.updatesTitle}>Recent Updates</h2>
             <Link href="/dashboard/updates" className={styles.updatesViewAll}>View All &rarr;</Link>
           </div>
-          {recentUpdates.map(u => (
-            <div key={u.id} className={styles.updateRow}>
+          {recentUpdates.map((u, i) => (
+            <div key={i} className={styles.updateRow}>
               <span className={`${styles.updateBadge} ${styles['badge_' + u.category]}`}>
                 {u.category === 'new_feature' ? 'New' : u.category === 'improvement' ? 'Update' : u.category === 'bug_fix' ? 'Fix' : 'Info'}
               </span>
               <span className={styles.updateText}>{u.title}</span>
-              <span className={styles.updateDate}>{new Date(u.createdAt).toLocaleDateString()}</span>
+              <span className={styles.updateDate}>{u.version}</span>
             </div>
           ))}
         </div>
