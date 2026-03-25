@@ -21,9 +21,17 @@
 .empty { text-align: center; padding: 24px; color: var(--gray-400); font-size: 13px; }
 .badge { font-size: 11px; color: #16a34a; font-weight: 500; }
 
-/* Tablet */
-@media (max-width: 768px) {
-  .container { padding: 32px 16px; }
+/* ─── Responsive ─── */
+
+/* 810px — reduce padding */
+@media (max-width: 810px) {
+  .container { padding: 36px 20px; }
+  .title { font-size: 26px; }
+}
+
+/* 670px — stack user rows */
+@media (max-width: 670px) {
+  .container { padding: 32px 18px; }
   .title { font-size: 24px; }
   .userRow {
     flex-direction: column;
@@ -38,28 +46,38 @@
     flex: 1;
     text-align: center;
     padding: 10px 16px;
-    min-height: 44px;
   }
 }
 
-/* Phone */
-@media (max-width: 480px) {
+/* 600px — touch targets */
+@media (max-width: 600px) {
+  .approveBtn, .denyBtn {
+    min-height: 44px;
+    font-size: 13px;
+  }
+}
+
+/* 530px — tighter */
+@media (max-width: 530px) {
+  .container { padding: 28px 16px; }
+  .section { padding: 20px; }
+}
+
+/* 460px — compact */
+@media (max-width: 460px) {
   .container { padding: 24px 12px; }
   .title { font-size: 22px; }
   .section { padding: 16px; }
-  .userRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  .actions {
-    width: 100%;
-  }
   .approveBtn, .denyBtn {
-    flex: 1;
-    text-align: center;
     padding: 12px 16px;
     min-height: 44px;
     font-size: 14px;
   }
+}
+
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .container { padding: 20px 10px; }
+  .title { font-size: 20px; }
+  .section { padding: 14px; border-radius: 10px; }
 }

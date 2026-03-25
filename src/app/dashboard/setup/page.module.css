@@ -243,124 +243,190 @@
   margin-bottom: 16px;
 }
 
-/* Tablet */
-@media (max-width: 768px) {
+/* ─── Responsive ─── */
+
+/* 950px — reduce max-width slightly */
+@media (max-width: 950px) {
   .container {
-    padding: 32px 16px;
-  }
-
-  .title {
-    font-size: 26px;
-  }
-
-  .roleGrid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .roleCard {
-    padding: 20px 16px;
-  }
-
-  .form {
-    padding: 20px 16px;
-  }
-
-  .fieldGrid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .storeCard {
-    padding: 16px;
-  }
-
-  .input {
-    width: 100%;
+    padding: 44px 20px;
   }
 }
 
-/* Phone */
-@media (max-width: 480px) {
+/* 880px — role grid to 2 columns on narrower screens */
+@media (max-width: 880px) {
   .container {
-    padding: 24px 12px;
+    padding: 40px 20px;
   }
-
-  .header {
-    margin-bottom: 24px;
-  }
-
   .title {
-    font-size: 22px;
+    font-size: 30px;
   }
+}
 
-  .subtitle {
-    font-size: 14px;
+/* 810px — reduce card padding, smaller headings */
+@media (max-width: 810px) {
+  .title {
+    font-size: 28px;
   }
+  .form {
+    padding: 28px 24px;
+  }
+  .roleCard {
+    padding: 24px 18px;
+  }
+}
 
+/* 740px — start stacking role grid */
+@media (max-width: 740px) {
   .roleGrid {
     grid-template-columns: 1fr;
-    gap: 10px;
-    margin-bottom: 24px;
+    gap: 12px;
   }
-
-  .roleCard {
-    padding: 18px 14px;
+  .container {
+    padding: 36px 18px;
   }
-
-  .roleIcon {
-    font-size: 28px;
-    margin-bottom: 8px;
+  .title {
+    font-size: 27px;
   }
+}
 
-  .roleName {
-    font-size: 15px;
-  }
-
-  .form {
-    padding: 16px 12px;
-    border-radius: 10px;
-  }
-
-  .sectionTitle {
-    font-size: 17px;
-  }
-
+/* 670px — single column fields */
+@media (max-width: 670px) {
   .fieldGrid {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 12px;
   }
-
-  .storeCard {
-    padding: 14px 12px;
-    border-radius: 10px;
+  .form {
+    padding: 24px 20px;
   }
-
-  .storeCardHeader {
-    margin-bottom: 12px;
+  .roleCard {
+    padding: 22px 16px;
   }
+  .title {
+    font-size: 26px;
+  }
+}
 
+/* 600px — touch targets, iOS zoom fix */
+@media (max-width: 600px) {
+  .container {
+    padding: 32px 16px;
+  }
   .input {
-    width: 100%;
     padding: 12px 14px;
     font-size: 16px; /* prevents iOS zoom */
   }
-
-  .addStoreBtn {
-    padding: 14px;
-    font-size: 14px;
-  }
-
   .submitBtn {
     padding: 16px;
     font-size: 16px;
+    min-height: 48px;
   }
-
+  .addStoreBtn {
+    padding: 14px;
+    min-height: 44px;
+  }
   .removeBtn {
     padding: 8px 12px;
     font-size: 13px;
     min-height: 44px;
     display: flex;
     align-items: center;
+  }
+  .storeCard {
+    padding: 18px;
+  }
+}
+
+/* 530px — tighter padding */
+@media (max-width: 530px) {
+  .container {
+    padding: 28px 14px;
+  }
+  .header {
+    margin-bottom: 28px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .subtitle {
+    font-size: 14px;
+  }
+  .form {
+    padding: 20px 16px;
+  }
+  .roleCard {
+    padding: 20px 14px;
+  }
+  .roleIcon {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  .sectionTitle {
+    font-size: 18px;
+  }
+}
+
+/* 460px — compact everything */
+@media (max-width: 460px) {
+  .container {
+    padding: 24px 12px;
+  }
+  .header {
+    margin-bottom: 24px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .form {
+    padding: 16px 12px;
+    border-radius: 10px;
+  }
+  .roleGrid {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  .roleCard {
+    padding: 18px 14px;
+  }
+  .roleIcon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+  .roleName {
+    font-size: 15px;
+  }
+  .sectionTitle {
+    font-size: 17px;
+  }
+  .fieldGrid {
+    gap: 10px;
+  }
+  .storeCard {
+    padding: 14px 12px;
+    border-radius: 10px;
+  }
+  .storeCardHeader {
+    margin-bottom: 12px;
+  }
+}
+
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .container {
+    padding: 20px 10px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .form {
+    padding: 14px 10px;
+  }
+  .roleCard {
+    padding: 16px 12px;
+  }
+  .storeCard {
+    padding: 12px 10px;
+  }
+  .submitBtn {
+    border-radius: 10px;
   }
 }

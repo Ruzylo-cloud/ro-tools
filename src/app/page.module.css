@@ -352,43 +352,141 @@
 }
 
 /* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
-  .nav { padding: 0 24px; }
-  .navLinks a:not(.navCta) { display: none; }
-  .hero { padding: 100px 24px 60px; }
-  .heroInner { grid-template-columns: 1fr; gap: 48px; }
-  .heroTitle { font-size: 40px; }
-  .tools { padding: 60px 24px; }
-  .toolsGrid { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; gap: 32px; }
-  .sectionTitle { font-size: 32px; }
-  .ctaTitle { font-size: 32px; }
-  .footer { flex-direction: column; gap: 12px; }
+
+/* 1024px — slightly reduce spacing */
+@media (max-width: 1024px) {
+  .nav { padding: 0 32px; }
+  .hero { padding: 110px 32px 70px; }
+  .heroInner { gap: 60px; }
+  .heroTitle { font-size: 50px; }
+  .tools { padding: 80px 32px; }
+  .how { padding: 80px 32px; }
+  .ctaSection { padding: 80px 32px; }
+  .sectionTitle { font-size: 40px; }
+  .ctaTitle { font-size: 42px; }
 }
 
-@media (max-width: 480px) {
-  .nav { padding: 0 16px; height: 60px; }
-  .navLogoText { font-size: 18px; }
-  .navCta { padding: 8px 20px; font-size: 13px !important; }
-  .hero { padding: 80px 16px 48px; min-height: auto; }
+/* 950px — reduce max-widths */
+@media (max-width: 950px) {
+  .heroInner { gap: 48px; }
+  .heroTitle { font-size: 44px; }
+  .heroSub { font-size: 17px; }
+  .toolsGrid { grid-template-columns: repeat(2, 1fr); }
+  .sectionTitle { font-size: 36px; }
+  .ctaTitle { font-size: 38px; }
+}
+
+/* 880px — stack hero, 2-col tools */
+@media (max-width: 880px) {
+  .nav { padding: 0 24px; }
+  .heroInner { grid-template-columns: 1fr; gap: 40px; }
+  .heroTitle { font-size: 42px; }
+  .hero { padding: 100px 24px 60px; }
+  .tools { padding: 70px 24px; }
+  .how { padding: 70px 24px; }
+  .ctaSection { padding: 70px 24px; }
+  .footer { padding: 28px 24px; }
+}
+
+/* 810px — reduce card padding, smaller headings */
+@media (max-width: 810px) {
+  .heroTitle { font-size: 38px; }
+  .heroCard { padding: 28px; }
+  .toolCard { padding: 30px 24px; }
+  .toolName { font-size: 20px; }
+  .sectionTitle { font-size: 34px; }
+  .ctaTitle { font-size: 34px; }
+  .steps { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* 740px — hide non-CTA nav links */
+@media (max-width: 740px) {
+  .navLinks a:not(.navCta) { display: none; }
+  .heroTitle { font-size: 36px; }
+  .sectionTitle { font-size: 32px; }
+  .ctaTitle { font-size: 32px; }
+  .footer { flex-direction: column; gap: 12px; text-align: center; }
+}
+
+/* 670px — single column grids */
+@media (max-width: 670px) {
+  .toolsGrid { grid-template-columns: 1fr; }
+  .heroTitle { font-size: 34px; }
+  .heroSub { font-size: 16px; }
+  .sectionSubtitle { font-size: 15px; margin-bottom: 48px; }
+  .ctaSub { font-size: 16px; }
+}
+
+/* 600px — touch targets, input font */
+@media (max-width: 600px) {
+  .nav { padding: 0 20px; }
+  .hero { padding: 90px 20px 56px; }
+  .heroActions { flex-direction: column; gap: 12px; }
+  .btnPrimary, .btnSecondary { width: 100%; justify-content: center; padding: 16px 24px; min-height: 48px; font-size: 16px; }
+  .ctaSection .btnPrimary { width: 100%; justify-content: center; min-height: 48px; }
+  .tools { padding: 56px 20px; }
+  .how { padding: 56px 20px; }
+  .ctaSection { padding: 60px 20px; }
+  .sectionTitle { font-size: 30px; }
+  .ctaTitle { font-size: 30px; }
+}
+
+/* 530px — reduce padding further */
+@media (max-width: 530px) {
+  .nav { padding: 0 16px; height: 64px; }
+  .navLogoText { font-size: 19px; }
+  .navCta { padding: 9px 22px; font-size: 13px !important; }
+  .hero { padding: 84px 16px 48px; min-height: auto; }
   .heroTitle { font-size: 30px; letter-spacing: -0.5px; }
   .heroSub { font-size: 15px; }
-  .heroActions { flex-direction: column; gap: 12px; }
-  .btnPrimary, .btnSecondary { width: 100%; justify-content: center; padding: 14px 24px; }
+  .heroCard { padding: 24px; border-radius: 16px; }
+  .toolCard { padding: 28px 22px; border-radius: 16px; }
+  .toolName { font-size: 19px; }
+  .sectionTitle { font-size: 28px; }
+  .ctaTitle { font-size: 28px; }
+  .ctaSub { font-size: 15px; }
+  .footer { padding: 24px 16px; }
+}
+
+/* 460px — compact everything */
+@media (max-width: 460px) {
+  .nav { height: 60px; }
+  .navLogoText { font-size: 18px; }
+  .hero { padding: 80px 14px 40px; }
+  .heroTitle { font-size: 28px; }
   .heroCard { padding: 20px; border-radius: 14px; }
   .heroFloatBadge { display: none; }
-  .tools { padding: 48px 16px; }
-  .how { padding: 48px 16px; }
-  .toolCard { padding: 24px 20px; border-radius: 14px; }
-  .toolName { font-size: 19px; }
+  .tools { padding: 48px 14px; }
+  .how { padding: 48px 14px; }
+  .toolCard { padding: 24px 18px; border-radius: 14px; }
   .sectionTitle { font-size: 26px; }
-  .sectionSubtitle { font-size: 15px; margin-bottom: 40px; }
-  .ctaSection { padding: 60px 16px; }
+  .sectionSubtitle { font-size: 14px; margin-bottom: 36px; }
+  .ctaSection { padding: 52px 14px; }
   .ctaTitle { font-size: 26px; }
-  .ctaSub { font-size: 15px; }
-  .ctaSection .btnPrimary { font-size: 15px; padding: 16px 32px; width: 100%; justify-content: center; }
-  .footer { padding: 24px 16px; }
-  .stepNumber { width: 52px; height: 52px; font-size: 22px; }
+  .ctaSection .btnPrimary { font-size: 15px; padding: 16px 28px; }
+  .stepNumber { width: 56px; height: 56px; font-size: 24px; }
   .stepTitle { font-size: 16px; }
   .stepDesc { font-size: 13px; }
+  .footer { padding: 20px 14px; }
+}
+
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .nav { padding: 0 12px; height: 56px; }
+  .navLogoText { font-size: 16px; }
+  .navCta { padding: 7px 16px; font-size: 12px !important; }
+  .hero { padding: 72px 12px 36px; }
+  .heroTitle { font-size: 24px; }
+  .heroSub { font-size: 14px; margin-bottom: 28px; }
+  .btnPrimary, .btnSecondary { padding: 14px 20px; font-size: 15px; }
+  .heroCard { padding: 16px; }
+  .tools { padding: 40px 12px; }
+  .how { padding: 40px 12px; }
+  .toolCard { padding: 20px 16px; }
+  .toolName { font-size: 18px; }
+  .sectionTitle { font-size: 24px; }
+  .ctaSection { padding: 44px 12px; }
+  .ctaTitle { font-size: 24px; }
+  .footer { padding: 16px 12px; }
+  .stepNumber { width: 48px; height: 48px; font-size: 20px; }
 }

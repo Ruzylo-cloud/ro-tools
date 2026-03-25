@@ -165,51 +165,90 @@
   margin: 0;
 }
 
-/* Tablet */
-@media (max-width: 768px) {
+/* ─── Responsive ─── */
+
+/* 810px — slightly reduce padding */
+@media (max-width: 810px) {
   .container {
-    padding: 32px 16px;
+    padding: 36px 20px;
   }
-
   .title {
-    font-size: 24px;
-  }
-
-  .entryContent {
-    padding: 14px 16px;
+    font-size: 26px;
   }
 }
 
-/* Phone */
-@media (max-width: 480px) {
+/* 670px — tighter layout */
+@media (max-width: 670px) {
+  .container {
+    padding: 32px 18px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .entryContent {
+    padding: 14px 16px;
+  }
+  .timeline {
+    gap: 24px;
+  }
+}
+
+/* 530px — reduce padding */
+@media (max-width: 530px) {
+  .container {
+    padding: 28px 16px;
+  }
+  .title {
+    font-size: 23px;
+  }
+  .versionHeader {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+/* 460px — compact */
+@media (max-width: 460px) {
   .container {
     padding: 24px 12px;
   }
-
   .title {
     font-size: 22px;
   }
-
   .entries {
     padding-left: 18px;
   }
-
   .dot {
     left: -25px;
     width: 12px;
     height: 12px;
   }
-
   .entryContent {
     padding: 12px 14px;
   }
-
   .entryTitle {
     font-size: 14px;
   }
+}
 
-  .versionHeader {
-    flex-wrap: wrap;
-    gap: 8px;
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .container {
+    padding: 20px 10px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .entries {
+    padding-left: 14px;
+  }
+  .dot {
+    left: -21px;
+    width: 10px;
+    height: 10px;
+  }
+  .entryContent {
+    padding: 10px 12px;
+    border-radius: 8px;
   }
 }

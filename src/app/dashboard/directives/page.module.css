@@ -190,60 +190,110 @@
   line-height: 1.5;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .container {
-    padding: 32px 16px;
-  }
+/* ─── Responsive ─── */
 
+/* 810px — reduce padding */
+@media (max-width: 810px) {
+  .container {
+    padding: 36px 20px;
+  }
+  .title {
+    font-size: 26px;
+  }
+}
+
+/* 670px — stack directive header */
+@media (max-width: 670px) {
+  .container {
+    padding: 32px 18px;
+  }
   .title {
     font-size: 24px;
   }
-
   .directiveHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    padding: 16px;
+    padding: 18px;
   }
-
   .directiveHeaderRight {
     width: 100%;
     justify-content: space-between;
   }
-
-  .directiveBody {
-    padding: 16px;
-  }
-
   .item {
     flex-direction: column;
     gap: 6px;
   }
-
   .itemMonth {
     min-width: unset;
   }
 }
 
-@media (max-width: 480px) {
+/* 600px — touch targets */
+@media (max-width: 600px) {
+  .directiveHeader {
+    min-height: 48px;
+    padding: 16px;
+  }
+  .directiveBody {
+    padding: 18px;
+  }
+}
+
+/* 530px — tighter */
+@media (max-width: 530px) {
+  .container {
+    padding: 28px 16px;
+  }
+  .title {
+    font-size: 23px;
+  }
+  .directiveBody {
+    padding: 16px;
+  }
+}
+
+/* 460px — compact */
+@media (max-width: 460px) {
   .container {
     padding: 24px 12px;
   }
-
   .title {
     font-size: 22px;
   }
-
   .directiveHeader {
     padding: 14px;
   }
-
   .sectionTitle {
     font-size: 15px;
   }
-
   .item {
     padding: 12px;
+  }
+  .directiveBody {
+    padding: 14px;
+  }
+}
+
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .container {
+    padding: 20px 10px;
+  }
+  .title {
+    font-size: 20px;
+  }
+  .directiveHeader {
+    padding: 12px;
+    gap: 8px;
+  }
+  .directiveBody {
+    padding: 12px;
+  }
+  .item {
+    padding: 10px;
+  }
+  .directiveTitle {
+    font-size: 15px;
   }
 }

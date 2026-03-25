@@ -94,58 +94,93 @@
   transform: none;
 }
 
-/* Tablet */
-@media (max-width: 768px) {
-  .container {
-    padding: 32px 16px;
-  }
+/* ─── Responsive ─── */
 
+/* 810px — smaller headings */
+@media (max-width: 810px) {
+  .container {
+    padding: 40px 24px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .form {
+    padding: 28px 24px;
+  }
+}
+
+/* 670px — stack actions */
+@media (max-width: 670px) {
+  .container {
+    padding: 36px 20px;
+  }
   .title {
     font-size: 26px;
   }
-
   .form {
-    padding: 20px 16px;
+    padding: 24px 20px;
   }
-
-  .input {
-    width: 100%;
-  }
-
   .actions {
     justify-content: stretch;
   }
-
   .saveBtn {
     width: 100%;
     text-align: center;
   }
 }
 
-/* Phone */
-@media (max-width: 480px) {
-  .container {
-    padding: 24px 12px;
+/* 600px — touch targets, iOS zoom fix */
+@media (max-width: 600px) {
+  .input {
+    padding: 12px 14px;
+    font-size: 16px;
   }
+  .saveBtn {
+    padding: 14px;
+    min-height: 48px;
+  }
+}
 
+/* 530px — tighter padding */
+@media (max-width: 530px) {
+  .container {
+    padding: 32px 16px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .form {
+    padding: 20px 16px;
+  }
+}
+
+/* 460px — compact */
+@media (max-width: 460px) {
+  .container {
+    padding: 28px 12px;
+  }
   .title {
     font-size: 22px;
   }
-
   .form {
     padding: 16px 12px;
     border-radius: 12px;
   }
+}
 
-  .input {
-    width: 100%;
-    padding: 12px 14px;
-    font-size: 16px;
+/* 360px — smallest phone */
+@media (max-width: 360px) {
+  .container {
+    padding: 24px 10px;
   }
-
+  .title {
+    font-size: 20px;
+  }
+  .form {
+    padding: 14px 10px;
+    border-radius: 10px;
+  }
   .saveBtn {
-    width: 100%;
-    padding: 14px;
-    text-align: center;
+    font-size: 15px;
   }
 }
