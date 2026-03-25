@@ -65,7 +65,7 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
       <div style={{ textAlign: 'center', padding: '2px 0' }}>
         <img
           src="/nfl-x-jm-revised.jpeg"
-          alt="JM x NFL"
+          alt="Jersey Mike's and NFL partnership logo"
           style={{ width: '210px', height: 'auto' }}
           crossOrigin="anonymous"
         />
@@ -141,7 +141,7 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
         {[MENU_LEFT, MENU_RIGHT].map((col, ci) => (
           <div key={ci} style={{ flex: 1 }}>
             {col.map((item, i) => (
-              <div key={i} style={{ marginBottom: '2px' }}>
+              <div key={item.name} style={{ marginBottom: '2px' }}>
                 <div style={{ fontSize: '7.5pt', fontWeight: 700, color: '#2D2D2D' }}>
                   {item.num ? `${item.num} ` : ''}{item.name}
                 </div>

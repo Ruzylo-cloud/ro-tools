@@ -43,7 +43,7 @@ export default function UpdatesPage() {
             </div>
             <div className={styles.entries}>
               {group.entries.map((entry, i) => (
-                <div key={i} className={styles.entry}>
+                <div key={`${entry.category}-${entry.title}`} className={styles.entry}>
                   <div className={`${styles.dot} ${styles['dot_' + entry.category]}`} />
                   <div className={styles.entryContent}>
                     <div className={styles.entryHeader}>
