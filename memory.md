@@ -4,70 +4,68 @@
 2026-03-25
 
 ## Current Status
-**Phase:** Service Account Integrated — Pending Drive Scan + Generator Expansion
+**Phase:** v2.0.0 — Generators Built, Launch Ready
 
 ## What's Been Done
-- [x] Next.js 14 App Router project with `src/` directory
-- [x] Native Google OAuth 2.0 (via googleapis) — restricted to @jmvalley.com
-- [x] Role-based onboarding: Operator, District Manager, Administrator
-- [x] DM/Admin roles require approval; chrisr@jmvalley.com is super admin
-- [x] Multi-store support for DM/Admin roles
-- [x] Admin panel for approving role requests + user management
-- [x] Support page (bug reports + feature requests)
-- [x] Catering flyer generator with PDF download + real JerseyMikesCatering.jpg
-- [x] Google Drive, Sheets, Docs API integration (/api/google/drive|sheets|docs)
-- [x] Service account integration (`ro-tools@pcsbot-490004.iam.gserviceaccount.com`)
-  - Read-only scopes (drive.readonly, spreadsheets.readonly, documents.readonly)
-  - Key stored in Secret Manager as `ro-tools-service-account`
-  - Drive scan endpoint: `/api/admin/drive-scan`
-- [x] Data persists via GCS bucket `pcsbot-490004-ro-tools-data` mounted at /data
+- [x] Next.js 14 App Router with full auth, role system, multi-store support
+- [x] Native Google OAuth 2.0 restricted to @jmvalley.com
+- [x] Service account integration (ro-tools@pcsbot-490004.iam.gserviceaccount.com)
+- [x] 6 PDF Generators (all uniform branded, letter-size, auto-fill from profile):
+  1. Catering Flyer (customer-facing, JM corporate logo)
+  2. Written Warning / Corrective Action (internal, JM Valley header)
+  3. Performance Evaluation with 10-category scoring (internal)
+  4. Catering Order Form with menu/pricing (customer-facing)
+  5. Timesheet Correction Form (internal)
+  6. Attestation Correction Form (internal)
+- [x] Directives page with Marketing Calendar 2026 (Q1-Q4)
+- [x] Admin panel (role approvals, user management)
+- [x] Support page (bug reports + feature requests) with pagination
+- [x] Updates/changelog page (v1.0.0 through v2.0.0)
+- [x] Toast notification system (replaces all alert() calls)
+- [x] Error boundary (catches crashes, shows recovery UI)
+- [x] Enterprise security audit — all critical/high/medium/low items fixed:
+  - Signed session cookies (HMAC-SHA256)
+  - Rate limiting on profile/support/admin
+  - API timeouts (30s) on all Google API calls
+  - Audit logging for admin actions
+  - Input sanitization, query injection prevention
+  - Role escalation prevention (server-side only)
+  - CSRF protection (sameSite strict)
+  - Async file I/O with atomic writes
+- [x] 10-breakpoint responsive system (1024→360px, 70px steps)
+- [x] CSS variables across all modules (no hardcoded colors)
+- [x] Global focus-visible states + disabled button styles
+- [x] Hamburger menu on mobile (activates at 740px)
+- [x] GitHub Actions deploy workflow
+- [x] Drive scan endpoint with file listing + content reading
+- [x] Documents catalog (documents.md) with categorized 75 Master files
+- [x] Data persists via GCS bucket mounted at /data
 - [x] Secrets in Google Secret Manager
-- [x] Deployed to Cloud Run: https://ro-tools-1049928336088.us-central1.run.app
-- [x] Cloud Build trigger connected — push to main auto-deploys
-- [x] Navigation restructured: 6 tabs + admin gear icon
-- [x] Updates/changelog system with timeline UI
-- [x] Shared session and data utilities (race condition fixes)
-- [x] Input validation on support tickets
-- [x] `documents.md` created (pending scan to populate)
 
-## What's Next / TODO
-- [ ] **Drive scan** — Chris needs to hit `/api/admin/drive-scan?q=` while logged in to get file list
+## What's Next
 - [ ] Extract JM Valley logo from Level 1-3 Training Packet
 - [ ] Replace navbar logo + favicon with JM Valley logo
-- [ ] Populate documents.md with categorized file list
-- [ ] Build generators for all identified templates (matching catering flyer style)
-- [ ] Build Catering Tracker page (connected to Sheets)
-- [ ] "Save to Drive" feature — folder picker + one-click
-- [ ] Directives section (TBD)
+- [ ] Full Drive scan (all files, not just Master) once WebFetch works
+- [ ] Read actual document content to refine generator fields
+- [ ] Catering Tracker page (connected to Sheets)
+- [ ] "Save to Drive" feature
+- [ ] Connect Cloud Build trigger (or verify GitHub Actions works)
 
-## Key Decisions
-1. **Native Google OAuth** — no Firebase
-2. **Service account = read-only** — never modifies shared originals
-3. **Fonts via CDN** — build env has no internet for Google Fonts download
-4. **CSS Modules** — scoped styles per page/component
-5. **Client-side PDF** — html2canvas + jsPDF, no server rendering
-6. **GCS mount at /data** — JSON persistence that survives deploys
-7. **6-tab nav** — Dashboard, Generators, Catering, Directives, Store Profile, Support
-8. **Admin = gear icon** — top-right, only visible to admins
-9. **RO Tools vs Mission Control** — RO Tools = generators/links/tools; MC = live store ops (Jolt, Homebase, numbers)
-
-## Top Rules
-1. RO Tools is standalone — not part of mission-control or money-printer
-2. Auto-push all completed work to main immediately — no feature branches, no open PRs
-3. Never edit shared Drive/Sheets/Docs originals — always make copies
-4. Never use Firebase — native Google APIs only
-5. Build must pass before pushing
+## Key Architecture
+- **Nav:** Dashboard | Generators (6-item dropdown) | Catering | Directives | Store Profile
+- **Top-right icons:** Support (?) | Admin (gear, admin-only) | User | Sign Out
+- **Generators pattern:** sidebar form + live preview + PDF download
+- **Internal docs:** JM Valley header + "CONFIDENTIAL" footer
+- **Customer-facing docs:** JM corporate logo (nfl-x-jm-revised.jpeg)
 
 ## People
-- **Chris (Ruzylo-cloud / chrisr@jmvalley.com):** Project owner, JM Valley franchise operator, super admin
-- **Tool:** This session agent (RO Tools)
+- **Chris (Ruzylo-cloud / chrisr@jmvalley.com):** Project owner, super admin
+- **Tool:** This session agent
 
 ## Quick Reference
 - Repo: github.com/Ruzylo-cloud/ro-tools
-- Branch: `main` (auto-push all work here)
 - Build: `npm run build`
-- Dev: `npm run dev`
-- Deploy: Push to main → Cloud Build auto-deploys
 - Cloud Run: https://ro-tools-1049928336088.us-central1.run.app
 - GCP Project: pcsbot-490004
 - Service Account: ro-tools@pcsbot-490004.iam.gserviceaccount.com
+- Drive Scan API Key: 02629e14ed2ddcdedaec36e0d113c0420ed7fe717b2d81c28ff899816b737a7e
