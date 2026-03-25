@@ -1,17 +1,22 @@
-import fs from 'fs';
+import fs from 'fs/promises';
+import fsSync from 'fs';
 import path from 'path';
 
 const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 
 /**
- * Shared data file utilities with write locking.
+ * Shared data file utilities with write locking and async I/O.
  * Prevents race conditions on concurrent file writes.
  */
 
 const locks = new Map();
 
-function ensureDataDir() {
-  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+async function ensureDataDir() {
+  try {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+  } catch {
+    // Already exists
+  }
 }
 
 function getFilePath(filename) {
@@ -19,11 +24,21 @@ function getFilePath(filename) {
 }
 
 export function loadJsonFile(filename) {
-  ensureDataDir();
   const filePath = getFilePath(filename);
   try {
-    if (!fs.existsSync(filePath)) return {};
-    return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    if (!fsSync.existsSync(filePath)) return {};
+    return JSON.parse(fsSync.readFileSync(filePath, 'utf-8'));
+  } catch {
+    return {};
+  }
+}
+
+export async function loadJsonFileAsync(filename) {
+  await ensureDataDir();
+  const filePath = getFilePath(filename);
+  try {
+    const content = await fs.readFile(filePath, 'utf-8');
+    return JSON.parse(content);
   } catch {
     return {};
   }
@@ -32,6 +47,7 @@ export function loadJsonFile(filename) {
 /**
  * Atomically update a JSON file using read-modify-write with a simple lock.
  * `updater` receives the current data and returns the new data.
+ * Uses async I/O to avoid blocking the event loop.
  */
 export async function updateJsonFile(filename, updater) {
   // Simple async lock per file
@@ -40,18 +56,20 @@ export async function updateJsonFile(filename, updater) {
   }
   locks.set(filename, true);
   try {
-    ensureDataDir();
+    await ensureDataDir();
     const filePath = getFilePath(filename);
     let data = {};
     try {
-      if (fs.existsSync(filePath)) {
-        data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      }
+      const content = await fs.readFile(filePath, 'utf-8');
+      data = JSON.parse(content);
     } catch {
       data = {};
     }
     const updated = updater(data);
-    fs.writeFileSync(filePath, JSON.stringify(updated, null, 2));
+    // Atomic write: write to temp file, then rename
+    const tmpPath = filePath + '.tmp';
+    await fs.writeFile(tmpPath, JSON.stringify(updated, null, 2));
+    await fs.rename(tmpPath, filePath);
     return updated;
   } finally {
     locks.delete(filename);

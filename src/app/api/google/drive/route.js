@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getDrive } from '@/lib/google-client';
+import { withTimeout } from '@/lib/api-timeout';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,12 +30,12 @@ export async function GET(request) {
       if (sanitized) q += ` and name contains '${sanitized}'`;
     }
 
-    const res = await drive.files.list({
+    const res = await withTimeout(drive.files.list({
       q,
       fields: 'files(id, name, mimeType, modifiedTime, webViewLink, iconLink, parents)',
       orderBy: 'modifiedTime desc',
       pageSize: 50,
-    });
+    }), 30000, 'Drive list');
 
     return NextResponse.json({ files: res.data.files || [] });
   } catch (err) {
@@ -59,10 +60,10 @@ export async function POST(request) {
     };
     if (folderId) fileMetadata.parents = [folderId];
 
-    const res = await drive.files.create({
+    const res = await withTimeout(drive.files.create({
       resource: fileMetadata,
       fields: 'id, name, mimeType, webViewLink',
-    });
+    }), 30000, 'Drive create');
 
     return NextResponse.json({ file: res.data });
   } catch (err) {

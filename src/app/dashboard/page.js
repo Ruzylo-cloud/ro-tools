@@ -54,8 +54,8 @@ export default function DashboardPage() {
             <h2 className={styles.updatesTitle}>Recent Updates</h2>
             <Link href="/dashboard/updates" className={styles.updatesViewAll}>View All &rarr;</Link>
           </div>
-          {recentUpdates.map((u, i) => (
-            <div key={i} className={styles.updateRow}>
+          {recentUpdates.map((u) => (
+            <div key={`${u.version}-${u.title}`} className={styles.updateRow}>
               <span className={`${styles.updateBadge} ${styles['badge_' + u.category]}`}>
                 {u.category === 'new_feature' ? 'New' : u.category === 'improvement' ? 'Update' : u.category === 'bug_fix' ? 'Fix' : 'Info'}
               </span>

@@ -85,8 +85,13 @@ export default function SetupPage() {
   };
 
   const handleSubmit = async () => {
+    if (saving) return; // Debounce
     const err = validate();
-    if (err) { setError(err); return; }
+    if (err) {
+      setError(err);
+      setTimeout(() => setError(''), 5000);
+      return;
+    }
 
     setSaving(true);
     setError('');

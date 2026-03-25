@@ -2,10 +2,18 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { loadJsonFile, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin } from '@/lib/roles';
+import { logAdminAction } from '@/lib/audit';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
+  // Rate limit: 20 approvals per minute per IP
+  const { limited } = rateLimit('admin-approve', 60000, 20, request);
+  if (limited) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  }
+
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
@@ -17,14 +25,23 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const { userId, action } = await request.json();
-  if (!userId || !action) {
-    return NextResponse.json({ error: 'userId and action required' }, { status: 400 });
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+
+  const { userId, action } = body;
+  if (!userId || !action || !['approve', 'deny'].includes(action)) {
+    return NextResponse.json({ error: 'userId and action (approve|deny) required' }, { status: 400 });
   }
 
   if (!profiles[userId]) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
+
+  const targetUser = profiles[userId];
 
   await updateJsonFile('profiles.json', (current) => {
     if (!current[userId]) return current;
@@ -39,6 +56,17 @@ export async function POST(request) {
     }
 
     return current;
+  });
+
+  // Audit log
+  logAdminAction({
+    actor: session.email,
+    action: action === 'approve' ? 'role_approved' : 'role_denied',
+    target: targetUser.email || userId,
+    details: {
+      requestedRole: targetUser.role,
+      resultRole: action === 'deny' ? 'operator' : targetUser.role,
+    },
   });
 
   return NextResponse.json({ success: true });

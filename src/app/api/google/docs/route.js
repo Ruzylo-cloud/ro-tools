@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getDocs, getDrive } from '@/lib/google-client';
+import { withTimeout } from '@/lib/api-timeout';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,7 +19,7 @@ export async function GET(request) {
   const docs = getDocs(auth.client);
 
   try {
-    const res = await docs.documents.get({ documentId });
+    const res = await withTimeout(docs.documents.get({ documentId }), 30000, 'Docs get');
 
     // Extract plain text from doc body
     let text = '';
@@ -55,33 +56,33 @@ export async function POST(request) {
   const docs = getDocs(auth.client);
 
   try {
-    const res = await docs.documents.create({
+    const res = await withTimeout(docs.documents.create({
       resource: { title: title || 'Untitled Document' },
-    });
+    }), 30000, 'Docs create');
 
     // Add content if provided
     if (content) {
-      await docs.documents.batchUpdate({
+      await withTimeout(docs.documents.batchUpdate({
         documentId: res.data.documentId,
         resource: {
           requests: [{
             insertText: {
               location: { index: 1 },
-              text: content,
+              text: String(content).slice(0, 100000),
             },
           }],
         },
-      });
+      }), 30000, 'Docs batchUpdate');
     }
 
     // Move to folder if specified
     if (folderId) {
       const drive = getDrive(auth.client);
-      await drive.files.update({
+      await withTimeout(drive.files.update({
         fileId: res.data.documentId,
         addParents: folderId,
         fields: 'id, parents',
-      });
+      }), 30000, 'Drive move');
     }
 
     return NextResponse.json({

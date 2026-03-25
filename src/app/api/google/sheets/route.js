@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getSheets, getDrive } from '@/lib/google-client';
+import { withTimeout } from '@/lib/api-timeout';
 
 export const dynamic = 'force-dynamic';
 
@@ -20,13 +21,13 @@ export async function GET(request) {
 
   try {
     // Get spreadsheet metadata
-    const meta = await sheets.spreadsheets.get({ spreadsheetId });
+    const meta = await withTimeout(sheets.spreadsheets.get({ spreadsheetId }), 30000, 'Sheets get');
 
     // Get data from specified range
-    const data = await sheets.spreadsheets.values.get({
+    const data = await withTimeout(sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
-    });
+    }), 30000, 'Sheets values get');
 
     return NextResponse.json({
       title: meta.data.properties.title,
@@ -54,21 +55,21 @@ export async function POST(request) {
       const { title, folderId, data } = body;
       const sheets = getSheets(auth.client);
 
-      const res = await sheets.spreadsheets.create({
+      const res = await withTimeout(sheets.spreadsheets.create({
         resource: {
           properties: { title: title || 'Untitled Spreadsheet' },
           sheets: data ? [{ data: [{ rowData: data.map(row => ({ values: row.map(cell => ({ userEnteredValue: { stringValue: String(cell) } })) })) }] }] : undefined,
         },
-      });
+      }), 30000, 'Sheets create');
 
       // Move to folder if specified
       if (folderId) {
         const drive = getDrive(auth.client);
-        await drive.files.update({
+        await withTimeout(drive.files.update({
           fileId: res.data.spreadsheetId,
           addParents: folderId,
           fields: 'id, parents',
-        });
+        }), 30000, 'Drive move');
       }
 
       return NextResponse.json({
@@ -83,12 +84,12 @@ export async function POST(request) {
       const { spreadsheetId, range, values } = body;
       const sheets = getSheets(auth.client);
 
-      const res = await sheets.spreadsheets.values.update({
+      const res = await withTimeout(sheets.spreadsheets.values.update({
         spreadsheetId,
         range: range || 'Sheet1',
         valueInputOption: 'USER_ENTERED',
         resource: { values },
-      });
+      }), 30000, 'Sheets write');
 
       return NextResponse.json({
         updatedCells: res.data.updatedCells,

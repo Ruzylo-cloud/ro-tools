@@ -95,7 +95,7 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
       <div style={{ textAlign: 'center', padding: '4px 0' }}>
         <img
           src="/JerseyMikesCatering.jpg"
-          alt="Catering"
+          alt="Jersey Mike's catering box with subs and sides"
           style={{
             width: '300px', height: 'auto', borderRadius: '6px',
             border: '2px solid #134A7C',

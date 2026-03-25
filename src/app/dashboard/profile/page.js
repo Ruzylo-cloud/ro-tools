@@ -62,6 +62,8 @@ export default function ProfilePage() {
   };
 
   const removeStore = (idx) => {
+    const storeName = profile?.stores?.[idx]?.storeName || `Store ${idx + 1}`;
+    if (!confirm(`Remove "${storeName}"? This cannot be undone.`)) return;
     setProfile(prev => ({
       ...prev,
       stores: (prev.stores || []).filter((_, i) => i !== idx),

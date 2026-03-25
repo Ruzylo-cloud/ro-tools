@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
-import { loadJsonFile, updateJsonFile } from '@/lib/data';
+import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, needsApproval } from '@/lib/roles';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,12 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  // Rate limit: 30 profile saves per minute per IP
+  const { limited } = rateLimit('profile', 60000, 30, request);
+  if (limited) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  }
+
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
