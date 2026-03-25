@@ -36,7 +36,7 @@ steps:
       - '--add-volume=name=data-vol,type=cloud-storage,bucket=${_DATA_BUCKET}'
       - '--add-volume-mount=volume=data-vol,mount-path=/data'
       - '--set-env-vars=DATA_DIR=/data'
-      - '--update-secrets=GOOGLE_CLIENT_ID=ro-tools-client-id:latest,GOOGLE_CLIENT_SECRET=ro-tools-client-secret:latest,GOOGLE_REDIRECT_URI=ro-tools-redirect-uri:latest'
+      - '--update-secrets=GOOGLE_CLIENT_ID=ro-tools-client-id:latest,GOOGLE_CLIENT_SECRET=ro-tools-client-secret:latest,GOOGLE_REDIRECT_URI=ro-tools-redirect-uri:latest,GOOGLE_SERVICE_ACCOUNT=ro-tools-service-account:latest'
 
 images:
   - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
