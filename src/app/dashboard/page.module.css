@@ -111,6 +111,94 @@
   color: #EE3227;
 }
 
+/* Recent Updates Widget */
+.updatesSection {
+  margin-top: 40px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.updatesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.updatesTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #134A7C;
+}
+
+.updatesViewAll {
+  font-size: 13px;
+  font-weight: 600;
+  color: #134A7C;
+  text-decoration: none;
+}
+
+.updatesViewAll:hover {
+  text-decoration: underline;
+}
+
+.updateRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.updateRow:last-child {
+  border-bottom: none;
+}
+
+.updateBadge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.badge_new_feature {
+  background: rgba(19,74,124,0.1);
+  color: #134A7C;
+}
+
+.badge_improvement {
+  background: rgba(99,102,241,0.1);
+  color: #6366f1;
+}
+
+.badge_bug_fix {
+  background: rgba(238,50,39,0.1);
+  color: #EE3227;
+}
+
+.badge_announcement {
+  background: rgba(245,158,11,0.1);
+  color: #b45309;
+}
+
+.updateText {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  flex: 1;
+}
+
+.updateDate {
+  font-size: 11px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;

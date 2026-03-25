@@ -65,6 +65,10 @@ export default function Navbar() {
           </div>
 
           <div className={styles.navItem}>
+            <Link href="/dashboard/updates" className={styles.navLink}>Updates</Link>
+          </div>
+
+          <div className={styles.navItem}>
             <Link href="/dashboard/support" className={styles.navLink}>Support</Link>
           </div>
 
