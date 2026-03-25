@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import { useToast } from '@/components/Toast';
 import FlyerPreview from '@/components/FlyerPreview';
 import styles from './page.module.css';
 
@@ -19,6 +20,7 @@ const EDITABLE_FIELDS = [
 
 export default function FlyerPage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -70,10 +72,10 @@ export default function FlyerPage() {
       pdf.save('catering-flyer.pdf');
     } catch (err) {
       console.error('PDF generation error:', err);
-      if (mountedRef.current) alert('Failed to generate PDF. Please try again.');
+      if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
     }
     if (mountedRef.current) setGenerating(false);
-  }, []);
+  }, [showToast]);
 
   if (loading) {
     return (

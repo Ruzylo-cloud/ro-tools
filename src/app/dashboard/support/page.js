@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
 export default function SupportPage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [bugTitle, setBugTitle] = useState('');
   const [bugDesc, setBugDesc] = useState('');
   const [featureTitle, setFeatureTitle] = useState('');
@@ -15,6 +17,8 @@ export default function SupportPage() {
   const [bugSuccess, setBugSuccess] = useState(false);
   const [featureSuccess, setFeatureSuccess] = useState(false);
   const [tickets, setTickets] = useState([]);
+  const [ticketPage, setTicketPage] = useState(1);
+  const TICKETS_PER_PAGE = 10;
 
   useEffect(() => {
     fetch('/api/support')
@@ -46,9 +50,10 @@ export default function SupportPage() {
           setTimeout(() => setFeatureSuccess(false), 3000);
         }
         setTickets(prev => [...prev, data.ticket]);
+        showToast('Submitted successfully!', 'success');
       }
     } catch (err) {
-      alert('Failed to submit. Please try again.');
+      showToast('Failed to submit. Please try again.', 'error');
     }
 
     type === 'bug' ? setBugSubmitting(false) : setFeatureSubmitting(false);
@@ -107,18 +112,31 @@ export default function SupportPage() {
         {tickets.length === 0 ? (
           <div className={styles.empty}>No submissions yet.</div>
         ) : (
-          tickets.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).map(t => (
-            <div key={t.id} className={styles.ticket}>
-              <div className={styles.ticketHeader}>
-                <span className={`${styles.ticketType} ${t.type === 'bug' ? styles.typeBug : styles.typeFeature}`}>
-                  {t.type === 'bug' ? 'Bug' : 'Feature'}
-                </span>
-                <span className={styles.ticketTitle}>{t.title}</span>
-              </div>
-              <div className={styles.ticketDesc}>{t.description}</div>
-              <div className={styles.ticketDate}>{new Date(t.createdAt).toLocaleDateString()}</div>
-            </div>
-          ))
+          <>
+            {tickets
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .slice(0, ticketPage * TICKETS_PER_PAGE)
+              .map(t => (
+                <div key={t.id} className={styles.ticket}>
+                  <div className={styles.ticketHeader}>
+                    <span className={`${styles.ticketType} ${t.type === 'bug' ? styles.typeBug : styles.typeFeature}`}>
+                      {t.type === 'bug' ? 'Bug' : 'Feature'}
+                    </span>
+                    <span className={styles.ticketTitle}>{t.title}</span>
+                  </div>
+                  <div className={styles.ticketDesc}>{t.description}</div>
+                  <div className={styles.ticketDate}>{new Date(t.createdAt).toLocaleDateString()}</div>
+                </div>
+              ))}
+            {tickets.length > ticketPage * TICKETS_PER_PAGE && (
+              <button
+                className={styles.loadMoreBtn}
+                onClick={() => setTicketPage(p => p + 1)}
+              >
+                Load More ({tickets.length - ticketPage * TICKETS_PER_PAGE} remaining)
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>

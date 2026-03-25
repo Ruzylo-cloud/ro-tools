@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
 const STORE_FIELDS = [
@@ -19,6 +20,7 @@ const STORE_FIELDS = [
 
 export default function ProfilePage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [profile, setProfile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -86,9 +88,10 @@ export default function ProfilePage() {
         body: JSON.stringify(saveData),
       });
       setSaved(true);
+      showToast('Profile saved successfully.', 'success');
       setTimeout(() => setSaved(false), 3000);
     } catch {
-      alert('Failed to save. Please try again.');
+      showToast('Failed to save. Please try again.', 'error');
     }
     setSaving(false);
   };

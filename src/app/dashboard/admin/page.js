@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
 export default function AdminPage() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [users, setUsers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -57,7 +59,7 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.users) setUsers(data.users);
     } catch {
-      alert('Action failed. Please try again.');
+      showToast('Action failed. Please try again.', 'error');
     }
     setActionLoading(null);
   };
