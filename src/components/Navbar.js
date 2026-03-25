@@ -73,33 +73,47 @@ export default function Navbar() {
               Generators <span className={`${styles.chevron} ${openDropdown === 'generators' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
             </button>
             {openDropdown === 'generators' && (
-              <div className={styles.dropdown}>
+              <div className={`${styles.dropdown} ${styles.dropdownWide}`}>
                 <Link href="/dashboard/flyer" className={styles.dropdownItem} onClick={closeDropdown}>
                   <span className={styles.dropdownIcon}>&#x1F4CB;</span>
                   <div>
                     <div className={styles.dropdownLabel}>Catering Flyer</div>
-                    <div className={styles.dropdownHint}>Print-ready PDF with store info</div>
+                    <div className={styles.dropdownHint}>Print-ready flyer with menu</div>
                   </div>
                 </Link>
                 <Link href="/dashboard/generators/catering-order" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x1F4DD;</span>
+                  <span className={styles.dropdownIcon}>&#x1F4E6;</span>
                   <div>
                     <div className={styles.dropdownLabel}>Catering Order</div>
-                    <div className={styles.dropdownHint}>Customer-facing order form PDF</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/generators/evaluation" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x2B50;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Performance Evaluation</div>
-                    <div className={styles.dropdownHint}>Employee performance review PDF</div>
+                    <div className={styles.dropdownHint}>Customer order form</div>
                   </div>
                 </Link>
                 <Link href="/dashboard/generators/written-warning" className={styles.dropdownItem} onClick={closeDropdown}>
                   <span className={styles.dropdownIcon}>&#x26A0;</span>
                   <div>
                     <div className={styles.dropdownLabel}>Written Warning</div>
-                    <div className={styles.dropdownHint}>Corrective action form PDF</div>
+                    <div className={styles.dropdownHint}>Corrective action form</div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/generators/evaluation" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x2B50;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Performance Eval</div>
+                    <div className={styles.dropdownHint}>Employee review with scoring</div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/generators/timesheet-correction" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x23F0;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Timesheet Correction</div>
+                    <div className={styles.dropdownHint}>Clock in/out adjustments</div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/generators/attestation-correction" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x1F4DD;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Attestation Correction</div>
+                    <div className={styles.dropdownHint}>Meal/rest break corrections</div>
                   </div>
                 </Link>
               </div>
@@ -194,13 +208,19 @@ export default function Navbar() {
               <span>&#x1F4CB;</span> Catering Flyer
             </Link>
             <Link href="/dashboard/generators/catering-order" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x1F4DD;</span> Catering Order
+              <span>&#x1F4E6;</span> Catering Order
+            </Link>
+            <Link href="/dashboard/generators/written-warning" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x26A0;</span> Written Warning
             </Link>
             <Link href="/dashboard/generators/evaluation" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
               <span>&#x2B50;</span> Performance Evaluation
             </Link>
-            <Link href="/dashboard/generators/written-warning" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x26A0;</span> Written Warning
+            <Link href="/dashboard/generators/timesheet-correction" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x23F0;</span> Timesheet Correction
+            </Link>
+            <Link href="/dashboard/generators/attestation-correction" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F4DD;</span> Attestation Correction
             </Link>
           </div>
         )}
