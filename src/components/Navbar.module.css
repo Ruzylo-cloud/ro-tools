@@ -76,34 +76,50 @@
   transition: transform 0.15s;
 }
 
-.dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  min-width: 200px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  padding: 6px;
-  z-index: 100;
-  margin-top: 4px;
+.chevronOpen {
+  transform: rotate(180deg);
 }
 
-.navItem:hover .dropdown {
-  display: block;
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 260px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  padding: 6px;
+  z-index: 100;
+  animation: dropdownIn 0.15s ease-out;
+}
+
+/* Multi-column dropdown for >4 items */
+.dropdownWide {
+  min-width: 480px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+@keyframes dropdownIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .dropdownItem {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 10px 14px;
   font-size: 13px;
   font-weight: 500;
   color: #374151;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: all 0.15s;
+  cursor: pointer;
 }
 
 .dropdownItem:hover {
@@ -111,6 +127,31 @@
   color: #134A7C;
 }
 
+.dropdownIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+}
+
+.dropdownLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: inherit;
+}
+
+.dropdownHint {
+  font-size: 11px;
+  font-weight: 400;
+  color: #9ca3af;
+  margin-top: 1px;
+}
+
+.dropdownItem:hover .dropdownHint {
+  color: #6b7280;
+}
+
+/* Coming soon state */
 .comingSoon {
   color: #9ca3af;
   cursor: default;
@@ -121,21 +162,51 @@
   color: #9ca3af;
 }
 
-.comingSoonBadge {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 600;
-  color: #9ca3af;
-  background: #f3f4f6;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 8px;
+.comingSoon .dropdownHint {
+  color: #c4c8cc;
 }
 
+.comingSoon:hover .dropdownHint {
+  color: #c4c8cc;
+}
+
+.comingSoonBadge {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  color: #9ca3af;
+  background: #f3f4f6;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  vertical-align: middle;
+}
+
+/* Right side */
 .right {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+/* Admin gear icon */
+.gearBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.gearBtn:hover {
+  background: rgba(19,74,124,0.06);
+  color: #134A7C;
 }
 
 .userName {
@@ -160,4 +231,18 @@
 .signOut:hover {
   border-color: #EE3227;
   color: #EE3227;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .nav {
+    padding: 0 16px;
+  }
+  .left {
+    gap: 16px;
+  }
+  .navLink {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
 }
