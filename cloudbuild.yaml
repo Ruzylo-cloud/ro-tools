@@ -1,0 +1,43 @@
+substitutions:
+  _SERVICE_NAME: ro-tools
+  _REGION: us-central1
+  _DATA_BUCKET: pcsbot-490004-ro-tools-data
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}']
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image=gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
+      - '--region=${_REGION}'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      - '--port=3000'
+      - '--cpu=1'
+      - '--memory=512Mi'
+      - '--timeout=300'
+      - '--min-instances=0'
+      - '--max-instances=3'
+      - '--execution-environment=gen2'
+      - '--add-volume=name=data-vol,type=cloud-storage,bucket=${_DATA_BUCKET}'
+      - '--add-volume-mount=volume=data-vol,mount-path=/data'
+      - '--set-env-vars=DATA_DIR=/data'
+      - '--update-secrets=GOOGLE_CLIENT_ID=ro-tools-client-id:latest,GOOGLE_CLIENT_SECRET=ro-tools-client-secret:latest,GOOGLE_REDIRECT_URI=ro-tools-redirect-uri:latest'
+
+images:
+  - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}:latest'
