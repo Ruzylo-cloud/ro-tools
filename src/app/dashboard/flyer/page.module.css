@@ -113,3 +113,21 @@
   display: flex;
   justify-content: center;
 }
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .preview {
+    overflow-x: auto;
+  }
+}
