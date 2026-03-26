@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import TimesheetCorrectionPreview from '@/components/TimesheetCorrectionPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -108,6 +109,11 @@ export default function TimesheetCorrectionPage() {
         <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName="timesheet-correction.pdf"
+          disabled={generating}
+        />
       </div>
       <div className={styles.preview}>
         <div className={styles.previewHeader}>

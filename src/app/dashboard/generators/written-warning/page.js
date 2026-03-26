@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import WrittenWarningPreview from '@/components/WrittenWarningPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const WARNING_TYPES = [
@@ -292,6 +293,11 @@ export default function WrittenWarningPage() {
         >
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName="written-warning.pdf"
+          disabled={generating}
+        />
       </div>
 
       {/* Preview */}

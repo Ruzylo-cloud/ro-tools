@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import CateringOrderPreview, { MENU_ITEMS } from '@/components/CateringOrderPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const PRICE_PER_BOX = 89.95;
@@ -306,6 +307,11 @@ export default function CateringOrderPage() {
         >
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName="catering-order.pdf"
+          disabled={generating}
+        />
       </div>
 
       {/* Preview */}

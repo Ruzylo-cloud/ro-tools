@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import AttestationCorrectionPreview from '@/components/AttestationCorrectionPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -124,6 +125,11 @@ export default function AttestationCorrectionPage() {
         <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName="attestation-correction.pdf"
+          disabled={generating}
+        />
       </div>
       <div className={styles.preview}>
         <div className={styles.previewHeader}>

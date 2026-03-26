@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import EvaluationPreview from '@/components/EvaluationPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const RATING_CATEGORIES = [
@@ -287,6 +288,11 @@ export default function EvaluationPage() {
         >
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName="performance-evaluation.pdf"
+          disabled={generating}
+        />
       </div>
 
       {/* Preview */}
