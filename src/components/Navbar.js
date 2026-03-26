@@ -62,69 +62,9 @@ export default function Navbar() {
             <Link href="/dashboard" className={styles.navLink} onClick={closeDropdown}>Dashboard</Link>
           </div>
 
-          {/* 2. Generators (dropdown) */}
+          {/* 2. Generators (direct link) */}
           <div className={styles.navItem}>
-            <button
-              className={`${styles.navLink} ${openDropdown === 'generators' ? styles.navLinkActive : ''}`}
-              onClick={() => toggleDropdown('generators')}
-              aria-expanded={openDropdown === 'generators'}
-              aria-haspopup="true"
-            >
-              Generators <span className={`${styles.chevron} ${openDropdown === 'generators' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
-            </button>
-            {openDropdown === 'generators' && (
-              <div className={`${styles.dropdown} ${styles.dropdownWide}`}>
-                <Link href="/dashboard/flyer" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x1F4CB;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Catering Flyer</div>
-                    <div className={styles.dropdownHint}>Print-ready flyer with menu</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/generators/catering-order" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x1F4E6;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Catering Order</div>
-                    <div className={styles.dropdownHint}>Customer order form</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/generators/written-warning" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x26A0;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Written Warning</div>
-                    <div className={styles.dropdownHint}>Corrective action form</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/generators/evaluation" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x2B50;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Performance Eval</div>
-                    <div className={styles.dropdownHint}>Employee review with scoring</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/generators/timesheet-correction" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x23F0;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Timesheet Correction</div>
-                    <div className={styles.dropdownHint}>Clock in/out adjustments</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/generators/attestation-correction" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x1F4DD;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Attestation Correction</div>
-                    <div className={styles.dropdownHint}>Meal/rest break corrections</div>
-                  </div>
-                </Link>
-                <Link href="/dashboard/documents" className={styles.dropdownItem} onClick={closeDropdown}>
-                  <span className={styles.dropdownIcon}>&#x1F4C4;</span>
-                  <div>
-                    <div className={styles.dropdownLabel}>Training Documents</div>
-                    <div className={styles.dropdownHint}>Level 1-3 packets, new hire checklists</div>
-                  </div>
-                </Link>
-              </div>
-            )}
+            <Link href="/dashboard/generators" className={styles.navLink} onClick={closeDropdown}>Generators</Link>
           </div>
 
           {/* 3. Catering (dropdown) */}
@@ -206,34 +146,7 @@ export default function Navbar() {
       <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
         <Link href="/dashboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Dashboard</Link>
 
-        <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_generators')}>
-          Generators <span className={`${styles.chevron} ${openDropdown === 'm_generators' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
-        </button>
-        {openDropdown === 'm_generators' && (
-          <div className={styles.mobileDropdownItems}>
-            <Link href="/dashboard/flyer" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x1F4CB;</span> Catering Flyer
-            </Link>
-            <Link href="/dashboard/generators/catering-order" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x1F4E6;</span> Catering Order
-            </Link>
-            <Link href="/dashboard/generators/written-warning" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x26A0;</span> Written Warning
-            </Link>
-            <Link href="/dashboard/generators/evaluation" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x2B50;</span> Performance Evaluation
-            </Link>
-            <Link href="/dashboard/generators/timesheet-correction" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x23F0;</span> Timesheet Correction
-            </Link>
-            <Link href="/dashboard/generators/attestation-correction" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x1F4DD;</span> Attestation Correction
-            </Link>
-            <Link href="/dashboard/documents" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
-              <span>&#x1F4C4;</span> Training Documents
-            </Link>
-          </div>
-        )}
+        <Link href="/dashboard/generators" className={styles.mobileNavLink} onClick={closeMobileMenu}>Generators</Link>
 
         <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_catering')}>
           Catering <span className={`${styles.chevron} ${openDropdown === 'm_catering' ? styles.chevronOpen : ''}`}>&#x25BE;</span>

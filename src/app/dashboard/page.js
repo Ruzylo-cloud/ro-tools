@@ -23,54 +23,142 @@ export default function DashboardPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Welcome back{firstName ? `, ${firstName}` : ''}</h1>
-        <p className={styles.subtitle}>Pick a tool to get started.</p>
-      </div>
-      <div className={styles.grid}>
-        <Link href="/dashboard/flyer" className={`${styles.card} ${styles.live}`}>
-          <div className={styles.cardStatus}>Live Now</div>
-          <div className={styles.cardIcon}>&#x1F4CB;</div>
-          <h3 className={styles.cardTitle}>Catering Flyer</h3>
-          <p className={styles.cardDesc}>Print-ready catering flyers with store info, menu, and pricing.</p>
-          <div className={styles.cardAction}>Open Tool &rarr;</div>
-        </Link>
-        <Link href="/dashboard/generators/written-warning" className={`${styles.card} ${styles.live}`}>
-          <div className={styles.cardStatus}>Live Now</div>
-          <div className={styles.cardIcon}>&#x1F4DD;</div>
-          <h3 className={styles.cardTitle}>Written Warning</h3>
-          <p className={styles.cardDesc}>Corrective action forms with uniform branding. Auto-fills store info.</p>
-          <div className={styles.cardAction}>Open Tool &rarr;</div>
-        </Link>
-        <Link href="/dashboard/generators/evaluation" className={`${styles.card} ${styles.live}`}>
-          <div className={styles.cardStatus}>Live Now</div>
-          <div className={styles.cardIcon}>&#x2B50;</div>
-          <h3 className={styles.cardTitle}>Performance Evaluation</h3>
-          <p className={styles.cardDesc}>Employee evaluations with scoring rubric. Download as branded PDF.</p>
-          <div className={styles.cardAction}>Open Tool &rarr;</div>
-        </Link>
-        <Link href="/dashboard/generators/catering-order" className={`${styles.card} ${styles.live}`}>
-          <div className={styles.cardStatus}>Live Now</div>
-          <div className={styles.cardIcon}>&#x1F4E6;</div>
-          <h3 className={styles.cardTitle}>Catering Order Form</h3>
-          <p className={styles.cardDesc}>Customer-facing order forms with menu, pricing, and delivery details.</p>
-          <div className={styles.cardAction}>Open Tool &rarr;</div>
-        </Link>
-        <Link href="/dashboard/generators/timesheet-correction" className={`${styles.card} ${styles.live}`}>
-          <div className={styles.cardStatus}>Live Now</div>
-          <div className={styles.cardIcon}>&#x23F0;</div>
-          <h3 className={styles.cardTitle}>Timesheet Correction</h3>
-          <p className={styles.cardDesc}>Clock in/out correction forms for payroll adjustments.</p>
-          <div className={styles.cardAction}>Open Tool &rarr;</div>
-        </Link>
-        <Link href="/dashboard/generators/attestation-correction" className={`${styles.card} ${styles.live}`}>
-          <div className={styles.cardStatus}>Live Now</div>
-          <div className={styles.cardIcon}>&#x1F4CB;</div>
-          <h3 className={styles.cardTitle}>Attestation Correction</h3>
-          <p className={styles.cardDesc}>Meal period and rest break attestation correction forms.</p>
-          <div className={styles.cardAction}>Open Tool &rarr;</div>
+      {/* Hero */}
+      <div className={styles.hero}>
+        <h1 className={styles.heroTitle}>Welcome back{firstName ? `, ${firstName}` : ''}</h1>
+        <p className={styles.heroSubtitle}>
+          RO Tools is the operational backbone for JM Valley Group franchise managers.
+          Everything you need to run your store — branded, automated, and always up to date.
+        </p>
+        <Link href="/dashboard/generators" className={styles.heroCta}>
+          Open Generators &rarr;
         </Link>
       </div>
+
+      {/* What is RO Tools */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>What is RO Tools?</h2>
+        <p className={styles.sectionText}>
+          RO Tools is a centralized platform built exclusively for JM Valley Group operators. Instead of juggling
+          Word templates, manual PDFs, and inconsistent paperwork across stores, every document you need is generated
+          here — with your store info pre-filled, uniform branding applied, and the ability to download or save
+          directly to Google Drive.
+        </p>
+      </div>
+
+      {/* Pillars */}
+      <div className={styles.pillars}>
+        <div className={styles.pillar}>
+          <div className={styles.pillarIcon}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+              <polyline points="10 9 9 9 8 9" />
+            </svg>
+          </div>
+          <h3 className={styles.pillarTitle}>Document Generation</h3>
+          <p className={styles.pillarDesc}>
+            Written warnings, performance evaluations, timesheet corrections, attestation forms, catering orders,
+            and training packets — all generated as professional, branded PDFs in seconds.
+          </p>
+        </div>
+        <div className={styles.pillar}>
+          <div className={styles.pillarIcon}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="9" y1="21" x2="9" y2="9" />
+            </svg>
+          </div>
+          <h3 className={styles.pillarTitle}>Store-Aware</h3>
+          <p className={styles.pillarDesc}>
+            Your store number, name, and location are automatically pulled into every document.
+            Set it once in your Store Profile and never type it again.
+          </p>
+        </div>
+        <div className={styles.pillar}>
+          <div className={styles.pillarIcon}>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h3 className={styles.pillarTitle}>Secure & Private</h3>
+          <p className={styles.pillarDesc}>
+            Restricted to @jmvalley.com accounts. All data stays within Google Cloud infrastructure.
+            No third-party services, no external storage — your data is yours.
+          </p>
+        </div>
+      </div>
+
+      {/* How it works */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>How It Works</h2>
+        <div className={styles.steps}>
+          <div className={styles.step}>
+            <div className={styles.stepNumber}>1</div>
+            <div>
+              <h4 className={styles.stepTitle}>Choose a Generator</h4>
+              <p className={styles.stepDesc}>Pick the document type you need from the Generators hub.</p>
+            </div>
+          </div>
+          <div className={styles.step}>
+            <div className={styles.stepNumber}>2</div>
+            <div>
+              <h4 className={styles.stepTitle}>Fill in the Details</h4>
+              <p className={styles.stepDesc}>Enter employee info, dates, and specifics. Your store info is pre-filled.</p>
+            </div>
+          </div>
+          <div className={styles.step}>
+            <div className={styles.stepNumber}>3</div>
+            <div>
+              <h4 className={styles.stepTitle}>Preview & Download</h4>
+              <p className={styles.stepDesc}>See a live preview, then download as PDF or save directly to Google Drive.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Available Tools */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Available Tools</h2>
+        <div className={styles.toolGrid}>
+          {[
+            { name: 'Catering Flyer', desc: 'Print-ready flyers with menu & pricing', href: '/dashboard/flyer' },
+            { name: 'Catering Order', desc: 'Customer-facing order forms', href: '/dashboard/generators/catering-order' },
+            { name: 'Written Warning', desc: 'Corrective action documentation', href: '/dashboard/generators/written-warning' },
+            { name: 'Performance Eval', desc: 'Employee reviews with scoring', href: '/dashboard/generators/evaluation' },
+            { name: 'Timesheet Correction', desc: 'Clock in/out adjustments', href: '/dashboard/generators/timesheet-correction' },
+            { name: 'Attestation Correction', desc: 'Meal & rest break forms', href: '/dashboard/generators/attestation-correction' },
+            { name: 'Training Documents', desc: 'Level 1-3 packets & new hire checklists', href: '/dashboard/documents' },
+          ].map(t => (
+            <Link key={t.href} href={t.href} className={styles.toolCard}>
+              <div className={styles.toolName}>{t.name}</div>
+              <div className={styles.toolDesc}>{t.desc}</div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Built With */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Built for Operators, by Operators</h2>
+        <p className={styles.sectionText}>
+          RO Tools was built from the ground up to solve the daily friction franchise managers face:
+          inconsistent paperwork, manual data entry, and time wasted on formatting instead of running the store.
+          Every feature exists because a real operator needed it.
+        </p>
+        <div className={styles.techRow}>
+          <span className={styles.techBadge}>Next.js</span>
+          <span className={styles.techBadge}>Google Cloud Run</span>
+          <span className={styles.techBadge}>Google OAuth</span>
+          <span className={styles.techBadge}>Google Drive API</span>
+          <span className={styles.techBadge}>Client-Side PDF</span>
+        </div>
+      </div>
+
+      {/* Recent Updates */}
       {recentUpdates.length > 0 && (
         <div className={styles.updatesSection}>
           <div className={styles.updatesHeader}>
