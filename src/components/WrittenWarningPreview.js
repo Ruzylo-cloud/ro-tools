@@ -169,6 +169,11 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
         {employeeComments || '\u00A0'}
       </div>
 
+      {/* At-Will & Acknowledgment */}
+      <div style={{ fontSize: '5.5pt', color: '#6b7280', lineHeight: 1.4, marginTop: '6px' }}>
+        This written warning is part of JM Valley Group&apos;s progressive corrective action process. It does not constitute a contract of employment or alter at-will employment status. Employment is at-will and may be terminated at any time, for any lawful reason, with or without notice. Employee has the right to provide written comments above and may not be retaliated against for reporting safety concerns, wage violations, or exercising other rights protected under California law. By signing, employee acknowledges receipt of this warning and the opportunity to respond.
+      </div>
+
       {/* Spacer to push signatures down */}
       <div style={{ flex: 1 }} />
 

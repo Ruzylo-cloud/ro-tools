@@ -229,11 +229,12 @@ const InjuryReportPreview = forwardRef(function InjuryReportPreview({ data }, re
         </div>
 
         <div style={{
-          fontSize: '5.5pt', color: '#6b7280', textAlign: 'center', marginTop: '6px', fontStyle: 'italic',
-          lineHeight: 1.4,
+          fontSize: '5pt', color: '#6b7280', textAlign: 'center', marginTop: '6px', fontStyle: 'italic',
+          lineHeight: 1.35,
         }}>
-          This report is submitted in compliance with Cal/OSHA requirements. Employers must report serious injuries within 8 hours.
-          A copy of this report will be sent to HR (bethany@jmvalley.com) upon completion.
+          Cal/OSHA &sect;6409.1: Employers must report serious injuries within 8 hours. A copy will be sent to HR (bethany@jmvalley.com).
+          Employee rights: medical treatment via workers&apos; compensation regardless of fault, right to report unsafe conditions without retaliation (Labor Code &sect;6311),
+          right to request Cal/OSHA investigation (1-800-321-OSHA), and right to access OSHA 300 Log.
         </div>
       </div>
 

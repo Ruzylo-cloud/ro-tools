@@ -259,11 +259,16 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
         </div>
       </div>
 
+      {/* At-Will & Acknowledgment */}
+      <div style={{ padding: '4px 32px 0', fontSize: '5.5pt', color: '#6b7280', lineHeight: 1.4 }}>
+        This evaluation does not constitute a contract of employment. Employment is at-will and may be terminated at any time, for any lawful reason, with or without notice, regardless of performance rating. Employee has the right to review and add written comments. Employee may not be retaliated against for reporting safety concerns, wage violations, discrimination, or exercising rights protected under California or federal law.
+      </div>
+
       {/* Signatures */}
       <div style={{
         display: 'flex',
         gap: '32px',
-        padding: '10px 32px 0',
+        padding: '6px 32px 0',
       }}>
         <div style={{ flex: 1 }}>
           <div style={{

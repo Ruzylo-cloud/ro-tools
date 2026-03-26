@@ -154,8 +154,8 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
       </div>
 
       {/* Acknowledgment */}
-      <div style={{ fontSize: '7.5pt', color: '#6b7280', lineHeight: 1.4, marginBottom: '14px', fontStyle: 'italic' }}>
-        By signing below, both parties acknowledge that this timesheet correction is accurate and agree to the adjusted times recorded above. This form will be kept on file for payroll records.
+      <div style={{ fontSize: '6.5pt', color: '#6b7280', lineHeight: 1.4, marginBottom: '10px', fontStyle: 'italic' }}>
+        By signing below, both parties acknowledge that this timesheet correction is accurate and agree to the adjusted times recorded above. Per California Labor Code &sect;226, this correction will be reflected in wage statements. If this results in additional wages owed, corrected pay will be included in the next regular paycheck or sooner as required by law. Employees are entitled to accurate records of all hours worked, meal periods, and rest breaks.
       </div>
 
       {/* Signatures */}

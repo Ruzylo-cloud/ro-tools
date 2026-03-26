@@ -68,8 +68,12 @@ const NewHireChecklist = forwardRef(function NewHireChecklist({ data }, ref) {
       </div>
       <div style={{ fontSize: '8pt', color: '#2D2D2D', lineHeight: '1.8' }}>
         {[
-          'Collect all paperwork: I9, 2 forms of ID, signed handbook pages',
-          'Review Employee Handbook - get all signatures',
+          'Collect all paperwork: I-9 with 2 forms of ID, signed handbook pages',
+          'Review & sign Employee Handbook — including at-will employment acknowledgment',
+          'Provide Sexual Harassment & Discrimination Prevention Policy (CA AB-1825)',
+          'Provide written Meal & Rest Break Rights notice (CA Labor Code §512, §226.7)',
+          'Provide Notice of Pay Rate, Pay Date & Payroll Practices (CA Labor Code §2810.5)',
+          'Provide Workers\' Compensation information and rights notice',
           'Tour of store - all stations, break area, lockers, emergency exits',
           'Introduce to team members on shift',
           'Review uniform policy and phone policy',

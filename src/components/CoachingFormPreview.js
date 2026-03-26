@@ -207,11 +207,9 @@ const CoachingFormPreview = forwardRef(function CoachingFormPreview({ data }, re
 
         {/* Acknowledgment */}
         <div style={{
-          fontSize: '6pt', color: '#6b7280', marginTop: '6px', lineHeight: 1.5, fontStyle: 'italic',
+          fontSize: '5.5pt', color: '#6b7280', marginTop: '6px', lineHeight: 1.4, fontStyle: 'italic',
         }}>
-          By signing below, the employee acknowledges this coaching conversation took place. This signature does not
-          necessarily indicate agreement with the above statements. This is a verbal coaching record and does not
-          constitute a formal written warning per California Labor Code.
+          By signing below, the employee acknowledges this coaching conversation took place. This signature does not indicate agreement with the above statements. This is a verbal coaching record and does not constitute a formal written warning per California Labor Code. This coaching does not alter at-will employment status. Employment may be terminated at any time, for any lawful reason, with or without notice. Employee has the right to add written comments above. Employee may not be retaliated against for reporting safety concerns, wage violations, discrimination, or exercising rights protected under California or federal law.
         </div>
 
         {/* Signatures */}

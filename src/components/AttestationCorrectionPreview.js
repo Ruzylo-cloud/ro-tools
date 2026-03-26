@@ -153,9 +153,17 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
         {reason || ''}
       </div>
 
+      {/* Compliance Notice */}
+      <div style={{ fontSize: '6pt', color: '#134A7C', lineHeight: 1.4, marginBottom: '4px', fontWeight: 600 }}>
+        CALIFORNIA MEAL &amp; REST BREAK RIGHTS (Labor Code &sect;512, &sect;226.7)
+      </div>
+      <div style={{ fontSize: '5.5pt', color: '#6b7280', lineHeight: 1.4, marginBottom: '8px' }}>
+        Employees are entitled to a 30-minute uninterrupted meal period for shifts over 5 hours and a paid 10-minute rest break for each 4-hour work period. If a required meal period or rest break was not provided, the employee is entitled to one additional hour of pay at regular rate per missed break. Employees may not be retaliated against for asserting break rights or filing a wage claim with the CA DLSE.
+      </div>
+
       {/* Acknowledgment */}
-      <div style={{ fontSize: '7.5pt', color: '#6b7280', lineHeight: 1.5, marginBottom: '20px' }}>
-        I acknowledge that the information above is correct. I understand that falsifying attestation records is a violation of company policy and may result in disciplinary action up to and including termination.
+      <div style={{ fontSize: '6.5pt', color: '#6b7280', lineHeight: 1.4, marginBottom: '12px' }}>
+        I acknowledge that the information above is correct and all meal/rest break records are accurately reflected. I understand that falsifying attestation records is a violation of company policy and may result in disciplinary action. If this correction results in premium pay owed, it will be paid per California Labor Code.
       </div>
 
       {/* Signatures */}
