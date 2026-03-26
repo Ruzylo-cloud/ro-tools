@@ -72,43 +72,26 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
 
       {/* Header */}
-      <div style={{
-        padding: '18px 32px 0',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-        <div style={{
-          fontSize: '14pt',
-          fontWeight: 800,
-          color: '#134A7C',
-          letterSpacing: '2px',
-        }}>
+      <div style={{ textAlign: 'center', padding: '8px 32px 0', marginBottom: '6px' }}>
+        <div style={{ fontSize: '16pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
           JM VALLEY GROUP
         </div>
-        <div style={{
-          fontSize: '7pt',
-          color: '#888',
-          textAlign: 'right',
-        }}>
-          {evaluationPeriod || 'Evaluation Period'}
+        <div style={{ fontSize: '7pt', color: '#6b7280', letterSpacing: '1px', marginTop: '2px' }}>
+          JERSEY MIKE&apos;S SUBS — FRANCHISE OPERATIONS
         </div>
       </div>
 
+      <div style={{ height: '2px', background: '#EE3227', margin: '0 32px' }} />
+
       {/* Title */}
       <div style={{
-        textAlign: 'center',
-        fontSize: '12pt',
-        fontWeight: 700,
-        color: '#134A7C',
-        padding: '8px 32px 4px',
-        letterSpacing: '1.5px',
+        textAlign: 'center', fontSize: '12pt', fontWeight: 700, color: '#134A7C',
+        padding: '8px 32px 4px', letterSpacing: '1.5px',
       }}>
         EMPLOYEE PERFORMANCE EVALUATION
       </div>
 
-      {/* Red Divider */}
-      <div style={{ height: '2.5px', background: '#EE3227', margin: '0 32px 8px' }} />
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 32px 8px' }} />
 
       {/* Info Grid */}
       <div style={{
@@ -318,10 +301,6 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
 
       {/* Footer */}
       <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
         background: '#EE3227',
         color: '#fff',
         textAlign: 'center',
@@ -329,6 +308,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
         fontWeight: 700,
         padding: '5px 20px',
         letterSpacing: '1.5px',
+        marginTop: 'auto',
       }}>
         CONFIDENTIAL &mdash; FOR INTERNAL USE ONLY
       </div>

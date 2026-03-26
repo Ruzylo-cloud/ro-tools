@@ -31,8 +31,9 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
   return (
     <div ref={ref} style={{
       width: '612px', height: '792px', background: '#fff',
-      fontFamily: "'Poppins', sans-serif", position: 'relative', overflow: 'hidden',
-      padding: '40px 44px',
+      fontFamily: "'Poppins', sans-serif", overflow: 'hidden',
+      padding: '40px 44px 0',
+      display: 'flex', flexDirection: 'column', boxSizing: 'border-box',
     }}>
       {/* Top Red Bar */}
       <div style={{ height: '6px', background: '#EE3227' }} />
@@ -180,11 +181,12 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Spacer + Footer */}
+      <div style={{ flex: 1 }} />
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
         background: '#EE3227', color: '#fff', textAlign: 'center',
-        fontSize: '7pt', padding: '6px 20px',
+        fontSize: '7pt', fontWeight: 700, padding: '5px 20px',
+        letterSpacing: '1.5px', margin: '0 -44px',
       }}>
         CONFIDENTIAL — FOR INTERNAL USE ONLY · {storeName || 'JM Valley Group'}
       </div>

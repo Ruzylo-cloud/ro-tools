@@ -12,8 +12,12 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
     originalDate = '',
     originalClockIn = '',
     originalClockOut = '',
+    originalBreakOut = '',
+    originalBreakIn = '',
     correctedClockIn = '',
     correctedClockOut = '',
+    correctedBreakOut = '',
+    correctedBreakIn = '',
     reason = '',
     employeeSignature = '',
     supervisorSignature = '',
@@ -28,8 +32,9 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
   return (
     <div ref={ref} style={{
       width: '612px', height: '792px', background: '#fff',
-      fontFamily: "'Poppins', sans-serif", position: 'relative', overflow: 'hidden',
-      padding: '40px 44px',
+      fontFamily: "'Poppins', sans-serif", overflow: 'hidden',
+      padding: '40px 44px 0',
+      display: 'flex', flexDirection: 'column', boxSizing: 'border-box',
     }}>
       {/* Top Red Bar */}
       <div style={{ height: '6px', background: '#EE3227' }} />
@@ -96,24 +101,40 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
 
       <div style={{ border: '1px solid #134A7C', borderTop: 'none', borderRadius: '0 0 4px 4px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
-          <div style={{ width: '30%', padding: '8px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Date of Shift</div>
-          <div style={{ flex: 1, padding: '8px 12px', color: '#2D2D2D' }}>{formatDate(originalDate)}</div>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Date of Shift</div>
+          <div style={{ flex: 1, padding: '6px 12px', color: '#2D2D2D' }}>{formatDate(originalDate)}</div>
         </div>
         <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
-          <div style={{ width: '30%', padding: '8px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Original Clock In</div>
-          <div style={{ flex: 1, padding: '8px 12px', color: '#2D2D2D' }}>{originalClockIn || '—'}</div>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Original Clock In</div>
+          <div style={{ flex: 1, padding: '6px 12px', color: '#2D2D2D' }}>{originalClockIn || '—'}</div>
         </div>
         <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
-          <div style={{ width: '30%', padding: '8px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Original Clock Out</div>
-          <div style={{ flex: 1, padding: '8px 12px', color: '#2D2D2D' }}>{originalClockOut || '—'}</div>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Original Clock Out</div>
+          <div style={{ flex: 1, padding: '6px 12px', color: '#2D2D2D' }}>{originalClockOut || '—'}</div>
         </div>
         <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
-          <div style={{ width: '30%', padding: '8px 12px', fontWeight: 700, color: '#EE3227', background: '#f0f4f8' }}>Corrected Clock In</div>
-          <div style={{ flex: 1, padding: '8px 12px', fontWeight: 600, color: '#EE3227' }}>{correctedClockIn || '—'}</div>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Original Break Out</div>
+          <div style={{ flex: 1, padding: '6px 12px', color: '#2D2D2D' }}>{originalBreakOut || '—'}</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '2px solid #134A7C' }}>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 600, color: '#134A7C', background: '#f0f4f8' }}>Original Break In</div>
+          <div style={{ flex: 1, padding: '6px 12px', color: '#2D2D2D' }}>{originalBreakIn || '—'}</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 700, color: '#EE3227', background: '#f0f4f8' }}>Corrected Clock In</div>
+          <div style={{ flex: 1, padding: '6px 12px', fontWeight: 600, color: '#EE3227' }}>{correctedClockIn || '—'}</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 700, color: '#EE3227', background: '#f0f4f8' }}>Corrected Clock Out</div>
+          <div style={{ flex: 1, padding: '6px 12px', fontWeight: 600, color: '#EE3227' }}>{correctedClockOut || '—'}</div>
+        </div>
+        <div style={{ display: 'flex', fontSize: '8.5pt', borderBottom: '1px solid #e5e7eb' }}>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 700, color: '#EE3227', background: '#f0f4f8' }}>Corrected Break Out</div>
+          <div style={{ flex: 1, padding: '6px 12px', fontWeight: 600, color: '#EE3227' }}>{correctedBreakOut || '—'}</div>
         </div>
         <div style={{ display: 'flex', fontSize: '8.5pt' }}>
-          <div style={{ width: '30%', padding: '8px 12px', fontWeight: 700, color: '#EE3227', background: '#f0f4f8' }}>Corrected Clock Out</div>
-          <div style={{ flex: 1, padding: '8px 12px', fontWeight: 600, color: '#EE3227' }}>{correctedClockOut || '—'}</div>
+          <div style={{ width: '30%', padding: '6px 12px', fontWeight: 700, color: '#EE3227', background: '#f0f4f8' }}>Corrected Break In</div>
+          <div style={{ flex: 1, padding: '6px 12px', fontWeight: 600, color: '#EE3227' }}>{correctedBreakIn || '—'}</div>
         </div>
       </div>
 
@@ -126,47 +147,48 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
       </div>
       <div style={{
         border: '1px solid #134A7C', borderTop: 'none', borderRadius: '0 0 4px 4px',
-        padding: '12px', fontSize: '9pt', color: '#2D2D2D', minHeight: '60px',
-        lineHeight: 1.5, marginBottom: '20px', whiteSpace: 'pre-wrap',
+        padding: '8px 12px', fontSize: '8.5pt', color: '#2D2D2D', minHeight: '40px',
+        lineHeight: 1.4, marginBottom: '14px', whiteSpace: 'pre-wrap',
       }}>
         {reason || ''}
       </div>
 
       {/* Acknowledgment */}
-      <div style={{ fontSize: '8pt', color: '#6b7280', lineHeight: 1.5, marginBottom: '24px', fontStyle: 'italic' }}>
+      <div style={{ fontSize: '7.5pt', color: '#6b7280', lineHeight: 1.4, marginBottom: '14px', fontStyle: 'italic' }}>
         By signing below, both parties acknowledge that this timesheet correction is accurate and agree to the adjusted times recorded above. This form will be kept on file for payroll records.
       </div>
 
       {/* Signatures */}
-      <div style={{ display: 'flex', gap: '40px', marginBottom: '16px' }}>
-        <div style={{ flex: 1, fontSize: '9pt' }}>
-          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Employee Signature</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '8px 0', minHeight: '24px', fontStyle: 'italic', color: '#2D2D2D' }}>{employeeSignature || ''}</div>
-          <div style={{ fontSize: '7pt', color: '#9ca3af', marginTop: '4px' }}>Print Name</div>
+      <div style={{ display: 'flex', gap: '40px', marginBottom: '10px' }}>
+        <div style={{ flex: 1, fontSize: '8.5pt' }}>
+          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '2px' }}>Employee Signature</div>
+          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', fontStyle: 'italic', color: '#2D2D2D' }}>{employeeSignature || ''}</div>
+          <div style={{ fontSize: '7pt', color: '#9ca3af', marginTop: '2px' }}>Print Name</div>
         </div>
-        <div style={{ flex: 1, fontSize: '9pt' }}>
-          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Date</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '8px 0', minHeight: '24px', color: '#2D2D2D' }}>{formatDate(correctionDate)}</div>
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', gap: '40px', marginBottom: '16px' }}>
-        <div style={{ flex: 1, fontSize: '9pt' }}>
-          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Supervisor / Manager Signature</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '8px 0', minHeight: '24px', fontStyle: 'italic', color: '#2D2D2D' }}>{supervisorSignature || ''}</div>
-          <div style={{ fontSize: '7pt', color: '#9ca3af', marginTop: '4px' }}>Print Name</div>
-        </div>
-        <div style={{ flex: 1, fontSize: '9pt' }}>
-          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Date</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '8px 0', minHeight: '24px', color: '#2D2D2D' }}>{formatDate(correctionDate)}</div>
+        <div style={{ flex: 1, fontSize: '8.5pt' }}>
+          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '2px' }}>Date</div>
+          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', color: '#2D2D2D' }}>{formatDate(correctionDate)}</div>
         </div>
       </div>
 
-      {/* Footer */}
+      <div style={{ display: 'flex', gap: '40px', marginBottom: '10px' }}>
+        <div style={{ flex: 1, fontSize: '8.5pt' }}>
+          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '2px' }}>Supervisor / Manager Signature</div>
+          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', fontStyle: 'italic', color: '#2D2D2D' }}>{supervisorSignature || ''}</div>
+          <div style={{ fontSize: '7pt', color: '#9ca3af', marginTop: '2px' }}>Print Name</div>
+        </div>
+        <div style={{ flex: 1, fontSize: '8.5pt' }}>
+          <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '2px' }}>Date</div>
+          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', color: '#2D2D2D' }}>{formatDate(correctionDate)}</div>
+        </div>
+      </div>
+
+      {/* Spacer + Footer */}
+      <div style={{ flex: 1 }} />
       <div style={{
-        position: 'absolute', bottom: 0, left: 0, right: 0,
         background: '#EE3227', color: '#fff', textAlign: 'center',
-        fontSize: '7pt', padding: '6px 20px',
+        fontSize: '7pt', fontWeight: 700, padding: '5px 20px',
+        letterSpacing: '1.5px', margin: '0 -44px',
       }}>
         CONFIDENTIAL — FOR INTERNAL USE ONLY · {storeName || 'JM Valley Group'}
       </div>

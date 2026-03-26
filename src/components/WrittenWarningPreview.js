@@ -73,7 +73,7 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
         position: 'relative',
         overflow: 'hidden',
         margin: '0 auto',
-        padding: '24px 32px 0',
+        padding: '40px 44px 0',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
@@ -91,28 +91,25 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
       <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
 
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '4px' }}>
-        <div style={{
-          fontSize: '16pt',
-          fontWeight: 800,
-          color: '#134A7C',
-          letterSpacing: '1px',
-        }}>
+      <div style={{ textAlign: 'center', marginBottom: '6px' }}>
+        <div style={{ fontSize: '16pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
           JM VALLEY GROUP
         </div>
-        <div style={{
-          fontSize: '10pt',
-          fontWeight: 700,
-          color: '#134A7C',
-          letterSpacing: '1.5px',
-          marginTop: '2px',
-        }}>
-          WRITTEN WARNING / CORRECTIVE ACTION FORM
+        <div style={{ fontSize: '7pt', color: '#6b7280', letterSpacing: '1px', marginTop: '2px' }}>
+          JERSEY MIKE&apos;S SUBS — FRANCHISE OPERATIONS
         </div>
       </div>
 
-      {/* Red divider */}
-      <div style={{ height: '3px', background: '#EE3227', margin: '6px 0 10px' }} />
+      <div style={{ height: '2px', background: '#EE3227', margin: '10px 0' }} />
+
+      <div style={{
+        textAlign: 'center', fontSize: '14pt', fontWeight: 700, color: '#134A7C',
+        padding: '12px 0 8px', letterSpacing: '1px',
+      }}>
+        WRITTEN WARNING / CORRECTIVE ACTION FORM
+      </div>
+
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 0 12px' }} />
 
       {/* Info grid — two columns */}
       <div style={{ display: 'flex', gap: '16px', marginBottom: '4px' }}>
@@ -220,7 +217,7 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
         fontWeight: 700,
         padding: '5px 0',
         letterSpacing: '1.5px',
-        margin: '0 -32px',
+        margin: '0 -44px',
       }}>
         CONFIDENTIAL &mdash; FOR INTERNAL USE ONLY
       </div>

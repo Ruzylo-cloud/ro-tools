@@ -10,9 +10,9 @@ import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const TEMPLATES = [
-  { id: 'level1', name: 'Level 1 Training', desc: 'Day 1 Orientation', icon: '1' },
-  { id: 'level2', name: 'Level 2 Training', desc: 'Cold Side Cert', icon: '2' },
-  { id: 'level3', name: 'Level 3 Training', desc: 'Hot Side Cert', icon: '3' },
+  { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '1' },
+  { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '2' },
+  { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '3' },
   { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '+' },
 ];
 
