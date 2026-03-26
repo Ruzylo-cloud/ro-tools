@@ -236,8 +236,10 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
         {footerAddress || '199 S Turnpike Rd, Santa Barbara, CA'} · Reach out for Fundraising Opportunities · CATERING AVAILABLE 7 DAYS A WEEK
       </div>
 
-      {/* 19. White Padding */}
-      <div style={{ height: '10px' }}></div>
+      {/* 19. Ownership Line */}
+      <div style={{ fontSize: '5pt', color: '#999', textAlign: 'center', padding: '3px 20px' }}>
+        Property of JM Valley Group. All rights reserved. Confidential — not for distribution.
+      </div>
     </div>
   );
 });

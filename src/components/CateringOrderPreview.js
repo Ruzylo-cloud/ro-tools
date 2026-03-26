@@ -352,6 +352,9 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       }}>
         {storeAddress || storeName || "Jersey Mike's Subs"} &middot; ORDER ONLINE AT JERSEYMIKES.COM &middot; CATERING AVAILABLE 7 DAYS A WEEK
       </div>
+      <div style={{ fontSize: '5pt', color: '#999', textAlign: 'center', padding: '2px 20px 0' }}>
+        Property of JM Valley Group. All rights reserved. Confidential — not for distribution.
+      </div>
     </div>
   );
 });
