@@ -33,6 +33,8 @@ export default function CateringOrderPage() {
     orderItems: [],
     includeChips: false,
     includeDrinks: false,
+    cookiePlatter: '',
+    browniePlatter: '',
     specialRequests: '',
   });
 
@@ -266,6 +268,14 @@ export default function CateringOrderPage() {
               <input type="checkbox" checked={form.includeDrinks} onChange={(e) => handleChange('includeDrinks', e.target.checked)} />
               <span>Include Drinks</span>
             </label>
+            <div className={styles.field}>
+              <label className={styles.label}>Cookie Platter</label>
+              <input type="text" className={styles.input} value={form.cookiePlatter} onChange={(e) => handleChange('cookiePlatter', e.target.value)} placeholder="e.g. 2 platters" />
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Brownie Platter</label>
+              <input type="text" className={styles.input} value={form.browniePlatter} onChange={(e) => handleChange('browniePlatter', e.target.value)} placeholder="e.g. 1 platter" />
+            </div>
           </div>
         </div>
 

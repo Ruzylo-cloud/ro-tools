@@ -42,6 +42,8 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
     totalPrice = 0,
     includeChips = false,
     includeDrinks = false,
+    cookiePlatter = '',
+    browniePlatter = '',
     specialRequests = '',
   } = data || {};
 
@@ -247,6 +249,28 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
           </div>
           <span style={{ fontWeight: 600, color: '#2D2D2D' }}>Include Drinks</span>
         </div>
+        {cookiePlatter && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{
+              width: '10px', height: '10px', border: '1.5px solid #134A7C', borderRadius: '2px',
+              background: '#134A7C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <span style={{ color: '#fff', fontSize: '7pt', lineHeight: 1 }}>&#10003;</span>
+            </div>
+            <span style={{ fontWeight: 600, color: '#2D2D2D' }}>Cookie Platter: {cookiePlatter}</span>
+          </div>
+        )}
+        {browniePlatter && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{
+              width: '10px', height: '10px', border: '1.5px solid #134A7C', borderRadius: '2px',
+              background: '#134A7C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <span style={{ color: '#fff', fontSize: '7pt', lineHeight: 1 }}>&#10003;</span>
+            </div>
+            <span style={{ fontWeight: 600, color: '#2D2D2D' }}>Brownie Platter: {browniePlatter}</span>
+          </div>
+        )}
       </div>
 
       {/* Special Requests */}
