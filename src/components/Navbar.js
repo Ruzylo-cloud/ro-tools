@@ -116,6 +116,13 @@ export default function Navbar() {
                     <div className={styles.dropdownHint}>Meal/rest break corrections</div>
                   </div>
                 </Link>
+                <Link href="/dashboard/documents" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x1F4C4;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Training Documents</div>
+                    <div className={styles.dropdownHint}>Level 1-3 packets, new hire checklists</div>
+                  </div>
+                </Link>
               </div>
             )}
           </div>
@@ -221,6 +228,9 @@ export default function Navbar() {
             </Link>
             <Link href="/dashboard/generators/attestation-correction" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
               <span>&#x1F4DD;</span> Attestation Correction
+            </Link>
+            <Link href="/dashboard/documents" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F4C4;</span> Training Documents
             </Link>
           </div>
         )}
