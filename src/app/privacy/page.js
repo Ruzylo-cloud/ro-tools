@@ -108,7 +108,14 @@ export default function PrivacyPolicy() {
           <Image src="/jmvg-logo.png" alt="JM Valley Group" width={56} height={28} style={{ borderRadius: '3px' }} />
           <div className={styles.footerText}>RO <span>Tools</span></div>
         </div>
-        <div className={styles.footerRight}>&copy; 2026 RO Tools. Built for Jersey Mike&apos;s Valley operators.</div>
+        <div className={styles.footerRight}>
+          <div style={{ marginBottom: '6px' }}>
+            <Link href="/privacy" style={{ color: '#134A7C', textDecoration: 'none', fontWeight: 500, fontSize: '12px' }}>Privacy Policy</Link>
+            <span style={{ margin: '0 8px', color: '#9ca3af', fontSize: '11px' }}>|</span>
+            <Link href="/terms" style={{ color: '#134A7C', textDecoration: 'none', fontWeight: 500, fontSize: '12px' }}>Terms of Service</Link>
+          </div>
+          <div>&copy; 2026 RO Tools. Built for Jersey Mike&apos;s Valley operators.</div>
+        </div>
       </footer>
     </>
   );

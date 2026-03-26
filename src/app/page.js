@@ -199,7 +199,14 @@ export default function LandingPage() {
           <Image src="/jmvg-logo.png" alt="JM Valley Group" width={56} height={28} style={{ borderRadius: '3px' }} />
           <div className={styles.footerText}>RO <span>Tools</span></div>
         </div>
-        <div className={styles.footerRight}>&copy; 2026 RO Tools. Built for Jersey Mike&apos;s Valley operators.</div>
+        <div className={styles.footerRight}>
+          <div className={styles.footerLinks}>
+            <a href="/privacy">Privacy Policy</a>
+            <span className={styles.footerDivider}>|</span>
+            <a href="/terms">Terms of Service</a>
+          </div>
+          <div>&copy; 2026 RO Tools. Built for Jersey Mike&apos;s Valley operators.</div>
+        </div>
       </footer>
     </>
   );
