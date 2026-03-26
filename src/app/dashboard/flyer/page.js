@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import FlyerPreview from '@/components/FlyerPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const EDITABLE_FIELDS = [
@@ -113,6 +114,12 @@ export default function FlyerPage() {
         >
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+
+        <SaveToDrive
+          getCanvasRef={() => flyerRef.current}
+          fileName="catering-flyer"
+          disabled={generating}
+        />
       </div>
 
       {/* Preview */}

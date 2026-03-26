@@ -6,6 +6,7 @@ import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
 import TrainingPacketLevel2 from '@/components/documents/TrainingPacketLevel2';
 import TrainingPacketLevel3 from '@/components/documents/TrainingPacketLevel3';
 import NewHireChecklist from '@/components/documents/NewHireChecklist';
+import SaveToDrive from '@/components/SaveToDrive';
 import styles from './page.module.css';
 
 const TEMPLATES = [
@@ -187,6 +188,12 @@ export default function DocumentsPage() {
         >
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>
+
+        <SaveToDrive
+          getCanvasRef={() => docRef.current}
+          fileName={`${FILE_NAMES[selected]}-${(form.employeeName || 'document').replace(/\s+/g, '-').toLowerCase()}`}
+          disabled={generating}
+        />
       </div>
 
       {/* Preview */}
