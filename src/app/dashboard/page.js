@@ -131,6 +131,8 @@ export default function DashboardPage() {
             { name: 'Performance Eval', desc: 'Employee reviews with scoring', href: '/dashboard/generators/evaluation' },
             { name: 'Timesheet Correction', desc: 'Clock in/out adjustments', href: '/dashboard/generators/timesheet-correction' },
             { name: 'Attestation Correction', desc: 'Meal & rest break forms', href: '/dashboard/generators/attestation-correction' },
+            { name: 'Injury Report', desc: 'OSHA-compliant injury forms, auto-sent to HR', href: '/dashboard/generators/injury-report' },
+            { name: 'Employee Coaching', desc: 'Verbal coaching & counseling docs', href: '/dashboard/generators/coaching-form' },
             { name: 'Training Documents', desc: 'Level 1-3 packets & new hire checklists', href: '/dashboard/documents' },
           ].map(t => (
             <Link key={t.href} href={t.href} className={styles.toolCard}>
@@ -138,6 +140,24 @@ export default function DashboardPage() {
               <div className={styles.toolDesc}>{t.desc}</div>
             </Link>
           ))}
+        </div>
+      </div>
+
+      {/* Compliance */}
+      <div className={styles.complianceCard}>
+        <div className={styles.complianceIcon}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <polyline points="9 12 11 14 15 10" />
+          </svg>
+        </div>
+        <div>
+          <h3 className={styles.complianceTitle}>California & Federal Compliance</h3>
+          <p className={styles.complianceText}>
+            All HR forms and documents are designed to meet California labor law and federal compliance standards
+            including Cal/OSHA reporting requirements, meal and rest break attestation per CA Labor Code,
+            progressive discipline documentation, and workplace injury reporting under &sect;6409.1.
+          </p>
         </div>
       </div>
 

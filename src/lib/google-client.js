@@ -34,3 +34,7 @@ export function getSheets(client) {
 export function getDocs(client) {
   return google.docs({ version: 'v1', auth: client });
 }
+
+export function getGmail(client) {
+  return google.gmail({ version: 'v1', auth: client });
+}
