@@ -6,15 +6,13 @@ import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
 import TrainingPacketLevel2 from '@/components/documents/TrainingPacketLevel2';
 import TrainingPacketLevel3 from '@/components/documents/TrainingPacketLevel3';
 import NewHireChecklist from '@/components/documents/NewHireChecklist';
-import WriteUpForm from '@/components/documents/WriteUpForm';
 import styles from './page.module.css';
 
 const TEMPLATES = [
   { id: 'level1', name: 'Level 1 Training', desc: 'Day 1 Orientation', icon: '1' },
   { id: 'level2', name: 'Level 2 Training', desc: 'Cold Side Cert', icon: '2' },
   { id: 'level3', name: 'Level 3 Training', desc: 'Hot Side Cert', icon: '3' },
-  { id: 'newhire', name: 'New Hire Checklist', desc: 'Onboarding', icon: '+' },
-  { id: 'writeup', name: 'Write-Up Form', desc: 'Corrective Action', icon: '!' },
+  { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '+' },
 ];
 
 const TEMPLATE_FIELDS = {
@@ -34,16 +32,6 @@ const TEMPLATE_FIELDS = {
     { key: 'position', label: 'Position' },
     { key: 'managerName', label: 'Manager Name' },
   ],
-  writeup: [
-    { key: 'employeeName', label: 'Employee Name' },
-    { key: 'position', label: 'Position' },
-    { key: 'date', label: 'Date' },
-    { key: 'managerName', label: 'Manager Name' },
-    { key: 'violationType', label: 'Violation Type', type: 'select', options: ['Attendance/Tardiness', 'Insubordination', 'Policy Violation', 'Performance', 'Safety', 'Conduct', 'Other'] },
-    { key: 'description', label: 'Description of Incident', type: 'textarea' },
-    { key: 'previousWarnings', label: 'Previous Warnings', type: 'textarea' },
-    { key: 'actionTaken', label: 'Action / Expectations', type: 'textarea' },
-  ],
 };
 
 const COMPONENT_MAP = {
@@ -51,7 +39,6 @@ const COMPONENT_MAP = {
   level2: TrainingPacketLevel2,
   level3: TrainingPacketLevel3,
   newhire: NewHireChecklist,
-  writeup: WriteUpForm,
 };
 
 const FILE_NAMES = {
@@ -59,7 +46,6 @@ const FILE_NAMES = {
   level2: 'level-2-training-packet',
   level3: 'level-3-training-packet',
   newhire: 'new-hire-checklist',
-  writeup: 'corrective-action',
 };
 
 export default function DocumentsPage() {

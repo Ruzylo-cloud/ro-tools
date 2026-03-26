@@ -79,8 +79,8 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       {/* Logo */}
       <div style={{ textAlign: 'center', padding: '12px 0 4px' }}>
         <img
-          src="/nfl-x-jm-revised.jpeg"
-          alt="Jersey Mike's logo"
+          src="/jmvg-logo.png"
+          alt="JM Valley Group"
           style={{ width: '180px', height: 'auto' }}
           crossOrigin="anonymous"
         />

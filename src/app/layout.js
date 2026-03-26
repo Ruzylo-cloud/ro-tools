@@ -6,7 +6,7 @@ export const metadata = {
   title: 'RO Tools — Restaurant Operator Tools',
   description: 'Generate catering flyers, marketing materials, and branded assets for Jersey Mike\'s operators.',
   icons: {
-    icon: '/nfl-x-jm-revised.jpeg',
+    icon: '/jmvg-logo.png',
   },
 };
 

@@ -64,8 +64,8 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
       {/* 2. Logo */}
       <div style={{ textAlign: 'center', padding: '2px 0' }}>
         <img
-          src="/nfl-x-jm-revised.jpeg"
-          alt="Jersey Mike's and NFL partnership logo"
+          src="/jmvg-logo.png"
+          alt="JM Valley Group"
           style={{ width: '210px', height: 'auto' }}
           crossOrigin="anonymous"
         />

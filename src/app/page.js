@@ -64,7 +64,7 @@ export default function LandingPage() {
       {/* NAV */}
       <nav id="mainNav" className={styles.nav}>
         <a href="#" className={styles.navLogo}>
-          <Image src="/nfl-x-jm-revised.jpeg" alt="RO Tools" width={84} height={42} style={{ borderRadius: '4px' }} />
+          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={84} height={42} style={{ borderRadius: '4px' }} />
           <div className={styles.navLogoText}>RO <span>Tools</span></div>
         </a>
         <div className={styles.navLinks}>
@@ -196,7 +196,7 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer className={styles.footer}>
         <div className={styles.footerLeft}>
-          <Image src="/nfl-x-jm-revised.jpeg" alt="RO Tools" width={56} height={28} style={{ borderRadius: '3px' }} />
+          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={56} height={28} style={{ borderRadius: '3px' }} />
           <div className={styles.footerText}>RO <span>Tools</span></div>
         </div>
         <div className={styles.footerRight}>&copy; 2026 RO Tools. Built for Jersey Mike&apos;s Valley operators.</div>

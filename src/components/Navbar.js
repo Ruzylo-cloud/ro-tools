@@ -53,7 +53,7 @@ export default function Navbar() {
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.left}>
         <Link href="/dashboard" className={styles.logo} onClick={closeDropdown}>
-          <Image src="/nfl-x-jm-revised.jpeg" alt="RO Tools" width={72} height={36} style={{ borderRadius: '4px' }} />
+          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={72} height={36} style={{ borderRadius: '4px', objectFit: 'contain' }} />
           <span className={styles.logoText}>RO <span>Tools</span></span>
         </Link>
         <div className={styles.links}>
