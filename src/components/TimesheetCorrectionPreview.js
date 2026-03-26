@@ -31,6 +31,17 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
       fontFamily: "'Poppins', sans-serif", position: 'relative', overflow: 'hidden',
       padding: '40px 44px',
     }}>
+      {/* Top Red Bar */}
+      <div style={{ height: '6px', background: '#EE3227' }} />
+
+      {/* JMVG Logo */}
+      <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
+      </div>
+
+      {/* Blue Divider */}
+      <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
+
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '6px' }}>
         <div style={{ fontSize: '16pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>

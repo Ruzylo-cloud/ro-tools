@@ -60,6 +60,17 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
         boxSizing: 'border-box',
       }}
     >
+      {/* Top Red Bar */}
+      <div style={{ height: '6px', background: '#EE3227' }} />
+
+      {/* JMVG Logo */}
+      <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
+      </div>
+
+      {/* Blue Divider */}
+      <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
+
       {/* Header */}
       <div style={{
         padding: '18px 32px 0',
