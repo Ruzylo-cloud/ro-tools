@@ -13,32 +13,50 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled }) {
   const [saving, setSaving] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [folders, setFolders] = useState([]);
+  const [sharedDrives, setSharedDrives] = useState([]);
   const [breadcrumb, setBreadcrumb] = useState([{ id: 'root', name: 'My Drive' }]);
   const [loadingFolders, setLoadingFolders] = useState(false);
   const [result, setResult] = useState(null);
 
   const currentFolderId = breadcrumb[breadcrumb.length - 1].id;
+  const isAtRoot = breadcrumb.length === 1 && currentFolderId === 'root';
 
   const loadFolders = async (parentId) => {
     setLoadingFolders(true);
     try {
-      const res = await fetch(`/api/drive/folders?parentId=${parentId}`);
+      // Check if we're in the "Shared with me" virtual folder
+      const currentCrumb = breadcrumb[breadcrumb.length - 1];
+      const isSharedWithMe = currentCrumb && currentCrumb.source === 'sharedWithMe';
+
+      let url = `/api/drive/folders?parentId=${parentId}`;
+      if (isSharedWithMe && parentId === 'sharedWithMe') {
+        url = `/api/drive/folders?parentId=root&source=sharedWithMe`;
+      }
+
+      const res = await fetch(url);
       const data = await res.json();
       setFolders(data.folders || []);
+      setSharedDrives(data.sharedDrives || []);
     } catch {
       setFolders([]);
+      setSharedDrives([]);
     }
     setLoadingFolders(false);
   };
 
   useEffect(() => {
     if (showPicker) {
-      loadFolders(currentFolderId);
+      const currentCrumb = breadcrumb[breadcrumb.length - 1];
+      if (currentCrumb.source === 'sharedWithMe' && currentCrumb.id === 'sharedWithMe') {
+        loadFolders('sharedWithMe');
+      } else {
+        loadFolders(currentFolderId);
+      }
     }
-  }, [showPicker, currentFolderId]);
+  }, [showPicker, currentFolderId, breadcrumb]);
 
   const navigateToFolder = (folder) => {
-    setBreadcrumb(prev => [...prev, folder]);
+    setBreadcrumb(prev => [...prev, { id: folder.id, name: folder.name, ...(folder.source ? { source: folder.source } : {}) }]);
   };
 
   const navigateToBreadcrumb = (index) => {
@@ -202,40 +220,133 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled }) {
           </div>
 
           {/* Folder List */}
-          <div style={{ maxHeight: '180px', overflowY: 'auto' }}>
+          <div style={{ maxHeight: '220px', overflowY: 'auto' }}>
             {loadingFolders ? (
               <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '12px' }}>
                 Loading...
               </div>
-            ) : folders.length === 0 ? (
+            ) : folders.length === 0 && sharedDrives.length === 0 && !isAtRoot ? (
               <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '12px' }}>
                 No subfolders
               </div>
             ) : (
-              folders.map(f => (
-                <button
-                  key={f.id}
-                  onClick={() => navigateToFolder(f)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    width: '100%',
-                    padding: '8px 14px',
-                    border: 'none',
-                    borderBottom: '1px solid #f3f4f6',
-                    background: '#fff',
-                    cursor: 'pointer',
-                    fontSize: '12px',
-                    color: '#2D2D2D',
-                    fontFamily: 'inherit',
-                    textAlign: 'left',
-                  }}
-                >
-                  <span style={{ fontSize: '16px' }}>&#128193;</span>
-                  {f.name}
-                </button>
-              ))
+              <>
+                {/* My Drive folders */}
+                {folders.map(f => (
+                  <button
+                    key={f.id}
+                    onClick={() => navigateToFolder(f)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      width: '100%',
+                      padding: '8px 14px',
+                      border: 'none',
+                      borderBottom: '1px solid #f3f4f6',
+                      background: '#fff',
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      color: '#2D2D2D',
+                      fontFamily: 'inherit',
+                      textAlign: 'left',
+                    }}
+                  >
+                    <span style={{ fontSize: '16px' }}>&#128193;</span>
+                    {f.name}
+                  </button>
+                ))}
+
+                {/* Shared Drives section (only at root) */}
+                {isAtRoot && sharedDrives.length > 0 && (
+                  <>
+                    <div style={{
+                      padding: '6px 14px',
+                      fontSize: '10px',
+                      fontWeight: 700,
+                      color: '#6b7280',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      borderTop: '1px solid #e5e7eb',
+                      borderBottom: '1px solid #f3f4f6',
+                      background: '#f9fafb',
+                    }}>
+                      Shared Drives
+                    </div>
+                    {sharedDrives.map(d => (
+                      <button
+                        key={d.id}
+                        onClick={() => navigateToFolder(d)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          width: '100%',
+                          padding: '8px 14px',
+                          border: 'none',
+                          borderBottom: '1px solid #f3f4f6',
+                          background: '#fff',
+                          cursor: 'pointer',
+                          fontSize: '12px',
+                          color: '#2D2D2D',
+                          fontFamily: 'inherit',
+                          textAlign: 'left',
+                        }}
+                      >
+                        <span style={{ fontSize: '16px' }}>&#128194;</span>
+                        {d.name}
+                      </button>
+                    ))}
+                  </>
+                )}
+
+                {/* Shared with me option (only at root) */}
+                {isAtRoot && (
+                  <>
+                    <div style={{
+                      padding: '6px 14px',
+                      fontSize: '10px',
+                      fontWeight: 700,
+                      color: '#6b7280',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      borderTop: '1px solid #e5e7eb',
+                      borderBottom: '1px solid #f3f4f6',
+                      background: '#f9fafb',
+                    }}>
+                      Other
+                    </div>
+                    <button
+                      onClick={() => navigateToFolder({ id: 'sharedWithMe', name: 'Shared with me', source: 'sharedWithMe' })}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        width: '100%',
+                        padding: '8px 14px',
+                        border: 'none',
+                        borderBottom: '1px solid #f3f4f6',
+                        background: '#fff',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        color: '#2D2D2D',
+                        fontFamily: 'inherit',
+                        textAlign: 'left',
+                      }}
+                    >
+                      <span style={{ fontSize: '16px' }}>&#128101;</span>
+                      Shared with me
+                    </button>
+                  </>
+                )}
+
+                {/* Empty state when no folders at all */}
+                {folders.length === 0 && sharedDrives.length === 0 && isAtRoot && (
+                  <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '12px' }}>
+                    No folders found
+                  </div>
+                )}
+              </>
             )}
           </div>
 
