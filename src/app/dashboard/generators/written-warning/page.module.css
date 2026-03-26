@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
 }
 
 .sidebar {
@@ -111,6 +111,7 @@
   flex: 1;
   padding: 24px;
   overflow-y: auto;
+  max-height: calc(100vh - 64px);
 }
 
 .previewHeader {
@@ -155,6 +156,8 @@
 @media (max-width: 880px) {
   .container {
     flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 64px);
   }
   .sidebar {
     width: 100%;
