@@ -21,23 +21,22 @@ export default function ManagerSignature({ name, email, date, compact = false })
 
   const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 
-  const fontSize = compact ? '14pt' : '16pt';
+  const fontSize = compact ? '18pt' : '22pt';
   const metaSize = compact ? '5pt' : '6pt';
 
   return (
     <div style={{ display: 'inline-flex', flexDirection: 'column', gap: compact ? 1 : 2 }}>
       {/* Cursive signature */}
       <div style={{
-        fontFamily: "'Georgia', 'Times New Roman', serif",
+        fontFamily: "'Dancing Script', cursive",
         fontSize,
-        fontStyle: 'italic',
-        fontWeight: 600,
+        fontWeight: 700,
         color: '#1a1a2e',
-        letterSpacing: '0.5px',
-        lineHeight: 1.2,
+        letterSpacing: '0.3px',
+        lineHeight: 1.1,
         borderBottom: '1px solid #2D2D2D',
-        paddingBottom: compact ? 1 : 2,
-        minWidth: compact ? 100 : 140,
+        paddingBottom: compact ? 2 : 3,
+        minWidth: compact ? 120 : 160,
       }}>
         {name}
       </div>
