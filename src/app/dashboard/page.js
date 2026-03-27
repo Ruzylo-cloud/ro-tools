@@ -176,6 +176,7 @@ export default function DashboardPage() {
           {[
             { name: 'Catering Flyer', desc: 'Print-ready flyers with menu & pricing' },
             { name: 'Catering Order', desc: 'Customer-facing order forms' },
+            { name: 'Catering Tracker', desc: 'Client CRM with follow-ups & reordering' },
             { name: 'Written Warning', desc: 'Corrective action documentation' },
             { name: 'Performance Eval', desc: 'Employee reviews with scoring' },
             { name: 'Timesheet Correction', desc: 'Clock in/out adjustments' },
@@ -183,6 +184,8 @@ export default function DashboardPage() {
             { name: 'Injury Report', desc: 'OSHA-compliant injury forms' },
             { name: 'Employee Coaching', desc: 'Verbal coaching & counseling docs' },
             { name: 'Training Documents', desc: 'Level 1–3, Slicer, Opener, Shift Lead & New Hire' },
+            { name: 'Scoreboard', desc: 'Weekly leaderboards across all 29+ stores' },
+            { name: 'Marketing Directives', desc: 'Monthly directives, meeting recaps & calendar' },
           ].map(t => (
             <div key={t.name} className={styles.toolItem}>
               <span className={styles.toolName}>{t.name}</span>
