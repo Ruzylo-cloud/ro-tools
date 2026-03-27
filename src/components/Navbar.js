@@ -102,7 +102,12 @@ export default function Navbar() {
             <Link href="/dashboard/directives" className={styles.navLink} onClick={closeDropdown}>Directives</Link>
           </div>
 
-          {/* 5. Store Profile */}
+          {/* 5. Scoreboard */}
+          <div className={styles.navItem}>
+            <Link href="/dashboard/scoreboard" className={styles.navLink} onClick={closeDropdown}>Scoreboard</Link>
+          </div>
+
+          {/* 6. Store Profile */}
           <div className={styles.navItem}>
             <Link href="/dashboard/profile" className={styles.navLink} onClick={closeDropdown}>Store Profile</Link>
           </div>
@@ -163,6 +168,7 @@ export default function Navbar() {
         )}
 
         <Link href="/dashboard/directives" className={styles.mobileNavLink} onClick={closeMobileMenu}>Directives</Link>
+        <Link href="/dashboard/scoreboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Scoreboard</Link>
 
         <Link href="/dashboard/profile" className={styles.mobileNavLink} onClick={closeMobileMenu}>Store Profile</Link>
         <Link href="/dashboard/support" className={styles.mobileNavLink} onClick={closeMobileMenu}>Support</Link>

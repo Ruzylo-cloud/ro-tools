@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
+import { searchStores } from '@/lib/store-directory';
 import styles from './page.module.css';
 
 const DEFAULT_ADMIN_EMAILS = [
@@ -48,9 +49,30 @@ export default function SetupPage() {
   const [stores, setStores] = useState([{ ...EMPTY_STORE }]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [storeSearch, setStoreSearch] = useState('');
+  const [storeSearchIdx, setStoreSearchIdx] = useState(-1);
+  const [suggestions, setSuggestions] = useState([]);
 
   const updateStore = (idx, key, value) => {
     setStores(prev => prev.map((s, i) => i === idx ? { ...s, [key]: value } : s));
+  };
+
+  const handleStoreNumberSearch = (idx, value) => {
+    setStoreSearch(value);
+    setStoreSearchIdx(idx);
+    if (value.length > 0) {
+      setSuggestions(searchStores(value).slice(0, 6));
+    } else {
+      setSuggestions([]);
+    }
+  };
+
+  const selectStore = (idx, store) => {
+    updateStore(idx, 'storeNumber', store.id);
+    updateStore(idx, 'storeName', `Jersey Mike's #${store.id} - ${store.name}`);
+    setStoreSearch('');
+    setSuggestions([]);
+    setStoreSearchIdx(-1);
   };
 
   const addStore = () => {
@@ -247,6 +269,44 @@ export default function SetupPage() {
                 )}
               </div>
             )}
+            {/* Predictive Store Number Search */}
+            <div className={styles.field} style={{ marginBottom: 12, position: 'relative' }}>
+              <label className={styles.label}>Store Number</label>
+              <input
+                className={styles.input}
+                value={storeSearchIdx === idx ? storeSearch : (store.storeNumber || '')}
+                onChange={e => handleStoreNumberSearch(idx, e.target.value)}
+                onFocus={() => { setStoreSearchIdx(idx); setStoreSearch(store.storeNumber || ''); }}
+                onBlur={() => setTimeout(() => { setSuggestions([]); setStoreSearchIdx(-1); }, 200)}
+                placeholder="Start typing store number (e.g. 20360)..."
+                autoComplete="off"
+              />
+              {storeSearchIdx === idx && suggestions.length > 0 && (
+                <div style={{
+                  position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10,
+                  background: '#fff', border: '1px solid #e5e7eb', borderRadius: '0 0 8px 8px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.1)', maxHeight: 200, overflowY: 'auto',
+                }}>
+                  {suggestions.map(s => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onMouseDown={() => selectStore(idx, s)}
+                      style={{
+                        display: 'block', width: '100%', padding: '8px 12px', border: 'none',
+                        background: 'transparent', textAlign: 'left', cursor: 'pointer',
+                        fontFamily: 'inherit', fontSize: 13, color: '#2D2D2D',
+                        borderBottom: '1px solid #f3f4f6',
+                      }}
+                    >
+                      <span style={{ fontWeight: 700, color: '#134A7C' }}>{s.id}</span>
+                      <span style={{ color: '#6b7280' }}> — {s.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className={styles.fieldGrid}>
               {STORE_FIELDS.map(({ key, label, placeholder, required }) => {
                 // For admin role, skip assistant fields and make operator fields optional labels
