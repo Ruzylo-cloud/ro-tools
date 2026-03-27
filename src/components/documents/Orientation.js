@@ -347,13 +347,13 @@ const Orientation = forwardRef(function Orientation({ data }, ref) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div>
                 <u>New Hire: Welcome to Jersey Mikes</u> -<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;All Videos (10 min) &nbsp;&nbsp;______
+                &nbsp;&nbsp;&nbsp;&nbsp;All Videos (10 min) &nbsp;&nbsp;<span style={{ display: 'inline-block', width: '12px', height: '12px', border: '1px solid #2D2D2D', verticalAlign: 'middle' }}></span>
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
               <div>
                 <u>New Hire: Intro to Food Safety</u> -<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;All Videos (12 min) &nbsp;&nbsp;______
+                &nbsp;&nbsp;&nbsp;&nbsp;All Videos (12 min) &nbsp;&nbsp;<span style={{ display: 'inline-block', width: '12px', height: '12px', border: '1px solid #2D2D2D', verticalAlign: 'middle' }}></span>
               </div>
             </div>
           </div>

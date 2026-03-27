@@ -304,7 +304,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
           ])}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, color: '#2D2D2D', marginTop: '3px' }}>
-            Write in Time Opening was completed at: __________ (Goal = 9:45am)
+            Write in Time Opening was completed at: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Goal = 9:45am)
           </div>
         </div>
         {footer()}
@@ -389,7 +389,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
           ])}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px' }}>
-            Write in Time Opening was completed at: __________ (Goal = 9:45am)
+            Write in Time Opening was completed at: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Goal = 9:45am)
           </div>
         </div>
         {footer()}
@@ -432,7 +432,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
             <div>&bull; Check off as you go, do not wait until end of shift and check everything off</div>
           </div>
           <div style={{ fontSize: '6.5pt', fontWeight: 700, color: '#2D2D2D', marginTop: '2px', marginBottom: '4px' }}>
-            Write In Time Opening was completed at: __________ (goal = 9:45am)
+            Write In Time Opening was completed at: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (goal = 9:45am)
           </div>
 
           {sectionHeader('\uD83D\uDCAF GM DEBRIEF')}
@@ -441,11 +441,11 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
           </div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
             <div style={{ marginBottom: '2px' }}>What part of the opening shift do you feel is most challenging for you?</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '10px' }} />
-            <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '10px' }} />
-            <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '10px' }} />
+            <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+            <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling:</div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+            <div style={{ marginBottom: '2px' }}>2 areas of opportunity:</div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
           </div>
 
           {lmsBlock([
@@ -539,7 +539,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
           {checkItem('Trainee manages time effectively \u2014 all tasks done by 9:45am')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, color: '#2D2D2D', marginTop: '3px', marginBottom: '6px' }}>
-            Write in Time Opening was completed at: __________ (Goal = 9:45am)
+            Write in Time Opening was completed at: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Goal = 9:45am)
           </div>
 
           <div style={{ height: '1px', background: '#134A7C', margin: '4px 0' }} />
@@ -569,18 +569,18 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
           </div>
 
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            -Final Opening Time: _________ (must be by 9:45am)<br />
-            -All bread choices available by 9:40am: ________ YES / NO<br />
-            -Quality check passed: ________ YES / NO<br />
-            -Opener checklist completed independently: ________ YES / NO
+            -Final Opening Time: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (must be by 9:45am)<br />
+            -All bread choices available by 9:40am: <span style={{ display: 'inline-block', width: '60px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> YES / NO<br />
+            -Quality check passed: <span style={{ display: 'inline-block', width: '60px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> YES / NO<br />
+            -Opener checklist completed independently: <span style={{ display: 'inline-block', width: '60px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> YES / NO
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Certification Awarded By - Trainer: _________________________
+              Certification Awarded By - Trainer: <span style={{ display: 'inline-block', width: '120px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Date: _________
+              Date: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
           </div>
         </div>
