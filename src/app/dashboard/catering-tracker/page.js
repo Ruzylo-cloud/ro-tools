@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
@@ -36,6 +37,47 @@ function getFollowUpStatus(lastOrderDate, reorderFrequency) {
   return 'ontrack';
 }
 
+function getNextExpectedDate(lastOrderDate, reorderFrequency) {
+  if (!lastOrderDate || !reorderFrequency || reorderFrequency === 'one-time' || !FREQUENCY_DAYS[reorderFrequency]) return null;
+  const last = new Date(lastOrderDate + 'T00:00:00');
+  last.setDate(last.getDate() + FREQUENCY_DAYS[reorderFrequency]);
+  return last.toISOString().split('T')[0];
+}
+
+function getUpcomingNotableDates(clients, daysAhead = 30) {
+  const now = new Date();
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() + daysAhead);
+  const events = [];
+
+  for (const client of clients) {
+    if (!client.notableDates?.length) continue;
+    for (const nd of client.notableDates) {
+      if (!nd.date || !nd.label) continue;
+      // Handle recurring annual events: check this year and next year
+      const baseDate = new Date(nd.date + 'T00:00:00');
+      for (let yearOffset = 0; yearOffset <= 1; yearOffset++) {
+        const eventDate = new Date(baseDate);
+        eventDate.setFullYear(now.getFullYear() + yearOffset);
+        if (eventDate >= now && eventDate <= cutoff) {
+          const daysUntil = Math.ceil((eventDate - now) / (1000 * 60 * 60 * 24));
+          events.push({
+            clientId: client.id,
+            clientName: client.clientName,
+            companyName: client.companyName,
+            label: nd.label,
+            date: eventDate.toISOString().split('T')[0],
+            daysUntil,
+          });
+        }
+      }
+    }
+  }
+
+  events.sort((a, b) => a.daysUntil - b.daysUntil);
+  return events;
+}
+
 function formatCurrency(amount) {
   return '$' + (amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -50,9 +92,16 @@ function frequencyLabel(freq) {
   return FREQUENCY_OPTIONS.find(f => f.value === freq)?.label || '—';
 }
 
+function daysUntilLabel(days) {
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Tomorrow';
+  return `In ${days} days`;
+}
+
 export default function CateringTrackerPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const router = useRouter();
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -60,11 +109,12 @@ export default function CateringTrackerPage() {
   const [sortOrder, setSortOrder] = useState('desc');
 
   // Modal state
-  const [modal, setModal] = useState(null); // 'add' | 'edit' | 'detail' | 'order' | null
+  const [modal, setModal] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
   const [clientOrders, setClientOrders] = useState([]);
   const [clientRevenue, setClientRevenue] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
 
   // Form state for add/edit
   const [form, setForm] = useState({
@@ -138,8 +188,6 @@ export default function CateringTrackerPage() {
     setModal('edit');
   };
 
-  const [detailLoading, setDetailLoading] = useState(false);
-
   const openDetail = async (client) => {
     setSelectedClient(client);
     setClientRevenue(client.totalRevenue || 0);
@@ -162,6 +210,38 @@ export default function CateringTrackerPage() {
     setClientOrders([]);
   };
 
+  // Navigate to catering order form pre-filled with client info
+  const generateOrderForClient = (client) => {
+    sessionStorage.setItem('catering-prefill', JSON.stringify({
+      clientName: client.clientName,
+      companyName: client.companyName,
+      phone: client.phone,
+      email: client.email,
+      address: client.address,
+    }));
+    router.push('/dashboard/generators/catering-order?prefill=client');
+  };
+
+  // Reorder from a past order — pre-fill form with full order snapshot
+  const reorderFromOrder = (order, client) => {
+    const snapshot = order.formSnapshot || {};
+    sessionStorage.setItem('catering-reorder', JSON.stringify({
+      customerName: client.clientName,
+      customerPhone: client.phone,
+      customerEmail: client.email,
+      companyName: client.companyName,
+      deliveryAddress: snapshot.deliveryAddress || client.address,
+      boxes: snapshot.boxes || [],
+      includeChips: snapshot.includeChips || false,
+      includeDrinks: snapshot.includeDrinks || false,
+      cookiePlatter: snapshot.cookiePlatter || 0,
+      browniePlatter: snapshot.browniePlatter || 0,
+      discount: snapshot.discount || 0,
+      specialRequests: snapshot.specialRequests || '',
+    }));
+    router.push('/dashboard/generators/catering-order?reorder=true');
+  };
+
   const handleSaveClient = async () => {
     if (!form.clientName.trim()) { showToast('Client name is required.', 'error'); return; }
     setSaving(true);
@@ -170,7 +250,7 @@ export default function CateringTrackerPage() {
       const url = isEdit ? `/api/catering/clients/${selectedClient.id}` : '/api/catering/clients';
       const method = isEdit ? 'PATCH' : 'POST';
       const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-      if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
+      if (!res.ok) { let msg = 'Failed to save client.'; try { const e = await res.json(); msg = e.error || msg; } catch {} throw new Error(msg); }
       showToast(isEdit ? 'Client updated.' : 'Client added.', 'success');
       closeModal();
       fetchClients();
@@ -233,10 +313,10 @@ export default function CateringTrackerPage() {
     else { setSort(field); setSortOrder('desc'); }
   };
 
-  // Compute top 3 clients by revenue
+  // Computed data
   const top3 = [...clients].sort((a, b) => (b.totalRevenue || 0) - (a.totalRevenue || 0)).slice(0, 3).filter(c => c.totalRevenue > 0);
+  const upcomingEvents = getUpcomingNotableDates(clients, 30);
 
-  // Compute stats
   const totalClients = clients.length;
   const totalRevenue = clients.reduce((sum, c) => sum + (c.totalRevenue || 0), 0);
   const thisMonth = new Date().toISOString().slice(0, 7);
@@ -277,6 +357,38 @@ export default function CateringTrackerPage() {
           <div className={styles.statLabel}>Need Follow-Up</div>
         </div>
       </div>
+
+      {/* Upcoming Events */}
+      {upcomingEvents.length > 0 && (
+        <div className={styles.eventsSection}>
+          <h2 className={styles.eventsTitle}>Upcoming Events <span className={styles.eventsCount}>{upcomingEvents.length}</span></h2>
+          <div className={styles.eventsList}>
+            {upcomingEvents.map((ev, i) => (
+              <div key={`${ev.clientId}-${ev.date}-${i}`} className={styles.eventRow}>
+                <div className={styles.eventDate}>
+                  <span className={styles.eventDay}>{new Date(ev.date + 'T00:00:00').getDate()}</span>
+                  <span className={styles.eventMonth}>{new Date(ev.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short' })}</span>
+                </div>
+                <div className={styles.eventInfo}>
+                  <span className={styles.eventLabel}>{ev.label}</span>
+                  <span className={styles.eventClient}>{ev.clientName}{ev.companyName ? ` — ${ev.companyName}` : ''}</span>
+                </div>
+                <div className={styles.eventUrgency}>
+                  <span className={`${styles.eventBadge} ${ev.daysUntil <= 7 ? styles.eventUrgent : ev.daysUntil <= 14 ? styles.eventSoon : styles.eventNormal}`}>
+                    {daysUntilLabel(ev.daysUntil)}
+                  </span>
+                </div>
+                <button className={styles.eventAction} onClick={() => {
+                  const c = clients.find(cl => cl.id === ev.clientId);
+                  if (c) generateOrderForClient(c);
+                }} title="Generate order">
+                  New Order
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Top 3 */}
       {top3.length > 0 && (
@@ -333,11 +445,13 @@ export default function CateringTrackerPage() {
             <span className={styles.colLast} onClick={() => toggleSort('lastOrder')}>
               Last Order {sort === 'lastOrder' && (sortOrder === 'asc' ? '↑' : '↓')}
             </span>
+            <span className={styles.colNext}>Next Expected</span>
             <span className={styles.colStatus}>Status</span>
             <span className={styles.colActions}>Actions</span>
           </div>
           {clients.map(c => {
             const status = getFollowUpStatus(c.lastOrderDate, c.reorderFrequency);
+            const nextDate = getNextExpectedDate(c.lastOrderDate, c.reorderFrequency);
             return (
               <div key={c.id} className={styles.tableRow}>
                 <span className={styles.colName} onClick={() => openDetail(c)}>
@@ -347,6 +461,7 @@ export default function CateringTrackerPage() {
                 <span className={styles.colOrders}>{c.orderCount || 0}</span>
                 <span className={styles.colRevenue}>{formatCurrency(c.totalRevenue)}</span>
                 <span className={styles.colLast}>{formatDate(c.lastOrderDate)}</span>
+                <span className={styles.colNext}>{nextDate ? formatDate(nextDate) : '—'}</span>
                 <span className={styles.colStatus}>
                   {c.reorderFrequency && c.reorderFrequency !== 'one-time' ? (
                     <span className={`${styles.statusBadge} ${styles['status_' + status]}`}>
@@ -357,6 +472,7 @@ export default function CateringTrackerPage() {
                   )}
                 </span>
                 <span className={styles.colActions}>
+                  <button className={styles.actionBtn} onClick={() => generateOrderForClient(c)} title="New order form">+</button>
                   <button className={styles.actionBtn} onClick={() => openOrderLog(c)} title="Log order">$</button>
                   <button className={styles.actionBtn} onClick={() => openEdit(c)} title="Edit">&#9998;</button>
                   <button className={`${styles.actionBtn} ${styles.actionDanger}`} onClick={() => handleDeleteClient(c.id)} title="Delete">&times;</button>
@@ -434,8 +550,15 @@ export default function CateringTrackerPage() {
             {/* Client Detail */}
             {modal === 'detail' && selectedClient && (
               <>
-                <h2 className={styles.modalTitle}>{selectedClient.clientName}</h2>
-                {selectedClient.companyName && <p className={styles.detailCompany}>{selectedClient.companyName}</p>}
+                <div className={styles.detailHeader}>
+                  <div>
+                    <h2 className={styles.modalTitle}>{selectedClient.clientName}</h2>
+                    {selectedClient.companyName && <p className={styles.detailCompany}>{selectedClient.companyName}</p>}
+                  </div>
+                  <button className={styles.generateBtn} onClick={() => { const c = selectedClient; closeModal(); generateOrderForClient(c); }}>
+                    + New Order
+                  </button>
+                </div>
                 <div className={styles.detailGrid}>
                   {selectedClient.phone && <div><span className={styles.detailLabel}>Phone</span><span>{selectedClient.phone}</span></div>}
                   {selectedClient.email && <div><span className={styles.detailLabel}>Email</span><span>{selectedClient.email}</span></div>}
@@ -443,6 +566,19 @@ export default function CateringTrackerPage() {
                   <div><span className={styles.detailLabel}>Frequency</span><span>{frequencyLabel(selectedClient.reorderFrequency)}</span></div>
                   <div><span className={styles.detailLabel}>Total Revenue</span><span className={styles.detailRevenue}>{formatCurrency(clientRevenue)}</span></div>
                   <div><span className={styles.detailLabel}>Total Orders</span><span>{clientOrders.length}</span></div>
+                  {(() => {
+                    const next = getNextExpectedDate(selectedClient.lastOrderDate || clientOrders[0]?.orderDate, selectedClient.reorderFrequency);
+                    if (!next) return null;
+                    const status = getFollowUpStatus(selectedClient.lastOrderDate || clientOrders[0]?.orderDate, selectedClient.reorderFrequency);
+                    return (
+                      <div>
+                        <span className={styles.detailLabel}>Next Expected</span>
+                        <span className={status === 'overdue' ? styles.detailOverdue : status === 'approaching' ? styles.detailApproaching : ''}>
+                          {formatDate(next)}
+                        </span>
+                      </div>
+                    );
+                  })()}
                 </div>
                 {selectedClient.notes && (
                   <div className={styles.detailNotes}>
@@ -472,10 +608,19 @@ export default function CateringTrackerPage() {
                   ) : (
                     clientOrders.map(o => (
                       <div key={o.id} className={styles.detailOrderRow}>
-                        <span>{formatDate(o.orderDate)}</span>
+                        <span className={styles.detailOrderDate}>{formatDate(o.orderDate)}</span>
                         <span className={styles.detailOrderAmount}>{formatCurrency(o.totalAmount)}</span>
                         {o.itemCount > 0 && <span className={styles.detailOrderMeta}>{o.itemCount} subs</span>}
                         {o.autoGenerated && <span className={styles.detailOrderAuto}>Auto</span>}
+                        {o.formSnapshot && (
+                          <button
+                            className={styles.reorderBtn}
+                            onClick={() => { const c = selectedClient; closeModal(); reorderFromOrder(o, c); }}
+                            title="Reorder with same items"
+                          >
+                            Reorder
+                          </button>
+                        )}
                       </div>
                     ))
                   )}

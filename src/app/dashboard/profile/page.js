@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
@@ -26,6 +26,15 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [hasExtendedScopes, setHasExtendedScopes] = useState(false);
+
+  const checkScopes = useCallback(async () => {
+    try {
+      const res = await fetch('/api/auth/scopes');
+      const data = await res.json();
+      setHasExtendedScopes(data.hasExtendedScopes === true);
+    } catch { /* ignore */ }
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -36,7 +45,8 @@ export default function ProfilePage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [user]);
+    checkScopes();
+  }, [user, checkScopes]);
 
   const updateField = (key, value) => {
     setProfile(prev => ({ ...prev, [key]: value }));
@@ -169,6 +179,57 @@ export default function ProfilePage() {
           </button>
         </div>
       </form>
+
+      {/* Connected Services */}
+      <div className={styles.servicesSection}>
+        <h2 className={styles.servicesTitle}>Connected Services</h2>
+        <p className={styles.servicesSubtitle}>Manage which Google services RO Tools can access on your behalf.</p>
+
+        <div className={styles.serviceCard}>
+          <div className={styles.serviceInfo}>
+            <div className={styles.serviceName}>Google Drive, Sheets &amp; Docs</div>
+            <div className={styles.serviceDesc}>Save generated PDFs directly to your Google Drive. Required for &quot;Save to Drive&quot; on all generators.</div>
+          </div>
+          {hasExtendedScopes ? (
+            <div className={styles.serviceConnected}>
+              <span className={styles.serviceStatusDot}></span>
+              Connected
+            </div>
+          ) : (
+            <button
+              className={styles.serviceConnectBtn}
+              onClick={() => { window.location.href = `/api/auth/upgrade?returnTo=/dashboard/profile`; }}
+            >
+              Connect
+            </button>
+          )}
+        </div>
+
+        <div className={styles.serviceCard}>
+          <div className={styles.serviceInfo}>
+            <div className={styles.serviceName}>Gmail (Send Only)</div>
+            <div className={styles.serviceDesc}>Send generated documents via email directly from the app. Granted alongside Drive access.</div>
+          </div>
+          {hasExtendedScopes ? (
+            <div className={styles.serviceConnected}>
+              <span className={styles.serviceStatusDot}></span>
+              Connected
+            </div>
+          ) : (
+            <div className={styles.serviceDisconnected}>Not connected</div>
+          )}
+        </div>
+
+        {hasExtendedScopes && (
+          <p className={styles.servicesNote}>
+            To revoke access, visit your{' '}
+            <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" style={{ color: '#134A7C', fontWeight: 600 }}>
+              Google Account Permissions
+            </a>{' '}
+            page and remove RO Tools. You&apos;ll be prompted to reconnect when using Drive features.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

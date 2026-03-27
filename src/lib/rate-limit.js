@@ -31,7 +31,7 @@ export function rateLimit(name, windowMs, maxRequests, request) {
   const record = store.get(key);
 
   // Clean expired entries periodically
-  if (store.size > 10000) {
+  if (store.size > 1000) {
     for (const [k, v] of store) {
       if (now - v.start > windowMs) store.delete(k);
     }

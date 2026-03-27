@@ -199,4 +199,72 @@
   .saveBtn {
     font-size: 15px;
   }
+  .servicesSection {
+    padding: 20px 10px;
+  }
+}
+
+/* ─── Connected Services ─── */
+.servicesSection {
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.servicesTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--jm-blue);
+  margin-bottom: 4px;
+}
+.servicesSubtitle {
+  font-size: 13px;
+  color: var(--gray-500);
+  margin-bottom: 16px;
+}
+.serviceCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.serviceInfo { flex: 1; min-width: 0; }
+.serviceName { font-size: 14px; font-weight: 700; color: var(--charcoal); margin-bottom: 2px; }
+.serviceDesc { font-size: 12px; color: var(--gray-500); line-height: 1.4; }
+.serviceConnected {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: #16a34a;
+  flex-shrink: 0;
+}
+.serviceStatusDot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #16a34a;
+}
+.serviceDisconnected {
+  font-size: 12px; color: var(--gray-400); flex-shrink: 0;
+}
+.serviceConnectBtn {
+  padding: 7px 18px;
+  background: var(--jm-blue);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.serviceConnectBtn:hover { background: #1a5a94; }
+.servicesNote {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 12px;
+  line-height: 1.5;
 }

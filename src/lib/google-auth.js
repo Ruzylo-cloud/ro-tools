@@ -7,17 +7,43 @@ export function getOAuth2Client() {
   return new google.auth.OAuth2(clientId, clientSecret, redirectUri);
 }
 
+const BASIC_SCOPES = [
+  'openid',
+  'email',
+  'profile',
+];
+
+const EXTENDED_SCOPES = [
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/spreadsheets',
+  'https://www.googleapis.com/auth/documents',
+  'https://www.googleapis.com/auth/gmail.send',
+];
+
 export function getAuthUrl() {
   const client = getOAuth2Client();
   return client.generateAuthUrl({
     access_type: 'offline',
     prompt: 'consent',
-    scope: [
-      'openid',
-      'email',
-      'profile',
-    ],
+    scope: BASIC_SCOPES,
     hd: 'jmvalley.com',
+  });
+}
+
+/**
+ * Generate an auth URL that requests extended scopes (Drive, Sheets, Docs, Gmail).
+ * Uses include_granted_scopes so the user keeps their basic login scopes.
+ * The `state` param carries a return URL so we can redirect back after granting.
+ */
+export function getExtendedAuthUrl(returnTo) {
+  const client = getOAuth2Client();
+  return client.generateAuthUrl({
+    access_type: 'offline',
+    prompt: 'consent',
+    scope: [...BASIC_SCOPES, ...EXTENDED_SCOPES],
+    include_granted_scopes: true,
+    hd: 'jmvalley.com',
+    state: returnTo || '/dashboard',
   });
 }
 

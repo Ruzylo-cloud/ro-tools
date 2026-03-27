@@ -14,6 +14,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const error = searchParams.get('error');
+  const state = searchParams.get('state');
   const baseUrl = getBaseUrl(request);
 
   if (error || !code) {
@@ -29,6 +30,10 @@ export async function GET(request) {
       return NextResponse.redirect(`${baseUrl}/?error=domain_restricted`);
     }
 
+    // Check if extended scopes were granted (scope upgrade flow)
+    const grantedScope = tokens.scope || '';
+    const hasExtendedScopes = grantedScope.includes('drive') || grantedScope.includes('spreadsheets');
+
     const sessionData = {
       accessToken: tokens.access_token,
       refreshToken: tokens.refresh_token,
@@ -36,12 +41,15 @@ export async function GET(request) {
       name: userInfo.name,
       picture: userInfo.picture,
       id: userInfo.id,
+      hasExtendedScopes,
     };
 
     // Sign the session token (HMAC-SHA256)
     const signed = createSessionToken(sessionData);
 
-    const response = NextResponse.redirect(`${baseUrl}/dashboard`);
+    // Use state param as return URL if present (from scope upgrade flow)
+    const returnTo = state && state.startsWith('/') ? state : '/dashboard';
+    const response = NextResponse.redirect(`${baseUrl}${returnTo}`);
     response.cookies.set('ro_session', signed, {
       httpOnly: true,
       secure: true,

@@ -20,9 +20,32 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
   const [breadcrumb, setBreadcrumb] = useState([{ id: 'root', name: 'My Drive' }]);
   const [loadingFolders, setLoadingFolders] = useState(false);
   const [result, setResult] = useState(null);
+  const [needsUpgrade, setNeedsUpgrade] = useState(false);
 
   const currentFolderId = breadcrumb[breadcrumb.length - 1].id;
   const isAtRoot = breadcrumb.length === 1 && currentFolderId === 'root';
+
+  // Check if user has Drive access when opening picker
+  const handleOpenPicker = async () => {
+    try {
+      const res = await fetch('/api/auth/scopes');
+      const data = await res.json();
+      if (!data.hasExtendedScopes) {
+        setNeedsUpgrade(true);
+        return;
+      }
+    } catch {
+      // If scope check fails, try opening anyway — the Drive call will fail gracefully
+    }
+    setNeedsUpgrade(false);
+    setShowPicker(true);
+  };
+
+  const handleUpgrade = () => {
+    // Save current page URL so user comes back after granting access
+    const returnTo = window.location.pathname + window.location.search;
+    window.location.href = `/api/auth/upgrade?returnTo=${encodeURIComponent(returnTo)}`;
+  };
 
   const loadFolders = async (parentId) => {
     setLoadingFolders(true);
@@ -143,9 +166,9 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
   return (
     <div style={{ marginTop: '8px' }}>
       {/* Save to Drive button */}
-      {!showPicker && (
+      {!showPicker && !needsUpgrade && (
         <button
-          onClick={() => setShowPicker(true)}
+          onClick={handleOpenPicker}
           disabled={disabled || saving}
           style={{
             width: '100%',
@@ -164,6 +187,42 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
         >
           Save to Google Drive
         </button>
+      )}
+
+      {/* Upgrade prompt — shown when user hasn't granted Drive access */}
+      {needsUpgrade && !showPicker && (
+        <div style={{
+          border: '1px solid #e5e7eb',
+          borderRadius: '10px',
+          padding: '16px',
+          textAlign: 'center',
+        }}>
+          <div style={{ fontSize: '13px', color: '#374151', marginBottom: '10px', lineHeight: 1.5 }}>
+            To save files to Google Drive, you need to grant additional access to your account.
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={() => setNeedsUpgrade(false)}
+              style={{
+                flex: 1, padding: '10px', background: '#f0f4f8', color: '#6b7280',
+                border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px',
+                fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleUpgrade}
+              style={{
+                flex: 1, padding: '10px', background: '#134A7C', color: '#fff',
+                border: 'none', borderRadius: '8px', fontSize: '13px',
+                fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >
+              Grant Access
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Folder Picker */}
