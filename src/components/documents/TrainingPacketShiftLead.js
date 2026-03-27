@@ -129,7 +129,9 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
           background: i % 2 === 0 ? '#fff' : '#FAFAFA',
         }}>
           <span style={{ flex: 1, color: '#2D2D2D', lineHeight: 1.3 }}>{row}</span>
-          <span style={{ width: '50px', textAlign: 'center', flexShrink: 0 }}></span>
+          <span style={{ width: '50px', textAlign: 'center', flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <span style={{ display: 'inline-block', width: '14px', height: '14px', border: '1.5px solid #134A7C' }}></span>
+          </span>
         </div>
       ))}
     </>
@@ -218,7 +220,9 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
               <div style={{ flex: 1 }}>
                 <b>{trait.title}</b> - {trait.desc}
               </div>
-              <div style={{ width: '60px', flexShrink: 0 }}></div>
+              <div style={{ width: '60px', flexShrink: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ width: '16px', height: '16px', border: '1.5px solid #134A7C' }}></div>
+              </div>
             </div>
           ))}
 
@@ -227,7 +231,7 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
           </div>
 
           <div style={{ fontSize: '5.8pt', color: '#2D2D2D', padding: '3px 6px', lineHeight: 1.25, marginTop: '2px' }}>
-            <b>State of the Store</b>: One of the biggest keys to success in leading your team for the day is knowing exactly what the state of the store is in. Here are some questions that you need to ask yourself and be able to answer wither, before, during or after your shift. How many lettuce bins are in the walk in? Who&apos;s going on break next? Where is the prep person at on their prep list (progress made)? What is ________ (enter anyone&apos;s name) doing in the back right now? What&apos;s left to be done, in order to make sure you turn over a fully reset store to the night lead? How much bread is left? Is anyone in a bad mood today? Is everyone in Uniform?
+            <b>State of the Store</b>: One of the biggest keys to success in leading your team for the day is knowing exactly what the state of the store is in. Here are some questions that you need to ask yourself and be able to answer wither, before, during or after your shift. How many lettuce bins are in the walk in? Who&apos;s going on break next? Where is the prep person at on their prep list (progress made)? What is <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}></span> (enter anyone&apos;s name) doing in the back right now? What&apos;s left to be done, in order to make sure you turn over a fully reset store to the night lead? How much bread is left? Is anyone in a bad mood today? Is everyone in Uniform?
           </div>
         </DocumentTemplate>
         {pageNumber(1)}
