@@ -45,11 +45,10 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
       ref={ref}
       style={{
         width: '612px',
-        height: '792px',
+        minHeight: '792px',
         background: '#fff',
         fontFamily: "'Poppins', sans-serif",
         position: 'relative',
-        overflow: 'hidden',
         margin: '0 auto',
       }}
     >

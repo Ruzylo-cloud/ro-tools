@@ -18,7 +18,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
 
   const checkItem = (text, indent) => (
     <div style={{ display: 'flex', gap: '4px', paddingLeft: indent ? '14px' : 0 }}>
-      <span style={{ color: '#134A7C', fontWeight: 700, minWidth: '20px', flexShrink: 0 }}>___</span>
+      <span style={{ color: '#EE3227', fontWeight: 700, minWidth: '14px', flexShrink: 0, fontSize: '8pt' }}>&#9744;</span>
       <span>{text}</span>
     </div>
   );

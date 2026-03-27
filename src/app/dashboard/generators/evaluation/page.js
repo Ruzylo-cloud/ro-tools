@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import EvaluationPreview from '@/components/EvaluationPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const RATING_CATEGORIES = [
@@ -105,7 +106,9 @@ export default function EvaluationPage() {
       pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
 
       const empName = form.employeeName ? form.employeeName.replace(/\s+/g, '-').toLowerCase() : 'employee';
-      pdf.save(`performance-evaluation-${empName}.pdf`);
+      const fileName = `performance-evaluation-${empName}.pdf`;
+      pdf.save(fileName);
+      logActivity({ generatorType: 'evaluation', action: 'download', formData: form, filename: fileName });
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
@@ -292,6 +295,8 @@ export default function EvaluationPage() {
           getCanvasRef={() => previewRef.current}
           fileName="performance-evaluation.pdf"
           disabled={generating}
+          generatorType="evaluation"
+          formData={form}
         />
       </div>
 

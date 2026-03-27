@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import CateringOrderPreview, { MENU_ITEMS } from '@/components/CateringOrderPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const PRICE_PER_BOX = 89.95;
@@ -89,7 +90,7 @@ export default function CateringOrderPage() {
   const addBox = () => {
     setForm(prev => ({
       ...prev,
-      boxes: [...prev.boxes, { subs: [{ subName: '', quantity: 12, mikesWay: true, specialInstructions: '' }] }],
+      boxes: [...prev.boxes, { subs: [{ subName: '', bread: 'White', quantity: 12, mikesWay: true, specialInstructions: '' }] }],
     }));
   };
 
@@ -108,7 +109,7 @@ export default function CateringOrderPage() {
       // Calculate remaining for this box
       const used = box.subs.reduce((s, sub) => s + (parseInt(sub.quantity, 10) || 0), 0);
       const remaining = Math.max(0, SUBS_PER_BOX - used);
-      box.subs.push({ subName: '', quantity: remaining || 1, mikesWay: true, specialInstructions: '' });
+      box.subs.push({ subName: '', bread: 'White', quantity: remaining || 1, mikesWay: true, specialInstructions: '' });
       boxes[boxIndex] = box;
       return { ...prev, boxes };
     });
@@ -154,6 +155,7 @@ export default function CateringOrderPage() {
         ? `catering-order-${form.customerName.replace(/\s+/g, '-').toLowerCase()}.pdf`
         : 'catering-order-form.pdf';
       pdf.save(filename);
+      logActivity({ generatorType: 'catering-order', action: 'download', formData: form, filename });
       showToast('PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
@@ -278,6 +280,14 @@ export default function CateringOrderPage() {
                         </select>
                       </div>
                       <div className={styles.fieldRow}>
+                        <div className={styles.field}>
+                          <label className={styles.label}>Bread</label>
+                          <select className={styles.input} value={sub.bread || 'White'} onChange={(e) => handleSubChange(bi, si, 'bread', e.target.value)}>
+                            <option value="White">White</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Rosemary">Rosemary</option>
+                          </select>
+                        </div>
                         <div className={styles.field}>
                           <label className={styles.label}>Qty</label>
                           <input type="number" className={styles.input} min="1" max={SUBS_PER_BOX} value={sub.quantity} onChange={(e) => handleSubChange(bi, si, 'quantity', e.target.value)} />
@@ -453,6 +463,8 @@ export default function CateringOrderPage() {
           getCanvasRef={() => previewRef.current}
           fileName="catering-order.pdf"
           disabled={generating}
+          generatorType="catering-order"
+          formData={form}
         />
       </div>
 

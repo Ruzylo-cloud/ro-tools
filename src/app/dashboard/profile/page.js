@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
@@ -108,6 +109,13 @@ export default function ProfilePage() {
       <div className={styles.header}>
         <h1 className={styles.title}>Store Profile</h1>
         <p className={styles.subtitle}>This info auto-fills into all your tools. Update it here anytime.</p>
+        <Link href="/dashboard/history" className={styles.historyLink}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+          View Generation History
+        </Link>
       </div>
       <form onSubmit={handleSave} className={styles.form}>
         {/* Basic info */}

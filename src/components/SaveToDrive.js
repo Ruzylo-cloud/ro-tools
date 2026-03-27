@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { logActivity } from '@/lib/log-activity';
 
 /**
  * SaveToDrive — a button + folder picker for saving generated PDFs to Google Drive.
@@ -8,8 +9,10 @@ import { useState, useEffect } from 'react';
  *  - getCanvasRef: function that returns the ref to the DOM element to capture
  *  - fileName: string, the PDF file name (without .pdf)
  *  - disabled: boolean
+ *  - generatorType: string, for audit logging (e.g. 'written-warning')
+ *  - formData: object, form data for audit logging
  */
-export default function SaveToDrive({ getCanvasRef, fileName, disabled }) {
+export default function SaveToDrive({ getCanvasRef, fileName, disabled, generatorType, formData }) {
   const [saving, setSaving] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [folders, setFolders] = useState([]);
@@ -102,6 +105,9 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled }) {
       if (data.success) {
         setResult({ type: 'success', link: data.file.webViewLink });
         setShowPicker(false);
+        if (generatorType) {
+          logActivity({ generatorType, action: 'drive-save', formData: formData || {}, filename: `${fileName}.pdf` });
+        }
       } else {
         setResult({ type: 'error', message: data.error || 'Upload failed' });
       }

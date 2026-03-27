@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import InjuryReportPreview from '@/components/InjuryReportPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const INJURY_TYPES = [
@@ -102,7 +103,9 @@ export default function InjuryReportPage() {
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       const name = form.employeeName ? form.employeeName.replace(/\s+/g, '-').toLowerCase() : 'employee';
-      pdf.save(`injury-report-${name}.pdf`);
+      const fileName = `injury-report-${name}.pdf`;
+      pdf.save(fileName);
+      logActivity({ generatorType: 'injury-report', action: 'download', formData: form, filename: fileName });
       showToast('PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
@@ -171,6 +174,7 @@ export default function InjuryReportPage() {
       if (result.success) {
         setSent(true);
         showToast('Injury report sent to HR (bethany@jmvalley.com)', 'success');
+        logActivity({ generatorType: 'injury-report', action: 'email-send', formData: form, filename: `injury-report-${form.employeeName || 'employee'}.pdf` });
       } else {
         showToast(result.error || 'Failed to send email. You may need to sign out and back in to grant email permissions.', 'error');
       }
@@ -342,6 +346,8 @@ export default function InjuryReportPage() {
           getCanvasRef={() => previewRef.current}
           fileName={`injury-report-${(form.employeeName || 'employee').replace(/\s+/g, '-').toLowerCase()}`}
           disabled={generating}
+          generatorType="injury-report"
+          formData={form}
         />
       </div>
 

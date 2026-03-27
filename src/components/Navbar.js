@@ -67,11 +67,6 @@ export default function Navbar() {
             <Link href="/dashboard/generators" className={styles.navLink} onClick={closeDropdown}>Generators</Link>
           </div>
 
-          {/* 2b. History */}
-          <div className={styles.navItem}>
-            <Link href="/dashboard/history" className={styles.navLink} onClick={closeDropdown}>History</Link>
-          </div>
-
           {/* 3. Catering (dropdown) */}
           <div className={styles.navItem}>
             <button
@@ -152,8 +147,6 @@ export default function Navbar() {
         <Link href="/dashboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Dashboard</Link>
 
         <Link href="/dashboard/generators" className={styles.mobileNavLink} onClick={closeMobileMenu}>Generators</Link>
-
-        <Link href="/dashboard/history" className={styles.mobileNavLink} onClick={closeMobileMenu}>History</Link>
 
         <button className={styles.mobileNavLink} onClick={() => toggleDropdown('m_catering')}>
           Catering <span className={`${styles.chevron} ${openDropdown === 'm_catering' ? styles.chevronOpen : ''}`}>&#x25BE;</span>

@@ -106,6 +106,7 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       orderRows.push({
         boxNum: bi + 1,
         subName: sub.subName || '\u2014',
+        bread: sub.bread || 'White',
         quantity: sub.quantity || 0,
         mikesWay: sub.mikesWay,
         specialInstructions: sub.specialInstructions || '',
@@ -120,12 +121,11 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       ref={ref}
       style={{
         width: '612px',
-        height: '792px',
+        minHeight: '792px',
         background: '#fff',
         fontFamily: "'Poppins', sans-serif",
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
         margin: '0 auto',
       }}
     >
@@ -192,11 +192,12 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
         }}>
           <thead>
             <tr style={{ background: '#f0f4f8' }}>
-              <th style={{ padding: '2px 4px', textAlign: 'left', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '11%' }}>Box</th>
-              <th style={{ padding: '2px 4px', textAlign: 'left', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '34%' }}>Sub</th>
-              <th style={{ padding: '2px 4px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '8%' }}>Qty</th>
-              <th style={{ padding: '2px 4px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '12%' }}>Mike&apos;s Way</th>
-              <th style={{ padding: '2px 4px', textAlign: 'left', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '35%' }}>Special Instructions</th>
+              <th style={{ padding: '2px 4px', textAlign: 'left', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '10%' }}>Box</th>
+              <th style={{ padding: '2px 4px', textAlign: 'left', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '28%' }}>Sub</th>
+              <th style={{ padding: '2px 4px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '12%' }}>Bread</th>
+              <th style={{ padding: '2px 4px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '7%' }}>Qty</th>
+              <th style={{ padding: '2px 4px', textAlign: 'center', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '10%' }}>Mike&apos;s Way</th>
+              <th style={{ padding: '2px 4px', textAlign: 'left', fontWeight: 700, color: '#2D2D2D', borderBottom: '1px solid #ccc', width: '33%' }}>Special Instructions</th>
             </tr>
           </thead>
           <tbody>
@@ -206,19 +207,21 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
                   {row.isFirstInBox ? `Box ${row.boxNum}` : ''}
                 </td>
                 <td style={{ padding: '2px 4px', color: '#2D2D2D' }}>{row.subName}</td>
+                <td style={{ padding: '2px 4px', textAlign: 'center', color: '#2D2D2D' }}>{row.bread}</td>
                 <td style={{ padding: '2px 4px', textAlign: 'center', color: '#2D2D2D' }}>{row.quantity}</td>
                 <td style={{ padding: '2px 4px', textAlign: 'center', color: '#2D2D2D' }}>{row.mikesWay ? 'Yes' : 'No'}</td>
                 <td style={{ padding: '2px 4px', color: '#666' }}>{row.specialInstructions || '\u2014'}</td>
               </tr>
             )) : (
               <tr>
-                <td colSpan={5} style={{ padding: '5px', textAlign: 'center', color: '#999', fontStyle: 'italic' }}>No boxes added yet</td>
+                <td colSpan={6} style={{ padding: '5px', textAlign: 'center', color: '#999', fontStyle: 'italic' }}>No boxes added yet</td>
               </tr>
             )}
             {/* Fill empty rows */}
             {orderRows.length > 0 && orderRows.length < 6 && Array.from({ length: 6 - orderRows.length }).map((_, i) => (
               <tr key={`e-${i}`} style={{ borderBottom: '1px solid #eee' }}>
                 <td style={{ padding: '2px 4px' }}>&nbsp;</td>
+                <td style={{ padding: '2px 4px' }}></td>
                 <td style={{ padding: '2px 4px' }}></td>
                 <td style={{ padding: '2px 4px' }}></td>
                 <td style={{ padding: '2px 4px' }}></td>
@@ -235,8 +238,8 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       }}>
         {checkBox(includeChips, `Chips (${totalSubs} × $2.55)`)}
         {checkBox(includeDrinks, `Bottled Drinks (${totalSubs} × $3.45)`)}
-        {cookiePlatter > 0 && checkBox(true, `Cookie Platter ×${cookiePlatter} ($${cookieTotal.toFixed(2)})`)}
-        {browniePlatter > 0 && checkBox(true, `Brownie Platter ×${browniePlatter} ($${brownieTotal.toFixed(2)})`)}
+        {checkBox(cookiePlatter > 0, `Cookie Platter (${cookiePlatter} × $17.99)`)}
+        {checkBox(browniePlatter > 0, `Brownie Platter (${browniePlatter} × $19.99)`)}
       </div>
 
       {/* Pricing Section — full width */}
@@ -277,18 +280,14 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
               <span style={{ fontWeight: 600, color: '#2D2D2D' }}>${drinksTotal.toFixed(2)}</span>
             </div>
           )}
-          {cookiePlatter > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
-              <span style={{ color: '#2D2D2D' }}>Cookie Platter ×{cookiePlatter}</span>
-              <span style={{ fontWeight: 600, color: '#2D2D2D' }}>${cookieTotal.toFixed(2)}</span>
-            </div>
-          )}
-          {browniePlatter > 0 && (
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
-              <span style={{ color: '#2D2D2D' }}>Brownie Platter ×{browniePlatter}</span>
-              <span style={{ fontWeight: 600, color: '#2D2D2D' }}>${brownieTotal.toFixed(2)}</span>
-            </div>
-          )}
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
+            <span style={{ color: '#2D2D2D' }}>Cookie Platter ({cookiePlatter} × $17.99)</span>
+            <span style={{ fontWeight: 600, color: '#2D2D2D' }}>${cookieTotal.toFixed(2)}</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
+            <span style={{ color: '#2D2D2D' }}>Brownie Platter ({browniePlatter} × $19.99)</span>
+            <span style={{ fontWeight: 600, color: '#2D2D2D' }}>${brownieTotal.toFixed(2)}</span>
+          </div>
           {discount > 0 && (
             <>
               <div style={{ borderTop: '1px solid #eee', margin: '2px 0', paddingTop: '2px', display: 'flex', justifyContent: 'space-between' }}>

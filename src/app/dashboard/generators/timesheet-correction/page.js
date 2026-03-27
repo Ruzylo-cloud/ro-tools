@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import TimesheetCorrectionPreview from '@/components/TimesheetCorrectionPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -72,6 +73,7 @@ export default function TimesheetCorrectionPage() {
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       pdf.save('timesheet-correction.pdf');
+      logActivity({ generatorType: 'timesheet-correction', action: 'download', formData: form, filename: 'timesheet-correction.pdf' });
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -117,6 +119,8 @@ export default function TimesheetCorrectionPage() {
           getCanvasRef={() => previewRef.current}
           fileName="timesheet-correction.pdf"
           disabled={generating}
+          generatorType="timesheet-correction"
+          formData={form}
         />
       </div>
       <div className={styles.preview}>

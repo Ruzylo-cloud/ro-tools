@@ -4,8 +4,7 @@ import { forwardRef } from 'react';
 
 /**
  * Uniform document template for all JMVG documents.
- * JMVG logo at top, red accent bars, blue headers, Poppins font.
- * Letter size: 612x792pt
+ * Letter size: 612x792pt. Compact header, ownership footer.
  */
 const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle, storeNumber, storeName, children }, ref) {
   return (
@@ -13,39 +12,39 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
       ref={ref}
       style={{
         width: '612px',
-        height: '792px',
+        minHeight: '792px',
         background: '#fff',
         fontFamily: "'Poppins', sans-serif",
-        position: 'relative',
-        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
         margin: '0 auto',
       }}
     >
       {/* Top Red Bar */}
-      <div style={{ height: '6px', background: '#EE3227' }} />
+      <div style={{ height: '5px', background: '#EE3227' }} />
 
-      {/* Header: Logo + Store Info */}
+      {/* Header: Logo centered + Store info right-aligned */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '12px 28px 10px',
+        padding: '6px 28px 4px',
       }}>
         <img
           src="/jmvg-logo.png"
           alt="JM Valley Group"
-          style={{ height: '52px', width: 'auto' }}
+          style={{ height: '40px', width: 'auto' }}
           crossOrigin="anonymous"
         />
         {(storeNumber || storeName) && (
           <div style={{ textAlign: 'right' }}>
             {storeNumber && (
-              <div style={{ fontSize: '9pt', fontWeight: 700, color: '#134A7C' }}>
+              <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C' }}>
                 Store #{storeNumber}
               </div>
             )}
             {storeName && (
-              <div style={{ fontSize: '8pt', fontWeight: 400, color: '#6b7280' }}>
+              <div style={{ fontSize: '7pt', fontWeight: 400, color: '#6b7280' }}>
                 {storeName}
               </div>
             )}
@@ -54,53 +53,47 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
       </div>
 
       {/* Blue Divider */}
-      <div style={{ height: '2px', background: '#134A7C', margin: '0 28px' }} />
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px' }} />
 
       {/* Title Section */}
       <div style={{
         background: '#134A7C',
         color: '#fff',
         textAlign: 'center',
-        padding: '10px 28px',
-        margin: '10px 28px 0',
-        borderRadius: '6px',
+        padding: '6px 28px',
+        margin: '6px 28px 0',
+        borderRadius: '4px',
       }}>
-        <div style={{ fontSize: '16pt', fontWeight: 700, letterSpacing: '1px' }}>
+        <div style={{ fontSize: '14pt', fontWeight: 700, letterSpacing: '1px' }}>
           {title}
         </div>
         {subtitle && (
-          <div style={{ fontSize: '9pt', fontWeight: 400, color: '#B8CCE0', marginTop: '2px' }}>
+          <div style={{ fontSize: '8pt', fontWeight: 400, color: '#B8CCE0', marginTop: '1px' }}>
             {subtitle}
           </div>
         )}
       </div>
 
       {/* Red Accent Line Under Title */}
-      <div style={{ height: '3px', background: '#EE3227', margin: '0 28px' }} />
+      <div style={{ height: '2px', background: '#EE3227', margin: '0 28px' }} />
 
       {/* Content Area */}
-      <div style={{ padding: '12px 28px 0' }}>
+      <div style={{ padding: '8px 28px 0', flex: 1 }}>
         {children}
       </div>
 
       {/* Footer */}
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px' }} />
       <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
+        background: '#EE3227',
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: '5.5pt',
+        padding: '4px 28px',
+        fontWeight: 400,
+        lineHeight: 1.3,
       }}>
-        <div style={{ height: '2px', background: '#134A7C', margin: '0 28px' }} />
-        <div style={{
-          background: '#EE3227',
-          color: '#fff',
-          textAlign: 'center',
-          fontSize: '7pt',
-          padding: '5px 28px',
-          fontWeight: 400,
-        }}>
-          JM Valley Group &middot; jmvalleygroup.com &middot; Confidential
-        </div>
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
       </div>
     </div>
   );

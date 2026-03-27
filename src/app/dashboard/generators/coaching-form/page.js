@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import CoachingFormPreview from '@/components/CoachingFormPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const COACHING_TYPES = [
@@ -79,7 +80,9 @@ export default function CoachingFormPage() {
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       const name = form.employeeName ? form.employeeName.replace(/\s+/g, '-').toLowerCase() : 'employee';
-      pdf.save(`coaching-form-${name}.pdf`);
+      const fileName = `coaching-form-${name}.pdf`;
+      pdf.save(fileName);
+      logActivity({ generatorType: 'coaching-form', action: 'download', formData: form, filename: fileName });
       showToast('PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
@@ -200,6 +203,8 @@ export default function CoachingFormPage() {
           getCanvasRef={() => previewRef.current}
           fileName={`coaching-form-${(form.employeeName || 'employee').replace(/\s+/g, '-').toLowerCase()}`}
           disabled={generating}
+          generatorType="coaching-form"
+          formData={form}
         />
       </div>
 

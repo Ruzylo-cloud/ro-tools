@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import FlyerPreview from '@/components/FlyerPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const EDITABLE_FIELDS = [
@@ -71,6 +72,7 @@ export default function FlyerPage() {
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
       pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
       pdf.save('catering-flyer.pdf');
+      logActivity({ generatorType: 'flyer', action: 'download', formData: form, filename: 'catering-flyer.pdf' });
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
@@ -119,6 +121,8 @@ export default function FlyerPage() {
           getCanvasRef={() => flyerRef.current}
           fileName="catering-flyer"
           disabled={generating}
+          generatorType="flyer"
+          formData={form}
         />
       </div>
 

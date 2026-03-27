@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import WrittenWarningPreview from '@/components/WrittenWarningPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const WARNING_TYPES = [
@@ -110,6 +111,7 @@ export default function WrittenWarningPage() {
         ? `written-warning-${form.employeeName.replace(/\s+/g, '-').toLowerCase()}.pdf`
         : 'written-warning.pdf';
       pdf.save(fileName);
+      logActivity({ generatorType: 'written-warning', action: 'download', formData: form, filename: fileName });
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
@@ -297,6 +299,8 @@ export default function WrittenWarningPage() {
           getCanvasRef={() => previewRef.current}
           fileName="written-warning.pdf"
           disabled={generating}
+          generatorType="written-warning"
+          formData={form}
         />
       </div>
 

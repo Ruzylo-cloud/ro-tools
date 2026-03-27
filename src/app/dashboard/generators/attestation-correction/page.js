@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import AttestationCorrectionPreview from '@/components/AttestationCorrectionPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -76,6 +77,7 @@ export default function AttestationCorrectionPage() {
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       pdf.save('attestation-correction.pdf');
+      logActivity({ generatorType: 'attestation-correction', action: 'download', formData: form, filename: 'attestation-correction.pdf' });
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -129,6 +131,8 @@ export default function AttestationCorrectionPage() {
           getCanvasRef={() => previewRef.current}
           fileName="attestation-correction.pdf"
           disabled={generating}
+          generatorType="attestation-correction"
+          formData={form}
         />
       </div>
       <div className={styles.preview}>
