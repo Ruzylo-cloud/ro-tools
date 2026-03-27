@@ -94,10 +94,10 @@ export default function DashboardPage() {
               <polyline points="10 9 9 9 8 9" />
             </svg>
           </div>
-          <h3 className={styles.pillarTitle}>Document Generation</h3>
+          <h3 className={styles.pillarTitle}>12 Document Generators</h3>
           <p className={styles.pillarDesc}>
-            Written warnings, performance evaluations, timesheet corrections, attestation forms, catering orders,
-            and training packets — all generated as professional, branded PDFs in seconds.
+            Written warnings, evaluations, coaching forms, injury reports, resignations, terminations, meal break waivers,
+            timesheet and attestation corrections, catering orders, flyers, and training packets — all as branded PDFs with digital signatures and e-sign capability.
           </p>
         </div>
         <div className={styles.pillar}>
@@ -136,7 +136,7 @@ export default function DashboardPage() {
           <h3 className={styles.pillarTitle}>Full Audit Trail</h3>
           <p className={styles.pillarDesc}>
             Every document generated is logged with the user, timestamp, action taken, and all form data.
-            View your personal history or search across all activity in the admin panel.
+            Injury reports auto-email HR. E-signatures send signing links directly to employees. View your history or search all activity in admin.
           </p>
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function DashboardPage() {
             <div className={styles.stepNumber}>3</div>
             <div>
               <h4 className={styles.stepTitle}>Preview & Download</h4>
-              <p className={styles.stepDesc}>See a live preview, then download as PDF or save directly to Google Drive.</p>
+              <p className={styles.stepDesc}>See a live preview, download as PDF, save to Google Drive, or send for e-signature — all in one click.</p>
             </div>
           </div>
         </div>
@@ -209,10 +209,10 @@ export default function DashboardPage() {
         <div>
           <h3 className={styles.complianceTitle}>California & Federal Compliance</h3>
           <p className={styles.complianceText}>
-            All HR forms and documents are designed to meet California labor law and federal compliance standards
-            including Cal/OSHA reporting requirements, meal and rest break attestation per CA Labor Code,
-            progressive discipline documentation, and workplace injury reporting under &sect;6409.1. Every action is
-            tracked in our audit system for accountability and record-keeping.
+            All HR forms meet California labor law and federal compliance standards:
+            Cal/OSHA injury reporting (&sect;6409.1) with auto-email to HR, meal break waivers per Labor Code &sect;512,
+            attestation corrections per &sect;226.7, progressive discipline documentation, termination forms with &sect;201-202 final pay compliance,
+            and digital e-signatures with timestamped audit trails. Every action is tracked for accountability.
           </p>
         </div>
       </div>
@@ -222,8 +222,8 @@ export default function DashboardPage() {
         <h2 className={styles.sectionTitle}>Built for Operators, by Operators</h2>
         <p className={styles.sectionText}>
           RO Tools was built from the ground up to solve the daily friction franchise managers face:
-          inconsistent paperwork, manual data entry, and time wasted on formatting instead of running the store.
-          Every feature exists because a real operator needed it.
+          inconsistent paperwork, manual data entry, chasing signatures, and time wasted on formatting instead of running the store.
+          12 generators, digital signatures, auto-email to HR, e-sign for employees, live scoreboard, catering CRM — every feature exists because a real operator needed it.
         </p>
         <div className={styles.techRow}>
           <span className={styles.techBadge}>Next.js</span>
