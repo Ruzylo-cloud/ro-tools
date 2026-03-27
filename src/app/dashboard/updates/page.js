@@ -16,7 +16,7 @@ function formatDate(dateStr) {
 }
 
 export default function UpdatesPage() {
-  // Group entries by version
+  // Group entries by version, then sort groups by date (newest first)
   const grouped = [];
   const seen = new Set();
   for (const entry of changelog) {
@@ -26,6 +26,7 @@ export default function UpdatesPage() {
     }
     grouped.find(g => g.version === entry.version).entries.push(entry);
   }
+  grouped.sort((a, b) => b.date.localeCompare(a.date) || b.version.localeCompare(a.version));
 
   return (
     <div className={styles.container}>

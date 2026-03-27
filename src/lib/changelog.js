@@ -8,6 +8,64 @@
  */
 
 export const changelog = [
+  // ── v2.2.0 — March 26, 2026 ──────────────────────────────────────
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: 'Admin Activity Logs',
+    description: 'New Activity Logs tab in the Admin Panel. Search by name, email, or document. Filter by generator type and action (download, Drive save, email). Paginated table with color-coded action badges.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: '3 New Training Packets',
+    description: 'Added Slicer Training (4-week certification), Opener Training (opening shift certification), and Shift Lead Training (leadership & closing certification). All 7 training packets now available under Documents.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: 'Coaching Form & Injury Report Generators',
+    description: 'Two new document generators: Coaching Form for documenting employee coaching sessions, and Injury Report for workplace incident documentation. Both produce branded PDFs with auto-filled store info.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: 'Activity Logging System',
+    description: 'All document generation actions (download, Drive save, email) are now logged with user info, generator type, form data, and timestamps. Powers the new admin Activity Logs tab.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'Training Packet Uniformity Overhaul',
+    description: 'Enterprise-level standardization across all 7 training packets. Identical employee info blocks, centered logo, consistent fonts (6.5pt body, 8pt headers, 9pt values), uniform sign-off sections, and standardized checkbox sizing.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'Catering Order Enhancements',
+    description: 'Added bread selection (White, Wheat, Rosemary) per sub in catering orders. Cookie and Brownie platter lines now always visible in the order form and PDF, even when quantity is zero.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'Navigation & Profile Cleanup',
+    description: 'Moved Generation History link from the main navbar into the Store Profile page for a cleaner navigation bar.',
+  },
+  {
+    version: 'v2.2.0',
+    date: '2026-03-26',
+    category: 'bug_fix',
+    title: 'Document Template Content Cutoff Fix',
+    description: 'Fixed training packets and other documents where content was cut off at the bottom or overlapped by the footer. Separated content area from flex spacer and added proper footer margin spacing.',
+  },
+
   // ── v2.1.0 — March 26, 2026 ──────────────────────────────────────
   {
     version: 'v2.1.0',
