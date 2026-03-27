@@ -72,7 +72,7 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
       <div style={{ flex: 1, minHeight: '8px' }} />
 
       {/* Footer */}
-      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px' }} />
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 6px' }} />
       <div style={{
         background: '#EE3227',
         color: '#fff',
