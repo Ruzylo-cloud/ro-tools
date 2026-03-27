@@ -169,40 +169,36 @@
   line-height: 1.6;
 }
 
-/* ─── Tool Grid ─── */
-.toolGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-top: 16px;
+/* ─── Tool List ─── */
+.toolList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 8px;
 }
 
-.toolCard {
-  display: block;
-  padding: 16px 18px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  text-decoration: none;
-  transition: all 0.2s;
-  background: var(--white);
+.toolItem {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--gray-100);
 }
 
-.toolCard:hover {
-  border-color: var(--jm-blue);
-  box-shadow: 0 2px 8px rgba(19,74,124,0.1);
-  transform: translateY(-1px);
+.toolItem:last-child {
+  border-bottom: none;
 }
 
 .toolName {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--jm-blue);
-  margin-bottom: 2px;
+  white-space: nowrap;
 }
 
 .toolDesc {
   font-size: 12px;
-  color: var(--gray-600);
+  color: var(--gray-500);
 }
 
 /* ─── Tech Badges ─── */
@@ -396,7 +392,6 @@
 @media (max-width: 670px) {
   .container { padding: 36px 20px 44px; }
   .heroTitle { font-size: 30px; }
-  .toolGrid { grid-template-columns: 1fr; }
   .updatesSection { padding: 20px; }
   .updateRow { flex-wrap: wrap; gap: 6px; }
 }

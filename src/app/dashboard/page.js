@@ -172,22 +172,22 @@ export default function DashboardPage() {
       {/* Available Tools */}
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Available Tools</h2>
-        <div className={styles.toolGrid}>
+        <div className={styles.toolList}>
           {[
-            { name: 'Catering Flyer', desc: 'Print-ready flyers with menu & pricing', href: '/dashboard/flyer' },
-            { name: 'Catering Order', desc: 'Customer-facing order forms', href: '/dashboard/generators/catering-order' },
-            { name: 'Written Warning', desc: 'Corrective action documentation', href: '/dashboard/generators/written-warning' },
-            { name: 'Performance Eval', desc: 'Employee reviews with scoring', href: '/dashboard/generators/evaluation' },
-            { name: 'Timesheet Correction', desc: 'Clock in/out adjustments', href: '/dashboard/generators/timesheet-correction' },
-            { name: 'Attestation Correction', desc: 'Meal & rest break forms', href: '/dashboard/generators/attestation-correction' },
-            { name: 'Injury Report', desc: 'OSHA-compliant injury forms, auto-sent to HR', href: '/dashboard/generators/injury-report' },
-            { name: 'Employee Coaching', desc: 'Verbal coaching & counseling docs', href: '/dashboard/generators/coaching-form' },
-            { name: 'Training Documents', desc: 'Level 1-3 packets & new hire checklists', href: '/dashboard/documents' },
+            { name: 'Catering Flyer', desc: 'Print-ready flyers with menu & pricing' },
+            { name: 'Catering Order', desc: 'Customer-facing order forms' },
+            { name: 'Written Warning', desc: 'Corrective action documentation' },
+            { name: 'Performance Eval', desc: 'Employee reviews with scoring' },
+            { name: 'Timesheet Correction', desc: 'Clock in/out adjustments' },
+            { name: 'Attestation Correction', desc: 'Meal & rest break forms' },
+            { name: 'Injury Report', desc: 'OSHA-compliant injury forms' },
+            { name: 'Employee Coaching', desc: 'Verbal coaching & counseling docs' },
+            { name: 'Training Documents', desc: 'Level 1–3, Slicer, Opener, Shift Lead & New Hire' },
           ].map(t => (
-            <Link key={t.href} href={t.href} className={styles.toolCard}>
-              <div className={styles.toolName}>{t.name}</div>
-              <div className={styles.toolDesc}>{t.desc}</div>
-            </Link>
+            <div key={t.name} className={styles.toolItem}>
+              <span className={styles.toolName}>{t.name}</span>
+              <span className={styles.toolDesc}>{t.desc}</span>
+            </div>
           ))}
         </div>
       </div>
