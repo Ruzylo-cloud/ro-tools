@@ -124,7 +124,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
       {videos.map((v, i) => (
         <div key={i} style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '1px' }}>
           <u>{v.title}</u><br />
-          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;______
+          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;<span style={{ display: 'inline-block', width: '12px', height: '12px', border: '1px solid #2D2D2D', verticalAlign: 'middle' }}>&nbsp;</span>
         </div>
       ))}
     </div>
@@ -134,15 +134,20 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
     <div style={{ marginTop: '6px' }}>
       {sectionHeader('GM DEBRIEF - end of training shift')}
       <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
-        <div style={{ marginBottom: '2px' }}>What has been most difficult for you so far? ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>What is your favorite part of the job so far? ______________________________________</div>
-        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ marginBottom: '2px' }}>What has been most difficult for you so far?</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>What is your favorite part of the job so far?</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas of opportunity:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
         <div style={{ fontSize: '6pt', fontStyle: 'italic', color: '#6b7280' }}>
           Is there anything you&apos;d like to talk about or ask about while we&apos;re chatting? (don&apos;t write down, this is just opportunity for casual conversation)
         </div>
@@ -347,17 +352,17 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
               <tr>
                 <td colSpan={2}></td>
                 <td colSpan={2} style={{ border: '1px solid #ccc', padding: '2px 4px', background: '#E5E7EB', fontWeight: 700, textAlign: 'center' }}>
-                  SCORE _________ %
+                  SCORE <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> %
                 </td>
               </tr>
             </tbody>
           </table>
 
           <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px' }}>
-            Mike&apos;s Way includes: ____________ &nbsp;&nbsp; ____________ &nbsp;&nbsp; _______________
+            Mike&apos;s Way includes: <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> &nbsp;&nbsp; <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> &nbsp;&nbsp; <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
           </div>
           <div style={{ fontSize: '7pt', color: '#2D2D2D', marginTop: '2px' }}>
-            __________ &nbsp;&nbsp; __________ &nbsp;&nbsp; ______________ &nbsp;&nbsp; ______________
+            <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> &nbsp;&nbsp; <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> &nbsp;&nbsp; <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> &nbsp;&nbsp; <span style={{ display: 'inline-block', width: '90px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
           </div>
         </div>
         {footer()}
@@ -409,7 +414,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; SPRINKLE CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
             Trainee completes sprinkle checklist on their own with shift lead or trainer. Time this.<br />
-            <b>Goal = 35 minutes</b>. Attempt #1 at sprinkle checklist ________ minutes.
+            <b>Goal = 35 minutes</b>. Attempt #1 at sprinkle checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes.
           </div>
         </div>
         {footer()}
@@ -446,7 +451,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
             Trainee completes sprinkle checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Sprinkle Checklist. <b>Goal = 35 minutes</b>.
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', marginBottom: '6px' }}>
-            &nbsp;&nbsp;&nbsp;&nbsp;Attempt #2 at sprinkle checklist ________ minutes
+            &nbsp;&nbsp;&nbsp;&nbsp;Attempt #2 at sprinkle checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes
           </div>
         </div>
         {footer()}
@@ -480,17 +485,17 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
             LEVEL 1:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            -Final attempt at Sprinkle Checklist: _________ minutes (must be under 35 mins)<br />
-            -Sprinkle a Giant: ________ seconds (must be under 30 secs)<br />
-            -Sprinkle Certification submitted: ________ (video submission of Mike&apos;s Way, moving sub to paper, cut and wrap required)
+            -Final attempt at Sprinkle Checklist: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes (must be under 35 mins)<br />
+            -Sprinkle a Giant: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> seconds (must be under 30 secs)<br />
+            -Sprinkle Certification submitted: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (video submission of Mike&apos;s Way, moving sub to paper, cut and wrap required)
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Certification Awarded By - Trainer: _________________________
+              Certification Awarded By - Trainer: <span style={{ display: 'inline-block', width: '160px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Date: _________
+              Date: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
           </div>
         </div>

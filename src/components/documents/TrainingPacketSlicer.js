@@ -62,8 +62,9 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
   );
 
   const blankCheck = (text) => (
-    <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.5, marginBottom: '1px' }}>
-      __ {text}
+    <div style={{ display: 'flex', gap: '3px', marginBottom: '1px' }}>
+      <span style={{ color: '#134A7C', fontWeight: 700, minWidth: '14px', flexShrink: 0, fontSize: '8pt' }}>&#9744;</span>
+      <span style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.35 }}>{text}</span>
     </div>
   );
 
@@ -181,13 +182,13 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; JOLT TRAINING VIDEOS</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '2px' }}>
-            Slicer cleaning during the rush ____
+            Slicer cleaning during the rush <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
           </div>
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; HOMEWORK TRAINING VIDEOS</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
             Go on training.jerseymikes.com to access videos and login with your credentials.<br />
-            Slicing - ALL videos under Slicing (40 min) ____
+            Slicing - ALL videos under Slicing (40 min) <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
           </div>
         </DocumentTemplate>
         {pageNumber(1)}
@@ -230,7 +231,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
           {blankCheck('Banter with guests: this is a fun way to interact with our guests and make them feel welcome and a part of our lives here at Jersey Mike\'s')}
 
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', marginTop: '6px' }}>
-            Back Line Slice List Completion - Signed off by: ___________________ Date: ___________
+            Back Line Slice List Completion - Signed off by: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '140px' }}>&nbsp;</span> Date: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
           </div>
         </div>
         {footer()}
@@ -264,17 +265,17 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; HOMEWORK TRAINING VIDEOS</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '6px' }}>
-            Bread - ALL Videos under Bread (16 min) ____
+            Bread - ALL Videos under Bread (16 min) <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
           </div>
 
           {sectionHeader('GM DEBRIEF - do at conclusion of 2nd back line slicer training shift')}
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
-            <div style={{ marginBottom: '2px' }}>What part of slicing do you feel is most challenging for you? ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-            <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-            <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+            <div style={{ marginBottom: '2px' }}>What part of slicing do you feel is most challenging for you? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '220px' }}>&nbsp;</span></div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', marginBottom: '4px', height: '12px' }} />
+            <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '220px' }}>&nbsp;</span></div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', marginBottom: '4px', height: '12px' }} />
+            <div style={{ marginBottom: '2px' }}>2 areas of opportunity: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '220px' }}>&nbsp;</span></div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', marginBottom: '4px', height: '12px' }} />
           </div>
         </div>
         {footer()}
@@ -311,13 +312,13 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
 
           {sectionHeader('ACCURACY CHECK!')}
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6, paddingLeft: '8px' }}>
-            <div>&bull; Weighing subs? _______</div>
-            <div>&bull; Enter weight in ounces for: #7 ________ #8 _________ #13 _________</div>
-            <div>&bull; No left hand? _______</div>
-            <div>&bull; Keeping the meat case door closed? _______</div>
-            <div>&bull; Flowering large meats? _______</div>
-            <div>&bull; No thumbs used when catching / flipping flat meats &amp; cheese? _______</div>
-            <div>&bull; Is the bread cut in half with 50/50 on top and bottom? _______</div>
+            <div>&bull; Weighing subs? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span></div>
+            <div>&bull; Enter weight in ounces for: #7 <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '60px' }}>&nbsp;</span> #8 <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '60px' }}>&nbsp;</span> #13 <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '60px' }}>&nbsp;</span></div>
+            <div>&bull; No left hand? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span></div>
+            <div>&bull; Keeping the meat case door closed? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span></div>
+            <div>&bull; Flowering large meats? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span></div>
+            <div>&bull; No thumbs used when catching / flipping flat meats &amp; cheese? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span></div>
+            <div>&bull; Is the bread cut in half with 50/50 on top and bottom? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span></div>
             <div style={{ color: '#EE3227' }}>&bull; <b>360 vision,</b> calling out lobby checks at least every 30 mins? Ensuring lobby check timer is set.</div>
           </div>
 
@@ -339,7 +340,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; TRAINING VIDEOS</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
             Log in to BEHIND THE COUNTER, <b>hover over Training, click on &quot;Library Videos&quot;</b><br />
-            Speed of Experience: Slicing - ALL Videos under Speed of Experience: Slicing (37 mins) ____
+            Speed of Experience: Slicing - ALL Videos under Speed of Experience: Slicing (37 mins) <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
           </div>
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; SLICING BENCHMARKS</div>
@@ -408,7 +409,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
           </div>
 
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', marginTop: '4px' }}>
-            Slicing Checklist Completion - Signed off by: ___________________ Date: ___________
+            Slicing Checklist Completion - Signed off by: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '140px' }}>&nbsp;</span> Date: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
           </div>
         </div>
         {footer()}
@@ -447,12 +448,12 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
 
           {sectionHeader('GM DEBRIEF - do at conclusion of 2nd front line slicer training shift')}
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
-            <div style={{ marginBottom: '2px' }}>What part of front line slicer position do you feel is most challenging for you? ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-            <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-            <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
-            <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+            <div style={{ marginBottom: '2px' }}>What part of front line slicer position do you feel is most challenging for you? <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '180px' }}>&nbsp;</span></div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', marginBottom: '4px', height: '12px' }} />
+            <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '220px' }}>&nbsp;</span></div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', marginBottom: '4px', height: '12px' }} />
+            <div style={{ marginBottom: '2px' }}>2 areas of opportunity: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '220px' }}>&nbsp;</span></div>
+            <div style={{ borderBottom: '1px solid #2D2D2D', marginBottom: '4px', height: '12px' }} />
           </div>
         </div>
         {footer()}
@@ -474,7 +475,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
           </div>
 
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', marginBottom: '8px' }}>
-            VIDEO COMPLETION PERCENTAGE: __ Goal by this point is 51%
+            VIDEO COMPLETION PERCENTAGE: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '40px' }}>&nbsp;</span> Goal by this point is 51%
           </div>
 
           <div style={{
@@ -491,15 +492,15 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
             LEVEL 4:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            <b>Slice Certification _____ (video submission of #13 required)</b>
+            <b>Slice Certification <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '60px' }}>&nbsp;</span> (video submission of #13 required)</b>
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Certification Awarded By - Trainer: _________________________
+              Certification Awarded By - Trainer: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '160px' }}>&nbsp;</span>
             </div>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Date: _________
+              Date: <span style={{ borderBottom: '1px solid #2D2D2D', display: 'inline-block', width: '80px' }}>&nbsp;</span>
             </div>
           </div>
 
