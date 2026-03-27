@@ -1,0 +1,161 @@
+/**
+ * Demo Mode — Pre-seeded data for presentation/demo access.
+ * Demo users get read-only access with realistic sample data.
+ * No real data is exposed. No writes to /data/.
+ */
+
+export const DEMO_PROFILE = {
+  setupComplete: true,
+  role: 'administrator',
+  roleApproved: true,
+  displayName: 'Chris Ruzylo',
+  districtManager: 'Narek Khudabakhshyan',
+  storeNumber: '20360',
+  storeName: "Jersey Mike's #20360 - Santa Barbara",
+  street: '199 S Turnpike Rd Suite 102',
+  city: 'Santa Barbara',
+  state: 'CA',
+  phone: '(820) 203-4891',
+  operatorName: 'Chris Ruzylo',
+  operatorPhone: '(805) 555-0100',
+  assistantName: 'Adrian Llamas',
+  assistantTitle: 'Assistant Restaurant Operator',
+  assistantPhone: '(805) 555-0200',
+  stores: [
+    {
+      storeNumber: '20360',
+      storeName: "Jersey Mike's #20360 - Santa Barbara",
+      street: '199 S Turnpike Rd Suite 102',
+      city: 'Santa Barbara',
+      state: 'CA',
+      phone: '(820) 203-4891',
+      operatorName: 'Chris Ruzylo',
+      operatorPhone: '(805) 555-0100',
+      assistantName: 'Adrian Llamas',
+      assistantTitle: 'Assistant Restaurant Operator',
+      assistantPhone: '(805) 555-0200',
+    },
+  ],
+};
+
+export const DEMO_USERS = [
+  {
+    id: 'demo-user-1',
+    email: 'chrisr@jmvalley.com',
+    displayName: 'Chris Ruzylo',
+    role: 'administrator',
+    roleApproved: true,
+    rolePending: false,
+    setupComplete: true,
+    storeCount: 1,
+  },
+  {
+    id: 'demo-user-2',
+    email: 'jacob@jmvalley.com',
+    displayName: 'Jacob Elliott',
+    role: 'district_manager',
+    roleApproved: true,
+    rolePending: false,
+    setupComplete: true,
+    storeCount: 6,
+  },
+  {
+    id: 'demo-user-3',
+    email: 'marco@jmvalley.com',
+    displayName: 'Marco Gonzalez',
+    role: 'operator',
+    roleApproved: true,
+    rolePending: false,
+    setupComplete: true,
+    storeCount: 1,
+  },
+  {
+    id: 'demo-user-4',
+    email: 'newmanager@jmvalley.com',
+    displayName: 'Sarah Thompson',
+    role: 'district_manager',
+    roleApproved: false,
+    rolePending: true,
+    setupComplete: true,
+    storeCount: 3,
+  },
+];
+
+export const DEMO_TICKETS = [
+  {
+    id: 'demo-ticket-1',
+    type: 'feature',
+    title: 'Add bulk catering order export to CSV',
+    description: 'Would be helpful to export all catering orders for a date range as a CSV for accounting reconciliation.',
+    status: 'open',
+    userId: 'demo-user',
+    userName: 'Chris Ruzylo',
+    userEmail: 'demo@ro-tools.app',
+    createdAt: '2026-03-24T10:30:00.000Z',
+  },
+  {
+    id: 'demo-ticket-2',
+    type: 'bug',
+    title: 'PDF download cuts off bottom signature line on mobile',
+    description: 'When generating a Written Warning on iPhone Safari, the bottom signature area gets cut off in the downloaded PDF.',
+    status: 'open',
+    userId: 'demo-user',
+    userName: 'Chris Ruzylo',
+    userEmail: 'demo@ro-tools.app',
+    createdAt: '2026-03-22T14:15:00.000Z',
+  },
+  {
+    id: 'demo-ticket-3',
+    type: 'feature',
+    title: 'Employee scheduling integration with Homebase',
+    description: 'It would save time if we could pull shift data from Homebase directly into timesheet correction forms.',
+    status: 'open',
+    userId: 'demo-user',
+    userName: 'Chris Ruzylo',
+    userEmail: 'demo@ro-tools.app',
+    createdAt: '2026-03-20T09:45:00.000Z',
+  },
+];
+
+export const DEMO_LOGS = [
+  {
+    id: 'demo-log-1',
+    generatorType: 'written-warning',
+    action: 'download',
+    userId: 'demo-user',
+    userName: 'Chris Ruzylo',
+    userEmail: 'demo@ro-tools.app',
+    filename: 'WrittenWarning_JohnDoe_2026-03-25.pdf',
+    formData: { employeeName: 'John Doe', warningType: 'Written Warning' },
+    createdAt: '2026-03-25T16:30:00.000Z',
+  },
+  {
+    id: 'demo-log-2',
+    generatorType: 'catering-order',
+    action: 'download',
+    userId: 'demo-user',
+    userName: 'Chris Ruzylo',
+    userEmail: 'demo@ro-tools.app',
+    filename: 'CateringOrder_AcmeCorp_2026-03-24.pdf',
+    formData: { customerName: 'Acme Corp', totalSubs: 24 },
+    createdAt: '2026-03-24T11:15:00.000Z',
+  },
+  {
+    id: 'demo-log-3',
+    generatorType: 'evaluation',
+    action: 'drive-save',
+    userId: 'demo-user-2',
+    userName: 'Jacob Elliott',
+    userEmail: 'jacob@jmvalley.com',
+    filename: 'Evaluation_JaneSmith_2026-03-23.pdf',
+    formData: { employeeName: 'Jane Smith', overallScore: 4.2 },
+    createdAt: '2026-03-23T09:00:00.000Z',
+  },
+];
+
+/**
+ * Check if a session is a demo session.
+ */
+export function isDemo(session) {
+  return session?.isDemo === true || session?.email === 'demo@ro-tools.app';
+}

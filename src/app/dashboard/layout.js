@@ -12,6 +12,7 @@ export default function DashboardLayout({ children }) {
   const pathname = usePathname();
   const [setupChecked, setSetupChecked] = useState(false);
   const [setupComplete, setSetupComplete] = useState(false);
+  const [isDemoMode, setIsDemoMode] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -30,6 +31,10 @@ export default function DashboardLayout({ children }) {
         const complete = data.profile?.setupComplete === true;
         setSetupComplete(complete);
         setSetupChecked(true);
+        // Check if demo mode (demo profile always has setupComplete: true)
+        if (user.email === 'demo@ro-tools.app') {
+          setIsDemoMode(true);
+        }
         if (!complete && pathname !== '/dashboard/setup') {
           router.push('/dashboard/setup');
         }
@@ -67,6 +72,19 @@ export default function DashboardLayout({ children }) {
       <main style={{ minHeight: 'calc(100vh - 64px)', background: '#fafbfc' }}>
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
+      {/* Demo Mode Badge */}
+      {isDemoMode && (
+        <div style={{
+          position: 'fixed', bottom: 16, left: 16, zIndex: 9999,
+          background: 'rgba(19,74,124,0.9)', color: '#fff',
+          padding: '6px 14px', borderRadius: '8px',
+          fontSize: '11px', fontWeight: 700, letterSpacing: '0.5px',
+          backdropFilter: 'blur(8px)',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.15)',
+        }}>
+          DEMO MODE
+        </div>
+      )}
     </>
   );
 }

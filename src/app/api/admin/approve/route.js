@@ -4,6 +4,7 @@ import { loadJsonFile, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { logAdminAction } from '@/lib/audit';
 import { rateLimit } from '@/lib/rate-limit';
+import { isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,11 @@ export async function POST(request) {
   const { limited } = rateLimit('admin-approve', 60000, 20, request);
   if (limited) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  }
+
+  const sessionCheck = getSession();
+  if (isDemo(sessionCheck)) {
+    return NextResponse.json({ success: true, demo: true });
   }
 
   const session = getSession();

@@ -4,6 +4,7 @@ import { getSession } from '@/lib/session';
 import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
+import { DEMO_LOGS, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -38,6 +39,10 @@ export async function GET(request) {
   const session = getSession();
   if (!session) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
+
+  if (isDemo(session)) {
+    return NextResponse.json({ logs: DEMO_LOGS, total: DEMO_LOGS.length });
   }
 
   const isAdmin = checkAdmin(session);

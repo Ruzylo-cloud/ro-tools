@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { getSession } from '@/lib/session';
 import { rateLimit } from '@/lib/rate-limit';
+import { DEMO_TICKETS, isDemo } from '@/lib/demo-data';
 import fs from 'fs/promises';
 import fsSync from 'fs';
 import path from 'path';
@@ -34,6 +35,10 @@ export async function GET() {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
+  if (isDemo(session)) {
+    return NextResponse.json({ tickets: DEMO_TICKETS });
+  }
+
   const tickets = await loadTickets();
   const mine = tickets.filter(t => t.userId === session.id);
   return NextResponse.json({ tickets: mine });
@@ -48,6 +53,10 @@ export async function POST(request) {
 
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    return NextResponse.json({ success: true, demo: true });
+  }
 
   let body;
   try {

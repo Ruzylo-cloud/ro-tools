@@ -3,12 +3,18 @@ import { getSession } from '@/lib/session';
 import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin, needsApproval } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
+import { DEMO_PROFILE, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  // Demo mode: return pre-seeded profile
+  if (isDemo(session)) {
+    return NextResponse.json({ profile: DEMO_PROFILE, isAdmin: true, isSuperAdmin: false });
+  }
 
   const profiles = loadJsonFile('profiles.json');
   const profile = profiles[session.id] || null;
@@ -31,6 +37,11 @@ export async function POST(request) {
 
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  // Demo mode: read-only
+  if (isDemo(session)) {
+    return NextResponse.json({ success: true, demo: true });
+  }
 
   let body;
   try {

@@ -2,12 +2,18 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { loadJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
+import { DEMO_USERS, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  // Demo mode: return sample users
+  if (isDemo(session)) {
+    return NextResponse.json({ users: DEMO_USERS });
+  }
 
   const profiles = loadJsonFile('profiles.json');
   const myProfile = profiles[session.id];
