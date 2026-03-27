@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import Orientation from '@/components/documents/Orientation';
 import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
 import TrainingPacketLevel2 from '@/components/documents/TrainingPacketLevel2';
 import TrainingPacketLevel3 from '@/components/documents/TrainingPacketLevel3';
@@ -14,6 +15,7 @@ import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const TEMPLATES = [
+  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: 'O' },
   { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '1' },
   { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '2' },
   { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '3' },
@@ -24,6 +26,10 @@ const TEMPLATES = [
 ];
 
 const TEMPLATE_FIELDS = {
+  orientation: [
+    { key: 'employeeName', label: 'Employee Name' },
+    { key: 'startDate', label: 'Start Date' },
+  ],
   level1: [
     { key: 'employeeName', label: 'Employee Name' },
     { key: 'startDate', label: 'Start Date' },
@@ -57,6 +63,7 @@ const TEMPLATE_FIELDS = {
 };
 
 const COMPONENT_MAP = {
+  orientation: Orientation,
   level1: TrainingPacketLevel1,
   level2: TrainingPacketLevel2,
   level3: TrainingPacketLevel3,
@@ -67,6 +74,7 @@ const COMPONENT_MAP = {
 };
 
 const FILE_NAMES = {
+  orientation: 'orientation-packet',
   level1: 'level-1-training-packet',
   level2: 'level-2-training-packet',
   level3: 'level-3-training-packet',
@@ -117,17 +125,33 @@ export default function DocumentsPage() {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF } = await import('jspdf');
 
-      const canvas = await html2canvas(docRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        width: 612,
-        height: 792,
-      });
-
+      const pages = docRef.current.querySelectorAll('[data-pdf-page]');
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
-      pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
+
+      if (pages.length > 0) {
+        for (let i = 0; i < pages.length; i++) {
+          const canvas = await html2canvas(pages[i], {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            width: 612,
+            height: 792,
+          });
+          const imgData = canvas.toDataURL('image/jpeg', 0.95);
+          if (i > 0) pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
+        }
+      } else {
+        const canvas = await html2canvas(docRef.current, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          width: 612,
+          height: 792,
+        });
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
+      }
 
       const empName = (form.employeeName || 'document').replace(/\s+/g, '-').toLowerCase();
       const fileName = `${FILE_NAMES[selected]}-${empName}.pdf`;
