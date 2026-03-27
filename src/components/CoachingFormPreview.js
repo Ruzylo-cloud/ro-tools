@@ -77,7 +77,7 @@ const CoachingFormPreview = forwardRef(function CoachingFormPreview({ data }, re
 
       {/* JMVG Logo */}
       <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
-        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '60px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '90px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
       {/* Blue Divider */}

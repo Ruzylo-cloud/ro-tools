@@ -28,7 +28,7 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
         <img
           src="/jmvg-logo.png"
           alt="JM Valley Group"
-          style={{ height: '60px', width: 'auto' }}
+          style={{ height: '90px', width: 'auto' }}
           crossOrigin="anonymous"
         />
         {(storeNumber || storeName) && (

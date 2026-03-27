@@ -52,7 +52,7 @@ const SLIDES = [
     type: 'stats',
     label: 'BY THE NUMBERS',
     stats: [
-      { value: '9', label: 'Document Generators' },
+      { value: '12', label: 'Document Generators' },
       { value: '29+', label: 'JMVG Stores' },
       { value: '11', label: 'Weeks of Scoreboard Data' },
       { value: '$0', label: 'Monthly Cost' },
@@ -66,7 +66,7 @@ const SLIDES = [
   {
     type: 'grid',
     label: 'DOCUMENT GENERATORS',
-    title: '9 Professional PDF Generators',
+    title: '12 Professional PDF Generators',
     items: [
       { icon: '📋', name: 'Catering Flyer', desc: 'Print-ready with full menu' },
       { icon: '📝', name: 'Catering Order', desc: 'Auto-calculated pricing' },
@@ -74,8 +74,11 @@ const SLIDES = [
       { icon: '⭐', name: 'Performance Eval', desc: '10-category scoring' },
       { icon: '🤝', name: 'Coaching Form', desc: 'Verbal coaching docs' },
       { icon: '🏥', name: 'Injury Report', desc: 'OSHA compliant + HR email' },
+      { icon: '📤', name: 'Resignation Form', desc: 'Exit docs + final pay' },
+      { icon: '🛑', name: 'Termination Form', desc: 'CA final pay compliant' },
+      { icon: '🍽️', name: 'Meal Break Waiver', desc: 'CA Labor Code §512' },
       { icon: '⏰', name: 'Timesheet Correction', desc: 'Clock in/out fixes' },
-      { icon: '🍽️', name: 'Attestation Correction', desc: 'Meal/rest break compliance' },
+      { icon: '📄', name: 'Attestation Correction', desc: 'Meal/rest break forms' },
       { icon: '📚', name: 'Training Documents', desc: '7 templates (L1-SL)' },
     ],
     bg: '#fff',
@@ -286,10 +289,10 @@ function SlideContent({ slide, visible }) {
       <div className={`slide ${animClass}`} style={{ background: slide.bg, color: slide.color, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '60px 80px' }}>
         <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#EE3227', marginBottom: 16 }}>{slide.label}</div>
         <h2 style={{ fontSize: 40, fontWeight: 800, fontFamily: "'Playfair Display', serif", letterSpacing: -1, marginBottom: 40, color: '#134A7C' }}>{slide.title}</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, maxWidth: 900 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, maxWidth: 1000 }}>
           {slide.items.map((item, i) => (
-            <div key={i} style={{ background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 12, padding: '20px 16px', display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <span style={{ fontSize: 24 }}>{item.icon}</span>
+            <div key={i} style={{ background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 14px', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 20 }}>{item.icon}</span>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: '#134A7C', marginBottom: 2 }}>{item.name}</div>
                 <div style={{ fontSize: 12, color: '#6b7280' }}>{item.desc}</div>

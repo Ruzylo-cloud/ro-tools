@@ -8,6 +8,43 @@
  */
 
 export const changelog = [
+  // ── v2.4.0 — March 27, 2026 ──────────────────────────────────────
+  {
+    version: 'v2.4.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Employee Resignation Form',
+    description: 'Full resignation documentation with resignation type (Voluntary, Job Abandonment, Mutual Agreement), notice period tracking, equipment return checklist, exit interview status, and final pay information.',
+  },
+  {
+    version: 'v2.4.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Employee Termination Form',
+    description: 'Comprehensive termination documentation with termination type, prior discipline history, final pay per California Labor Code §201-202, company property return checklist, witness signature, and COBRA/benefits notes.',
+  },
+  {
+    version: 'v2.4.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Meal Break Waiver',
+    description: 'California-compliant meal period waiver agreement per Labor Code §512 and IWC Order No. 5-2001. Supports first meal, second meal, and on-duty meal period waivers with full legal acknowledgments and revocation notice.',
+  },
+  {
+    version: 'v2.4.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Demo Mode',
+    description: 'Visit ro-tools.app/demo for a read-only demo session. Pre-seeded with sample store data, users, tickets, and activity logs. No @jmvalley.com account required. 2-hour sessions.',
+  },
+  {
+    version: 'v2.4.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Self-Playing Presentation',
+    description: 'Auto-advancing presentation at ro-tools.app/presentation with 14 slides covering the full platform, ROI data, compliance, and roadmap. Keyboard navigation and progress bar.',
+  },
+
   // ── v2.3.0 — March 26, 2026 ──────────────────────────────────────
   {
     version: 'v2.3.0',

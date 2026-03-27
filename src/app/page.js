@@ -19,9 +19,9 @@ const TOOLS = [
   {
     icon: '\u{1F4C4}',
     name: 'Document Generators',
-    desc: '7 professional generators — catering orders, written warnings, evaluations, coaching forms, injury reports, timesheet corrections, and attestation corrections. All auto-filled with your store details and downloadable as PDF.',
+    desc: '12 professional generators — catering orders, written warnings, evaluations, coaching forms, injury reports, resignations, terminations, meal break waivers, timesheet and attestation corrections. All auto-filled and downloadable as PDF.',
     highlight: true,
-    stat: '7 Forms',
+    stat: '12 Forms',
   },
   {
     icon: '\u{1F4CB}',
@@ -197,7 +197,7 @@ export default function LandingPage() {
       <section className={styles.statsBar}>
         <div className={styles.statsInner}>
           <div className={styles.statItem}>
-            <div className={styles.statNumber}>7</div>
+            <div className={styles.statNumber}>12</div>
             <div className={styles.statLabel}>Document Generators</div>
           </div>
           <div className={styles.statDivider}></div>
