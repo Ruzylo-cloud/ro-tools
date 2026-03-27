@@ -1,14 +1,24 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
-import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
+import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
-function getStoreNumber(session) {
-  const profiles = loadJsonFile('profiles.json');
+async function getStoreNumber(session) {
+  const profiles = await loadJsonFileAsync('profiles.json');
   const profile = profiles[session.id];
-  return profile?.storeNumber || null;
+  const num = profile?.storeNumber || null;
+  if (num && !/^\w{1,20}$/.test(num)) return null;
+  return num;
+}
+
+function safeNotableDates(arr) {
+  if (!Array.isArray(arr)) return [];
+  return arr.filter(d => d && typeof d === 'object').slice(0, 20).map(d => ({
+    label: String(d.label || '').slice(0, 200),
+    date: String(d.date || '').slice(0, 20),
+  }));
 }
 
 /**
@@ -18,7 +28,7 @@ export async function GET(request, { params }) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const storeNumber = getStoreNumber(session);
+  const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
 
   const { id } = params;
@@ -48,7 +58,7 @@ export async function PATCH(request, { params }) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const storeNumber = getStoreNumber(session);
+  const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
 
   const { id } = params;
@@ -68,11 +78,12 @@ export async function PATCH(request, { params }) {
     const client = { ...data.clients[idx] };
     for (const key of allowedFields) {
       if (body[key] !== undefined) {
-        if (key === 'notableDates' && Array.isArray(body[key])) {
-          client.notableDates = body[key].slice(0, 20).map(d => ({
-            label: String(d.label || '').slice(0, 200),
-            date: String(d.date || '').slice(0, 20),
-          }));
+        if (key === 'clientName') {
+          const val = String(body[key] || '').trim().slice(0, 200);
+          if (!val) continue; // Don't allow empty client name
+          client[key] = val;
+        } else if (key === 'notableDates') {
+          client.notableDates = safeNotableDates(body[key]);
         } else if (key === 'reorderFrequency') {
           if (['weekly', 'biweekly', 'monthly', 'quarterly', 'yearly', 'one-time', ''].includes(body[key])) {
             client[key] = body[key];
@@ -102,7 +113,7 @@ export async function DELETE(request, { params }) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const storeNumber = getStoreNumber(session);
+  const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
 
   const { id } = params;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
@@ -33,7 +33,7 @@ function getFollowUpStatus(lastOrderDate, reorderFrequency) {
   const elapsed = Math.floor((now - last) / (1000 * 60 * 60 * 24));
   if (elapsed > days * 1.2) return 'overdue';
   if (elapsed > days * 0.8) return 'approaching';
-  return 'on-track';
+  return 'ontrack';
 }
 
 function formatCurrency(amount) {
@@ -78,10 +78,13 @@ export default function CateringTrackerPage() {
     totalAmount: '', itemCount: '', headCount: '', notes: '',
   });
 
+  const searchRef = useRef(search);
+  searchRef.current = search;
+
   const fetchClients = useCallback(async () => {
     try {
       const params = new URLSearchParams({ sort, order: sortOrder });
-      if (search) params.set('search', search);
+      if (searchRef.current) params.set('search', searchRef.current);
       const res = await fetch(`/api/catering/clients?${params}`);
       const data = await res.json();
       setClients(data.clients || []);
@@ -89,11 +92,19 @@ export default function CateringTrackerPage() {
       showToast('Failed to load clients.', 'error');
     }
     setLoading(false);
-  }, [search, sort, sortOrder, showToast]);
+  }, [sort, sortOrder, showToast]);
 
   useEffect(() => {
     if (user) fetchClients();
   }, [user, fetchClients]);
+
+  // Escape key closes modal
+  useEffect(() => {
+    if (!modal) return;
+    const handler = (e) => { if (e.key === 'Escape') closeModal(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [modal]);
 
   const fetchClientDetail = async (clientId) => {
     try {
@@ -127,10 +138,16 @@ export default function CateringTrackerPage() {
     setModal('edit');
   };
 
+  const [detailLoading, setDetailLoading] = useState(false);
+
   const openDetail = async (client) => {
     setSelectedClient(client);
+    setClientRevenue(client.totalRevenue || 0);
+    setClientOrders([]);
+    setDetailLoading(true);
     setModal('detail');
     await fetchClientDetail(client.id);
+    setDetailLoading(false);
   };
 
   const openOrderLog = (client) => {
@@ -223,8 +240,7 @@ export default function CateringTrackerPage() {
   const totalClients = clients.length;
   const totalRevenue = clients.reduce((sum, c) => sum + (c.totalRevenue || 0), 0);
   const thisMonth = new Date().toISOString().slice(0, 7);
-  const ordersThisMonth = clients.reduce((sum, c) => {
-    // Approximate: count clients with lastOrderDate this month
+  const activeThisMonth = clients.reduce((sum, c) => {
     if (c.lastOrderDate && c.lastOrderDate.startsWith(thisMonth)) return sum + 1;
     return sum;
   }, 0);
@@ -253,8 +269,8 @@ export default function CateringTrackerPage() {
           <div className={styles.statLabel}>Total Revenue</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statValue}>{ordersThisMonth}</div>
-          <div className={styles.statLabel}>Orders This Month</div>
+          <div className={styles.statValue}>{activeThisMonth}</div>
+          <div className={styles.statLabel}>Active This Month</div>
         </div>
         <div className={styles.statCard}>
           <div className={`${styles.statValue} ${needFollowUp > 0 ? styles.statAlert : ''}`}>{needFollowUp}</div>
@@ -334,7 +350,7 @@ export default function CateringTrackerPage() {
                 <span className={styles.colStatus}>
                   {c.reorderFrequency && c.reorderFrequency !== 'one-time' ? (
                     <span className={`${styles.statusBadge} ${styles['status_' + status]}`}>
-                      {status === 'overdue' ? 'Overdue' : status === 'approaching' ? 'Due Soon' : status === 'on-track' ? 'On Track' : '—'}
+                      {status === 'overdue' ? 'Overdue' : status === 'approaching' ? 'Due Soon' : status === 'ontrack' ? 'On Track' : '—'}
                     </span>
                   ) : (
                     <span className={styles.statusMuted}>{c.reorderFrequency === 'one-time' ? 'One-time' : '—'}</span>
@@ -449,7 +465,9 @@ export default function CateringTrackerPage() {
                 {/* Order History */}
                 <div className={styles.detailOrders}>
                   <h3 className={styles.detailOrdersTitle}>Order History</h3>
-                  {clientOrders.length === 0 ? (
+                  {detailLoading ? (
+                    <p className={styles.detailEmpty}>Loading orders...</p>
+                  ) : clientOrders.length === 0 ? (
                     <p className={styles.detailEmpty}>No orders yet.</p>
                   ) : (
                     clientOrders.map(o => (
@@ -464,8 +482,8 @@ export default function CateringTrackerPage() {
                 </div>
                 <div className={styles.modalActions}>
                   <button className={styles.modalCancel} onClick={closeModal}>Close</button>
-                  <button className={styles.modalSave} onClick={() => { closeModal(); openOrderLog(selectedClient); }}>Log Order</button>
-                  <button className={styles.modalEdit} onClick={() => { closeModal(); openEdit(selectedClient); }}>Edit</button>
+                  <button className={styles.modalSave} onClick={() => { const c = selectedClient; closeModal(); openOrderLog(c); }}>Log Order</button>
+                  <button className={styles.modalEdit} onClick={() => { const c = selectedClient; closeModal(); openEdit(c); }}>Edit</button>
                 </div>
               </>
             )}

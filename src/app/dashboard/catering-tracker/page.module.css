@@ -57,7 +57,7 @@
 .statusBadge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
 .status_overdue { background: rgba(238,50,39,0.1); color: var(--jm-red); }
 .status_approaching { background: rgba(245,158,11,0.1); color: #b45309; }
-.status_on-track { background: rgba(22,163,74,0.1); color: #16a34a; }
+.status_ontrack { background: rgba(22,163,74,0.1); color: #16a34a; }
 .statusMuted { font-size: 11px; color: var(--gray-400); }
 
 /* ─── Action Buttons ─── */

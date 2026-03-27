@@ -1,15 +1,25 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { getSession } from '@/lib/session';
-import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
+import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
-function getStoreNumber(session) {
-  const profiles = loadJsonFile('profiles.json');
+async function getStoreNumber(session) {
+  const profiles = await loadJsonFileAsync('profiles.json');
   const profile = profiles[session.id];
-  return profile?.storeNumber || null;
+  const num = profile?.storeNumber || null;
+  if (num && !/^\w{1,20}$/.test(num)) return null;
+  return num;
+}
+
+function safeNotableDates(arr) {
+  if (!Array.isArray(arr)) return [];
+  return arr.filter(d => d && typeof d === 'object').slice(0, 20).map(d => ({
+    label: String(d.label || '').slice(0, 200),
+    date: String(d.date || '').slice(0, 20),
+  }));
 }
 
 /**
@@ -20,7 +30,7 @@ export async function GET(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const storeNumber = getStoreNumber(session);
+  const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
 
   const data = await loadJsonFileAsync(`catering-${storeNumber}.json`);
@@ -37,9 +47,8 @@ export async function GET(request) {
     const clientOrders = orders.filter(o => o.clientId === c.id);
     const totalRevenue = clientOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
     const orderCount = clientOrders.length;
-    const lastOrder = clientOrders.length > 0
-      ? clientOrders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))[0]
-      : null;
+    const sortedOrders = [...clientOrders].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+    const lastOrder = sortedOrders[0] || null;
     return {
       ...c,
       totalRevenue,
@@ -81,7 +90,7 @@ export async function POST(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const storeNumber = getStoreNumber(session);
+  const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
 
   let body;
@@ -101,10 +110,7 @@ export async function POST(request) {
     email: body.email ? String(body.email).trim().slice(0, 200) : '',
     address: body.address ? String(body.address).trim().slice(0, 500) : '',
     notes: body.notes ? String(body.notes).trim().slice(0, 2000) : '',
-    notableDates: Array.isArray(body.notableDates) ? body.notableDates.slice(0, 20).map(d => ({
-      label: String(d.label || '').slice(0, 200),
-      date: String(d.date || '').slice(0, 20),
-    })) : [],
+    notableDates: safeNotableDates(body.notableDates),
     reorderFrequency: ['weekly', 'biweekly', 'monthly', 'quarterly', 'yearly', 'one-time', ''].includes(body.reorderFrequency) ? body.reorderFrequency : '',
     createdBy: session.id,
     createdAt: new Date().toISOString(),
@@ -118,5 +124,5 @@ export async function POST(request) {
     return data;
   });
 
-  return NextResponse.json({ success: true, client });
+  return NextResponse.json({ success: true, client }, { status: 201 });
 }
