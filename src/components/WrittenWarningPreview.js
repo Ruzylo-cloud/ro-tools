@@ -67,49 +67,49 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
       ref={ref}
       style={{
         width: '612px',
-        height: '792px',
+        minHeight: '792px',
         background: '#fff',
         fontFamily: "'Poppins', sans-serif",
-        position: 'relative',
-        overflow: 'hidden',
         margin: '0 auto',
-        padding: '40px 44px 0',
+        padding: '0',
         boxSizing: 'border-box',
         display: 'flex',
         flexDirection: 'column',
       }}
     >
       {/* Top Red Bar */}
-      <div style={{ height: '6px', background: '#EE3227' }} />
+      <div style={{ height: '5px', background: '#EE3227' }} />
 
       {/* JMVG Logo */}
-      <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+      <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
         <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
       {/* Blue Divider */}
-      <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
 
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '6px' }}>
-        <div style={{ fontSize: '16pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
           JM VALLEY GROUP
         </div>
-        <div style={{ fontSize: '7pt', color: '#6b7280', letterSpacing: '1px', marginTop: '2px' }}>
+        <div style={{ fontSize: '5.5pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
           JERSEY MIKE&apos;S SUBS — FRANCHISE OPERATIONS
         </div>
       </div>
 
-      <div style={{ height: '2px', background: '#EE3227', margin: '10px 0' }} />
+      <div style={{ height: '1.5px', background: '#EE3227', margin: '2px 28px 4px' }} />
 
       <div style={{
         textAlign: 'center', fontSize: '14pt', fontWeight: 700, color: '#134A7C',
-        padding: '12px 0 8px', letterSpacing: '1px',
+        padding: '4px 0 4px', letterSpacing: '1px',
       }}>
         WRITTEN WARNING / CORRECTIVE ACTION FORM
       </div>
 
-      <div style={{ height: '1px', background: '#134A7C', margin: '0 0 12px' }} />
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 12px' }} />
+
+      <div style={{ padding: '0 28px' }}>
 
       {/* Info grid — two columns */}
       <div style={{ display: 'flex', gap: '16px', marginBottom: '4px' }}>
@@ -174,9 +174,6 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
         This written warning is part of JM Valley Group&apos;s progressive corrective action process. It does not constitute a contract of employment or alter at-will employment status. Employment is at-will and may be terminated at any time, for any lawful reason, with or without notice. Employee has the right to provide written comments above and may not be retaliated against for reporting safety concerns, wage violations, or exercising other rights protected under California law. By signing, employee acknowledges receipt of this warning and the opportunity to respond.
       </div>
 
-      {/* Spacer to push signatures down */}
-      <div style={{ flex: 1 }} />
-
       {/* Signatures */}
       <div style={{ display: 'flex', gap: '32px', marginTop: '10px', marginBottom: '8px' }}>
         <div style={{ flex: 1 }}>
@@ -213,18 +210,17 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
         </div>
       </div>
 
+      </div>{/* end content wrapper */}
+
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
+
       {/* Footer */}
       <div style={{
-        background: '#EE3227',
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: '7pt',
-        fontWeight: 700,
-        padding: '5px 0',
-        letterSpacing: '1.5px',
-        margin: '0 -44px',
+        background: '#EE3227', color: '#fff', textAlign: 'center',
+        fontSize: '5.5pt', padding: '4px 28px', fontWeight: 400, lineHeight: 1.3,
       }}>
-        CONFIDENTIAL &mdash; FOR INTERNAL USE ONLY
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
       </div>
     </div>
   );

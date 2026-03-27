@@ -83,39 +83,43 @@ const InjuryReportPreview = forwardRef(function InjuryReportPreview({ data }, re
       ref={ref}
       style={{
         width: '612px',
-        height: '792px',
+        minHeight: '792px',
         background: '#fff',
         fontFamily: "'Poppins', sans-serif",
         padding: '0',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
         margin: '0 auto',
       }}
     >
+      {/* Top Red Bar */}
+      <div style={{ height: '5px', background: '#EE3227' }} />
+
+      {/* JMVG Logo */}
+      <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
+        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
+      </div>
+
+      {/* Blue Divider */}
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
+
       {/* Header */}
-      <div style={{ padding: '0 40px' }}>
-        {/* Red top bar */}
-        <div style={{ height: '6px', background: '#EE3227', borderRadius: '0 0 3px 3px' }} />
-
-        {/* Logo */}
-        <div style={{ textAlign: 'center', padding: '8px 0 2px' }}>
-          <img src="/jmvg-logo.png" alt="JMVG" style={{ width: '120px', height: 'auto' }} crossOrigin="anonymous" />
-        </div>
-
-        {/* Company name + subtitle */}
-        <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
           JM VALLEY GROUP
         </div>
-        <div style={{ textAlign: 'center', fontSize: '6pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
+        <div style={{ fontSize: '5.5pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
           JERSEY MIKE&apos;S SUBS &mdash; FRANCHISE OPERATIONS
         </div>
-        <div style={{ height: '2px', background: '#EE3227', margin: '2px 0 4px' }} />
+      </div>
 
+      <div style={{ height: '1.5px', background: '#EE3227', margin: '2px 28px 4px' }} />
+
+      <div style={{ padding: '0 28px' }}>
         {/* Title */}
         <div style={{
           textAlign: 'center', fontSize: '13pt', fontWeight: 800, color: '#134A7C',
-          letterSpacing: '1px', marginBottom: '4px',
+          letterSpacing: '1px', padding: '4px 0 4px',
         }}>
           WORKPLACE INJURY REPORT
         </div>
@@ -244,10 +248,9 @@ const InjuryReportPreview = forwardRef(function InjuryReportPreview({ data }, re
       {/* Footer */}
       <div style={{
         background: '#EE3227', color: '#fff', textAlign: 'center',
-        fontSize: '6pt', fontWeight: 600, padding: '4px 20px',
-        letterSpacing: '0.5px',
+        fontSize: '5.5pt', padding: '4px 28px', fontWeight: 400, lineHeight: 1.3,
       }}>
-        CONFIDENTIAL &mdash; INTERNAL USE ONLY &mdash; JM VALLEY GROUP
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
       </div>
     </div>
   );

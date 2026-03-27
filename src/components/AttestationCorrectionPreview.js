@@ -30,48 +30,50 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
 
   return (
     <div ref={ref} style={{
-      width: '612px', height: '792px', background: '#fff',
-      fontFamily: "'Poppins', sans-serif", overflow: 'hidden',
-      padding: '40px 44px 0',
+      width: '612px', minHeight: '792px', background: '#fff',
+      fontFamily: "'Poppins', sans-serif",
+      padding: '0',
       display: 'flex', flexDirection: 'column', boxSizing: 'border-box',
     }}>
       {/* Top Red Bar */}
-      <div style={{ height: '6px', background: '#EE3227' }} />
+      <div style={{ height: '5px', background: '#EE3227' }} />
 
       {/* JMVG Logo */}
-      <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+      <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
         <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
       {/* Blue Divider */}
-      <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
 
       {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '6px' }}>
-        <div style={{ fontSize: '16pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
           JM VALLEY GROUP
         </div>
-        <div style={{ fontSize: '7pt', color: '#6b7280', letterSpacing: '1px', marginTop: '2px' }}>
+        <div style={{ fontSize: '5.5pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
           JERSEY MIKE&apos;S SUBS — FRANCHISE OPERATIONS
         </div>
       </div>
 
-      <div style={{ height: '2px', background: '#EE3227', margin: '10px 0' }} />
+      <div style={{ height: '1.5px', background: '#EE3227', margin: '2px 28px 4px' }} />
 
       <div style={{
         textAlign: 'center', fontSize: '13pt', fontWeight: 700, color: '#134A7C',
-        padding: '12px 0 4px', letterSpacing: '1px',
+        padding: '4px 0 4px', letterSpacing: '1px',
       }}>
         ATTESTATION CORRECTION FORM
       </div>
       <div style={{
         textAlign: 'center', fontSize: '9pt', color: '#EE3227', fontWeight: 600,
-        marginBottom: '8px',
+        marginBottom: '4px',
       }}>
         {typeLabel} Attestation
       </div>
 
-      <div style={{ height: '1px', background: '#134A7C', margin: '0 0 16px' }} />
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 16px' }} />
+
+      <div style={{ padding: '0 28px' }}>
 
       {/* Info Grid */}
       <div style={{ display: 'flex', gap: '20px', marginBottom: '12px', fontSize: '9pt' }}>
@@ -189,14 +191,15 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
         </div>
       </div>
 
+      </div>{/* end content wrapper */}
+
       {/* Spacer + Footer */}
       <div style={{ flex: 1 }} />
       <div style={{
         background: '#EE3227', color: '#fff', textAlign: 'center',
-        fontSize: '7pt', fontWeight: 700, padding: '5px 20px',
-        letterSpacing: '1.5px', margin: '0 -44px',
+        fontSize: '5.5pt', padding: '4px 28px', fontWeight: 400, lineHeight: 1.3,
       }}>
-        CONFIDENTIAL — FOR INTERNAL USE ONLY · {storeName || 'JM Valley Group'}
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
       </div>
     </div>
   );

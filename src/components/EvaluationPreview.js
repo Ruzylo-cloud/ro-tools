@@ -50,55 +50,55 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       ref={ref}
       style={{
         width: '612px',
-        height: '792px',
+        minHeight: '792px',
         background: '#fff',
         fontFamily: "'Poppins', sans-serif",
-        position: 'relative',
-        overflow: 'hidden',
         margin: '0 auto',
         padding: '0',
         boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       {/* Top Red Bar */}
-      <div style={{ height: '6px', background: '#EE3227' }} />
+      <div style={{ height: '5px', background: '#EE3227' }} />
 
       {/* JMVG Logo */}
-      <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
+      <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
         <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
       {/* Blue Divider */}
-      <div style={{ height: '2px', background: '#134A7C', margin: '0 20px 6px' }} />
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
 
       {/* Header */}
-      <div style={{ textAlign: 'center', padding: '8px 32px 0', marginBottom: '6px' }}>
-        <div style={{ fontSize: '16pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
           JM VALLEY GROUP
         </div>
-        <div style={{ fontSize: '7pt', color: '#6b7280', letterSpacing: '1px', marginTop: '2px' }}>
+        <div style={{ fontSize: '5.5pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
           JERSEY MIKE&apos;S SUBS — FRANCHISE OPERATIONS
         </div>
       </div>
 
-      <div style={{ height: '2px', background: '#EE3227', margin: '0 32px' }} />
+      <div style={{ height: '1.5px', background: '#EE3227', margin: '2px 28px 4px' }} />
 
       {/* Title */}
       <div style={{
         textAlign: 'center', fontSize: '12pt', fontWeight: 700, color: '#134A7C',
-        padding: '8px 32px 4px', letterSpacing: '1.5px',
+        padding: '4px 0 4px', letterSpacing: '1.5px',
       }}>
         EMPLOYEE PERFORMANCE EVALUATION
       </div>
 
-      <div style={{ height: '1px', background: '#134A7C', margin: '0 32px 8px' }} />
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 8px' }} />
 
       {/* Info Grid */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
         gap: '3px 20px',
-        padding: '0 32px 6px',
+        padding: '0 28px 6px',
         fontSize: '7.5pt',
       }}>
         {[
@@ -117,7 +117,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       </div>
 
       {/* Rating Table */}
-      <div style={{ padding: '0 32px', marginTop: '4px' }}>
+      <div style={{ padding: '0 28px', marginTop: '4px' }}>
         {/* Table Header */}
         <div style={{
           display: 'flex',
@@ -204,7 +204,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       </div>
 
       {/* Comment Sections */}
-      <div style={{ padding: '6px 32px 0' }}>
+      <div style={{ padding: '6px 28px 0' }}>
         {[
           ['Strengths', strengths],
           ['Areas for Improvement', areasForImprovement],
@@ -236,7 +236,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       </div>
 
       {/* Additional Comments */}
-      <div style={{ padding: '0 32px' }}>
+      <div style={{ padding: '0 28px' }}>
         <div style={{
           fontSize: '7pt',
           fontWeight: 700,
@@ -260,7 +260,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       </div>
 
       {/* At-Will & Acknowledgment */}
-      <div style={{ padding: '4px 32px 0', fontSize: '5.5pt', color: '#6b7280', lineHeight: 1.4 }}>
+      <div style={{ padding: '4px 28px 0', fontSize: '5.5pt', color: '#6b7280', lineHeight: 1.4 }}>
         This evaluation does not constitute a contract of employment. Employment is at-will and may be terminated at any time, for any lawful reason, with or without notice, regardless of performance rating. Employee has the right to review and add written comments. Employee may not be retaliated against for reporting safety concerns, wage violations, discrimination, or exercising rights protected under California or federal law.
       </div>
 
@@ -268,8 +268,9 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
       <div style={{
         display: 'flex',
         gap: '32px',
-        padding: '6px 32px 0',
+        padding: '6px 28px 0',
       }}>
+
         <div style={{ flex: 1 }}>
           <div style={{
             borderBottom: '1px solid #2D2D2D',
@@ -304,18 +305,15 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
         </div>
       </div>
 
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
+
       {/* Footer */}
       <div style={{
-        background: '#EE3227',
-        color: '#fff',
-        textAlign: 'center',
-        fontSize: '6.5pt',
-        fontWeight: 700,
-        padding: '5px 20px',
-        letterSpacing: '1.5px',
-        marginTop: 'auto',
+        background: '#EE3227', color: '#fff', textAlign: 'center',
+        fontSize: '5.5pt', padding: '4px 28px', fontWeight: 400, lineHeight: 1.3,
       }}>
-        CONFIDENTIAL &mdash; FOR INTERNAL USE ONLY
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
       </div>
     </div>
   );
