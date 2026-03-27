@@ -21,6 +21,41 @@
 .empty { text-align: center; padding: 24px; color: var(--gray-400); font-size: 13px; }
 .badge { font-size: 11px; color: #16a34a; font-weight: 500; }
 
+/* ─── Tabs ─── */
+.tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 2px solid var(--gray-100); }
+.tab { padding: 10px 24px; font-size: 14px; font-weight: 600; color: var(--gray-400); background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: pointer; font-family: inherit; transition: color 0.15s, border-color 0.15s; }
+.tab:hover { color: var(--gray-600); }
+.tabActive { color: var(--jm-blue); border-bottom-color: var(--jm-blue); }
+
+/* ─── Log Filters ─── */
+.logFilters { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.logSearch { flex: 1; min-width: 180px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; color: var(--gray-700); background: var(--white); }
+.logSearch::placeholder { color: var(--gray-400); }
+.logSearch:focus { outline: none; border-color: var(--jm-blue); box-shadow: 0 0 0 2px rgba(19,74,124,0.1); }
+.logSelect { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; color: var(--gray-700); background: var(--white); cursor: pointer; }
+.logSelect:focus { outline: none; border-color: var(--jm-blue); }
+.logSearchBtn { padding: 8px 20px; background: var(--jm-blue); color: var(--white); border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.logSearchBtn:hover { background: var(--jm-blue-light, #1a5a94); }
+
+/* ─── Log Table ─── */
+.logTable { width: 100%; overflow-x: auto; }
+.logHeader { display: flex; gap: 8px; padding: 8px 0; border-bottom: 2px solid var(--gray-100); font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
+.logRow { display: flex; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--gray-100); font-size: 13px; color: var(--gray-700); align-items: center; }
+.logRow:last-child { border-bottom: none; }
+.logColTime { width: 140px; flex-shrink: 0; font-size: 12px; color: var(--gray-500); }
+.logColUser { width: 160px; flex-shrink: 0; }
+.logColType { width: 140px; flex-shrink: 0; font-size: 12px; }
+.logColAction { width: 100px; flex-shrink: 0; }
+.logColDetail { flex: 1; min-width: 100px; font-size: 12px; color: var(--gray-500); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.actionBadge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: capitalize; }
+
+/* ─── Log Pagination ─── */
+.logPagination { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 16px 0 4px; }
+.logPageBtn { padding: 6px 16px; background: var(--white); color: var(--jm-blue); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.logPageBtn:hover:not(:disabled) { background: var(--gray-100); }
+.logPageBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.logPageInfo { font-size: 12px; color: var(--gray-500); }
+
 /* ─── Responsive ─── */
 
 /* 810px — reduce padding */
@@ -29,7 +64,7 @@
   .title { font-size: 26px; }
 }
 
-/* 670px — stack user rows */
+/* 670px — stack user rows & log rows */
 @media (max-width: 670px) {
   .container { padding: 32px 18px; }
   .title { font-size: 24px; }
@@ -47,6 +82,14 @@
     text-align: center;
     padding: 10px 16px;
   }
+  .tab { padding: 10px 16px; font-size: 13px; }
+  .logFilters { flex-direction: column; }
+  .logSearch { min-width: unset; }
+  .logHeader { display: none; }
+  .logRow { flex-wrap: wrap; gap: 4px; padding: 12px 0; }
+  .logColTime, .logColUser, .logColType, .logColAction, .logColDetail { width: auto; flex-shrink: 1; }
+  .logColTime { font-size: 11px; width: 100%; }
+  .logColDetail { width: 100%; }
 }
 
 /* 600px — touch targets */
