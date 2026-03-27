@@ -171,34 +171,39 @@
 
 /* ─── Tool List ─── */
 .toolList {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 12px;
 }
 
 .toolItem {
   display: flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--gray-100);
-}
-
-.toolItem:last-child {
-  border-bottom: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 8px;
 }
 
 .toolName {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 700;
   color: var(--jm-blue);
-  white-space: nowrap;
 }
 
 .toolDesc {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--gray-500);
+  line-height: 1.3;
+}
+
+@media (max-width: 810px) {
+  .toolList { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 530px) {
+  .toolList { grid-template-columns: 1fr; }
 }
 
 /* ─── Tech Badges ─── */
