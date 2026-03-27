@@ -202,7 +202,7 @@ export default function LandingPage() {
           </div>
           <div className={styles.statDivider}></div>
           <div className={styles.statItem}>
-            <div className={styles.statNumber}>29</div>
+            <div className={styles.statNumber}>29+</div>
             <div className={styles.statLabel}>JMVG Stores</div>
           </div>
           <div className={styles.statDivider}></div>
