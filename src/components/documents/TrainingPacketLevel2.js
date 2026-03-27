@@ -6,137 +6,532 @@ import DocumentTemplate from '../DocumentTemplate';
 const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, ref) {
   const { employeeName = '', startDate = '', storeNumber = '', storeName = '' } = data || {};
 
+  const PAGE_W = 612;
+  const PAGE_H = 792;
+  const TOTAL_PAGES = 9;
+
+  const pageStyle = {
+    width: `${PAGE_W}px`,
+    height: `${PAGE_H}px`,
+    background: '#fff',
+    fontFamily: "'Poppins', sans-serif",
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
+    position: 'relative',
+    boxSizing: 'border-box',
+  };
+
+  const dayBanner = (text) => (
+    <div style={{
+      background: '#EE3227', color: '#fff', fontSize: '11pt', fontWeight: 800,
+      padding: '3px 16px', display: 'inline-block',
+      fontFamily: "'Arial Black', 'Impact', sans-serif",
+      textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px',
+      clipPath: 'polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%)',
+      paddingRight: '28px',
+    }}>
+      {text}
+    </div>
+  );
+
   const sectionHeader = (text) => (
     <div style={{
-      background: '#134A7C', color: '#fff', fontSize: '8pt', fontWeight: 700,
-      padding: '3px 10px', borderRadius: '3px', marginBottom: '4px', marginTop: '8px',
+      background: '#134A7C', color: '#fff', fontSize: '7pt', fontWeight: 700,
+      padding: '2px 10px', borderRadius: '3px', marginBottom: '3px', marginTop: '6px',
       letterSpacing: '0.5px',
     }}>
       {text}
     </div>
   );
 
-  const checkItem = (text, indent) => (
-    <div style={{ display: 'flex', gap: '4px', paddingLeft: indent ? '14px' : 0 }}>
-      <span style={{ color: '#EE3227', fontWeight: 700, minWidth: '18px', flexShrink: 0, fontSize: '10pt' }}>&#9744;</span>
-      <span>{text}</span>
+  const subHeader = (text) => (
+    <div style={{
+      fontSize: '7pt', fontWeight: 700, textDecoration: 'underline',
+      color: '#2D2D2D', marginTop: '5px', marginBottom: '2px',
+    }}>
+      {text}
+    </div>
+  );
+
+  const checkItem = (text) => (
+    <div style={{ display: 'flex', gap: '3px', marginBottom: '1px' }}>
+      <span style={{ color: '#134A7C', fontWeight: 700, minWidth: '14px', flexShrink: 0, fontSize: '8pt' }}>&#9744;</span>
+      <span style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.35 }}>{text}</span>
+    </div>
+  );
+
+  const trainingTable = (rows) => (
+    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '6.2pt', marginBottom: '4px', marginTop: '2px' }}>
+      <thead>
+        <tr style={{ background: '#F0F4F8' }}>
+          <th style={{ border: '1px solid #ccc', padding: '2px 4px', textAlign: 'left', fontWeight: 700, width: '58%' }}>Item</th>
+          <th style={{ border: '1px solid #ccc', padding: '2px 4px', textAlign: 'center', fontWeight: 700, width: '24%' }}>Trainer Name</th>
+          <th style={{ border: '1px solid #ccc', padding: '2px 4px', textAlign: 'center', fontWeight: 700, width: '18%' }}>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, i) => (
+          <tr key={i} style={{ background: i % 2 === 0 ? '#fff' : '#FAFAFA' }}>
+            <td style={{ border: '1px solid #ccc', padding: '2px 4px' }}>{row}</td>
+            <td style={{ border: '1px solid #ccc', padding: '2px 4px' }}></td>
+            <td style={{ border: '1px solid #ccc', padding: '2px 4px' }}></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+
+  const pageNumber = (num) => (
+    <div style={{
+      position: 'absolute', bottom: '8px', right: '28px',
+      fontSize: '6.5pt', color: '#6b7280',
+    }}>
+      Page {num} of {TOTAL_PAGES}
+    </div>
+  );
+
+  const footer = () => (
+    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 4px' }} />
+      <div style={{
+        background: '#EE3227', color: '#fff', textAlign: 'center',
+        fontSize: '5.5pt', padding: '3px 28px', fontWeight: 400, lineHeight: 1.3,
+      }}>
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
+      </div>
+    </div>
+  );
+
+  const miniHeader = () => (
+    <>
+      <div style={{ height: '4px', background: '#EE3227' }} />
+      <div style={{ textAlign: 'center', padding: '3px 28px 2px' }}>
+        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
+      </div>
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 4px' }} />
+    </>
+  );
+
+  const lmsBlock = (videos) => (
+    <div style={{ marginTop: '4px' }}>
+      <div style={{ fontSize: '6.5pt', fontWeight: 700, color: '#2D2D2D', marginBottom: '2px' }}>
+        HOMEWORK - TRAINING VIDEOS on LMS
+      </div>
+      <div style={{ fontSize: '6pt', color: '#6b7280', marginBottom: '2px' }}>
+        (send report to GM of time spent on videos, time will be added to next paycheck)
+      </div>
+      {videos.map((v, i) => (
+        <div key={i} style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '1px' }}>
+          <u>{v.title}</u><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;______
+        </div>
+      ))}
+    </div>
+  );
+
+  const gmDebrief = (questionText) => (
+    <div style={{ marginTop: '6px' }}>
+      {sectionHeader('GM DEBRIEF - end of training shift')}
+      <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
+        <div style={{ marginBottom: '2px' }}>{questionText} ______________________________________</div>
+        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
+        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
+        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying: ______________________________________</div>
+        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ fontSize: '6pt', fontStyle: 'italic', color: '#6b7280' }}>
+          Is there anything you&apos;d like to talk about or ask about while we&apos;re chatting? (don&apos;t write down, this is just opportunity for casual conversation)
+        </div>
+      </div>
     </div>
   );
 
   return (
-    <DocumentTemplate
-      ref={ref}
-      title="LEVEL 2 TRAINING PACKET"
-      subtitle="Register / Wrap Certification &mdash; Weeks 3 & 4"
-      storeNumber={storeNumber}
-      storeName={storeName}
-    >
-      {/* Employee Info */}
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
-        <div style={{ flex: 1 }}>
-          <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
-          <div style={{
-            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
-          }}>
-            {employeeName}
+    <div ref={ref} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+
+      {/* ==================== PAGE 1 — DURING WEEK 2: Phone Orders & Lobby Checks ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        <DocumentTemplate
+          title="LEVEL 2 TRAINING PACKET"
+          subtitle="Register / Wrap Certification — Days 10–18"
+          storeNumber={storeNumber}
+          storeName={storeName}
+        >
+          <div style={{ display: 'flex', gap: '16px', marginBottom: '4px' }}>
+            <div style={{ flex: 1 }}>
+              <span style={{ fontSize: '6.5pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
+              <div style={{ borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '8pt', fontWeight: 600, color: '#2D2D2D', minHeight: '14px' }}>{employeeName}</div>
+            </div>
+            <div style={{ width: '130px' }}>
+              <span style={{ fontSize: '6.5pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
+              <div style={{ borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '8pt', fontWeight: 600, color: '#2D2D2D', minHeight: '14px' }}>{startDate}</div>
+            </div>
+          </div>
+
+          {dayBanner('DURING WEEK 2 — Phone Orders & Lobby Checks')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px', marginTop: '4px' }}>TRAIN PHONE ORDERS</div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '3px' }}>
+            Teach and then role play at least 5 phone orders.
+          </div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '3px' }}>
+            When the phone rings, you answer <b>&quot;Jersey Mikes (location), How Can I Help You&quot;</b>
+          </div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '2px' }}>
+            Guest orders: practice the order below with a ticket:
+          </div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, paddingLeft: '12px', marginBottom: '2px' }}>
+            &bull; Mini 7 on white, mike&apos;s way no onion<br />
+            &bull; Regular 13 on wheat, mike&apos;s way with jalapenos and mustard<br />
+            &bull; Giant Roast Beef on rosemary parmesan, mike&apos;s way with mayo and bacon
+          </div>
+          <div style={{ fontSize: '6pt', fontStyle: 'italic', color: '#6b7280', marginBottom: '3px' }}>
+            *You quote 15 minutes, the time when you take the order is 2pm. The guests&apos; name is Bob.
+          </div>
+
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
+            &bull; <b>ROLEPLAY</b> - practice 3-4 phone orders at the table together. Trainee &quot;answers&quot; your call and writes down what you order. Include 3 subs on each order.
+          </div>
+
+          {sectionHeader('PHONE ORDER BENCHMARKS')}
+          {checkItem('Answer the phone before 3 rings')}
+          {checkItem('Write phone orders with 100% accuracy (proper format, circling extras, writing name and realistic pick-up times)')}
+          {checkItem('Communicate to the slicer, backline person or hot subber that you put an order up')}
+
+          {sectionHeader('LOBBY CHECK BENCHMARKS - check off when trainee has mastered')}
+          {checkItem(<>Lobby checking order:<br />
+            <span style={{ paddingLeft: '12px', display: 'block', lineHeight: 1.4 }}>
+              &bull; Clean large items first like pieces of trash on the floor<br />
+              &bull; Wipe down tables with a sanitized towel from lobby bucket<br />
+              &bull; Clean under tea machine and around fountain area, restock lids and straws<br />
+              &bull; Wipe down tables, make sure to dry them, do not leave damp<br />
+              &bull; Check &amp; clean or stock bathroom last
+            </span>
+          </>)}
+          {checkItem('Finish lobby check in 5 minutes max')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>VIDEO COMPLETION PERCENTAGE</div>
+          {checkItem('Goal by this point is 27%')}
+        </DocumentTemplate>
+        {pageNumber(1)}
+      </div>
+
+      {/* ==================== PAGE 2 — DAY 10: REGISTER TRAINING ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 10 — REGISTER TRAINING')}
+
+          <div style={{ fontSize: '6.5pt', color: '#2D2D2D', marginBottom: '4px' }}>
+            TWO 6-hour shifts for training REGISTER
+          </div>
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST</div>
+          {trainingTable([
+            'Review Register list on next page',
+            'Stock desserts - cookies & brownies are sticker side on back',
+            'Register Checklist with trainer - FIFO chips, bottles',
+            'How to deep clean - train on a new deep clean task',
+          ])}
+
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginTop: '4px', marginBottom: '4px' }}>
+            &bull; <b>ROLEPLAY B4 THE RUSH</b> - roleplay the trainee ringing up and checking out the trainer. Trainee asks if they have shore points and then directs the trainer to answer prompts for credit card. Do this 3 times through, trainer present different scenarios.
+          </div>
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS</div>
+          {checkItem('Greet every guest that enters the store and make eye contact with a smile! :)')}
+          {checkItem(<>Tape every online order to a bag with tamper seal, <b>2 seals</b> for small bag/ <b>3 seals</b> for large bag, <b>fluff bag open</b> and <b>add napkins</b></>)}
+          {checkItem(<>Write a &apos;<b>P</b>&apos; on all hot sub tickets once paid for and hang ticket on rack</>)}
+          {checkItem(<>Write &quot;<b>H</b>&quot; on kitchen ticket when guest arrives early</>)}
+
+          {lmsBlock([
+            { title: 'New Hire: Cashier', duration: '8 min' },
+            { title: 'New Hire: Basic Food Prep', duration: '18 min' },
+          ])}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; REGISTER CHECKLIST</div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
+            <b>Goal = 45 minutes</b>. Attempt #1 at register checklist _______ minutes.
           </div>
         </div>
-        <div style={{ width: '140px' }}>
-          <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
+        {footer()}
+        {pageNumber(2)}
+      </div>
+
+      {/* ==================== PAGE 3 — DAY 10: REGISTER POSITION (detailed) ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginBottom: '4px' }}>
+            <i>REGISTER POSITION</i> : Review start of <b>Day 10</b>
+          </div>
+
+          {subHeader('Set Up/Cleanliness/Organization/Safety:')}
+          {checkItem('1 pens, 1 sharpie, tip jar attached to register, seals for bags')}
+          {checkItem('Drawer stocked with enough change, ask for change BEFORE you run out')}
+          {checkItem("We don't accept bills larger than $20. Too many fakes in the past")}
+          {checkItem('Keep area near register neat and clean, free of any clutter')}
+
+          {subHeader('Guest Service/Communication:')}
+          {checkItem('Smile, eye contact, be genuine')}
+          {checkItem(<>Always ask if they&apos;re &quot;a part of our rewards program&quot;.</>)}
+          {checkItem('Never ask a guest what they had, Wrapper will relay all sandwiches to you')}
+          {checkItem(<>Greet all guests who walk in, identify those picking up. <b>You should know at all times, what everyone standing in the lobby is waiting for.</b> Online order, Hot Sub, etc.</>)}
+
+          {subHeader('Operations:')}
+          {checkItem(<>Ring sandwiches properly &ndash; default is Regular, touch Mini or Giant to change</>)}
+          {checkItem(<>Main screen organization &amp; color coding &ndash; cold subs, hot subs, chicken subs</>)}
+          {checkItem('Adjust size for fountain drinks, adding avocado, extra meat, cheese, etc.')}
+          {checkItem(<>If credit card, instruct guest to &quot;One question, then chip in the reader&quot;. Point at credit card terminal.</>)}
+          {checkItem(<>Ask guest if order is &quot;for here&quot; or &quot;to go&quot;? Press &quot;DINE-IN&quot; button if order is for here and press &quot;to-go&quot; button if the order is takeout.</>)}
+          {checkItem('If guest has hot sub, take their green ticket, mark P for Paid & put on ticket rack')}
+          {checkItem(<>If a guest checks in to pick up their order, and it is not ready, write <b>H for Here on the kitchen ticket in Sharpie</b>, so we know to call out the name when the order is ready. ALSO, check due time &amp; current time. If guest or driver is early, politely tell them the order due time &amp; that we&apos;ll definitely have it ready by then. Tone must be VERY KIND.</>)}
+          {checkItem('If many items purchased, ask if they would like a bag. LA county must charge $.10 for a bag.')}
+
+          {subHeader('Phone/Online Orders:')}
+          {checkItem('All phone order and online order tickets must be taped to a bag IMMEDIATELY tamper evident seals and placed behind register area. NAPKINS in bags. Add chip, drink, desserts when time allows.')}
+          {checkItem('Identify customers picking up and have Wrapper help you distribute. Online orders are ALL prepaid, hand directly to guest. Phone orders must be rung in and paid for in store.')}
+          {checkItem(<>Look at ticket &amp; count subs, <b>CHECK THE BAG BEFORE YOU SEAL IT SHUT AND HAND OUT</b>, to make sure all drinks, chips, cookies etc. are in the bag</>)}
+          {checkItem(<>Tape bag closed with tamper evident stickers, <b>for ALL delivery and online orders! 2 seals on a small bag and 3 seals on a large bag.</b></>)}
+        </div>
+        {footer()}
+        {pageNumber(3)}
+      </div>
+
+      {/* ==================== PAGE 4 — DAY 11: REGISTER TRAINING ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 11 — REGISTER TRAINING')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST (continued from Day 10)</div>
+          {trainingTable([
+            'Replace nozzles, turn on pepsi machine',
+            "Roll out mat, make sure it's clean!",
+            'How to properly clean bathroom',
+          ])}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS</div>
+          {checkItem('Keep takeout order area organized (including trash area) and cups stocked.')}
+          {checkItem('When working the register without a wrapper, split wrap station. Reg tears the paper, Sprinkler cuts the sub, Reg wraps the sub.')}
+          {checkItem('Ask every guest if they have Shore Points.')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
+            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+          </div>
+          {checkItem('Scrub Trays')}
+          {checkItem('Floor Grout')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; REGISTER CHECKLIST</div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '6px' }}>
+            <b>Goal = 45 minutes</b>. Attempt #2 at register checklist _______ minutes
+          </div>
+
+          {gmDebrief('What part of Register position do you feel is most challenging for you?')}
+        </div>
+        {footer()}
+        {pageNumber(4)}
+      </div>
+
+      {/* ==================== PAGE 5 — DAY 12: REGISTER TRAINING + CERTIFICATION ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 12 — REGISTER TRAINING')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST</div>
+          {trainingTable([
+            'Review before lunch checklist or pre-close list, teach anything that is not yet learned',
+            'How to rack for second bake or rack for morning bake',
+            'Proper chip box storage back of house, how to open chip boxes, when to get next box',
+            'Review Wrap/Reg list if training for closing',
+          ])}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS</div>
+          {checkItem('Ring in Reg, Giant, and mini-sub sizes with 100% accuracy. Same with add-ons.')}
+          {checkItem('Seal all online & deliver orders; 2 seals on a small bag, 3 seals on a large bag')}
+          {checkItem('Tap bell and say "thank you" for guest tips')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
+            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+          </div>
+          {checkItem('Baseboards Bruh')}
+
+          <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginTop: '10px', marginBottom: '4px' }}>
+            DAY 13, 14, 15: <i>REGISTER PROFICIENCY</i>
+          </div>
+          <div style={{ textAlign: 'center', fontSize: '6.5pt', fontStyle: 'italic', color: '#2D2D2D', marginBottom: '8px' }}>
+            Continue to practice &amp; make progress &amp; complete prior pages as needed. Cover training list above. When ready, plan certification shift!
+          </div>
+
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
+            textAlign: 'center', fontSize: '9pt', fontWeight: 700, fontStyle: 'italic',
+            color: '#2D2D2D', marginBottom: '6px', textDecoration: 'underline',
           }}>
-            {startDate}
+            REGISTER CERTIFICATION!!
+          </div>
+          <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.5, marginBottom: '4px' }}>
+            Trainee works lunch rush beside Trainer &amp; demonstrates proficiency. Trainee completes Register checklist required time = 45 minutes.
+          </div>
+
+          <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px', marginBottom: '4px' }}>
+            LEVEL 2:
+          </div>
+          <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
+            -Final attempt at Register Checklist: _________ minutes
+          </div>
+
+          <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
+            <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
+              Certification Awarded By - Trainer: _________________________
+            </div>
+            <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
+              Date: _________
+            </div>
           </div>
         </div>
+        {footer()}
+        {pageNumber(5)}
       </div>
 
-      {sectionHeader('REGISTER BENCHMARKS \u2014 WEEK 3, DAY 1')}
-      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
-        {checkItem('Greet every customer that enters the store and make eye contact with a smile!')}
-        {checkItem('Ring in Reg, Giant, and Mini sub sizes with 100% accuracy. Same with add-ons.')}
-        {checkItem('Ask every customer if they have Shore Points, and if not ask to sign them up.')}
-      </div>
+      {/* ==================== PAGE 6 — DAY 16: WRAPPING ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 16 — WRAPPING')}
 
-      {sectionHeader('REGISTER STATION TRAINING')}
-      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
-        <div style={{ fontWeight: 700, color: '#134A7C', fontSize: '7pt', marginBottom: '2px' }}>Set Up / Organization / Safety:</div>
-        {checkItem('3 pens, 2 sharpie, tip jar attached to register, tape behind.')}
-        {checkItem('Drawer stocked with enough change, ask for change BEFORE you run out.')}
-        {checkItem('ALL BILLS LARGER THAN $20 must be checked by Manager or Shift Lead.')}
-        {checkItem('Keep area near register neat, clean, free of any clutter.')}
+          <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginBottom: '4px' }}>
+            <i>WRAP POSITION</i> : Review start of <b>Day 16</b>
+          </div>
 
-        <div style={{ fontWeight: 700, color: '#134A7C', fontSize: '7pt', marginTop: '4px', marginBottom: '2px' }}>Customer Service / Communication:</div>
-        {checkItem('Smile, eye contact, be genuine.')}
-        {checkItem('Always ask if they\'re "a part of our rewards program". Offer to sign them up.')}
-        {checkItem('Never ask customer what they had \u2013 Wrapper relays all sandwiches to you.')}
-        {checkItem('Always offer receipt and thank them for coming in.')}
-        {checkItem('Know at all times what everyone in the lobby is waiting for (online, hot sub, etc.).')}
+          {subHeader('Area Set Up/Cleanliness/Organization:')}
+          {checkItem('Sub bags/sleeves stocked on counter and below, Sharpie in place')}
+          {checkItem('Knife, rag on pole below for wiping, clean countertop, proper knife usage')}
+          {checkItem('PAPER COSTS: Paper length – 3 logos for mini, 4 logos for regular, 5 logos for giant (start with 6 for giants, for ease of training)')}
+          {checkItem('Dress all lids with Avocado, Mayo, Bacon, CPR, Mustard, etc. ALL SAUCES get 3 LINES on the lid (proper portion for flavor)')}
 
-        <div style={{ fontWeight: 700, color: '#134A7C', fontSize: '7pt', marginTop: '4px', marginBottom: '2px' }}>Operations:</div>
-        {checkItem('Ring sandwiches properly \u2013 default is Regular, touch Mini or Giant to change.')}
-        {checkItem('Main screen organization & color coding \u2013 cold subs, hot subs, chicken subs.')}
-        {checkItem('Adjust size for fountain drinks, adding avo, extra meat, cheese, etc.')}
-        {checkItem('Credit card: instruct customer "Two questions first, then chip in the reader".')}
-        {checkItem('Hot sub customer: take green ticket, ring up, mark P for Paid, put on ticket rack.')}
-        {checkItem('Customer early for pickup: write H for Here on bag. Politely tell them due time.')}
-        {checkItem('Cash: choose amount, change displays. Count back change if bill larger than $20.')}
-        {checkItem('2+ subs purchased: offer larger bag, instruct to lay flat during transport.')}
+          {subHeader('Guest Service/Communication:')}
+          {checkItem(<>Communicate entire order to Register person &ndash; &quot;Regular 7 to-go with chips and a cookie for this gentleman&quot;. Never ask the guest what they ordered, stay aware.</>)}
+          {checkItem(<><b>Label ALL subs</b> with number and NAME if applicable, use Sharpie</>)}
+          {checkItem(<>Acknowledge all guests and &quot;Direct&quot; traffic in between sprinkling subs. Call up phone order pick up people to be rung up when appropriate, direct guests to register to pay, identify online and phone order people and ask their name.</>)}
+          {checkItem(<>When handing out online or phone orders, <b>CHECK THE BAG BEFORE YOU SEAL IT SHUT AND HAND THE ORDER OUT</b>, to make sure all drinks, chips, cookies etc. are in the bag</>)}
+          {checkItem(<>&quot;Chips and drink today?&quot; Say to every guest, every time.</>)}
 
-        <div style={{ fontWeight: 700, color: '#134A7C', fontSize: '7pt', marginTop: '4px', marginBottom: '2px' }}>Phone / Online Orders:</div>
-        {checkItem('All phone/online order tickets taped to bag IMMEDIATELY. NAPKINS in togo bags.')}
-        {checkItem('Identify customers picking up. Online orders are ALL prepaid.')}
-        {checkItem('Check ticket & count sandwiches, check bag before handing out.')}
-        {checkItem('TAPE BAG CLOSED with tamper evident stickers for all 3rd party orders!')}
-      </div>
+          {subHeader('Wrapping the Sub:')}
+          {checkItem('Tear paper clean and fast, only one paper at a time.')}
+          {checkItem('Grab sub from sprinkle board with fingers on bottom, thumb on top, place on paper in center, diagonal')}
+          {checkItem(<><b>Label</b> every sub bag with their number. &quot;7&quot; or &quot;13&quot;</>)}
 
-      {sectionHeader('REGISTER / WRAP COMBINED \u2014 WEEK 3, DAY 3-4')}
-      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
-        {checkItem('Label ALL subs with number and NAME if applicable, use Sharpie.')}
-        {checkItem('Acknowledge all customers and "Direct" traffic. Call up phone order pickups.')}
-        {checkItem('Count sandwiches in bag before handing out online/phone orders.')}
-        {checkItem('Dress lids: Avocado, Mayo, Bacon, CPR, Mustard \u2013 ALL SAUCES get 3 LINES.')}
-        {checkItem('Any downtime: put on gloves and help sprinkle/wrap, then jump back to register.')}
-        {checkItem('Offer chips and a drink to every customer, every time.')}
-        {checkItem('PAPER COSTS: 3 logos for mini, 4 logos for regular, 6 logos for giant.')}
-      </div>
-
-      {sectionHeader('LOBBY CHECK BENCHMARKS')}
-      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
-        {checkItem('Finish lobby check in 3-5 minutes max.')}
-        {checkItem('Offer to fill drinks for customers and clear their trash.')}
-        {checkItem('Proper order: large trash first, wipe tables, clean under tea machine, wipe chairs, restock lids/straws, check bathroom last.')}
-        {checkItem('Asking EVERY customer to enter phone number for rewards?')}
-        {checkItem('WELCOMING EVERY CUSTOMER as soon as they walk in?')}
-        {checkItem('Tapping bell and saying "thank you" for customer tips?')}
-      </div>
-
-      {/* Certification */}
-      <div style={{
-        background: '#EE3227', color: '#fff', fontSize: '8pt', fontWeight: 700,
-        padding: '4px 10px', borderRadius: '3px', marginTop: '10px', marginBottom: '4px',
-        textAlign: 'center', letterSpacing: '0.5px',
-      }}>
-        LEVEL 2: REGISTER CERTIFICATION
-      </div>
-      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.4, textAlign: 'center', fontStyle: 'italic', marginBottom: '8px' }}>
-        Once trainee feels confident, they should ask to be certified. Trainee works lunch rush beside Trainer and demonstrates proficiency.
-      </div>
-
-      {/* Sign Off */}
-      <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
-        <div style={{ flex: 1 }}>
-          <div style={{ borderBottom: '1px solid #134A7C', height: '18px' }} />
-          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '2px' }}>Trainee Signature / Date</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; TRAINING LIST</div>
+          {trainingTable([
+            'Wrap and sticker all cookies',
+            '15 mins Wrapping practice for muscle memory & SPEED - use hot sub bread',
+            'Review Wrap training list on next page',
+          ])}
         </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ borderBottom: '1px solid #134A7C', height: '18px' }} />
-          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '2px' }}>Trainer Signature / Date</div>
-        </div>
+        {footer()}
+        {pageNumber(6)}
       </div>
-    </DocumentTemplate>
+
+      {/* ==================== PAGE 7 — DAY 16 continued: WRAP BENCHMARKS ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 16 — WRAPPING')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; WRAP BENCHMARKS - check off when trainee has mastered</div>
+          {checkItem(<>Communicate every guest&apos;s entire order to Register</>)}
+          {checkItem('Tear correct Logo par - 3 mini, 4 regular, 5 giant (do 6 giant during training, then move to 5)')}
+          {checkItem(<>Ask guest if order is &quot;for here&quot; or &quot;to go&quot;? If order is for dine-in, DO NOT put sub in a brown sub bag sleeve. This signals to register that the order is &quot;for here&quot;.</>)}
+          {checkItem('Offer chips and drink to every guest as they come down the line')}
+          {checkItem('Apply mayo, bacon and other dressings to lids when sprinkler or guest requests them')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
+            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+          </div>
+          {checkItem('Front Line Sweep')}
+          {checkItem('Cabinet Doors')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; WRAP CHECKLIST</div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
+            <b>Goal = 25 minutes</b>. Attempt #1 at wrap checklist _______ minutes.
+          </div>
+        </div>
+        {footer()}
+        {pageNumber(7)}
+      </div>
+
+      {/* ==================== PAGE 8 — DAY 17: WRAPPING + CERTIFICATION ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 17 — WRAPPING')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST</div>
+          {trainingTable([
+            'Review before lunch checklist or pre-close list, teach anything that is not yet learned',
+            'Review freezer setup, importance of bread boxes closed properly & facing properly. Cookie boxes too.',
+            'Review proper placement of clean dishes',
+          ])}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; WRAP BENCHMARKS</div>
+          {checkItem('Audible POP of the sub bag')}
+          {checkItem('Label every sub (no matter what) and communicate number to register person')}
+          {checkItem('Greet every guest that enters and recognize to-go people')}
+          {checkItem('Wrap a Giant in under 20 seconds')}
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; WRAP CHECKLIST</div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
+            <b>Goal = 25 minutes</b>. Attempt #2 at wrap checklist _______ minutes
+          </div>
+
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>VIDEO COMPLETION PERCENTAGE</div>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '6px' }}>Goal by this point is 35%</div>
+
+          <div style={{
+            textAlign: 'center', fontSize: '9pt', fontWeight: 700, fontStyle: 'italic',
+            color: '#2D2D2D', marginBottom: '6px', textDecoration: 'underline',
+          }}>
+            WRAP CERTIFICATION!!
+          </div>
+          <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.5, marginBottom: '4px' }}>
+            Trainee works lunch rush beside Trainer &amp; demonstrates proficiency. Trainee completes Wrap checklist required time = 25 minutes. Required time to Cut &amp; Wrap a giant = 20 seconds.
+          </div>
+
+          <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px', marginBottom: '4px' }}>
+            LEVEL 2:
+          </div>
+          <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
+            -Final attempt at Wrap Checklist: _________ minutes (must be under 25 mins)<br />
+            -Cut &amp; Wrap a Giant: ________ seconds (must be under 20 secs)
+          </div>
+
+          <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
+            <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
+              Certification Awarded By - Trainer: _________________________
+            </div>
+            <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
+              Date: _________
+            </div>
+          </div>
+        </div>
+        {footer()}
+        {pageNumber(8)}
+      </div>
+
+      {/* ==================== PAGE 9 — GM DEBRIEF for Wrap ==================== */}
+      <div data-pdf-page style={pageStyle}>
+        {miniHeader()}
+        <div style={{ padding: '0 28px', flex: 1 }}>
+          {gmDebrief('What part of Wrap position do you feel is most challenging for you?')}
+        </div>
+        {footer()}
+        {pageNumber(9)}
+      </div>
+    </div>
   );
 });
 
