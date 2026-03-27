@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { loadJsonFile, updateJsonFile } from '@/lib/data';
-import { isSuperAdmin } from '@/lib/roles';
+import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { logAdminAction } from '@/lib/audit';
 import { rateLimit } from '@/lib/rate-limit';
 
@@ -19,7 +19,7 @@ export async function POST(request) {
 
   const profiles = loadJsonFile('profiles.json');
   const myProfile = profiles[session.id];
-  const isAdmin = isSuperAdmin(session.email) || (myProfile?.role === 'administrator' && myProfile?.roleApproved === true);
+  const isAdmin = isSuperAdmin(session.email) || isDefaultAdmin(session.email) || (myProfile?.role === 'administrator' && myProfile?.roleApproved === true);
 
   if (!isAdmin) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });

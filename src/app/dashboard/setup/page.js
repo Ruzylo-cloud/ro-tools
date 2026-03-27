@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import styles from './page.module.css';
 
+const DEFAULT_ADMIN_EMAILS = [
+  'david@jmvalley.com',
+  'bethany@jmvalley.com',
+  'brittany@jmvalley.com',
+];
+
 const EMPTY_STORE = {
   storeName: '',
   street: '',
@@ -35,7 +41,8 @@ export default function SetupPage() {
   const { user } = useAuth();
   const router = useRouter();
   const [step, setStep] = useState('role'); // 'role' | 'info'
-  const [role, setRole] = useState('');
+  const isAutoAdmin = DEFAULT_ADMIN_EMAILS.includes(user?.email?.toLowerCase());
+  const [role, setRole] = useState(isAutoAdmin ? 'administrator' : '');
   const [displayName, setDisplayName] = useState(user?.name || '');
   const [districtManager, setDistrictManager] = useState('');
   const [stores, setStores] = useState([{ ...EMPTY_STORE }]);
@@ -154,6 +161,15 @@ export default function SetupPage() {
             <div className={styles.roleDesc}>System admin with access to all stores and settings. Requires admin approval.</div>
           </div>
         </div>
+        {isAutoAdmin && (
+          <div className={styles.autoAdminNote}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <polyline points="9 12 11 14 15 10" />
+            </svg>
+            Your email qualifies for automatic administrator access.
+          </div>
+        )}
         {role && (
           <button className={styles.submitBtn} onClick={() => setStep('info')}>
             Continue as {role === 'operator' ? 'Restaurant Operator' : role === 'district_manager' ? 'District Manager' : 'Administrator'}

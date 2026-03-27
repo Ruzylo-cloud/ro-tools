@@ -7,6 +7,17 @@ export function isSuperAdmin(email) {
   return SUPER_ADMINS.includes(email?.toLowerCase());
 }
 
+// Default admins — auto-approved as administrator on first login
+export const DEFAULT_ADMINS = [
+  'david@jmvalley.com',
+  'bethany@jmvalley.com',
+  'brittany@jmvalley.com',
+];
+
+export function isDefaultAdmin(email) {
+  return DEFAULT_ADMINS.includes(email?.toLowerCase());
+}
+
 // Roles that require approval
 export const APPROVAL_REQUIRED = ['administrator', 'district_manager'];
 

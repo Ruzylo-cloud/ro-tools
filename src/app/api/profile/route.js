@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
-import { isSuperAdmin, needsApproval } from '@/lib/roles';
+import { isSuperAdmin, isDefaultAdmin, needsApproval } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ export async function GET() {
   const profiles = loadJsonFile('profiles.json');
   const profile = profiles[session.id] || null;
 
-  const isAdmin = isSuperAdmin(session.email) || (profile?.role === 'administrator' && profile?.roleApproved === true);
+  const isAdmin = isSuperAdmin(session.email) || isDefaultAdmin(session.email) || (profile?.role === 'administrator' && profile?.roleApproved === true);
 
   return NextResponse.json({
     profile,
@@ -45,9 +45,12 @@ export async function POST(request) {
 
   // Determine approval status server-side only
   if (body.role && needsApproval(body.role)) {
-    if (isSuperAdmin(session.email)) {
+    if (isSuperAdmin(session.email) || isDefaultAdmin(session.email)) {
       body.roleApproved = true;
       body.rolePending = false;
+      if (isDefaultAdmin(session.email)) {
+        body.autoAdminGranted = true;
+      }
     } else {
       const current = loadJsonFile('profiles.json')[session.id];
       if (current?.roleApproved && current?.role === body.role) {

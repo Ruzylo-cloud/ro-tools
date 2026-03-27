@@ -72,6 +72,21 @@
   line-height: 1.5;
 }
 
+/* Auto Admin Note */
+.autoAdminNote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(19,74,124,0.06);
+  border: 1px solid rgba(19,74,124,0.15);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #134A7C;
+  margin-bottom: 16px;
+}
+
 /* Form */
 .form {
   background: var(--white);
