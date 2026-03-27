@@ -86,13 +86,13 @@ export default function Navbar() {
                     <div className={styles.dropdownHint}>Customer-facing order form PDF</div>
                   </div>
                 </Link>
-                <span className={`${styles.dropdownItem} ${styles.comingSoon}`}>
+                <Link href="/dashboard/catering-tracker" className={styles.dropdownItem} onClick={closeDropdown}>
                   <span className={styles.dropdownIcon}>&#x1F4CA;</span>
                   <div>
-                    <div className={styles.dropdownLabel}>Catering Tracker <span className={styles.comingSoonBadge}>Soon</span></div>
-                    <div className={styles.dropdownHint}>Track prospects and follow-ups</div>
+                    <div className={styles.dropdownLabel}>Catering Tracker</div>
+                    <div className={styles.dropdownHint}>Track clients, orders, and follow-ups</div>
                   </div>
-                </span>
+                </Link>
               </div>
             )}
           </div>
@@ -156,9 +156,9 @@ export default function Navbar() {
             <Link href="/dashboard/generators/catering-order" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
               <span>&#x1F4DD;</span> Catering Order
             </Link>
-            <span className={styles.mobileDropdownItem} style={{ color: 'var(--gray-400)' }}>
-              <span>&#x1F4CA;</span> Catering Tracker (Coming Soon)
-            </span>
+            <Link href="/dashboard/catering-tracker" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F4CA;</span> Catering Tracker
+            </Link>
           </div>
         )}
 
