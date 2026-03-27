@@ -56,7 +56,7 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
 
       {/* Jersey Mike's Logo */}
       <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
-        <img src="/jmvg-logo.png" alt="Jersey Mike's Subs" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jersey-mikes-logo.png" alt="Jersey Mike's Subs" style={{ height: '50px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
       {/* Blue Divider */}

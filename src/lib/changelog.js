@@ -8,6 +8,57 @@
  */
 
 export const changelog = [
+  // ── v2.3.0 — March 26, 2026 ──────────────────────────────────────
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: 'JMVG Scoreboard',
+    description: 'Full scoreboard with all 11 weeks of data. Leaderboards for Grand Slams (4/4 targets), Trifectas (3+ targets), and Highest Avg Growth %. Weekly view with color-coded performance (Royal Blue, Blue, Green, Yellow, Orange). Store names displayed throughout.',
+  },
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: 'Store Directory & Auto-Setup',
+    description: 'All 29 JMVG stores mapped with names, RO assignments, and DM districts. DMs get their stores auto-populated on first login. Predictive store number search on setup page.',
+  },
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'new_feature',
+    title: 'Marketing Directives Page',
+    description: 'Rebuilt directives page with real JMVG data: April monthly marketing directive, ALL RO Meeting recap with action items, key dates, and the full 2026 marketing calendar.',
+  },
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'Catering Tracker Enhancements',
+    description: 'Upcoming Events widget showing notable dates in next 30 days. Generate Order button pre-fills catering form with client info. Next Expected Order date column. Reorder button re-loads past orders into the form.',
+  },
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'Landing Page Rebuild',
+    description: 'Full redesign with 6 tool cards (all live), stats bar, updated hero section showcasing the complete platform. Jersey Mike\'s logo on catering flyer.',
+  },
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'PDF Generator Standardization',
+    description: 'All 7 generators and the catering flyer now use consistent header/footer styling: red bar, JMVG logo, blue dividers, standardized spacing.',
+  },
+  {
+    version: 'v2.3.0',
+    date: '2026-03-26',
+    category: 'improvement',
+    title: 'OAuth & Security',
+    description: 'Removed "Google hasn\'t verified this app" warning. Login now uses basic scopes only. Drive/Gmail access granted incrementally when needed. Connected Services management in profile.',
+  },
+
   // ── v2.2.0 — March 26, 2026 ──────────────────────────────────────
   {
     version: 'v2.2.0',

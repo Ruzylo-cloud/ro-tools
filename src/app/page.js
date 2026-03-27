@@ -51,8 +51,7 @@ const TOOLS = [
     icon: '\u{1F3C6}',
     name: 'Weekly Scoreboard',
     desc: 'Live leaderboards across all 29 stores. Track sales growth, labor targets, COGs, and see where your store ranks — updated weekly.',
-    stat: 'Coming Soon',
-    coming: true,
+    stat: '11 Weeks',
   },
 ];
 
