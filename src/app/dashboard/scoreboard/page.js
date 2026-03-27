@@ -197,9 +197,9 @@ export default function ScoreboardPage() {
         </div>
       )}
 
-      {/* Disclaimer */}
+      {/* Data Note */}
       <div className={styles.disclaimer}>
-        Week 3 data is pending — awaiting source file. Leaderboard totals reflect 10 available weeks (1-2, 4-11).
+        Data spans Weeks 1-11 (Dec 29 - Mar 15, 2026). New stores (SD/Riverside) joined in Week 10-11. Leaderboard totals reflect each store&apos;s available weeks.
       </div>
     </div>
   );

@@ -59,6 +59,30 @@ const WEEK_2 = [
   { storeId: '20388', netSales: 14337, pySales: 18932, breadCount: 81, pyGrowth: 54.01, cogsActual: 24.08, cogsVariance: -1.69, labor: 24.10, laborTarget: 22.40 },
 ];
 
+const WEEK_3 = [
+  { storeId: '20366', netSales: 47662, pySales: 46549, breadCount: 278, pyGrowth: 2.98, cogsActual: 22.55, cogsVariance: -0.87, labor: 17.66, laborTarget: 18.80 },
+  { storeId: '20363', netSales: 43050, pySales: 35868, breadCount: 247, pyGrowth: 25.53, cogsActual: 22.32, cogsVariance: 0.79, labor: 18.01, laborTarget: 19.30 },
+  { storeId: '20218', netSales: 38668, pySales: 36745, breadCount: 237, pyGrowth: 8.43, cogsActual: 17.03, cogsVariance: 3.05, labor: 18.48, laborTarget: 19.70 },
+  { storeId: '20381', netSales: 38766, pySales: 36879, breadCount: 236, pyGrowth: 13.97, cogsActual: 23.71, cogsVariance: -1.48, labor: 19.36, laborTarget: 19.80 },
+  { storeId: '20294', netSales: 37862, pySales: 34845, breadCount: 226, pyGrowth: -13.47, cogsActual: 15.05, cogsVariance: 4.93, labor: 18.81, laborTarget: 19.80 },
+  { storeId: '20267', netSales: 37767, pySales: 38678, breadCount: 223, pyGrowth: 3.64, cogsActual: 23.97, cogsVariance: -1.98, labor: 17.93, laborTarget: 19.80 },
+  { storeId: '20156', netSales: 36037, pySales: 33412, breadCount: 211, pyGrowth: -7.53, cogsActual: 23.68, cogsVariance: -1.26, labor: 18.28, laborTarget: 19.90 },
+  { storeId: '20245', netSales: 34232, pySales: 31157, breadCount: 208, pyGrowth: 69.07, cogsActual: 24.74, cogsVariance: -1.90, labor: 18.97, laborTarget: 20.10 },
+  { storeId: '20026', netSales: 31821, pySales: 31007, breadCount: 197, pyGrowth: 6.78, cogsActual: 24.39, cogsVariance: -1.84, labor: 20.36, laborTarget: 20.30 },
+  { storeId: '20048', netSales: 32523, pySales: 30768, breadCount: 194, pyGrowth: 1.41, cogsActual: 24.19, cogsVariance: -2.15, labor: 18.85, laborTarget: 20.20 },
+  { storeId: '20273', netSales: 30049, pySales: 28633, breadCount: 177, pyGrowth: 10.69, cogsActual: 23.49, cogsVariance: -1.02, labor: 19.42, laborTarget: 20.50 },
+  { storeId: '20255', netSales: 30162, pySales: 29347, breadCount: 170, pyGrowth: -1.39, cogsActual: 22.53, cogsVariance: -1.09, labor: 19.90, laborTarget: 20.50 },
+  { storeId: '20311', netSales: 28718, pySales: 28040, breadCount: 166, pyGrowth: -5.29, cogsActual: 22.97, cogsVariance: -1.72, labor: 20.17, laborTarget: 20.60 },
+  { storeId: '20352', netSales: 27539, pySales: 23289, breadCount: 162, pyGrowth: 18.60, cogsActual: 23.59, cogsVariance: -1.67, labor: 20.22, laborTarget: 20.60 },
+  { storeId: '20116', netSales: 28512, pySales: 26568, breadCount: 163, pyGrowth: -2.24, cogsActual: 23.67, cogsVariance: -2.23, labor: 20.03, laborTarget: 20.60 },
+  { storeId: '20075', netSales: 27135, pySales: 25262, breadCount: 160, pyGrowth: 10.56, cogsActual: 22.04, cogsVariance: -1.06, labor: 17.90, laborTarget: 20.70 },
+  { storeId: '20011', netSales: 25473, pySales: 25345, breadCount: 148, pyGrowth: -2.33, cogsActual: 24.21, cogsVariance: -2.46, labor: 19.02, laborTarget: 21.00 },
+  { storeId: '20424', netSales: 22063, pySales: 23109, breadCount: 127, pyGrowth: 0, cogsActual: 22.67, cogsVariance: -1.26, labor: 22.69, laborTarget: 21.30 },
+  { storeId: '20360', netSales: 20842, pySales: 17325, breadCount: 126, pyGrowth: 22.37, cogsActual: 24.39, cogsVariance: -1.61, labor: 19.94, laborTarget: 21.80 },
+  { storeId: '20335', netSales: 20234, pySales: 18115, breadCount: 119, pyGrowth: 17.31, cogsActual: 23.90, cogsVariance: -1.68, labor: 18.80, laborTarget: 21.80 },
+  { storeId: '20388', netSales: 14917, pySales: 14337, breadCount: 85, pyGrowth: 21.21, cogsActual: 22.08, cogsVariance: -0.29, labor: 21.25, laborTarget: 22.40 },
+];
+
 const WEEK_4 = [
   { storeId: '20366', netSales: 49360, pySales: 47662, breadCount: 287, pyGrowth: 8.64, cogsActual: 22.00, cogsVariance: -1.31, labor: 17.82, laborTarget: 18.60 },
   { storeId: '20381', netSales: 38239, pySales: 38766, breadCount: 242, pyGrowth: 15.41, cogsActual: 23.76, cogsVariance: -0.77, labor: 20.05, laborTarget: 19.70 },
@@ -263,7 +287,7 @@ const WEEK_11 = [
 const ALL_WEEKS = {
   1:  { dateRange: 'Dec 29 - Jan 4', data: WEEK_1 },
   2:  { dateRange: 'Jan 5 - Jan 11', data: WEEK_2 },
-  // Week 3 (Jan 12 - Jan 18): awaiting PDF — PNG too low-res for data entry
+  3:  { dateRange: 'Jan 12 - Jan 18', data: WEEK_3 },
   4:  { dateRange: 'Jan 19 - Jan 25', data: WEEK_4 },
   5:  { dateRange: 'Jan 26 - Feb 2', data: WEEK_5 },
   6:  { dateRange: 'Feb 3 - Feb 9', data: WEEK_6 },
