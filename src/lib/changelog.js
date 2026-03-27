@@ -8,6 +8,29 @@
  */
 
 export const changelog = [
+  // ── v2.5.0 — March 27, 2026 ──────────────────────────────────────
+  {
+    version: 'v2.5.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Full Training Packet Rebuild — 54 Pages from Director\'s Source PDFs',
+    description: 'Complete rebuild of all training documents from the Director\'s original source materials. Every checkbox, training list, benchmark, GM debrief, certification criteria, LMS video reference, and quality check from the originals is now included. Multi-page PDF generation with page numbers on every page.',
+  },
+  {
+    version: 'v2.5.0',
+    date: '2026-03-27',
+    category: 'new_feature',
+    title: 'Orientation Packet (New)',
+    description: 'Brand new standalone Day 1 Orientation document — 5 pages covering policies, procedures, daily operations, guest service, store policies, team player values, JMVG core values, and LMS video assignments. Extracted from Level 1 as its own template.',
+  },
+  {
+    version: 'v2.5.0',
+    date: '2026-03-27',
+    category: 'improvement',
+    title: 'Multi-Page PDF Support',
+    description: 'Documents page now supports multi-page PDF generation. Each page is captured independently and assembled into a single PDF with addPage. All 8 training templates generate true multi-page documents matching the Director\'s originals.',
+  },
+
   // ── v2.4.0 — March 27, 2026 ──────────────────────────────────────
   {
     version: 'v2.4.0',
