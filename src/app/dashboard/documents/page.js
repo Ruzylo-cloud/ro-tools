@@ -5,14 +5,21 @@ import { useAuth } from '@/components/AuthProvider';
 import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
 import TrainingPacketLevel2 from '@/components/documents/TrainingPacketLevel2';
 import TrainingPacketLevel3 from '@/components/documents/TrainingPacketLevel3';
+import TrainingPacketSlicer from '@/components/documents/TrainingPacketSlicer';
+import TrainingPacketOpener from '@/components/documents/TrainingPacketOpener';
+import TrainingPacketShiftLead from '@/components/documents/TrainingPacketShiftLead';
 import NewHireChecklist from '@/components/documents/NewHireChecklist';
 import SaveToDrive from '@/components/SaveToDrive';
+import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
 const TEMPLATES = [
   { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '1' },
   { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '2' },
   { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '3' },
+  { id: 'slicer', name: 'Slicer Training', desc: '4-Week Certification', icon: 'S' },
+  { id: 'opener', name: 'Opener Training', desc: 'Opening Shift', icon: 'O' },
+  { id: 'shiftlead', name: 'Shift Lead', desc: 'Leadership Program', icon: 'L' },
   { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '+' },
 ];
 
@@ -27,6 +34,18 @@ const TEMPLATE_FIELDS = {
   level3: [
     { key: 'employeeName', label: 'Employee Name' },
   ],
+  slicer: [
+    { key: 'employeeName', label: 'Employee Name' },
+    { key: 'startDate', label: 'Start Date' },
+  ],
+  opener: [
+    { key: 'employeeName', label: 'Employee Name' },
+    { key: 'startDate', label: 'Start Date' },
+  ],
+  shiftlead: [
+    { key: 'employeeName', label: 'Employee Name' },
+    { key: 'startDate', label: 'Start Date' },
+  ],
   newhire: [
     { key: 'employeeName', label: 'Employee Name' },
     { key: 'startDate', label: 'Start Date' },
@@ -39,6 +58,9 @@ const COMPONENT_MAP = {
   level1: TrainingPacketLevel1,
   level2: TrainingPacketLevel2,
   level3: TrainingPacketLevel3,
+  slicer: TrainingPacketSlicer,
+  opener: TrainingPacketOpener,
+  shiftlead: TrainingPacketShiftLead,
   newhire: NewHireChecklist,
 };
 
@@ -46,6 +68,9 @@ const FILE_NAMES = {
   level1: 'level-1-training-packet',
   level2: 'level-2-training-packet',
   level3: 'level-3-training-packet',
+  slicer: 'slicer-training-packet',
+  opener: 'opener-training-packet',
+  shiftlead: 'shift-lead-training-packet',
   newhire: 'new-hire-checklist',
 };
 
@@ -103,7 +128,9 @@ export default function DocumentsPage() {
       pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
 
       const empName = (form.employeeName || 'document').replace(/\s+/g, '-').toLowerCase();
-      pdf.save(`${FILE_NAMES[selected]}-${empName}.pdf`);
+      const fileName = `${FILE_NAMES[selected]}-${empName}.pdf`;
+      pdf.save(fileName);
+      logActivity({ generatorType: selected === 'newhire' ? 'new-hire-checklist' : `training-${selected}`, action: 'download', formData: docData, filename: fileName });
     } catch (err) {
       console.error('PDF generation error:', err);
       alert('Failed to generate PDF. Please try again.');
@@ -193,6 +220,8 @@ export default function DocumentsPage() {
           getCanvasRef={() => docRef.current}
           fileName={`${FILE_NAMES[selected]}-${(form.employeeName || 'document').replace(/\s+/g, '-').toLowerCase()}`}
           disabled={generating}
+          generatorType={selected === 'newhire' ? 'new-hire-checklist' : `training-${selected}`}
+          formData={docData}
         />
       </div>
 
