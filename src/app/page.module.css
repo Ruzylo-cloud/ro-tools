@@ -142,23 +142,23 @@
 .heroCardSubtitle { font-size: 12px; color: var(--gray-400); }
 
 .heroCardPreview {
-  background: var(--gray-50); border-radius: 12px; padding: 20px;
+  background: var(--gray-50); border-radius: 12px; padding: 16px;
   border: 1px solid var(--gray-100);
+  display: flex; flex-direction: column; gap: 8px;
 }
-.previewLine {
-  height: 8px; border-radius: 4px; margin-bottom: 8px;
+.previewRow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.previewMini {
+  background: var(--white); border-radius: 8px; padding: 10px 8px 8px;
+  border: 1px solid var(--gray-100); text-align: center;
 }
-.previewLine.red { background: var(--jm-red); width: 60%; }
-.previewLine.gray { background: var(--gray-100); width: 100%; }
-.previewLine.gray.short { width: 45%; }
-.previewBlock {
-  height: 80px; background: linear-gradient(135deg, var(--jm-blue), var(--jm-blue-light));
-  border-radius: 8px; margin: 12px 0;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-weight: 700; font-size: 13px; letter-spacing: 1px;
-}
-.previewCols { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
-.previewColLine { height: 6px; border-radius: 3px; background: var(--gray-100); margin-bottom: 6px; }
+.previewMiniBar { height: 4px; border-radius: 2px; margin-bottom: 8px; }
+.previewMiniBar.red { background: var(--jm-red); }
+.previewMiniBar.blue { background: var(--jm-blue); }
+.previewMiniLines { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+.previewMiniLines > div { height: 3px; border-radius: 2px; background: var(--gray-100); }
+.previewMiniLines > div:nth-child(2) { width: 75%; }
+.previewMiniLines > div:nth-child(3) { width: 50%; }
+.previewMiniLabel { font-size: 9px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.3px; }
 
 .heroFloatBadge {
   position: absolute; padding: 10px 18px; border-radius: 12px;
@@ -173,6 +173,30 @@
 .float2 {
   bottom: 20px; left: -24px; background: var(--jm-blue); color: white;
   animation-delay: 3s;
+}
+
+/* ─── STATS BAR ─── */
+.statsBar {
+  background: var(--jm-blue);
+  padding: 0 48px;
+}
+.statsInner {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center;
+  padding: 36px 0; gap: 48px;
+}
+.statItem { text-align: center; }
+.statNumber {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; font-weight: 900; color: var(--white);
+  line-height: 1;
+}
+.statLabel {
+  font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6);
+  text-transform: uppercase; letter-spacing: 1px; margin-top: 6px;
+}
+.statDivider {
+  width: 1px; height: 40px; background: rgba(255,255,255,0.15); flex-shrink: 0;
 }
 
 /* ─── TOOLS SECTION ─── */
@@ -199,72 +223,78 @@
 
 .sectionSubtitle {
   font-size: 17px; color: var(--gray-600); text-align: center;
-  max-width: 560px; margin: 0 auto 64px; line-height: 1.7;
+  max-width: 620px; margin: 0 auto 64px; line-height: 1.7;
 }
 
 .toolsGrid {
   max-width: 1100px; margin: 0 auto;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
 }
 
 .toolCard {
-  border-radius: 20px; padding: 36px 28px;
+  background: var(--white);
+  border: 1px solid var(--gray-100);
+  border-radius: 18px; padding: 30px 24px;
   position: relative; overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: default;
 }
-.toolCard:hover { transform: translateY(-4px); }
+.toolCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(19,74,124,0.1);
+  border-color: rgba(19,74,124,0.15);
+}
 
-.toolCard.live {
+.toolCard.featured {
   background: var(--jm-blue); color: var(--white);
+  border-color: var(--jm-blue);
   box-shadow: 0 12px 40px rgba(19,74,124,0.25);
 }
-.toolCard.live:hover {
+.toolCard.featured:hover {
   box-shadow: 0 20px 60px rgba(19,74,124,0.35);
 }
-.toolCard.coming {
-  background: var(--gray-50);
-  border: 1px solid var(--gray-100);
-}
-.toolCard.coming:hover {
-  box-shadow: 0 12px 40px rgba(0,0,0,0.06);
-}
-
-.toolStatus {
-  display: inline-block; padding: 4px 12px;
-  border-radius: 100px; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.5px; margin-bottom: 20px;
-  text-transform: uppercase;
-}
-.live .toolStatus { background: var(--jm-red); color: white; }
-.coming .toolStatus { background: var(--gray-100); color: var(--gray-400); }
-
-.toolIcon {
-  width: 52px; height: 52px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; margin-bottom: 20px;
-}
-.live .toolIcon { background: rgba(255,255,255,0.15); }
-.coming .toolIcon { background: var(--gray-100); }
-
-.toolName {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px; font-weight: 800; margin-bottom: 10px;
-  letter-spacing: -0.3px;
-}
-.coming .toolName { color: var(--charcoal); }
-
-.toolDesc {
-  font-size: 14px; line-height: 1.65; opacity: 0.8;
-}
-.coming .toolDesc { color: var(--gray-600); }
-
-.live::after {
+.toolCard.featured::after {
   content: ''; position: absolute; top: 0; right: 0;
   width: 200px; height: 200px;
   background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
+
+.toolCard.coming {
+  background: var(--gray-50);
+  border: 1px dashed var(--gray-200);
+}
+
+.toolStat {
+  display: inline-block; padding: 3px 10px;
+  border-radius: 100px; font-size: 10px; font-weight: 700;
+  letter-spacing: 0.5px; margin-bottom: 16px;
+  text-transform: uppercase;
+  background: rgba(22,163,74,0.1); color: #16a34a;
+}
+.featured .toolStat { background: rgba(255,255,255,0.15); color: var(--white); }
+.coming .toolStat { background: rgba(245,158,11,0.1); color: #b45309; }
+
+.toolIcon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 16px;
+  background: var(--gray-50);
+}
+.featured .toolIcon { background: rgba(255,255,255,0.15); }
+.coming .toolIcon { background: var(--gray-100); }
+
+.toolName {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; font-weight: 800; margin-bottom: 8px;
+  letter-spacing: -0.3px; color: var(--charcoal);
+}
+.featured .toolName { color: var(--white); }
+
+.toolDesc {
+  font-size: 13px; line-height: 1.65; color: var(--gray-600);
+}
+.featured .toolDesc { color: rgba(255,255,255,0.8); }
 
 /* ─── HOW IT WORKS ─── */
 .how {
@@ -386,6 +416,8 @@
   .toolsGrid { grid-template-columns: repeat(2, 1fr); }
   .sectionTitle { font-size: 36px; }
   .ctaTitle { font-size: 38px; }
+  .statsInner { gap: 32px; }
+  .statNumber { font-size: 30px; }
 }
 
 /* 880px — stack hero, 2-col tools */
@@ -398,6 +430,7 @@
   .how { padding: 70px 24px; }
   .ctaSection { padding: 70px 24px; }
   .footer { padding: 28px 24px; }
+  .statsBar { padding: 0 24px; }
 }
 
 /* 810px — reduce card padding, smaller headings */
@@ -427,9 +460,18 @@
   .heroSub { font-size: 16px; }
   .sectionSubtitle { font-size: 15px; margin-bottom: 48px; }
   .ctaSub { font-size: 16px; }
+  .statsInner { flex-wrap: wrap; gap: 24px; padding: 28px 0; }
+  .statDivider { display: none; }
+  .statItem { flex: 1; min-width: 100px; }
+}
+/* 600px — preview row stacks */
+@media (max-width: 600px) {
+  .previewRow { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .previewMini { padding: 8px 6px 6px; }
+  .previewMiniLabel { font-size: 8px; }
 }
 
-/* 600px — touch targets, input font */
+/* 530px (merged with 600px) — touch targets */
 @media (max-width: 600px) {
   .nav { padding: 0 20px; }
   .hero { padding: 90px 20px 56px; }
@@ -441,6 +483,7 @@
   .ctaSection { padding: 60px 20px; }
   .sectionTitle { font-size: 30px; }
   .ctaTitle { font-size: 30px; }
+  .statsBar { padding: 0 20px; }
 }
 
 /* 530px — reduce padding further */

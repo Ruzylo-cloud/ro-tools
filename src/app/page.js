@@ -15,6 +15,47 @@ const GoogleIcon = () => (
   </svg>
 );
 
+const TOOLS = [
+  {
+    icon: '\u{1F4C4}',
+    name: 'Document Generators',
+    desc: '7 professional generators — catering orders, written warnings, evaluations, coaching forms, injury reports, timesheet corrections, and attestation corrections. All auto-filled with your store details and downloadable as PDF.',
+    highlight: true,
+    stat: '7 Forms',
+  },
+  {
+    icon: '\u{1F4CB}',
+    name: 'Catering Flyer Builder',
+    desc: 'Print-ready catering flyers with your store address, phone, manager names, full menu, and pricing. Branded and professional — just download and distribute.',
+    stat: 'PDF Ready',
+  },
+  {
+    icon: '\u{1F4CA}',
+    name: 'Catering Tracker',
+    desc: 'Full CRM for catering clients. Track orders, revenue, follow-up schedules, notable dates, and reorder frequency. Auto-logs clients from generated orders.',
+    stat: 'Live CRM',
+  },
+  {
+    icon: '\u{1F4C5}',
+    name: 'Marketing Directives',
+    desc: 'Monthly marketing directives, ALL RO meeting action items, JMVG scorecard tracking, and the full 2026 campaign calendar. Always current.',
+    stat: 'Updated Weekly',
+  },
+  {
+    icon: '\u{1F4C2}',
+    name: 'Training Documents',
+    desc: 'Level 1-3 training packets, new hire checklists, and uniform templates. All JMVG-branded and ready to print or save to Google Drive.',
+    stat: '5 Templates',
+  },
+  {
+    icon: '\u{1F3C6}',
+    name: 'Weekly Scoreboard',
+    desc: 'Live leaderboards across all 29 stores. Track sales growth, labor targets, COGs, and see where your store ranks — updated weekly.',
+    stat: 'Coming Soon',
+    coming: true,
+  },
+];
+
 export default function LandingPage() {
   const { user, login } = useAuth();
   const router = useRouter();
@@ -52,7 +93,7 @@ export default function LandingPage() {
       });
     }, { threshold: 0.15 });
 
-    document.querySelectorAll(`.${styles.toolCard}, .${styles.step}`).forEach(el => {
+    document.querySelectorAll(`.${styles.toolCard}, .${styles.step}, .${styles.statItem}`).forEach(el => {
       el.classList.add(styles.hidden);
       observer.observe(el);
     });
@@ -84,80 +125,109 @@ export default function LandingPage() {
               <span className={styles.heroBadgeText}>Built by operators, for operators</span>
             </div>
             <h1 className={styles.heroTitle}>
-              Every tool you need.<br /><span>One login.</span>
+              Your store&apos;s<br />command center.<br /><span>One login.</span>
             </h1>
             <p className={styles.heroSub}>
-              Generate catering flyers, marketing materials, and branded assets in seconds. Just sign in with your @jmvalley.com account and your store info does the rest.
+              Generators, trackers, directives, and documents — all branded to your store and ready in seconds. Sign in with your @jmvalley.com account and everything auto-fills.
             </p>
             <div className={styles.heroActions}>
-              <a href="#cta" className={styles.btnPrimary}>
-                Get Started
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+              <button className={styles.btnPrimary} onClick={login}>
+                <GoogleIcon /> Sign In with Google
+              </button>
               <a href="#tools" className={styles.btnSecondary}>See the Tools</a>
             </div>
           </div>
           <div className={styles.heroVisual}>
             <div className={styles.heroCard}>
               <div className={styles.heroCardHeader}>
-                <div className={styles.heroCardIcon}>&#x1F4C4;</div>
+                <div className={styles.heroCardIcon}>&#x1F3E2;</div>
                 <div>
-                  <div className={styles.heroCardTitle}>Catering Flyer Generator</div>
-                  <div className={styles.heroCardSubtitle}>Auto-fills with your store info</div>
+                  <div className={styles.heroCardTitle}>RO Tools Suite</div>
+                  <div className={styles.heroCardSubtitle}>Everything auto-fills with your store info</div>
                 </div>
               </div>
               <div className={styles.heroCardPreview}>
-                <div className={`${styles.previewLine} ${styles.red}`}></div>
-                <div className={styles.previewBlock}>OFFICE CATERING</div>
-                <div className={`${styles.previewLine} ${styles.gray}`}></div>
-                <div className={`${styles.previewLine} ${styles.red}`} style={{ width: '40%', margin: '0 auto 8px' }}></div>
-                <div className={`${styles.previewLine} ${styles.gray} ${styles.short}`} style={{ margin: '0 auto 8px' }}></div>
-                <div className={styles.previewCols}>
-                  <div>
-                    <div className={styles.previewColLine}></div>
-                    <div className={styles.previewColLine} style={{ width: '80%' }}></div>
-                    <div className={styles.previewColLine} style={{ width: '60%' }}></div>
-                    <div className={styles.previewColLine} style={{ width: '90%' }}></div>
+                <div className={styles.previewRow}>
+                  <div className={styles.previewMini}>
+                    <div className={`${styles.previewMiniBar} ${styles.red}`}></div>
+                    <div className={styles.previewMiniLines}><div></div><div></div><div></div></div>
+                    <div className={styles.previewMiniLabel}>Catering Order</div>
                   </div>
-                  <div>
-                    <div className={styles.previewColLine}></div>
-                    <div className={styles.previewColLine} style={{ width: '70%' }}></div>
-                    <div className={styles.previewColLine} style={{ width: '85%' }}></div>
-                    <div className={styles.previewColLine} style={{ width: '50%' }}></div>
+                  <div className={styles.previewMini}>
+                    <div className={`${styles.previewMiniBar} ${styles.blue}`}></div>
+                    <div className={styles.previewMiniLines}><div></div><div></div><div></div></div>
+                    <div className={styles.previewMiniLabel}>Warning Form</div>
+                  </div>
+                  <div className={styles.previewMini}>
+                    <div className={`${styles.previewMiniBar} ${styles.red}`}></div>
+                    <div className={styles.previewMiniLines}><div></div><div></div><div></div></div>
+                    <div className={styles.previewMiniLabel}>Evaluation</div>
+                  </div>
+                </div>
+                <div className={styles.previewRow}>
+                  <div className={styles.previewMini}>
+                    <div className={`${styles.previewMiniBar} ${styles.blue}`}></div>
+                    <div className={styles.previewMiniLines}><div></div><div></div><div></div></div>
+                    <div className={styles.previewMiniLabel}>Coaching</div>
+                  </div>
+                  <div className={styles.previewMini}>
+                    <div className={`${styles.previewMiniBar} ${styles.red}`}></div>
+                    <div className={styles.previewMiniLines}><div></div><div></div><div></div></div>
+                    <div className={styles.previewMiniLabel}>Injury Report</div>
+                  </div>
+                  <div className={styles.previewMini}>
+                    <div className={`${styles.previewMiniBar} ${styles.blue}`}></div>
+                    <div className={styles.previewMiniLines}><div></div><div></div><div></div></div>
+                    <div className={styles.previewMiniLabel}>Flyer</div>
                   </div>
                 </div>
               </div>
               <div className={`${styles.heroFloatBadge} ${styles.float1}`}>&#x2728; PDF Ready</div>
-              <div className={`${styles.heroFloatBadge} ${styles.float2}`}>&#x1F680; One Click</div>
+              <div className={`${styles.heroFloatBadge} ${styles.float2}`}>&#x1F680; 29 Stores</div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS BAR */}
+      <section className={styles.statsBar}>
+        <div className={styles.statsInner}>
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>7</div>
+            <div className={styles.statLabel}>Document Generators</div>
+          </div>
+          <div className={styles.statDivider}></div>
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>29</div>
+            <div className={styles.statLabel}>JMVG Stores</div>
+          </div>
+          <div className={styles.statDivider}></div>
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>1</div>
+            <div className={styles.statLabel}>Click to PDF</div>
+          </div>
+          <div className={styles.statDivider}></div>
+          <div className={styles.statItem}>
+            <div className={styles.statNumber}>0</div>
+            <div className={styles.statLabel}>Design Skills Needed</div>
           </div>
         </div>
       </section>
 
       {/* TOOLS */}
       <section className={styles.tools} id="tools">
-        <div className={`${styles.sectionLabel} ${styles.labelRed}`}>WHAT&apos;S INSIDE</div>
+        <div className={`${styles.sectionLabel} ${styles.labelRed}`}>THE FULL SUITE</div>
         <h2 className={`${styles.sectionTitle} ${styles.titleBlue}`}>Operator Toolkit</h2>
-        <p className={styles.sectionSubtitle}>Professional tools that auto-fill with your store details. No design skills needed. No wasted time.</p>
+        <p className={styles.sectionSubtitle}>Everything you need to run your store — professional documents, catering management, marketing directives, and cloud storage. All live. All free.</p>
         <div className={styles.toolsGrid}>
-          <div className={`${styles.toolCard} ${styles.live}`}>
-            <div className={styles.toolStatus}>Live Now</div>
-            <div className={styles.toolIcon}>&#x1F4CB;</div>
-            <div className={styles.toolName}>Catering Flyer Generator</div>
-            <div className={styles.toolDesc}>Beautiful, print-ready catering flyers with your store info, menu, pricing, and contact details. Download as PDF instantly.</div>
-          </div>
-          <div className={`${styles.toolCard} ${styles.coming}`}>
-            <div className={styles.toolStatus}>Coming Soon</div>
-            <div className={styles.toolIcon}>&#x1F4E3;</div>
-            <div className={styles.toolName}>Marketing Materials</div>
-            <div className={styles.toolDesc}>Door hangers, leave-behinds, fundraiser sheets, and social media graphics. Branded and ready to print.</div>
-          </div>
-          <div className={`${styles.toolCard} ${styles.coming}`}>
-            <div className={styles.toolStatus}>Coming Soon</div>
-            <div className={styles.toolIcon}>&#x1F4CA;</div>
-            <div className={styles.toolName}>Catering Tracker</div>
-            <div className={styles.toolDesc}>Track prospects, follow-ups, and orders. See which office buildings are converting and which need another visit.</div>
-          </div>
+          {TOOLS.map((tool, i) => (
+            <div key={i} className={`${styles.toolCard} ${tool.highlight ? styles.featured : ''} ${tool.coming ? styles.coming : ''}`}>
+              <div className={styles.toolStat}>{tool.stat}</div>
+              <div className={styles.toolIcon}>{tool.icon}</div>
+              <div className={styles.toolName}>{tool.name}</div>
+              <div className={styles.toolDesc}>{tool.desc}</div>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -175,12 +245,12 @@ export default function LandingPage() {
           <div className={styles.step}>
             <div className={styles.stepNumber}>2</div>
             <div className={styles.stepTitle}>Set Up Your Store</div>
-            <div className={styles.stepDesc}>Enter your address, names, and phone numbers once. Every tool will auto-fill with your details.</div>
+            <div className={styles.stepDesc}>Enter your store address, phone, and manager names once. Every tool will auto-fill with your details from then on.</div>
           </div>
           <div className={styles.step}>
             <div className={styles.stepNumber}>3</div>
             <div className={styles.stepTitle}>Generate &amp; Download</div>
-            <div className={styles.stepDesc}>Pick a tool, review the preview, and download a print-ready PDF. It&apos;s that fast.</div>
+            <div className={styles.stepDesc}>Pick a tool, fill in what&apos;s needed, preview it live, and download a print-ready PDF or save to Google Drive.</div>
           </div>
         </div>
       </section>
