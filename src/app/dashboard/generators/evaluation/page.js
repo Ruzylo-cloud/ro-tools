@@ -57,6 +57,7 @@ export default function EvaluationPage() {
           setForm(prev => ({
             ...prev,
             storeName: data.profile.storeName || '',
+            userEmail: data.profile.email || '',
             evaluatorName: data.profile.operatorName || '',
           }));
         }

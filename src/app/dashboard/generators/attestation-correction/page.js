@@ -52,6 +52,7 @@ export default function AttestationCorrectionPage() {
           setForm(prev => ({
             ...prev,
             storeName: data.profile.storeName || '',
+            userEmail: data.profile.email || '',
             supervisorName: data.profile.operatorName || '',
           }));
         }

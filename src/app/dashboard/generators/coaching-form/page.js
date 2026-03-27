@@ -56,6 +56,7 @@ export default function CoachingFormPage() {
             storeNumber: p.storeNumber || '',
             storeName: p.storeName || '',
             coachName: p.operatorName || user?.name || '',
+            userEmail: p.email || '',
           }));
         }
         setLoading(false);

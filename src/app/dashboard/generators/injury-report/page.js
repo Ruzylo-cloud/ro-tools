@@ -78,6 +78,7 @@ export default function InjuryReportPage() {
             storeNumber: p.storeNumber || '',
             storeName: p.storeName || '',
             supervisorName: p.operatorName || '',
+            userEmail: p.email || '',
           }));
         }
         setLoading(false);

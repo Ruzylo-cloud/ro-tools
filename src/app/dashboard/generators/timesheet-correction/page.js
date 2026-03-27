@@ -48,6 +48,7 @@ export default function TimesheetCorrectionPage() {
           setForm(prev => ({
             ...prev,
             storeName: data.profile.storeName || '',
+            userEmail: data.profile.email || '',
             supervisorName: data.profile.operatorName || '',
           }));
         }

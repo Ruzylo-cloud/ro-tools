@@ -48,6 +48,7 @@ export default function MealBreakWaiverPage() {
           setForm(prev => ({
             ...prev,
             storeName: data.profile.storeName || '',
+            userEmail: data.profile.email || '',
             storeNumber: data.profile.storeNumber || '',
             managerName: data.profile.operatorName || '',
           }));
