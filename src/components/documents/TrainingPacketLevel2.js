@@ -124,7 +124,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
       {videos.map((v, i) => (
         <div key={i} style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '1px' }}>
           <u>{v.title}</u><br />
-          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;______
+          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;<span style={{ display: 'inline-block', width: '12px', height: '12px', border: '1px solid #2D2D2D', verticalAlign: 'middle' }}></span>
         </div>
       ))}
     </div>
@@ -134,14 +134,14 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
     <div style={{ marginTop: '6px' }}>
       {sectionHeader('GM DEBRIEF - do at conclusion of training shift')}
       <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
-        <div style={{ marginBottom: '2px' }}>{questionText} ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ marginBottom: '2px' }}>{questionText}</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas of opportunity:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
         <div style={{ fontSize: '6pt', fontStyle: 'italic', color: '#6b7280' }}>
           Is there anything you&apos;d like to talk about or ask about while we&apos;re chatting? (don&apos;t write down, this is just opportunity for casual conversation)
         </div>
@@ -247,7 +247,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; REGISTER CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
             Trainee completes register checklist with shift lead or trainer. Time this. <b>Goal = 45 minutes</b>.<br />
-            Attempt #1 at register checklist ________ minutes.
+            Attempt #1 at register checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes.
           </div>
         </div>
         {footer()}
@@ -323,7 +323,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; REGISTER CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '6px' }}>
             Trainee completes register checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Register Checklist. <b>Goal = 45 minutes</b>.<br />
-            Attempt #2 at register checklist ________ minutes
+            Attempt #2 at register checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes
           </div>
 
           {gmDebrief('What part of Register position do you feel is most challenging for you?')}
@@ -377,15 +377,15 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             LEVEL 2:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            Final attempt at Register Checklist: _________ minutes
+            Final attempt at Register Checklist: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Certification Awarded By - Trainer: _________________________
+              Certification Awarded By - Trainer: <span style={{ display: 'inline-block', width: '160px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Date: _________
+              Date: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
           </div>
         </div>
@@ -454,7 +454,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; WRAP CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
             Trainee completes wrap checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Wrap Checklist. <b>Goal = 25 minutes</b>.<br />
-            Attempt #1 at wrap checklist ________ minutes.
+            Attempt #1 at wrap checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes.
           </div>
         </div>
         {footer()}
@@ -483,7 +483,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; WRAP CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
             Trainee completes wrap checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Wrap Checklist. <b>Goal = 25 minutes</b>.<br />
-            Attempt #2 at wrap checklist ________ minutes
+            Attempt #2 at wrap checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes
           </div>
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; VIDEO COMPLETION PERCENTAGE</div>
@@ -503,16 +503,16 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             LEVEL 2:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            Final attempt at Wrap Checklist: _________ minutes (must be under 25 mins)<br />
-            Cut &amp; Wrap a Giant: _______ seconds (must be under 20 secs)
+            Final attempt at Wrap Checklist: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes (must be under 25 mins)<br />
+            Cut &amp; Wrap a Giant: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> seconds (must be under 20 secs)
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Certification Awarded By - Trainer: _________________________
+              Certification Awarded By - Trainer: <span style={{ display: 'inline-block', width: '160px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Date: _________
+              Date: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
           </div>
         </div>

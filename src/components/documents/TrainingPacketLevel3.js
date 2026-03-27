@@ -124,7 +124,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
       {videos.map((v, i) => (
         <div key={i} style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '1px' }}>
           <u>{v.title}</u><br />
-          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;______
+          &nbsp;&nbsp;&nbsp;&nbsp;All Videos ({v.duration}) &nbsp;&nbsp;<span style={{ display: 'inline-block', width: '12px', height: '12px', border: '1px solid #2D2D2D', verticalAlign: 'middle' }}></span>
         </div>
       ))}
     </div>
@@ -134,14 +134,14 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
     <div style={{ marginTop: '6px' }}>
       {sectionHeader('GM DEBRIEF - end of training shift')}
       <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
-        <div style={{ marginBottom: '2px' }}>{questionText} ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>2 areas of opportunity: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
-        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying: ______________________________________</div>
-        <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
+        <div style={{ marginBottom: '2px' }}>{questionText}</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas in which trainee is excelling:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>2 areas of opportunity:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
+        <div style={{ marginBottom: '2px' }}>Discuss one Core Value the trainee is embodying:</div>
+        <div style={{ borderBottom: '1px solid #2D2D2D', height: '14px', marginBottom: '4px' }} />
         <div style={{ fontSize: '6pt', fontStyle: 'italic', color: '#6b7280' }}>
           Is there anything you&apos;d like to talk about or ask about while we&apos;re chatting? (don&apos;t write down, this is just opportunity for casual conversation)
         </div>
@@ -206,21 +206,21 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
               <tr>
                 <td colSpan={2}></td>
                 <td colSpan={2} style={{ border: '1px solid #ccc', padding: '2px 4px', background: '#E5E7EB', fontWeight: 700, textAlign: 'center' }}>
-                  SCORE _________ %
+                  SCORE <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> %
                 </td>
               </tr>
             </tbody>
           </table>
 
           <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px' }}>
-            C-BOPS stands for __________________
+            C-BOPS stands for <span style={{ display: 'inline-block', width: '160px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
           </div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6, paddingLeft: '12px', marginTop: '2px' }}>
-            C = __________________ (Cheese)<br />
-            B = __________________ (Bread)<br />
-            O = __________________ (Onions)<br />
-            P = __________________ (Peppers)<br />
-            S = __________________ (Steak)
+            C = <span style={{ display: 'inline-block', width: '120px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Cheese)<br />
+            B = <span style={{ display: 'inline-block', width: '120px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Bread)<br />
+            O = <span style={{ display: 'inline-block', width: '120px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Onions)<br />
+            P = <span style={{ display: 'inline-block', width: '120px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Peppers)<br />
+            S = <span style={{ display: 'inline-block', width: '120px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (Steak)
           </div>
         </DocumentTemplate>
         {pageNumber(1)}
@@ -254,7 +254,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; HOT SUBS CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
             Trainee completes hot subs checklist with shift lead or trainer. Time this. <b>Goal = 40 minutes</b>.<br />
-            Attempt #1 at hot subs checklist ________ minutes.
+            Attempt #1 at hot subs checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes.
           </div>
 
           {lmsBlock([
@@ -327,7 +327,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; HOT SUBS CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
             Trainee completes hot subs checklist with shift lead or trainer. Time this. <b>Goal = 40 minutes</b>.<br />
-            Attempt #2 at hot subs checklist ________ minutes
+            Attempt #2 at hot subs checklist <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes
           </div>
 
           {gmDebrief('What part of Hot Subs position do you feel is most challenging for you?')}
@@ -402,17 +402,17 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
             LEVEL 3:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            Final attempt at Hot Subs Checklist time: ________ minutes<br />
-            Time to make a regular 17: ____ minutes _______ seconds (must be under 2 mins)<br />
-            Hot Subs Certification submitted: ________ (video of #17 cooked &amp; wrapped)
+            Final attempt at Hot Subs Checklist time: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes<br />
+            Time to make a regular 17: <span style={{ display: 'inline-block', width: '50px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> minutes <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> seconds (must be under 2 mins)<br />
+            Hot Subs Certification submitted: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span> (video of #17 cooked &amp; wrapped)
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Certification Awarded By - Trainer: _________________________
+              Certification Awarded By - Trainer: <span style={{ display: 'inline-block', width: '160px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
             <div style={{ fontSize: '6.5pt', color: '#2D2D2D' }}>
-              Date: _________
+              Date: <span style={{ display: 'inline-block', width: '80px', borderBottom: '1px solid #2D2D2D' }}>&nbsp;</span>
             </div>
           </div>
 
