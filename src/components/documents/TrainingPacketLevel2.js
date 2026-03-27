@@ -113,13 +113,13 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
     </>
   );
 
-  const lmsBlock = (videos) => (
+  const lmsBlock = (videos, subtitle) => (
     <div style={{ marginTop: '4px' }}>
       <div style={{ fontSize: '6.5pt', fontWeight: 700, color: '#2D2D2D', marginBottom: '2px' }}>
         HOMEWORK - TRAINING VIDEOS on LMS
       </div>
       <div style={{ fontSize: '6pt', color: '#6b7280', marginBottom: '2px' }}>
-        (send report to GM of time spent on videos, time will be added to next paycheck)
+        ({subtitle || 'watch on store iPad'})
       </div>
       {videos.map((v, i) => (
         <div key={i} style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '1px' }}>
@@ -132,7 +132,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
 
   const gmDebrief = (questionText) => (
     <div style={{ marginTop: '6px' }}>
-      {sectionHeader('GM DEBRIEF - end of training shift')}
+      {sectionHeader('GM DEBRIEF - do at conclusion of training shift')}
       <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6 }}>
         <div style={{ marginBottom: '2px' }}>{questionText} ______________________________________</div>
         <div style={{ borderBottom: '1px solid #ccc', marginBottom: '4px', height: '12px' }} />
@@ -171,9 +171,9 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             </div>
           </div>
 
-          {dayBanner('DURING WEEK 2 — Phone Orders & Lobby Checks')}
+          {dayBanner('DURING WEEK 2: PHONE ORDERS & LOBBY CHECKS')}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px', marginTop: '4px' }}>TRAIN PHONE ORDERS</div>
+          {sectionHeader('TRAIN PHONE ORDERS')}
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '3px' }}>
             Teach and then role play at least 5 phone orders.
           </div>
@@ -183,7 +183,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '2px' }}>
             Guest orders: practice the order below with a ticket:
           </div>
-          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, paddingLeft: '12px', marginBottom: '2px' }}>
+          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.5, paddingLeft: '12px', marginBottom: '3px' }}>
             &bull; Mini 7 on white, mike&apos;s way no onion<br />
             &bull; Regular 13 on wheat, mike&apos;s way with jalapenos and mustard<br />
             &bull; Giant Roast Beef on rosemary parmesan, mike&apos;s way with mayo and bacon
@@ -196,24 +196,16 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             &bull; <b>ROLEPLAY</b> - practice 3-4 phone orders at the table together. Trainee &quot;answers&quot; your call and writes down what you order. Include 3 subs on each order.
           </div>
 
-          {sectionHeader('PHONE ORDER BENCHMARKS')}
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; PHONE ORDER BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Answer the phone before 3 rings')}
           {checkItem('Write phone orders with 100% accuracy (proper format, circling extras, writing name and realistic pick-up times)')}
           {checkItem('Communicate to the slicer, backline person or hot subber that you put an order up')}
 
-          {sectionHeader('LOBBY CHECK BENCHMARKS - check off when trainee has mastered')}
-          {checkItem(<>Lobby checking order:<br />
-            <span style={{ paddingLeft: '12px', display: 'block', lineHeight: 1.4 }}>
-              &bull; Clean large items first like pieces of trash on the floor<br />
-              &bull; Wipe down tables with a sanitized towel from lobby bucket<br />
-              &bull; Clean under tea machine and around fountain area, restock lids and straws<br />
-              &bull; Wipe down tables, make sure to dry them, do not leave damp<br />
-              &bull; Check &amp; clean or stock bathroom last
-            </span>
-          </>)}
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; LOBBY CHECK BENCHMARKS - check off when trainee has mastered</div>
+          {checkItem(<>Lobby checking order: Clean large items first like pieces of trash on the floor; Wipe down tables with a sanitized towel from lobby bucket; Clean under tea machine and around fountain area, restock lids and straws; Wipe down tables, make sure to dry them, do not leave damp; Check &amp; clean or stock bathroom last</>)}
           {checkItem('Finish lobby check in 5 minutes max')}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>VIDEO COMPLETION PERCENTAGE</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; VIDEO COMPLETION PERCENTAGE</div>
           {checkItem('Goal by this point is 27%')}
         </DocumentTemplate>
         {pageNumber(1)}
@@ -241,38 +233,41 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             &bull; <b>ROLEPLAY B4 THE RUSH</b> - roleplay the trainee ringing up and checking out the trainer. Trainee asks if they have shore points and then directs the trainer to answer prompts for credit card. Do this 3 times through, trainer present different scenarios.
           </div>
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Greet every guest that enters the store and make eye contact with a smile! :)')}
           {checkItem(<>Tape every online order to a bag with tamper seal, <b>2 seals</b> for small bag/ <b>3 seals</b> for large bag, <b>fluff bag open</b> and <b>add napkins</b></>)}
-          {checkItem(<>Write a &apos;<b>P</b>&apos; on all hot sub tickets once paid for and hang ticket on rack</>)}
-          {checkItem(<>Write &quot;<b>H</b>&quot; on kitchen ticket when guest arrives early</>)}
+          {checkItem(<>Write a &apos;P&apos; on all hot sub tickets once paid for and hang ticket on rack</>)}
+          {checkItem(<>Write &quot;H&quot; on kitchen ticket when guest arrives early</>)}
 
           {lmsBlock([
             { title: 'New Hire: Cashier', duration: '8 min' },
             { title: 'New Hire: Basic Food Prep', duration: '18 min' },
-          ])}
+          ], 'watch on store iPad')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; REGISTER CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
-            <b>Goal = 45 minutes</b>. Attempt #1 at register checklist _______ minutes.
+            Trainee completes register checklist with shift lead or trainer. Time this. <b>Goal = 45 minutes</b>.<br />
+            Attempt #1 at register checklist ________ minutes.
           </div>
         </div>
         {footer()}
         {pageNumber(2)}
       </div>
 
-      {/* ==================== PAGE 3 — DAY 10: REGISTER POSITION (detailed) ==================== */}
+      {/* ==================== PAGE 3 — DAY 10: REGISTER POSITION details ==================== */}
       <div data-pdf-page style={pageStyle}>
         {miniHeader()}
         <div style={{ padding: '0 28px', flex: 1 }}>
+          {dayBanner('DAY 10 — REGISTER TRAINING')}
+
           <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginBottom: '4px' }}>
-            <i>REGISTER POSITION</i> : Review start of <b>Day 10</b>
+            REGISTER POSITION: Review start of Day 10
           </div>
 
           {subHeader('Set Up/Cleanliness/Organization/Safety:')}
           {checkItem('1 pens, 1 sharpie, tip jar attached to register, seals for bags')}
           {checkItem('Drawer stocked with enough change, ask for change BEFORE you run out')}
-          {checkItem("We don't accept bills larger than $20. Too many fakes in the past")}
+          {checkItem(<>We don&apos;t accept bills larger than $20. Too many fakes in the past</>)}
           {checkItem('Keep area near register neat and clean, free of any clutter')}
 
           {subHeader('Guest Service/Communication:')}
@@ -307,17 +302,17 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
         <div style={{ padding: '0 28px', flex: 1 }}>
           {dayBanner('DAY 11 — REGISTER TRAINING')}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST (continued from Day 10)</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST</div>
           {trainingTable([
             'Replace nozzles, turn on pepsi machine',
             "Roll out mat, make sure it's clean!",
             'How to properly clean bathroom',
           ])}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Keep takeout order area organized (including trash area) and cups stocked.')}
           {checkItem('When working the register without a wrapper, split wrap station. Reg tears the paper, Sprinkler cuts the sub, Reg wraps the sub.')}
-          {checkItem('Ask every guest if they have Shore Points.')}
+          {checkItem('Ask every guest Shore Points.')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
             &bull; TRAINING VIDEOS - Jolt Deep Clean videos
@@ -327,7 +322,8 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; REGISTER CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '6px' }}>
-            <b>Goal = 45 minutes</b>. Attempt #2 at register checklist _______ minutes
+            Trainee completes register checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Register Checklist. <b>Goal = 45 minutes</b>.<br />
+            Attempt #2 at register checklist ________ minutes
           </div>
 
           {gmDebrief('What part of Register position do you feel is most challenging for you?')}
@@ -350,10 +346,10 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             'Review Wrap/Reg list if training for closing',
           ])}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; REGISTER BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Ring in Reg, Giant, and mini-sub sizes with 100% accuracy. Same with add-ons.')}
           {checkItem('Seal all online & deliver orders; 2 seals on a small bag, 3 seals on a large bag')}
-          {checkItem('Tap bell and say "thank you" for guest tips')}
+          {checkItem(<>Tap bell and say &quot;thank you&quot; for guest tips</>)}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
             &bull; TRAINING VIDEOS - Jolt Deep Clean videos
@@ -361,7 +357,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           {checkItem('Baseboards Bruh')}
 
           <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginTop: '10px', marginBottom: '4px' }}>
-            DAY 13, 14, 15: <i>REGISTER PROFICIENCY</i>
+            DAY 13, 14, 15: REGISTER PROFICIENCY
           </div>
           <div style={{ textAlign: 'center', fontSize: '6.5pt', fontStyle: 'italic', color: '#2D2D2D', marginBottom: '8px' }}>
             Continue to practice &amp; make progress &amp; complete prior pages as needed. Cover training list above. When ready, plan certification shift!
@@ -374,14 +370,14 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             REGISTER CERTIFICATION!!
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.5, marginBottom: '4px' }}>
-            Trainee works lunch rush beside Trainer &amp; demonstrates proficiency. Trainee completes Register checklist required time = 45 minutes.
+            Trainee works lunch rush beside Trainer &amp; demonstrates proficiency. Trainee completes Register checklist <b>required time = 45 minutes.</b>
           </div>
 
-          <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px', marginBottom: '4px' }}>
+          <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '8px', marginBottom: '4px' }}>
             LEVEL 2:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            -Final attempt at Register Checklist: _________ minutes
+            Final attempt at Register Checklist: _________ minutes
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
@@ -404,13 +400,13 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           {dayBanner('DAY 16 — WRAPPING')}
 
           <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginBottom: '4px' }}>
-            <i>WRAP POSITION</i> : Review start of <b>Day 16</b>
+            WRAP POSITION: Review start of Day 16
           </div>
 
           {subHeader('Area Set Up/Cleanliness/Organization:')}
           {checkItem('Sub bags/sleeves stocked on counter and below, Sharpie in place')}
           {checkItem('Knife, rag on pole below for wiping, clean countertop, proper knife usage')}
-          {checkItem('PAPER COSTS: Paper length – 3 logos for mini, 4 logos for regular, 5 logos for giant (start with 6 for giants, for ease of training)')}
+          {checkItem(<>PAPER COSTS: Paper length &ndash; 3 logos for mini, 4 logos for regular, 5 logos for giant (start with 6 for giants, for ease of training)</>)}
           {checkItem('Dress all lids with Avocado, Mayo, Bacon, CPR, Mustard, etc. ALL SAUCES get 3 LINES on the lid (proper portion for flavor)')}
 
           {subHeader('Guest Service/Communication:')}
@@ -436,7 +432,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
         {pageNumber(6)}
       </div>
 
-      {/* ==================== PAGE 7 — DAY 16 continued: WRAP BENCHMARKS ==================== */}
+      {/* ==================== PAGE 7 — DAY 16 WRAPPING continued ==================== */}
       <div data-pdf-page style={pageStyle}>
         {miniHeader()}
         <div style={{ padding: '0 28px', flex: 1 }}>
@@ -457,7 +453,8 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; WRAP CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
-            <b>Goal = 25 minutes</b>. Attempt #1 at wrap checklist _______ minutes.
+            Trainee completes wrap checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Wrap Checklist. <b>Goal = 25 minutes</b>.<br />
+            Attempt #1 at wrap checklist ________ minutes.
           </div>
         </div>
         {footer()}
@@ -477,7 +474,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
             'Review proper placement of clean dishes',
           ])}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; WRAP BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; WRAP BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Audible POP of the sub bag')}
           {checkItem('Label every sub (no matter what) and communicate number to register person')}
           {checkItem('Greet every guest that enters and recognize to-go people')}
@@ -485,28 +482,29 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; WRAP CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
-            <b>Goal = 25 minutes</b>. Attempt #2 at wrap checklist _______ minutes
+            Trainee completes wrap checklist on their own, shift lead or trainer checks work - correct improper work before clock out. Time the trainee for Wrap Checklist. <b>Goal = 25 minutes</b>.<br />
+            Attempt #2 at wrap checklist ________ minutes
           </div>
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>VIDEO COMPLETION PERCENTAGE</div>
-          <div style={{ fontSize: '6.2pt', color: '#2D2D2D', marginBottom: '6px' }}>Goal by this point is 35%</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>&bull; VIDEO COMPLETION PERCENTAGE</div>
+          {checkItem('Goal by this point is 35%')}
 
           <div style={{
             textAlign: 'center', fontSize: '9pt', fontWeight: 700, fontStyle: 'italic',
-            color: '#2D2D2D', marginBottom: '6px', textDecoration: 'underline',
+            color: '#2D2D2D', marginTop: '10px', marginBottom: '6px', textDecoration: 'underline',
           }}>
             WRAP CERTIFICATION!!
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.5, marginBottom: '4px' }}>
-            Trainee works lunch rush beside Trainer &amp; demonstrates proficiency. Trainee completes Wrap checklist required time = 25 minutes. Required time to Cut &amp; Wrap a giant = 20 seconds.
+            Trainee works lunch rush beside Trainer &amp; demonstrates proficiency. Trainee completes Wrap checklist <b>required time = 25 minutes. Required time to Cut &amp; Wrap a giant = 20 seconds.</b>
           </div>
 
-          <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px', marginBottom: '4px' }}>
+          <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '6px', marginBottom: '4px' }}>
             LEVEL 2:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            -Final attempt at Wrap Checklist: _________ minutes (must be under 25 mins)<br />
-            -Cut &amp; Wrap a Giant: ________ seconds (must be under 20 secs)
+            Final attempt at Wrap Checklist: _________ minutes (must be under 25 mins)<br />
+            Cut &amp; Wrap a Giant: _______ seconds (must be under 20 secs)
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>

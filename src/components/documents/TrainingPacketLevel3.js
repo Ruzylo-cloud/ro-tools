@@ -171,7 +171,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
             </div>
           </div>
 
-          {dayBanner('DAY 18 — HOT SUBS MENU QUIZ')}
+          {dayBanner('DAY 18 — HOT SUBS')}
 
           <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginBottom: '2px', marginTop: '4px' }}>
             HOT SUBS MENU QUIZ
@@ -183,10 +183,10 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '6.2pt', marginBottom: '4px' }}>
             <tbody>
               {[
-                ['#16/#17', '#26'],
-                ['#42/#43', '#44'],
-                ['#55/#56', '#31'],
-                ['#65/#66', '#64'],
+                ['#16/17', '#26'],
+                ['#42/43', '#44'],
+                ['#55/56', '#31'],
+                ['#65/66', '#64'],
               ].map(([left, right], i) => (
                 <tr key={i}>
                   <td style={{ border: '1px solid #ccc', padding: '1px 4px', fontWeight: 700, width: '10%', background: '#F0F4F8' }}>{left}</td>
@@ -213,14 +213,14 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           </table>
 
           <div style={{ fontSize: '7pt', fontWeight: 700, color: '#2D2D2D', marginTop: '4px' }}>
-            <b>C-BOPS</b> stands for __________________
+            C-BOPS stands for __________________
           </div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.6, paddingLeft: '12px', marginTop: '2px' }}>
             C = __________________ (Cheese)<br />
             B = __________________ (Bread)<br />
             O = __________________ (Onions)<br />
             P = __________________ (Peppers)<br />
-            S = __________________ (Steaks)
+            S = __________________ (Steak)
           </div>
         </DocumentTemplate>
         {pageNumber(1)}
@@ -230,7 +230,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
       <div data-pdf-page style={pageStyle}>
         {miniHeader()}
         <div style={{ padding: '0 28px', flex: 1 }}>
-          {dayBanner('DAY 18 — HOT SUBS TRAINING')}
+          {dayBanner('DAY 18 — HOT SUBS')}
 
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', marginBottom: '4px' }}>
             TWO 6-hour shifts training on HOT SUBS
@@ -238,13 +238,13 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; TRAINING LIST</div>
           {trainingTable([
-            <><b>Discuss the importance of timing</b> in cooking meat. We are the CHEF. We are controlling quality of product.</>,
+            <>Discuss the importance of <b>timing</b> in cooking meat. We are the CHEF. We are controlling quality of product.</>,
             <>Pass Hot Sub Quiz with 86% or higher - <b>must pass before you begin</b> training on the grill</>,
             'Review next page on hot sub station',
             'Cut bread so at least 50% of the bread is on the bottom half',
           ])}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; HOT SUBS BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; HOT SUBS BENCHMARKS - check off when trainee has mastered</div>
           {checkItem(<><b>C-BOPS</b> every time. Lay out Cheese first, then Bread, Onions, Peppers, Steak.</>)}
           {checkItem('Sear meat for 30 seconds on the first side, then flip & cut in right away.')}
           {checkItem('When you flip the Steak, you also flip the Bread.')}
@@ -253,7 +253,8 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; HOT SUBS CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4 }}>
-            <b>Goal = 40 minutes</b>. Attempt #1 _______ minutes.
+            Trainee completes hot subs checklist with shift lead or trainer. Time this. <b>Goal = 40 minutes</b>.<br />
+            Attempt #1 at hot subs checklist ________ minutes.
           </div>
 
           {lmsBlock([
@@ -265,14 +266,14 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
         {pageNumber(2)}
       </div>
 
-      {/* ==================== PAGE 3 — DAY 18: HOT SUB STATION DETAILS ==================== */}
+      {/* ==================== PAGE 3 — DAY 18: HOT SUBS STATION DETAILS ==================== */}
       <div data-pdf-page style={pageStyle}>
         {miniHeader()}
         <div style={{ padding: '0 28px', flex: 1 }}>
           {dayBanner('DAY 18 — HOT SUBS')}
 
           <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginBottom: '4px' }}>
-            DAY 18 - <i>HOT SUBS</i>
+            DAY 18 - HOT SUBS
           </div>
 
           {subHeader('Area Set Up/Cleanliness/Organization:')}
@@ -312,7 +313,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
             'How to read production report to decide how many back ups to make. Check 3 to close for current day and 8 to close for the following',
           ])}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; HOT SUBS BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; HOT SUBS BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Always check to make sure the sub is paid for and take tickets down')}
           {checkItem('Be efficient. (Get cheese ready, get wrap paper ready, call for backup when more than 4 subs on your tickets)')}
           {checkItem('No food left on the grill')}
@@ -325,7 +326,8 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; HOT SUBS CHECKLIST</div>
           <div style={{ fontSize: '6.2pt', color: '#2D2D2D', lineHeight: 1.4, marginBottom: '4px' }}>
-            <b>Goal = 40 minutes</b>. Attempt #2 _______ minutes
+            Trainee completes hot subs checklist with shift lead or trainer. Time this. <b>Goal = 40 minutes</b>.<br />
+            Attempt #2 at hot subs checklist ________ minutes
           </div>
 
           {gmDebrief('What part of Hot Subs position do you feel is most challenging for you?')}
@@ -334,7 +336,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
         {pageNumber(4)}
       </div>
 
-      {/* ==================== PAGE 5 — DAY 20: HOT SUBS + DAYS 21-25 ==================== */}
+      {/* ==================== PAGE 5 — DAY 20: HOT SUBS + DAYS 21-25 ADVANCED ==================== */}
       <div data-pdf-page style={pageStyle}>
         {miniHeader()}
         <div style={{ padding: '0 28px', flex: 1 }}>
@@ -347,7 +349,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
             'How to pre close the hot sub station',
           ])}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; HOT SUBS BENCHMARKS</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>&bull; HOT SUBS BENCHMARKS - check off when trainee has mastered</div>
           {checkItem('Keep hot Sub area clean and stocked. Call for backups only when you cannot leave your station. Otherwise, you stock.')}
           {checkItem('Take guest hot sub orders during downtime.')}
           {checkItem('Only corners of cheese are melted on the steak')}
@@ -360,7 +362,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           {checkItem('Sneeze Guard Posts')}
 
           <div style={{ textAlign: 'center', fontSize: '8pt', fontWeight: 700, textDecoration: 'underline', color: '#2D2D2D', marginTop: '10px', marginBottom: '4px' }}>
-            DAY 21 - 25: <i>HOT SUBS</i>
+            DAY 21 - 25: HOT SUBS
           </div>
           <div style={{ textAlign: 'center', fontSize: '6.5pt', fontStyle: 'italic', color: '#2D2D2D', marginBottom: '8px' }}>
             Continue to practice &amp; complete prior pages as needed. When ready, submit video &amp; plan certification shift!
@@ -368,13 +370,13 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginBottom: '2px' }}>Advanced Hot Subbing:</div>
           {checkItem('Once there is more than 4 sandwiches on your ticket rack (that could be one ticket, with 4 hot subs on it!) you MUST CALL FOR A SECOND PERSON TO THE HOT SUB STATION. Alert shift lead if someone does not come.')}
-          {checkItem('If you have 4 tickets or more, call for "backup at the grill". One of you pulls papers, lay out cheese, get bread on the grill, put down onions & peppers, distribute finished subs. THE OTHER PERSON stands at grill and does the cooking and placing of meats into bread.')}
+          {checkItem(<>If you have 4 tickets or more, call for &quot;backup at the grill&quot;. One of you pulls papers, lay out cheese, get bread on the grill, put down onions &amp; peppers, distribute finished subs. THE OTHER PERSON stands at grill and does the cooking and placing of meats into bread.</>)}
           {checkItem('Whenever possible, take hot sub orders from customers in line starting with whoever is next to order')}
           {checkItem(<>As you are taking orders, notice how many tickets are up above the grill. <b>Tell guests to expect longer wait times</b> when more than 3 tickets are up.</>)}
           {checkItem('Write ticket on pad, green copy to customer, yellow copy to ticket line above grill')}
 
-          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>VIDEO COMPLETION PERCENTAGE</div>
-          <div style={{ fontSize: '6.2pt', color: '#2D2D2D' }}>Goal by this point is 45%</div>
+          <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '6px', marginBottom: '2px' }}>&bull; VIDEO COMPLETION PERCENTAGE</div>
+          {checkItem('Goal by this point is 45%')}
         </div>
         {footer()}
         {pageNumber(5)}
@@ -400,9 +402,9 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
             LEVEL 3:
           </div>
           <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.8, paddingLeft: '20px' }}>
-            -Final attempt at Hot Subs Checklist time: ________ minutes<br />
-            -Time to make a regular 17: ____ minutes _______ seconds (must be under 2 mins)<br />
-            -Hot Subs Certification submitted: ________ (video of #17 cooked &amp; wrapped)
+            Final attempt at Hot Subs Checklist time: ________ minutes<br />
+            Time to make a regular 17: ____ minutes _______ seconds (must be under 2 mins)<br />
+            Hot Subs Certification submitted: ________ (video of #17 cooked &amp; wrapped)
           </div>
 
           <div style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
