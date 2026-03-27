@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+import ManagerSignature from './ManagerSignature';
 
 const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPreview({ data }, ref) {
   const {
@@ -21,6 +22,7 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
     reason = '',
     employeeSignature = '',
     supervisorSignature = '',
+    userEmail = '',
   } = data || {};
 
   const formatDate = (d) => {
@@ -176,7 +178,7 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
       <div style={{ display: 'flex', gap: '40px', marginBottom: '10px' }}>
         <div style={{ flex: 1, fontSize: '8.5pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '2px' }}>Supervisor / Manager Signature</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', fontStyle: 'italic', color: '#2D2D2D' }}>{supervisorSignature || ''}</div>
+          <div style={{ padding: '6px 0', minHeight: '18px', color: '#2D2D2D' }}><ManagerSignature name={supervisorName || supervisorSignature} email={userEmail} compact /></div>
           <div style={{ fontSize: '7pt', color: '#9ca3af', marginTop: '2px' }}>Print Name</div>
         </div>
         <div style={{ flex: 1, fontSize: '8.5pt' }}>

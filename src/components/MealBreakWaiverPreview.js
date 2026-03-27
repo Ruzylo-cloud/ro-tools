@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+import ManagerSignature from './ManagerSignature';
 
 const ACKNOWLEDGMENTS = [
   'I understand that I am entitled to a 30-minute unpaid meal period for shifts over 5 hours.',
@@ -21,6 +22,7 @@ const MealBreakWaiverPreview = forwardRef(function MealBreakWaiverPreview({ data
     shiftSchedule = '',
     employeeSignature = '',
     managerSignature = '',
+    userEmail = '',
   } = data || {};
 
   const formatDate = (d) => {
@@ -196,7 +198,7 @@ const MealBreakWaiverPreview = forwardRef(function MealBreakWaiverPreview({ data
       <div style={{ display: 'flex', gap: '40px' }}>
         <div style={{ flex: 1, fontSize: '9pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Manager / Supervisor</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '20px', fontStyle: 'italic', color: '#2D2D2D' }}>{managerSignature}</div>
+          <div style={{ padding: '6px 0', minHeight: '20px', color: '#2D2D2D' }}><ManagerSignature name={managerName || managerSignature} email={userEmail} compact /></div>
         </div>
         <div style={{ flex: 1, fontSize: '9pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Date</div>

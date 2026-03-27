@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+import ManagerSignature from './ManagerSignature';
 
 const InjuryReportPreview = forwardRef(function InjuryReportPreview({ data }, ref) {
   const {
@@ -25,6 +26,7 @@ const InjuryReportPreview = forwardRef(function InjuryReportPreview({ data }, re
     supervisorName = '',
     supervisorActions = '',
     preventiveMeasures = '',
+    userEmail = '',
   } = data || {};
 
   const formatDate = (d) => {
@@ -223,7 +225,9 @@ const InjuryReportPreview = forwardRef(function InjuryReportPreview({ data }, re
             <div style={{ fontSize: '6pt', color: '#6b7280', marginTop: '1px' }}>Employee Signature</div>
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ borderBottom: '1px solid #134A7C', height: '16px' }} />
+            <div style={{ minHeight: '16px' }}>
+              <ManagerSignature name={supervisorName} email={userEmail} compact />
+            </div>
             <div style={{ fontSize: '6pt', color: '#6b7280', marginTop: '1px' }}>Supervisor Signature</div>
           </div>
           <div style={{ width: '90px' }}>

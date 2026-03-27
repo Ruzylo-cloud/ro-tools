@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+import ManagerSignature from './ManagerSignature';
 
 const RATING_CATEGORIES = [
   'Attendance & Punctuality',
@@ -30,6 +31,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
     additionalComments = '',
     employeeSignature = '',
     evaluatorSignature = '',
+    userEmail = '',
   } = data || {};
 
   const ratingValues = RATING_CATEGORIES.map(cat => ratings[cat] || 0);
@@ -289,16 +291,14 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
         </div>
         <div style={{ flex: 1 }}>
           <div style={{
-            borderBottom: '1px solid #2D2D2D',
             paddingBottom: '2px',
             marginBottom: '2px',
             fontSize: '7.5pt',
             fontWeight: 500,
             color: '#2D2D2D',
             minHeight: '14px',
-            fontStyle: evaluatorSignature ? 'italic' : 'normal',
           }}>
-            {evaluatorSignature || ''}
+            <ManagerSignature name={evaluatorName || evaluatorSignature} email={userEmail} compact />
           </div>
           <div style={{ fontSize: '6pt', color: '#888' }}>Evaluator Signature</div>
           <div style={{ fontSize: '6pt', color: '#888' }}>Date: {formatDate(evaluationDate) || '___________'}</div>

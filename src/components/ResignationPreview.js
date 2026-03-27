@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+import ManagerSignature from './ManagerSignature';
 
 const ResignationPreview = forwardRef(function ResignationPreview({ data }, ref) {
   const {
@@ -19,6 +20,7 @@ const ResignationPreview = forwardRef(function ResignationPreview({ data }, ref)
     finalPayInfo = '',
     employeeSignature = '',
     managerSignature = '',
+    userEmail = '',
   } = data || {};
 
   const sectionHeader = {
@@ -222,14 +224,13 @@ const ResignationPreview = forwardRef(function ResignationPreview({ data }, ref)
         </div>
         <div style={{ flex: 1 }}>
           <div style={{
-            borderBottom: '1px solid #2D2D2D',
             paddingBottom: '2px',
             fontSize: '8pt',
             color: '#2D2D2D',
             fontWeight: 500,
             minHeight: '16px',
           }}>
-            {managerSignature || '\u00A0'}
+            <ManagerSignature name={managerName || managerSignature} email={userEmail} compact />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
             <span style={{ fontSize: '6pt', color: '#666', fontWeight: 600 }}>Manager Signature</span>

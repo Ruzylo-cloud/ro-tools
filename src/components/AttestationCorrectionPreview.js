@@ -1,6 +1,7 @@
 'use client';
 
 import { forwardRef } from 'react';
+import ManagerSignature from './ManagerSignature';
 
 const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPreview({ data }, ref) {
   const {
@@ -18,6 +19,7 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
     reason = '',
     employeeSignature = '',
     supervisorSignature = '',
+    userEmail = '',
   } = data || {};
 
   const formatDate = (d) => {
@@ -183,7 +185,7 @@ const AttestationCorrectionPreview = forwardRef(function AttestationCorrectionPr
       <div style={{ display: 'flex', gap: '40px' }}>
         <div style={{ flex: 1, fontSize: '9pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Supervisor / Manager</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '20px', fontStyle: 'italic', color: '#2D2D2D' }}>{supervisorSignature}</div>
+          <div style={{ padding: '6px 0', minHeight: '20px', color: '#2D2D2D' }}><ManagerSignature name={supervisorName || supervisorSignature} email={userEmail} compact /></div>
         </div>
         <div style={{ flex: 1, fontSize: '9pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Date</div>
