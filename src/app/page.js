@@ -45,14 +45,15 @@ export default function LandingPage() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.style.animation = 'fadeUp 0.6s ease-out both';
+          entry.target.classList.remove(styles.hidden);
+          entry.target.classList.add(styles.revealed);
           observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.15 });
 
     document.querySelectorAll(`.${styles.toolCard}, .${styles.step}`).forEach(el => {
-      el.style.opacity = '0';
+      el.classList.add(styles.hidden);
       observer.observe(el);
     });
 

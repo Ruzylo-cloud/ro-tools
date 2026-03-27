@@ -341,6 +341,14 @@
 .footerLinks a:hover { text-decoration: underline; }
 .footerDivider { color: var(--gray-300); font-size: 11px; }
 
+/* ─── Reveal animation class ─── */
+.revealed {
+  animation: fadeUp 0.6s ease-out both;
+}
+.hidden {
+  opacity: 0;
+}
+
 /* ─── ANIMATIONS ─── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
