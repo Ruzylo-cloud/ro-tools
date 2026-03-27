@@ -32,22 +32,21 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
       storeName={storeName}
     >
       {/* Employee Info */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {employeeName}
           </div>
         </div>
-        <div style={{ width: '14px' }} />
         <div style={{ width: '140px' }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {startDate}
           </div>
@@ -55,7 +54,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
       </div>
 
       {sectionHeader('SLICER FUNDAMENTALS \u2014 WEEK 1')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Safety first: blade guard on when not actively slicing. NEVER leave slicer unattended while running')}
         {checkItem('Wash hands thoroughly before handling any meat or cheese')}
         {checkItem('Proper assembly: ensure blade, carriage, and product pusher are clean and secure before use')}
@@ -69,7 +68,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
       </div>
 
       {sectionHeader('COLD SUB BUILD \u2014 WEEK 2')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Bread selection and freshness check \u2014 if bread is too hard or stale, pull it')}
         {checkItem('Proper bread cutting technique: slight angle, not cutting all the way through')}
         {checkItem('Oil & vinegar application: 3 passes of oil, 3 passes of red wine vinegar')}
@@ -83,7 +82,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
       </div>
 
       {sectionHeader('SLICER MAINTENANCE & SAFETY \u2014 WEEK 3')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Clean slicer every 2 hours during service (or sooner if switching proteins)')}
         {checkItem('Full breakdown and sanitization at close: blade, carriage, product pusher, base')}
         {checkItem('NEVER submerge the slicer base in water')}
@@ -97,7 +96,7 @@ const TrainingPacketSlicer = forwardRef(function TrainingPacketSlicer({ data }, 
       </div>
 
       {sectionHeader('SLICER MASTERY & CERTIFICATION \u2014 WEEK 4')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Consistent portion accuracy within 0.5 oz (weigh random subs during rush)')}
         {checkItem('Speed: sub built in under 60 seconds consistently')}
         {checkItem('Customer interaction while slicing \u2014 acknowledge and engage customers in line')}

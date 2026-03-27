@@ -32,22 +32,21 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
       storeName={storeName}
     >
       {/* Employee Info */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {employeeName}
           </div>
         </div>
-        <div style={{ width: '14px' }} />
         <div style={{ width: '140px' }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {startDate}
           </div>
@@ -62,7 +61,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
       </div>
 
       {sectionHeader('WELCOME TO JERSEY MIKE\'S SUBS')}
-      <div style={{ fontSize: '7pt', color: '#2D2D2D', lineHeight: '1.55' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Greet, Welcome, Give uniform, collect paperwork')}
         {checkItem('Review Paperwork & send to payroll, circle anything that is missing')}
         {checkItem('I9 and 2 forms of ID', true)}

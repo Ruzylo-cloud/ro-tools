@@ -30,9 +30,11 @@ const TEMPLATE_FIELDS = {
   ],
   level2: [
     { key: 'employeeName', label: 'Employee Name' },
+    { key: 'startDate', label: 'Start Date' },
   ],
   level3: [
     { key: 'employeeName', label: 'Employee Name' },
+    { key: 'startDate', label: 'Start Date' },
   ],
   slicer: [
     { key: 'employeeName', label: 'Employee Name' },

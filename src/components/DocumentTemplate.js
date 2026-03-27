@@ -23,13 +23,8 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
       {/* Top Red Bar */}
       <div style={{ height: '5px', background: '#EE3227' }} />
 
-      {/* Header: Logo centered + Store info right-aligned */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '6px 28px 4px',
-      }}>
+      {/* Header: Logo centered */}
+      <div style={{ textAlign: 'center', padding: '6px 28px 2px' }}>
         <img
           src="/jmvg-logo.png"
           alt="JM Valley Group"
@@ -37,17 +32,8 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
           crossOrigin="anonymous"
         />
         {(storeNumber || storeName) && (
-          <div style={{ textAlign: 'right' }}>
-            {storeNumber && (
-              <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C' }}>
-                Store #{storeNumber}
-              </div>
-            )}
-            {storeName && (
-              <div style={{ fontSize: '7pt', fontWeight: 400, color: '#6b7280' }}>
-                {storeName}
-              </div>
-            )}
+          <div style={{ fontSize: '7pt', color: '#6b7280', marginTop: '1px' }}>
+            {storeNumber ? `Store #${storeNumber}` : ''}{storeNumber && storeName ? ' — ' : ''}{storeName || ''}
           </div>
         )}
       </div>
@@ -78,9 +64,12 @@ const DocumentTemplate = forwardRef(function DocumentTemplate({ title, subtitle,
       <div style={{ height: '2px', background: '#EE3227', margin: '0 28px' }} />
 
       {/* Content Area */}
-      <div style={{ padding: '8px 28px 0', flex: 1 }}>
+      <div style={{ padding: '8px 28px 0' }}>
         {children}
       </div>
+
+      {/* Spacer pushes footer to bottom on short pages */}
+      <div style={{ flex: 1, minHeight: '8px' }} />
 
       {/* Footer */}
       <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px' }} />

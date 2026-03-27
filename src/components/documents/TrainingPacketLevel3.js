@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import DocumentTemplate from '../DocumentTemplate';
 
 const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, ref) {
-  const { employeeName = '', storeNumber = '', storeName = '' } = data || {};
+  const { employeeName = '', startDate = '', storeNumber = '', storeName = '' } = data || {};
 
   const sectionHeader = (text) => (
     <div style={{
@@ -16,8 +16,8 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
     </div>
   );
 
-  const checkItem = (text) => (
-    <div style={{ display: 'flex', gap: '4px' }}>
+  const checkItem = (text, indent) => (
+    <div style={{ display: 'flex', gap: '4px', paddingLeft: indent ? '14px' : 0 }}>
       <span style={{ color: '#EE3227', fontWeight: 700, minWidth: '18px', flexShrink: 0, fontSize: '10pt' }}>&#9744;</span>
       <span>{text}</span>
     </div>
@@ -27,23 +27,34 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
     <DocumentTemplate
       ref={ref}
       title="LEVEL 3 TRAINING PACKET"
-      subtitle="Hot Subs Certification \u2014 Weeks 5 & 6"
+      subtitle="Hot Subs Certification &mdash; Weeks 5 & 6"
       storeNumber={storeNumber}
       storeName={storeName}
     >
       {/* Employee Info */}
-      <div style={{ marginBottom: '6px' }}>
-        <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee: </span>
-        <span style={{
-          fontSize: '9pt', fontWeight: 600, color: '#2D2D2D',
-          borderBottom: '1px solid #134A7C', padding: '0 4px',
-        }}>
-          {employeeName || '___________________'}
-        </span>
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
+        <div style={{ flex: 1 }}>
+          <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
+          <div style={{
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
+          }}>
+            {employeeName}
+          </div>
+        </div>
+        <div style={{ width: '140px' }}>
+          <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
+          <div style={{
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
+          }}>
+            {startDate}
+          </div>
+        </div>
       </div>
 
       {sectionHeader('HOT SUBS BENCHMARKS \u2014 WEEK 5, DAY 1')}
-      <div style={{ fontSize: '7pt', color: '#2D2D2D', lineHeight: '1.55' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('BOPS every time. Bread, Onions, Peppers, Steak.')}
         {checkItem('Scrape grill after every round of subs.')}
         {checkItem('Food quality. Do not overcook the steak!! No more than 4 pieces of meat on the grill.')}
@@ -98,12 +109,12 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
       {/* Certification */}
       <div style={{
         background: '#EE3227', color: '#fff', fontSize: '8pt', fontWeight: 700,
-        padding: '4px 10px', borderRadius: '3px', margin: '8px 0 4px',
-        textAlign: 'center', letterSpacing: '1px',
+        padding: '4px 10px', borderRadius: '3px', marginTop: '10px', marginBottom: '4px',
+        textAlign: 'center', letterSpacing: '0.5px',
       }}>
         LEVEL 3: HOT SUBS CERTIFICATION
       </div>
-      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.5, marginBottom: '2px' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: 1.4, textAlign: 'center', fontStyle: 'italic', marginBottom: '8px' }}>
         Once trainee feels confident, they should ask to be certified. Trainee works lunch rush beside Trainer. Trainer submits video of #17 being made properly.
       </div>
       <div style={{ fontSize: '7pt', color: '#EE3227', fontWeight: 700, textAlign: 'center', margin: '2px 0 6px' }}>
@@ -111,18 +122,14 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
       </div>
 
       {/* Sign Off */}
-      <div style={{ display: 'flex', gap: '16px', marginTop: '2px' }}>
+      <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
         <div style={{ flex: 1 }}>
-          <div style={{ borderBottom: '1px solid #134A7C', height: '16px' }} />
-          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '1px' }}>Employee Signature</div>
+          <div style={{ borderBottom: '1px solid #134A7C', height: '18px' }} />
+          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '2px' }}>Trainee Signature / Date</div>
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ borderBottom: '1px solid #134A7C', height: '16px' }} />
-          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '1px' }}>Trainer Signature</div>
-        </div>
-        <div style={{ width: '100px' }}>
-          <div style={{ borderBottom: '1px solid #134A7C', height: '16px' }} />
-          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '1px' }}>Date</div>
+          <div style={{ borderBottom: '1px solid #134A7C', height: '18px' }} />
+          <div style={{ fontSize: '6.5pt', color: '#6b7280', marginTop: '2px' }}>Trainer Signature / Date</div>
         </div>
       </div>
     </DocumentTemplate>

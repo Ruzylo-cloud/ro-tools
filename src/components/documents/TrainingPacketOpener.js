@@ -32,22 +32,21 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
       storeName={storeName}
     >
       {/* Employee Info */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {employeeName}
           </div>
         </div>
-        <div style={{ width: '14px' }} />
         <div style={{ width: '140px' }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {startDate}
           </div>
@@ -55,7 +54,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
       </div>
 
       {sectionHeader('PRE-OPEN CHECKLIST \u2014 ARRIVAL (1 HOUR BEFORE OPEN)')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Arrive on time, in full uniform, ready to work')}
         {checkItem('Disarm alarm system with assigned code')}
         {checkItem('Turn on ALL lights: front, back, lobby, restrooms, outdoor signage')}
@@ -68,7 +67,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
       </div>
 
       {sectionHeader('FOOD PREP \u2014 45 MIN BEFORE OPEN')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Pull proteins from walk-in: set up slicer station with morning proteins')}
         {checkItem('Prep onions: slice thin and even, enough for full day based on projections')}
         {checkItem('Prep tomatoes: core, slice end to end, consistent thickness')}
@@ -82,7 +81,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
       </div>
 
       {sectionHeader('LINE SETUP \u2014 15 MIN BEFORE OPEN')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Wrap station: stock paper, labels, Sharpies, bags (all sizes), stickers')}
         {checkItem('Register station: count drawer (should be $200), enter opening count, 3 pens, tip jar')}
         {checkItem('Hot sub station: stock ticket pads, bags, hot sub paper')}
@@ -94,7 +93,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
       </div>
 
       {sectionHeader('QUALITY CHECKS & STANDARDS')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Bread quality: proof rack bread should be soft, risen, not flat or overproofed')}
         {checkItem('First round of bread in oven: time according to posted schedule')}
         {checkItem('Taste-test sub: make yourself a mini to verify all ingredients are fresh')}

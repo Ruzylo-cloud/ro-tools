@@ -32,22 +32,21 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
       storeName={storeName}
     >
       {/* Employee Info */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '8px' }}>
         <div style={{ flex: 1 }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Employee Name</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {employeeName}
           </div>
         </div>
-        <div style={{ width: '14px' }} />
         <div style={{ width: '140px' }}>
           <span style={{ fontSize: '7pt', color: '#6b7280', fontWeight: 500 }}>Start Date</span>
           <div style={{
-            borderBottom: '1px solid #134A7C', padding: '1px 0', fontSize: '9pt',
-            fontWeight: 600, color: '#2D2D2D', minHeight: '14px',
+            borderBottom: '1px solid #134A7C', padding: '2px 0', fontSize: '9pt',
+            fontWeight: 600, color: '#2D2D2D', minHeight: '16px',
           }}>
             {startDate}
           </div>
@@ -55,7 +54,7 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
       </div>
 
       {sectionHeader('LEADERSHIP FUNDAMENTALS')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Lead by example: first to work, last to leave your station. Always be the hardest worker')}
         {checkItem('Maintain positive attitude \u2014 your energy sets the tone for the entire shift')}
         {checkItem('Direct traffic: assign positions, move people to where they\'re needed')}
@@ -68,7 +67,7 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
       </div>
 
       {sectionHeader('SHIFT OPERATIONS')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Pre-shift: review daily projection, staffing, any catering orders due')}
         {checkItem('Assign positions based on team strengths and training level')}
         {checkItem('Monitor line speed: cold subs under 90 seconds, hot subs under 5 minutes')}
@@ -82,7 +81,7 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
       </div>
 
       {sectionHeader('FOOD SAFETY & COMPLIANCE')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Temperature logs: check and log walk-in, prep table, and hot holding temps every 2 hours')}
         {checkItem('Ensure FIFO rotation is followed at all times')}
         {checkItem('Monitor handwashing compliance \u2014 glove changes, proper technique')}
@@ -93,7 +92,7 @@ const TrainingPacketShiftLead = forwardRef(function TrainingPacketShiftLead({ da
       </div>
 
       {sectionHeader('CLOSING SHIFT LEAD RESPONSIBILITIES')}
-      <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: '1.35' }}>
+      <div style={{ fontSize: '6.5pt', color: '#2D2D2D', lineHeight: '1.5' }}>
         {checkItem('Final customer out, doors locked at exactly closing time')}
         {checkItem('Verify all online/phone orders have been picked up or voided')}
         {checkItem('Count register: create end-of-day count, reconcile with POS totals')}
