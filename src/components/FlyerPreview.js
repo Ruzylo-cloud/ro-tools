@@ -37,9 +37,6 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
     assistantPhone = '',
   } = data || {};
 
-  const addressLine = [street, `${city}${state ? ', ' + state : ''}`, phone].filter(Boolean).join(' · ').toUpperCase();
-  const footerAddress = [street, `${city}${state ? ', ' + state : ''}`].filter(Boolean).join(', ');
-
   return (
     <div
       ref={ref}
@@ -50,96 +47,95 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
         fontFamily: "'Poppins', sans-serif",
         position: 'relative',
         margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      {/* 1. Address Line */}
-      <div style={{
-        textAlign: 'center', color: '#EE3227', fontSize: '8pt', fontWeight: 500,
-        padding: '8px 20px 4px', letterSpacing: '0.5px',
-      }}>
-        {addressLine || '199 S TURNPIKE RD · SANTA BARBARA, CA · (805) 497-5800'}
+      {/* Top Red Bar */}
+      <div style={{ height: '5px', background: '#EE3227' }} />
+
+      {/* Jersey Mike's Logo */}
+      <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
+        <img src="/jmvg-logo.png" alt="Jersey Mike's Subs" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
-      {/* 2. Logo */}
-      <div style={{ textAlign: 'center', padding: '2px 0' }}>
-        <img
-          src="/jmvg-logo.png"
-          alt="JM Valley Group"
-          style={{ width: '210px', height: 'auto' }}
-          crossOrigin="anonymous"
-        />
+      {/* Blue Divider */}
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
+
+      {/* Header */}
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
+          {[street, `${city}${state ? ', ' + state : ''}`].filter(Boolean).join(' · ').toUpperCase() || 'YOUR STORE ADDRESS'}
+        </div>
+        <div style={{ fontSize: '5.5pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
+          {phone || '(555) 000-0000'} &mdash; FRESH · LOCAL · DELIVERED
+        </div>
       </div>
 
-      {/* 3. Fresh Local Delivered */}
-      <div style={{
-        textAlign: 'center', color: '#EE3227', fontSize: '9.5pt', fontWeight: 500,
-        padding: '2px 0 6px', letterSpacing: '2px',
-      }}>
-        FRESH · LOCAL · DELIVERED
-      </div>
+      {/* Red Divider */}
+      <div style={{ height: '1.5px', background: '#EE3227', margin: '2px 28px 4px' }} />
 
-      {/* 4. Blue Divider */}
-      <div style={{ height: '2.5px', background: '#134A7C', margin: '0 20px' }}></div>
-
-      {/* 5. Office Catering Banner */}
+      {/* Title */}
       <div style={{
-        background: '#134A7C', color: '#fff', textAlign: 'center',
-        fontSize: '20pt', fontWeight: 700, padding: '10px 0',
-        margin: '8px 20px', borderRadius: '6px', letterSpacing: '2px',
+        textAlign: 'center', fontSize: '18pt', fontWeight: 700, color: '#134A7C',
+        padding: '2px 0 2px', letterSpacing: '2px',
       }}>
         OFFICE CATERING
       </div>
 
-      {/* 6. Catering Photo */}
+      {/* Blue Divider */}
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 4px' }} />
+
+      {/* Catering Photo */}
       <div style={{ textAlign: 'center', padding: '4px 0' }}>
         <img
           src="/JerseyMikesCatering.jpg"
           alt="Jersey Mike's catering box with subs and sides"
           style={{
-            width: '300px', height: 'auto', borderRadius: '6px',
+            width: '290px', height: 'auto', borderRadius: '6px',
             border: '2px solid #134A7C',
           }}
           crossOrigin="anonymous"
         />
       </div>
 
-      {/* 7. Price */}
+      {/* Price */}
       <div style={{
         textAlign: 'center', color: '#EE3227', fontSize: '16pt', fontWeight: 700,
-        padding: '6px 0 2px',
+        padding: '4px 0 2px',
       }}>
         $89.95 PER BOX
       </div>
 
-      {/* 8. Box Description */}
+      {/* Box Description */}
       <div style={{
-        textAlign: 'center', color: '#2D2D2D', fontSize: '9.5pt', fontWeight: 500,
-        padding: '0 0 6px',
+        textAlign: 'center', color: '#2D2D2D', fontSize: '9pt', fontWeight: 500,
+        padding: '0 0 4px',
       }}>
         4 Giant Subs Cut Into Thirds · 12 Individually Wrapped Subs Per Box
       </div>
 
-      {/* 9. Divider */}
-      <div style={{ height: '1px', background: '#134A7C', margin: '0 40px' }}></div>
+      {/* Divider */}
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 40px' }} />
 
-      {/* 10. Choose Your Subs Pill */}
-      <div style={{ textAlign: 'center', padding: '6px 0' }}>
+      {/* Choose Your Subs Pill */}
+      <div style={{ textAlign: 'center', padding: '4px 0' }}>
         <span style={{
           display: 'inline-block', background: '#134A7C', color: '#fff',
-          fontSize: '9.5pt', fontWeight: 700, padding: '4px 20px',
+          fontSize: '9pt', fontWeight: 700, padding: '3px 18px',
           borderRadius: '100px', letterSpacing: '1px',
         }}>
           CHOOSE YOUR SUBS
         </span>
       </div>
 
-      {/* 11. Menu Columns */}
+      {/* Menu Columns */}
       <div style={{
         display: 'flex', gap: '16px', padding: '2px 30px 4px',
       }}>
         {[MENU_LEFT, MENU_RIGHT].map((col, ci) => (
           <div key={ci} style={{ flex: 1 }}>
-            {col.map((item, i) => (
+            {col.map((item) => (
               <div key={item.name} style={{ marginBottom: '2px' }}>
                 <div style={{ fontSize: '7.5pt', fontWeight: 700, color: '#2D2D2D' }}>
                   {item.num ? `${item.num} ` : ''}{item.name}
@@ -153,50 +149,50 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
         ))}
       </div>
 
-      {/* 12. Mike's Way Note */}
+      {/* Mike's Way Note */}
       <div style={{
-        textAlign: 'center', color: '#888', fontSize: '7.5pt', fontWeight: 300,
+        textAlign: 'center', color: '#888', fontSize: '7pt', fontWeight: 300,
         padding: '2px 30px',
       }}>
         All subs available Mike&apos;s Way® — onions, lettuce, tomatoes, vinegar, oil, oregano &amp; salt
       </div>
 
-      {/* 13. Lunchbox Line */}
+      {/* Lunchbox Line */}
       <div style={{
-        textAlign: 'center', color: '#134A7C', fontSize: '7.5pt', fontWeight: 700,
-        padding: '3px 0',
+        textAlign: 'center', color: '#134A7C', fontSize: '7pt', fontWeight: 700,
+        padding: '2px 0',
       }}>
         Individual Lunchboxes with chips and drinks available on request
       </div>
 
-      {/* 14. Gift Banner */}
+      {/* Gift Banner */}
       <div style={{
         background: '#134A7C', borderRadius: '6px', textAlign: 'center',
-        padding: '8px 20px', margin: '4px 30px',
+        padding: '6px 20px', margin: '3px 30px',
       }}>
-        <div style={{ color: '#fff', fontSize: '9.5pt', fontWeight: 700 }}>
+        <div style={{ color: '#fff', fontSize: '9pt', fontWeight: 700 }}>
           ENJOY THE FREE SUB &amp; FREE SUB CARDS — OUR TREAT!
         </div>
-        <div style={{ color: '#B8CCE0', fontSize: '7.5pt', fontWeight: 300 }}>
+        <div style={{ color: '#B8CCE0', fontSize: '7pt', fontWeight: 300 }}>
           We&apos;d love to be your go-to for the next team lunch.
         </div>
       </div>
 
-      {/* 15. Ready to Order */}
+      {/* Ready to Order */}
       <div style={{
         textAlign: 'center', color: '#2D2D2D', fontSize: '10pt', fontWeight: 700,
-        padding: '8px 0 6px',
+        padding: '6px 0 4px',
       }}>
         READY TO ORDER? CONTACT US:
       </div>
 
-      {/* 16. Contact Cards */}
+      {/* Contact Cards */}
       <div style={{
-        display: 'flex', gap: '12px', padding: '0 30px 8px', justifyContent: 'center',
+        display: 'flex', gap: '12px', padding: '0 30px 6px', justifyContent: 'center',
       }}>
         <div style={{
           flex: 1, maxWidth: '250px', background: '#134A7C', borderRadius: '8px',
-          padding: '10px 16px', textAlign: 'center',
+          padding: '8px 16px', textAlign: 'center',
         }}>
           <div style={{ color: '#fff', fontSize: '10pt', fontWeight: 700 }}>
             {operatorName || 'Operator Name'}
@@ -210,7 +206,7 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
         </div>
         <div style={{
           flex: 1, maxWidth: '250px', background: '#134A7C', borderRadius: '8px',
-          padding: '10px 16px', textAlign: 'center',
+          padding: '8px 16px', textAlign: 'center',
         }}>
           <div style={{ color: '#fff', fontSize: '10pt', fontWeight: 700 }}>
             {assistantName || 'Assistant Name'}
@@ -222,22 +218,6 @@ const FlyerPreview = forwardRef(function FlyerPreview({ data }, ref) {
             {assistantPhone || '(555) 000-0000'}
           </div>
         </div>
-      </div>
-
-      {/* 17. Blue Border Line */}
-      <div style={{ height: '2px', background: '#134A7C', margin: '0 20px' }}></div>
-
-      {/* 18. Footer Bar */}
-      <div style={{
-        background: '#EE3227', color: '#fff', textAlign: 'center',
-        fontSize: '7.5pt', padding: '6px 20px', margin: '0',
-      }}>
-        {footerAddress || '199 S Turnpike Rd, Santa Barbara, CA'} · Reach out for Fundraising Opportunities · CATERING AVAILABLE 7 DAYS A WEEK
-      </div>
-
-      {/* 19. Ownership Line */}
-      <div style={{ fontSize: '5pt', color: '#999', textAlign: 'center', padding: '3px 20px' }}>
-        Property of JM Valley Group. All rights reserved. Confidential — not for distribution.
       </div>
     </div>
   );

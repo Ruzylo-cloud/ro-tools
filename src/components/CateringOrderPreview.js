@@ -129,38 +129,43 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
         margin: '0 auto',
       }}
     >
-      {/* Logo */}
-      <div style={{ textAlign: 'center', padding: '8px 0 2px' }}>
-        <img
-          src="/jmvg-logo.png"
-          alt="JM Valley Group"
-          style={{ width: '150px', height: 'auto' }}
-          crossOrigin="anonymous"
-        />
+      {/* Top Red Bar */}
+      <div style={{ height: '5px', background: '#EE3227' }} />
+
+      {/* JMVG Logo */}
+      <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
+        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
       </div>
 
-      {/* Tagline */}
-      <div style={{
-        textAlign: 'center', color: '#EE3227', fontSize: '7.5pt', fontWeight: 500,
-        padding: '0 0 4px', letterSpacing: '2px',
-      }}>
-        FRESH &middot; LOCAL &middot; DELIVERED
+      {/* Blue Divider */}
+      <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
+
+      {/* Header */}
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '8pt', fontWeight: 700, color: '#134A7C', letterSpacing: '2px' }}>
+          JM VALLEY GROUP
+        </div>
+        <div style={{ fontSize: '5.5pt', color: '#6b7280', letterSpacing: '1px', marginBottom: '2px' }}>
+          JERSEY MIKE&apos;S SUBS &mdash; FRANCHISE OPERATIONS
+        </div>
       </div>
 
-      {/* Title Banner */}
+      {/* Red Divider */}
+      <div style={{ height: '1.5px', background: '#EE3227', margin: '2px 28px 4px' }} />
+
+      {/* Title */}
       <div style={{
-        background: '#134A7C', color: '#fff', textAlign: 'center',
-        fontSize: '14pt', fontWeight: 700, padding: '5px 0',
-        margin: '0 20px', borderRadius: '5px', letterSpacing: '2px',
+        textAlign: 'center', fontSize: '14pt', fontWeight: 700, color: '#134A7C',
+        padding: '4px 0 4px', letterSpacing: '1px',
       }}>
         CATERING ORDER FORM
       </div>
 
-      {/* Red Divider */}
-      <div style={{ height: '2px', background: '#EE3227', margin: '4px 20px' }} />
+      {/* Blue Divider */}
+      <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 6px' }} />
 
       {/* Customer + Delivery Info — side by side */}
-      <div style={{ display: 'flex', gap: '8px', padding: '2px 20px 0', fontSize: '6.5pt' }}>
+      <div style={{ display: 'flex', gap: '8px', padding: '2px 28px 0', fontSize: '6.5pt' }}>
         {/* Customer */}
         <div style={{ flex: 1 }}>
           <div style={sectionHeader()}>CUSTOMER INFORMATION</div>
@@ -184,7 +189,7 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       </div>
 
       {/* Order Table */}
-      <div style={{ padding: '4px 20px 0' }}>
+      <div style={{ padding: '4px 28px 0' }}>
         <div style={sectionHeader()}>ORDER DETAILS</div>
         <table style={{
           width: '100%', borderCollapse: 'collapse', fontSize: '6.5pt',
@@ -234,7 +239,7 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
 
       {/* Extras Row */}
       <div style={{
-        display: 'flex', gap: '10px', padding: '4px 20px 0', fontSize: '6.5pt', flexWrap: 'wrap', alignItems: 'center',
+        display: 'flex', gap: '10px', padding: '4px 28px 0', fontSize: '6.5pt', flexWrap: 'wrap', alignItems: 'center',
       }}>
         {checkBox(includeChips, `Chips (${totalSubs} × $2.55)`)}
         {checkBox(includeDrinks, `Bottled Drinks (${totalSubs} × $3.45)`)}
@@ -243,7 +248,7 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       </div>
 
       {/* Pricing Section — full width */}
-      <div style={{ display: 'flex', gap: '8px', padding: '4px 20px 0' }}>
+      <div style={{ display: 'flex', gap: '8px', padding: '4px 28px 0' }}>
         {/* Discount badge (left) */}
         <div style={{
           width: '80px', flexShrink: 0,
@@ -312,7 +317,7 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
 
       {/* Special Requests */}
       {specialRequests && (
-        <div style={{ padding: '4px 20px 0' }}>
+        <div style={{ padding: '4px 28px 0' }}>
           <div style={sectionHeader()}>SPECIAL REQUESTS</div>
           <div style={{
             border: '1px solid #ccc', borderTop: 'none', borderRadius: '0 0 3px 3px',
@@ -326,33 +331,12 @@ const CateringOrderPreview = forwardRef(function CateringOrderPreview({ data }, 
       {/* Spacer */}
       <div style={{ flex: 1 }} />
 
-      {/* Store Info */}
-      <div style={{
-        display: 'flex', justifyContent: 'space-between', padding: '0 20px',
-        fontSize: '6.5pt', color: '#2D2D2D',
-      }}>
-        <div>
-          <span style={{ fontWeight: 700 }}>Store:</span> {storeName || '\u2014'}
-          {storePhone ? ` | ${storePhone}` : ''}
-        </div>
-        <div>
-          <span style={{ fontWeight: 700 }}>Operator:</span> {operatorName || '\u2014'}
-          {operatorPhone ? ` | ${operatorPhone}` : ''}
-        </div>
-      </div>
-
-      {/* Blue border */}
-      <div style={{ height: '1.5px', background: '#134A7C', margin: '3px 20px 0' }} />
-
       {/* Footer */}
       <div style={{
         background: '#EE3227', color: '#fff', textAlign: 'center',
-        fontSize: '6pt', padding: '4px 20px', marginTop: '3px',
+        fontSize: '5.5pt', padding: '4px 28px', fontWeight: 400, lineHeight: 1.3,
       }}>
-        {storeAddress || storeName || "Jersey Mike's Subs"} &middot; ORDER ONLINE AT JERSEYMIKES.COM &middot; CATERING AVAILABLE 7 DAYS A WEEK
-      </div>
-      <div style={{ fontSize: '5pt', color: '#999', textAlign: 'center', padding: '2px 20px 0' }}>
-        Property of JM Valley Group. All rights reserved. Confidential — not for distribution.
+        Property of JM Valley Group. All rights reserved. Confidential &mdash; not for distribution.
       </div>
     </div>
   );
