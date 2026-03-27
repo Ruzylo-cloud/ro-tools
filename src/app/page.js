@@ -64,6 +64,11 @@ export default function LandingPage() {
     if (user) {
       router.push('/dashboard');
     }
+    // Always start at the top on page load (prevent hash anchor scroll)
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+    window.scrollTo(0, 0);
   }, [user, router]);
 
   useEffect(() => {
