@@ -234,6 +234,12 @@ export default function DashboardPage() {
           <span className={styles.techBadge}>Client-Side PDF</span>
           <span className={styles.techBadge}>Audit Logging</span>
           <span className={styles.techBadge}>Role-Based Access</span>
+          <span className={styles.techBadge}>E-Signatures</span>
+          <span className={styles.techBadge}>CA Labor Compliance</span>
+          <span className={styles.techBadge}>Docker</span>
+          <span className={styles.techBadge}>CI/CD Pipeline</span>
+          <span className={styles.techBadge}>HMAC-SHA256 Security</span>
+          <span className={styles.techBadge}>Auto-Scaling</span>
         </div>
       </div>
 
