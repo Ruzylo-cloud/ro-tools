@@ -115,6 +115,42 @@
 .detailOrderMeta { font-size: 11px; color: var(--gray-500); }
 .detailOrderAuto { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 10px; background: rgba(19,74,124,0.1); color: var(--jm-blue); text-transform: uppercase; }
 
+/* ─── Upcoming Events ─── */
+.eventsSection { margin-bottom: 24px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; }
+.eventsTitle { font-size: 16px; font-weight: 700; color: var(--jm-blue); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.eventsCount { font-size: 11px; font-weight: 700; background: rgba(19,74,124,0.1); color: var(--jm-blue); padding: 2px 8px; border-radius: 10px; }
+.eventsList { display: flex; flex-direction: column; gap: 8px; }
+.eventRow { display: flex; align-items: center; gap: 14px; padding: 10px 12px; background: var(--gray-50); border-radius: 8px; }
+.eventDate { display: flex; flex-direction: column; align-items: center; min-width: 44px; }
+.eventDay { font-size: 20px; font-weight: 800; color: var(--jm-blue); line-height: 1; }
+.eventMonth { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; }
+.eventInfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.eventLabel { font-size: 13px; font-weight: 600; color: var(--charcoal); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.eventClient { font-size: 11px; color: var(--gray-500); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.eventUrgency { flex-shrink: 0; }
+.eventBadge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.eventUrgent { background: rgba(238,50,39,0.1); color: var(--jm-red); }
+.eventSoon { background: rgba(245,158,11,0.1); color: #b45309; }
+.eventNormal { background: rgba(22,163,74,0.1); color: #16a34a; }
+.eventAction { padding: 5px 12px; background: var(--jm-blue); color: var(--white); border: none; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; transition: background 0.15s; flex-shrink: 0; }
+.eventAction:hover { background: #1a5a94; }
+
+/* ─── Next Expected Column ─── */
+.colNext { width: 110px; flex-shrink: 0; font-size: 12px; color: var(--gray-500); }
+
+/* ─── Generate / Reorder Buttons ─── */
+.generateBtn { padding: 7px 14px; background: var(--jm-blue); color: var(--white); border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; transition: background 0.15s; flex-shrink: 0; }
+.generateBtn:hover { background: #1a5a94; }
+.reorderBtn { padding: 3px 10px; background: transparent; color: var(--jm-blue); border: 1px solid var(--jm-blue); border-radius: 5px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; transition: all 0.15s; margin-left: auto; }
+.reorderBtn:hover { background: rgba(19,74,124,0.05); }
+
+/* ─── Detail Header ─── */
+.detailHeader { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+.detailHeader .modalTitle { margin-bottom: 4px; }
+.detailOverdue { color: var(--jm-red); font-weight: 600; }
+.detailApproaching { color: #b45309; font-weight: 600; }
+.detailOrderDate { font-size: 12px; color: var(--gray-500); min-width: 90px; flex-shrink: 0; }
+
 /* ─── Responsive ─── */
 @media (max-width: 810px) {
   .container { padding: 36px 20px; }
@@ -129,8 +165,9 @@
   .tableHeader { display: none; }
   .tableRow { flex-wrap: wrap; gap: 6px; padding: 14px 16px; }
   .colName { flex-basis: 100%; }
-  .colOrders, .colRevenue, .colLast, .colStatus { width: auto; }
+  .colOrders, .colRevenue, .colLast, .colNext, .colStatus { width: auto; }
   .colActions { width: auto; margin-left: auto; }
+  .eventRow { flex-wrap: wrap; gap: 8px; }
   .modalRow { flex-direction: column; gap: 12px; }
 }
 
