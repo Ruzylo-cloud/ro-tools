@@ -199,7 +199,7 @@ export default function ScoreboardPage() {
 
       {/* Disclaimer */}
       <div className={styles.disclaimer}>
-        Week 3 data is not included at this time — waiting on its data. Leaderboard totals reflect available weeks only.
+        Week 3 data is pending — awaiting source file. Leaderboard totals reflect 10 available weeks (1-2, 4-11).
       </div>
     </div>
   );

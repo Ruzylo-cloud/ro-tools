@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
-import { searchStores } from '@/lib/store-directory';
+import { searchStores, getStoresForDM, getStoreForRO } from '@/lib/store-directory';
 import styles from './page.module.css';
 
 const DEFAULT_ADMIN_EMAILS = [
@@ -193,7 +193,33 @@ export default function SetupPage() {
           </div>
         )}
         {role && (
-          <button className={styles.submitBtn} onClick={() => setStep('info')}>
+          <button className={styles.submitBtn} onClick={() => {
+            // Auto-prefill stores based on role and email
+            const email = user?.email || '';
+            if (role === 'district_manager') {
+              const dmStores = getStoresForDM(email);
+              if (dmStores.length > 0) {
+                setStores(dmStores.map(s => ({
+                  ...EMPTY_STORE,
+                  storeNumber: s.id,
+                  storeName: `Jersey Mike's #${s.id}${s.name !== s.id ? ' - ' + s.name : ''}`,
+                  operatorName: s.ro || '',
+                })));
+              }
+            } else if (role === 'operator') {
+              const roStore = getStoreForRO(email);
+              if (roStore) {
+                setStores([{
+                  ...EMPTY_STORE,
+                  storeNumber: roStore.id,
+                  storeName: `Jersey Mike's #${roStore.id}${roStore.name !== roStore.id ? ' - ' + roStore.name : ''}`,
+                  operatorName: roStore.ro || user?.name || '',
+                  street: roStore.address || '',
+                }]);
+              }
+            }
+            setStep('info');
+          }}>
             Continue as {role === 'operator' ? 'Restaurant Operator' : role === 'district_manager' ? 'District Manager' : 'Administrator'}
           </button>
         )}
