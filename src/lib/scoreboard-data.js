@@ -284,6 +284,38 @@ const WEEK_11 = [
   { storeId: '20388', netSales: 14099, pySales: 11120, breadCount: 80, pyGrowth: 26.79, cogsActual: 22.46, cogsVariance: 0.67, labor: 21.85, laborTarget: 22.40 },
 ];
 
+const WEEK_12 = [
+  { storeId: '20381', netSales: 49232, pySales: 38750, breadCount: 299, pyGrowth: 27.05, cogsActual: 23.06, cogsVariance: -1.06, labor: 17.42, laborTarget: 18.60 },
+  { storeId: '20091', netSales: 47901, pySales: 46693, breadCount: 281, pyGrowth: 2.59, cogsActual: 21.05, cogsVariance: 0.71, labor: 17.86, laborTarget: 18.80 },
+  { storeId: '20366', netSales: 47668, pySales: 47945, breadCount: 277, pyGrowth: -0.58, cogsActual: 24.03, cogsVariance: -1.08, labor: 17.52, laborTarget: 18.80 },
+  { storeId: '20218', netSales: 45372, pySales: 41005, breadCount: 277, pyGrowth: 10.65, cogsActual: 23.57, cogsVariance: -1.04, labor: 18.59, laborTarget: 19.00 },
+  { storeId: '20267', netSales: 46167, pySales: 37995, breadCount: 273, pyGrowth: 21.51, cogsActual: 22.98, cogsVariance: -0.55, labor: 15.53, laborTarget: 18.90 },
+  { storeId: '20013', netSales: 47018, pySales: 0, breadCount: 260, pyGrowth: 0, cogsActual: 23.52, cogsVariance: -4.23, labor: 24.09, laborTarget: 18.80 },
+  { storeId: '20294', netSales: 42036, pySales: 45016, breadCount: 251, pyGrowth: -6.62, cogsActual: 23.70, cogsVariance: -1.76, labor: 17.76, laborTarget: 19.30 },
+  { storeId: '20245', netSales: 42249, pySales: 34716, breadCount: 250, pyGrowth: 21.70, cogsActual: 22.84, cogsVariance: -0.54, labor: 17.79, laborTarget: 19.30 },
+  { storeId: '20363', netSales: 41098, pySales: 34747, breadCount: 247, pyGrowth: 18.28, cogsActual: 23.80, cogsVariance: -0.59, labor: 17.52, laborTarget: 19.40 },
+  { storeId: '20048', netSales: 40377, pySales: 35533, breadCount: 238, pyGrowth: 13.63, cogsActual: 22.95, cogsVariance: -1.62, labor: 18.18, laborTarget: 19.50 },
+  { storeId: '20156', netSales: 39511, pySales: 47147, breadCount: 230, pyGrowth: -16.20, cogsActual: 22.49, cogsVariance: -0.64, labor: 16.98, laborTarget: 19.60 },
+  { storeId: '20292', netSales: 37223, pySales: 33812, breadCount: 216, pyGrowth: 10.09, cogsActual: 28.85, cogsVariance: 0.57, labor: 18.91, laborTarget: 19.80 },
+  { storeId: '20026', netSales: 35505, pySales: 33497, breadCount: 214, pyGrowth: 5.99, cogsActual: 21.29, cogsVariance: -0.16, labor: 18.25, laborTarget: 20.00 },
+  { storeId: '20255', netSales: 33306, pySales: 32366, breadCount: 192, pyGrowth: 2.91, cogsActual: 22.95, cogsVariance: -0.83, labor: 19.44, laborTarget: 20.20 },
+  { storeId: '20291', netSales: 32786, pySales: 28139, breadCount: 187, pyGrowth: 16.52, cogsActual: 24.52, cogsVariance: -1.90, labor: 20.22, laborTarget: 20.30 },
+  { storeId: '20116', netSales: 32041, pySales: 26337, breadCount: 184, pyGrowth: 21.66, cogsActual: 24.62, cogsVariance: -3.66, labor: 19.34, laborTarget: 20.30 },
+  { storeId: '20300', netSales: 30711, pySales: 28710, breadCount: 183, pyGrowth: 6.97, cogsActual: 25.09, cogsVariance: -1.95, labor: 19.63, laborTarget: 20.50 },
+  { storeId: '20071', netSales: 30262, pySales: 28477, breadCount: 179, pyGrowth: 6.27, cogsActual: 25.65, cogsVariance: -2.05, labor: 20.30, laborTarget: 20.50 },
+  { storeId: '20171', netSales: 31655, pySales: 27549, breadCount: 178, pyGrowth: 14.91, cogsActual: 23.99, cogsVariance: -1.70, labor: 20.20, laborTarget: 20.40 },
+  { storeId: '20352', netSales: 29579, pySales: 24517, breadCount: 175, pyGrowth: 20.64, cogsActual: 23.20, cogsVariance: -1.17, labor: 18.77, laborTarget: 20.60 },
+  { storeId: '20177', netSales: 29883, pySales: 28654, breadCount: 174, pyGrowth: 4.29, cogsActual: 23.13, cogsVariance: -0.83, labor: 19.89, laborTarget: 20.60 },
+  { storeId: '20311', netSales: 30859, pySales: 38959, breadCount: 173, pyGrowth: -20.79, cogsActual: 22.72, cogsVariance: -2.00, labor: 19.96, laborTarget: 20.50 },
+  { storeId: '20011', netSales: 29290, pySales: 26336, breadCount: 169, pyGrowth: 11.22, cogsActual: 23.49, cogsVariance: -1.42, labor: 18.26, laborTarget: 20.60 },
+  { storeId: '20075', netSales: 27765, pySales: 24965, breadCount: 160, pyGrowth: 11.21, cogsActual: 22.48, cogsVariance: -1.97, labor: 19.53, laborTarget: 20.80 },
+  { storeId: '20273', netSales: 26482, pySales: 25519, breadCount: 153, pyGrowth: 3.77, cogsActual: 24.47, cogsVariance: -1.92, labor: 19.20, laborTarget: 20.90 },
+  { storeId: '20424', netSales: 23803, pySales: 0, breadCount: 139, pyGrowth: 0, cogsActual: 22.18, cogsVariance: 0.10, labor: 19.05, laborTarget: 21.20 },
+  { storeId: '20360', netSales: 22808, pySales: 18691, breadCount: 137, pyGrowth: 22.03, cogsActual: 24.87, cogsVariance: -1.26, labor: 19.04, laborTarget: 21.30 },
+  { storeId: '20335', netSales: 22031, pySales: 18857, breadCount: 128, pyGrowth: 16.83, cogsActual: 23.36, cogsVariance: -1.22, labor: 19.96, laborTarget: 21.30 },
+  { storeId: '20388', netSales: 15064, pySales: 16391, breadCount: 86, pyGrowth: -8.10, cogsActual: 23.78, cogsVariance: -1.37, labor: 20.48, laborTarget: 22.30 },
+];
+
 const ALL_WEEKS = {
   1:  { dateRange: 'Dec 29 - Jan 4', data: WEEK_1 },
   2:  { dateRange: 'Jan 5 - Jan 11', data: WEEK_2 },
@@ -296,6 +328,7 @@ const ALL_WEEKS = {
   9:  { dateRange: 'Feb 23 - Mar 1', data: WEEK_9 },
   10: { dateRange: 'Mar 2 - Mar 8', data: WEEK_10 },
   11: { dateRange: 'Mar 9 - Mar 15', data: WEEK_11 },
+  12: { dateRange: 'Mar 16 - Mar 22', data: WEEK_12 },
 };
 
 function calculateTargets(row) {
