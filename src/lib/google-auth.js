@@ -47,6 +47,21 @@ export function getExtendedAuthUrl(returnTo) {
   });
 }
 
+/**
+ * Generate an auth URL for the iOS app.
+ * State param carries 'mobile' flag so callback knows to redirect to rotools:// URL scheme.
+ */
+export function getMobileAuthUrl() {
+  const client = getOAuth2Client();
+  return client.generateAuthUrl({
+    access_type: 'offline',
+    prompt: 'consent',
+    scope: BASIC_SCOPES,
+    hd: 'jmvalley.com',
+    state: 'mobile',
+  });
+}
+
 export async function getTokensFromCode(code) {
   const client = getOAuth2Client();
   const { tokens } = await client.getToken(code);

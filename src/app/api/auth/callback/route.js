@@ -47,7 +47,13 @@ export async function GET(request) {
     // Sign the session token (HMAC-SHA256)
     const signed = createSessionToken(sessionData);
 
-    // Use state param as return URL if present (from scope upgrade flow)
+    // Mobile app: redirect to rotools:// URL scheme with session token
+    if (state === 'mobile') {
+      const mobileCallback = `rotools://auth/callback?session=${encodeURIComponent(signed)}`;
+      return NextResponse.redirect(mobileCallback);
+    }
+
+    // Web: use state param as return URL if present (from scope upgrade flow)
     const returnTo = state && state.startsWith('/') ? state : '/dashboard';
     const response = NextResponse.redirect(`${baseUrl}${returnTo}`);
     response.cookies.set('ro_session', signed, {
