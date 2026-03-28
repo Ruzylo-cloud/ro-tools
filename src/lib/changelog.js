@@ -8,6 +8,22 @@
  */
 
 export const changelog = [
+  // ── v2.6.0 — March 28, 2026 ──────────────────────────────────────
+  {
+    version: 'v2.6.0',
+    date: '2026-03-28',
+    category: 'new_feature',
+    title: 'RO Tools iOS App',
+    description: 'Native iOS app for iPhone and iPad. All 12 document generators with on-device PDF rendering, 54-page training packets, catering CRM with push notification reminders, live scoreboard, offline support with background sync, and Google OAuth login restricted to @jmvalley.com. Available on TestFlight.',
+  },
+  {
+    version: 'v2.6.0',
+    date: '2026-03-28',
+    category: 'improvement',
+    title: 'Week 12 Scoreboard + UI Refresh',
+    description: 'Added Week 12 data (Mar 16-22, 29 stores). Overview page expanded with "Why RO Tools" section, By the Numbers stats, and red accent balance. Active tab highlighting in navbar, branded red scrollbar, red overscroll effect, and Dashboard renamed to Overview.',
+  },
+
   // ── v2.5.0 — March 27, 2026 ──────────────────────────────────────
   {
     version: 'v2.5.0',

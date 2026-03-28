@@ -212,6 +212,25 @@ const SLIDES = [
     bg: '#f8fafc',
     color: '#1a1a2e',
   },
+  // iOS APP
+  {
+    type: 'feature',
+    label: 'NOW AVAILABLE',
+    title: 'RO Tools for iPhone & iPad',
+    description: 'The full RO Tools platform — native on iOS. Every generator, every training packet, catering tracker, scoreboard, and admin tool. Built in SwiftUI with on-device PDF generation, offline support, and push notifications.',
+    bullets: [
+      'All 12 document generators with on-device PDF rendering',
+      '54 pages of training packets — generate offline, sync when connected',
+      'Catering CRM with follow-up reminders via push notifications',
+      'Live scoreboard — 12 weeks of performance data across all stores',
+      'Google OAuth — same @jmvalley.com login, Face ID for quick access',
+      'Available now on TestFlight — App Store listing coming soon',
+    ],
+    stat: { value: 'iOS', label: 'native app' },
+    bg: '#fff',
+    color: '#1a1a2e',
+    accent: '#EE3227',
+  },
   // ROADMAP
   {
     type: 'text',
@@ -223,7 +242,7 @@ const SLIDES = [
       'Live Scoreboard API — auto-import weekly data from Google Sheets',
       'Homebase Integration — pull schedules and shift data directly',
       'Multi-Language Support — Spanish forms for bilingual staff',
-      'Mobile PWA — installable app for phones and tablets',
+      'RO Control iOS App — companion app for Mission Control',
     ],
     bg: '#fff',
     color: '#1a1a2e',
@@ -233,8 +252,8 @@ const SLIDES = [
   {
     type: 'title',
     title: 'RO Tools',
-    subtitle: 'Every tool you need. One login. Every store.',
-    meta: 'ro-tools.app',
+    subtitle: 'Every tool you need. One login. Every store. Every device.',
+    meta: 'ro-tools.app | TestFlight',
     bg: 'linear-gradient(135deg, #134A7C 0%, #1a5a94 50%, #0d3a5c 100%)',
     color: '#fff',
   },
