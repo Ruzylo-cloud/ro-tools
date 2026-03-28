@@ -24,6 +24,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  background: var(--jm-red);
 }
 
 body {
