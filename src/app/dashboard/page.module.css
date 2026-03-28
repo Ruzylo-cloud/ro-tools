@@ -30,7 +30,7 @@
 
 .heroCta {
   display: inline-block;
-  background: var(--jm-blue);
+  background: var(--jm-red);
   color: var(--white);
   font-size: 15px;
   font-weight: 700;
@@ -41,9 +41,9 @@
 }
 
 .heroCta:hover {
-  background: #0e3a63;
+  background: #c8102e;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(19,74,124,0.3);
+  box-shadow: 0 4px 12px rgba(238,50,39,0.3);
 }
 
 /* ─── Sections ─── */
@@ -76,6 +76,7 @@
 .pillar {
   background: var(--white);
   border: 1px solid var(--border);
+  border-top: 3px solid var(--jm-red);
   border-radius: 14px;
   padding: 28px 22px;
 }
@@ -116,7 +117,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--jm-blue);
+  background: var(--jm-red);
   color: var(--white);
   font-size: 16px;
   font-weight: 800;
@@ -248,7 +249,7 @@
 .updatesViewAll {
   font-size: 13px;
   font-weight: 600;
-  color: var(--jm-blue);
+  color: var(--jm-red);
   text-decoration: none;
 }
 
