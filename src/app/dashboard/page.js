@@ -217,6 +217,48 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Why RO Tools */}
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Why RO Tools?</h2>
+        <p className={styles.sectionText} style={{ marginBottom: '16px' }}>
+          Before RO Tools, every store had its own way of doing things. One store&apos;s written warning looked different
+          from another&apos;s. Catering clients were tracked on paper or not at all. Training packets varied store to store.
+          Injury reports sat in a folder until someone remembered to email HR.
+        </p>
+        <p className={styles.sectionText} style={{ marginBottom: '16px' }}>
+          RO Tools eliminates all of that. A written warning from Store #20381 is identical to one from Store #20388 &mdash;
+          same format, same legal language, same compliance protections, same audit trail. When an injury happens, HR gets
+          notified instantly. When a catering follow-up is due, the system reminds you. When a new hire starts training,
+          their multi-page packet is generated with their name and dates pre-filled in seconds.
+        </p>
+        <p className={styles.sectionText}>
+          This isn&apos;t a generic template library. Every feature was built because a real JMVG operator ran into a real
+          problem. The 54-page training program was rebuilt line-for-line from the Director&apos;s original source documents.
+          The meal break waiver cites the exact California Labor Code sections. The scoreboard tracks the same 4 targets
+          leadership reviews every week. It&apos;s built for how JMVG actually operates.
+        </p>
+      </div>
+
+      {/* By the Numbers */}
+      <div className={styles.pillars}>
+        <div className={styles.pillar} style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: '#134A7C', fontFamily: "'Playfair Display', serif" }}>85%</div>
+          <p className={styles.pillarDesc}>faster than manual Word templates</p>
+        </div>
+        <div className={styles.pillar} style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: '#EE3227', fontFamily: "'Playfair Display', serif" }}>29+</div>
+          <p className={styles.pillarDesc}>stores across JM Valley Group</p>
+        </div>
+        <div className={styles.pillar} style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: '#134A7C', fontFamily: "'Playfair Display', serif" }}>54</div>
+          <p className={styles.pillarDesc}>pages of training content rebuilt from Director&apos;s originals</p>
+        </div>
+        <div className={styles.pillar} style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: '#EE3227', fontFamily: "'Playfair Display', serif" }}>$0</div>
+          <p className={styles.pillarDesc}>monthly cost — runs on Google Cloud at no charge at current scale</p>
+        </div>
+      </div>
+
       {/* Built With */}
       <div className={styles.section}>
         <h2 className={styles.sectionTitle}>Built for Operators, by Operators</h2>
