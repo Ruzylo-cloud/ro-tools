@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/components/AuthProvider';
@@ -12,6 +13,12 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
+  const pathname = usePathname();
+
+  const isActive = (path) => {
+    if (path === '/dashboard') return pathname === '/dashboard';
+    return pathname.startsWith(path);
+  };
 
   useEffect(() => {
     fetch('/api/profile')
@@ -59,18 +66,18 @@ export default function Navbar() {
         <div className={styles.links}>
           {/* 1. Dashboard */}
           <div className={styles.navItem}>
-            <Link href="/dashboard" className={styles.navLink} onClick={closeDropdown}>Dashboard</Link>
+            <Link href="/dashboard" className={`${styles.navLink} ${isActive('/dashboard') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Overview</Link>
           </div>
 
           {/* 2. Generators (direct link) */}
           <div className={styles.navItem}>
-            <Link href="/dashboard/generators" className={styles.navLink} onClick={closeDropdown}>Generators</Link>
+            <Link href="/dashboard/generators" className={`${styles.navLink} ${isActive('/dashboard/generators') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Generators</Link>
           </div>
 
           {/* 3. Catering (dropdown) */}
           <div className={styles.navItem}>
             <button
-              className={`${styles.navLink} ${openDropdown === 'catering' ? styles.navLinkActive : ''}`}
+              className={`${styles.navLink} ${openDropdown === 'catering' || isActive('/dashboard/catering') || isActive('/dashboard/generators/catering') ? styles.navLinkActive : ''}`}
               onClick={() => toggleDropdown('catering')}
               aria-expanded={openDropdown === 'catering'}
               aria-haspopup="true"
@@ -99,17 +106,17 @@ export default function Navbar() {
 
           {/* 4. Directives (standalone page) */}
           <div className={styles.navItem}>
-            <Link href="/dashboard/directives" className={styles.navLink} onClick={closeDropdown}>Directives</Link>
+            <Link href="/dashboard/directives" className={`${styles.navLink} ${isActive('/dashboard/directives') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Directives</Link>
           </div>
 
           {/* 5. Scoreboard */}
           <div className={styles.navItem}>
-            <Link href="/dashboard/scoreboard" className={styles.navLink} onClick={closeDropdown}>Scoreboard</Link>
+            <Link href="/dashboard/scoreboard" className={`${styles.navLink} ${isActive('/dashboard/scoreboard') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Scoreboard</Link>
           </div>
 
           {/* 6. Store Profile */}
           <div className={styles.navItem}>
-            <Link href="/dashboard/profile" className={styles.navLink} onClick={closeDropdown}>Store Profile</Link>
+            <Link href="/dashboard/profile" className={`${styles.navLink} ${isActive('/dashboard/profile') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Store Profile</Link>
           </div>
         </div>
       </div>
@@ -149,7 +156,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.open : ''}`}>
-        <Link href="/dashboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Dashboard</Link>
+        <Link href="/dashboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Overview</Link>
 
         <Link href="/dashboard/generators" className={styles.mobileNavLink} onClick={closeMobileMenu}>Generators</Link>
 

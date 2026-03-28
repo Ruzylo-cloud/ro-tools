@@ -52,3 +52,29 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Branded Scrollbar — Red/White */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--jm-red);
+  border-radius: 10px;
+  border: 2px solid var(--white);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c8102e;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--jm-red) var(--white);
+}
