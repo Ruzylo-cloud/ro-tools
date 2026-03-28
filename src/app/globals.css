@@ -24,7 +24,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  background: var(--jm-red);
+  background: #EE3227;
+  overscroll-behavior: none;
 }
 
 body {
@@ -61,13 +62,12 @@ button:disabled {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--white);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--jm-red);
-  border-radius: 10px;
-  border: 2px solid var(--white);
+  background: #EE3227;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -77,5 +77,5 @@ button:disabled {
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--jm-red) var(--white);
+  scrollbar-color: #EE3227 transparent;
 }
