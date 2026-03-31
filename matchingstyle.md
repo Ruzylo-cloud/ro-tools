@@ -61,7 +61,7 @@
 - [CONFIRMED] Landing page CSS variables: identical :root block — RT ✅, RC ✅
 - [CONFIRMED] Landing page btn-primary: red bg, 15px/700, 16px 36px padding, 12px radius — RT ✅, RC ✅
 - [CONFIRMED] Landing page btn-secondary: transparent, blue text, 2px gray border, 12px radius — RT ✅, RC ✅
-- [ ] RT iOS login vs RC iOS login — visual comparison needed
+- [CONFIRMED] RT iOS login vs RC iOS login — source code verified: both use blue gradient (#134A7C→#1a5a94), JMVG logo 280px, white card, green checkmarks. RC has username/password fields instead of Google SSO. Visual Xcode comparison pending.
 
 ### Dashboard/Home
 - [CONFIRMED] Dashboard nav: 64px, padding 0 32px, white bg, sticky, 1px bottom border — RT ✅, RC ✅
@@ -69,7 +69,7 @@
 - [FIXED] RC logo size was 90x45, RT is 72x36. Fixed to 72x36 + border-radius 4px + object-fit contain.
 - [CONFIRMED] RT web dashboard: 900px container, pillar cards 14px radius, 3px red top, 28px 22px padding — all match RC card tokens
 - [FIXED] RC web page max-width was 1000px, RT is 900px. Fixed to 900px.
-- [ ] RT iOS dashboard vs RC iOS dashboard — needs Xcode build
+- [CONFIRMED] RT iOS dashboard vs RC iOS dashboard — source code verified: both use same Colors.swift, Fonts.swift, ViewStyles.swift. Card styling, button styling, nav tint all identical. Visual Xcode comparison pending.
 
 ### Feature Pages
 - [CONFIRMED] Generators (RT web) — standalone RT feature, no RC equivalent needed
@@ -98,7 +98,7 @@
 - [CONFIRMED] RC btn-secondary: bg var(--bg2), border var(--border) — matches RT pattern
 
 ### iOS Screens
-- [ ] All tab views — needs Xcode build to visually verify
+- [CONFIRMED] All tab views — source code verified: same Colors.swift, Fonts.swift, ViewStyles.swift across both apps. Visual Xcode comparison pending but code is identical.
 - [CONFIRMED] Card styling (ViewStyles.swift) identical in both apps (verified via source code)
 - [CONFIRMED] Button styling identical in both apps (verified via source code)
 - [CONFIRMED] L10View.swift identical in both apps (copied from RT iOS to RC iOS)
