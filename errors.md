@@ -100,13 +100,15 @@
 - **Date:** 2026-03-30
 - **Location:** Mission Control dashboard after login
 - **Description:** User reports: (1) dropdown buttons don't respond to clicks, (2) name shows "-" next to Sign Out, (3) background was extremely dark. Dark mode was the cause of #3 — now fixed to mid-grey by all agents. #1 may be z-index issue or cached old CSS. #2 is data issue — fullName not set in user profile.
-- **Status:** FIXING
-- **Fix details:** Dark mode palette updated to mid-grey (#1e1e24 bg, #2a2a36 cards). User should hard-refresh (Cmd+Shift+R) to clear cached dark theme. Name issue requires setting fullName in user profile or users.json.
+- **Status:** FIXED
+- **Fixed by:** manager + agents
+- **Fix details:** (1) Dropdowns: JS syntax error from escaped quotes in onclick handlers — fixed with &amp;apos; entities. (2) Dark mode: palette updated to #1e1e24/#2a2a36. (3) Name "-": SSO auto-provision now sets fullName. (4) Mobile login: HMAC verification was comparing base64 vs raw JSON — fixed. All deployed in v100.
 
 ### [TASK] Move comparison page to /welcome, rebuild RO Control dashboard
 - **Found by:** chris (user)
 - **Date:** 2026-03-30
 - **Location:** Mission Control dashBody.ts
 - **Description:** The dashboard overview currently shows a comparison/presentation page. User wants: (1) Move it to /welcome (hidden, link-only for 2 admins), (2) Rebuild dashboard to be RO Control-focused, (3) Remove keyboard shortcuts (tacky), (4) Style like RO Tools dashboard.
-- **Status:** IN PROGRESS
-- **Progress:** /welcome page created with full 5-tier savings analysis. Keyboard shortcuts removed. Nav restructured. Dashboard rebuild (Task 25) pending — needs operational widgets replacing comparison content.
+- **Status:** FIXED
+- **Fixed by:** manager + agents
+- **Fix details:** (1) /welcome created with full 5-tier savings analysis, sourced pricing, comparison. (2) Dashboard rebuilt with operational hero, pillar cards, quick actions, stats widgets. (3) Keyboard shortcuts removed. (4) Nav restructured: Overview | Dashboard | Operations ▾ | L10 ▾ | People ▾ | Tools ▾ | Store Profile | Admin. All deployed v100.
