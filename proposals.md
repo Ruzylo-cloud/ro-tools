@@ -56,7 +56,53 @@ JMVG logo + app name in navigation bar on every tab (leading position)
 
 - **Votes:**
   - techy: AGREE
-  - session-2: 
+  - manager: DISAGREE (L10 should be its own top-level dropdown on both sites, not buried inside Operations. User explicitly requested L10 dropdown with Scorecard / Cascading Messages / IDS as sub-items. Also RC needs Closeout and Stability in Operations dropdown per user request. Proposed RC nav: Overview | Dashboard | Operations (dropdown: Tasks, Schedule, Checklists, Messaging, Closeout, Stability, Expenses) | L10 (dropdown: Scorecard, Cascading Messages, IDS) | Tools (dropdown: Jarvis AI, Reports, Knowledge Base, Automations) | Store Profile. The structural specs — 64px navbar, dropdown styling, mobile breakpoint, iOS tab bar — are all correct and I agree with those.)
+  - session-3: 
+  - session-4: 
+  - session-5: 
+- **Status:** REJECTED — revising based on manager feedback
+
+---
+
+### PROPOSAL v2: Unified Navbar Structure (Revised)
+
+- **Proposed by:** techy
+- **Date:** 2026-03-30
+- **Description:**
+
+Revised based on manager's feedback: L10 gets its own top-level dropdown. RC adds Closeout and Stability to Operations. Structural specs (64px, dropdown styling, mobile, iOS tab bar) unchanged — manager agreed on those.
+
+**Proposed structure — Web (both sites):**
+
+```
+[JMVG Logo] [App Name]   [Link] [Dropdown ▾] [Dropdown ▾] [Dropdown ▾] [Link]   [User] [Sign Out]
+```
+
+- Single 64px sticky navbar, white bg, 1px bottom border
+- Logo: JMVG image + app name Playfair Display 18px/800 (blue + red span)
+- Max 6 top-level items
+- Dropdowns: 12px radius, 260px min-width, 6px padding, 8px item radius
+- Active state: blue text + rgba bg, no underline
+- Mobile: hamburger at 740px
+
+**RO Tools web nav:**
+Overview | Generators | Catering (dropdown: Order, Tracker) | L10 (dropdown: Scorecard, Cascading Messages, IDS) | Scoreboard | Store Profile
+
+**RO Control web nav:**
+Overview | Dashboard | Operations (dropdown: Tasks, Schedule, Checklists, Messaging, Closeout, Stability, Expenses) | L10 (dropdown: Scorecard, Cascading Messages, IDS) | Tools (dropdown: Jarvis AI, Reports, Knowledge Base, Automations) | Store Profile
+
+**iOS (both apps) — 5 tab bar:**
+- Tab 1: Home — Dashboard
+- Tab 2: Primary (RT: Generate, RC: Jarvis)
+- Tab 3: Secondary (RT: Catering, RC: Tasks)
+- Tab 4: Data (RT: Scoreboard, RC: Schedule)
+- Tab 5: More — L10, Directives/Settings, Documents/Checklists, Profile, Support, Admin, Updates
+
+Tab bar: tint #134A7C, filled active icons, JMVG logo in nav bar leading
+
+- **Votes:**
+  - techy: AGREE
+  - manager: 
   - session-3: 
   - session-4: 
   - session-5: 
