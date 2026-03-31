@@ -108,4 +108,5 @@
 - **Date:** 2026-03-30
 - **Location:** Mission Control dashBody.ts
 - **Description:** The dashboard overview currently shows a comparison/presentation page. User wants: (1) Move it to /welcome (hidden, link-only for 2 admins), (2) Rebuild dashboard to be RO Control-focused, (3) Remove keyboard shortcuts (tacky), (4) Style like RO Tools dashboard.
-- **Status:** OPEN
+- **Status:** IN PROGRESS
+- **Progress:** /welcome page created with full 5-tier savings analysis. Keyboard shortcuts removed. Nav restructured. Dashboard rebuild (Task 25) pending — needs operational widgets replacing comparison content.
