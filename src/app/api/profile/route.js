@@ -8,7 +8,7 @@ import { DEMO_PROFILE, isDemo } from '@/lib/demo-data';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   // Demo mode: return pre-seeded profile
@@ -35,7 +35,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
   }
 
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   // Demo mode: read-only

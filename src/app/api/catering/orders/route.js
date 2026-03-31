@@ -21,7 +21,7 @@ async function getStoreNumber(session) {
  * Query: clientId (optional), limit, offset
  */
 export async function GET(request) {
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const storeNumber = await getStoreNumber(session);
@@ -55,7 +55,7 @@ export async function POST(request) {
   const { limited } = rateLimit('catering-orders', 60000, 30, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const storeNumber = await getStoreNumber(session);

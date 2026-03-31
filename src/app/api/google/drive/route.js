@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // List files/folders in Drive
 export async function GET(request) {
-  const auth = await getAuthenticatedClient();
+  const auth = getAuthenticatedClient();
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
@@ -46,7 +46,7 @@ export async function GET(request) {
 
 // Create a file or folder in Drive
 export async function POST(request) {
-  const auth = await getAuthenticatedClient();
+  const auth = getAuthenticatedClient();
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const drive = getDrive(auth.client);

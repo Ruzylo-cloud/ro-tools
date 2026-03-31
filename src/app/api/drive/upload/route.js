@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request) {
   try {
-    const auth = await getAuthenticatedClient();
+    const auth = getAuthenticatedClient();
     if (!auth) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }

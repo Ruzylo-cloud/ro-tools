@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
  * Makes a lightweight call to test Drive access.
  */
 export async function GET() {
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   // If session has a scope marker from the upgrade flow, return it

@@ -4,7 +4,7 @@ import { getSession } from '@/lib/session';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const data = await getSession();
+  const data = getSession();
 
   if (!data) {
     return NextResponse.json({ user: null });

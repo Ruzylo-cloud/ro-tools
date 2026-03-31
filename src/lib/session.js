@@ -29,7 +29,7 @@ function verify(token) {
 
   try {
     return JSON.parse(Buffer.from(payload, 'base64url').toString());
-  } catch {
+  } catch (e) {
     return null;
   }
 }
@@ -38,8 +38,8 @@ function verify(token) {
  * Extract and verify user session from ro_session cookie.
  * Returns null if no session, invalid, or tampered.
  */
-export async function getSession() {
-  const cookieStore = await cookies();
+export function getSession() {
+  const cookieStore = cookies();
   const session = cookieStore.get('ro_session') || cookieStore.get('ro_session_backup');
   if (!session?.value) return null;
 
@@ -50,7 +50,8 @@ export async function getSession() {
   // Fallback: legacy base64 format (migrate on next login)
   try {
     return JSON.parse(Buffer.from(session.value, 'base64').toString());
-  } catch {
+  } catch (e) {
+    console.error('Session parse error:', e?.message || e);
     return null;
   }
 }

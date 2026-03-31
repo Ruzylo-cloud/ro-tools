@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
  * to the returnTo URL with their session updated.
  */
 export async function GET(request) {
-  const session = await getSession();
+  const session = getSession();
   if (!session) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }

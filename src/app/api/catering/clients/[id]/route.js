@@ -25,7 +25,7 @@ function safeNotableDates(arr) {
  * GET /api/catering/clients/[id] — Get a single client with full order history.
  */
 export async function GET(request, { params }) {
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const storeNumber = await getStoreNumber(session);
@@ -55,7 +55,7 @@ export async function PATCH(request, { params }) {
   const { limited } = rateLimit('catering-clients', 60000, 30, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const storeNumber = await getStoreNumber(session);
@@ -110,7 +110,7 @@ export async function DELETE(request, { params }) {
   const { limited } = rateLimit('catering-clients', 60000, 30, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const storeNumber = await getStoreNumber(session);

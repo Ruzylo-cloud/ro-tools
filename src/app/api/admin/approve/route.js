@@ -15,12 +15,12 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
   }
 
-  const sessionCheck = await getSession();
+  const sessionCheck = getSession();
   if (isDemo(sessionCheck)) {
     return NextResponse.json({ success: true, demo: true });
   }
 
-  const session = await getSession();
+  const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const profiles = loadJsonFile('profiles.json');

@@ -21,7 +21,7 @@ async function getSession() {
 
 export async function GET(request) {
   try {
-    const session = await getSession();
+    const session = getSession();
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
     const { searchParams } = new URL(request.url);
@@ -41,7 +41,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const session = await getSession();
+    const session = getSession();
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
     const body = await request.json();
