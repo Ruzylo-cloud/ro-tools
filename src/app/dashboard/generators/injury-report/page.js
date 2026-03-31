@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import InjuryReportPreview from '@/components/InjuryReportPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
+import EmployeeSelect from '@/components/EmployeeSelect';
 import styles from './page.module.css';
 
 const INJURY_TYPES = [
@@ -106,6 +107,27 @@ export default function InjuryReportPage() {
       const name = form.employeeName ? form.employeeName.replace(/\s+/g, '-').toLowerCase() : 'employee';
       const fileName = `injury-report-${name}.pdf`;
       pdf.save(fileName);
+
+      // Dual save to employee's internal file record
+      if (form.employeeName) {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: form.employeeName,
+            employeeId: form._employeeId || null,
+            documentType: 'injury-report',
+            fileName: fileName,
+            content: pdfBase64,
+            metadata: {
+              createdBy: form.supervisorName || form.managerName || '',
+              storeNumber: form.storeNumber || '',
+            },
+          }),
+        }).catch(() => {});
+      }
+
       logActivity({ generatorType: 'injury-report', action: 'download', formData: form, filename: fileName });
       showToast('PDF downloaded successfully!', 'success');
     } catch (err) {
@@ -208,7 +230,16 @@ export default function InjuryReportPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Employee Name *</label>
-              <input type="text" className={styles.input} value={form.employeeName} onChange={(e) => handleChange('employeeName', e.target.value)} placeholder="Full name" />
+              <EmployeeSelect
+                value={form.employeeName}
+                onChange={(name, emp) => {
+                  handleChange('employeeName', name);
+                  if (emp && emp.id) handleChange('_employeeId', emp.id);
+                }}
+                onPositionFill={(pos) => handleChange('position', pos)}
+                storeNumber={form.storeNumber}
+                placeholder="Search employees..."
+              />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Position</label>

@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import AttestationCorrectionPreview from '@/components/AttestationCorrectionPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
+import EmployeeSelect from '@/components/EmployeeSelect';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -78,6 +79,27 @@ export default function AttestationCorrectionPage() {
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       pdf.save('attestation-correction.pdf');
+
+      // Dual save to employee's internal file record
+      if (form.employeeName) {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: form.employeeName,
+            employeeId: form._employeeId || null,
+            documentType: 'attestation-correction',
+            fileName: 'attestation-correction.pdf',
+            content: pdfBase64,
+            metadata: {
+              createdBy: form.supervisorName || form.managerName || '',
+              storeNumber: form.storeNumber || '',
+            },
+          }),
+        }).catch(() => {});
+      }
+
       logActivity({ generatorType: 'attestation-correction', action: 'download', formData: form, filename: 'attestation-correction.pdf' });
     } catch (err) {
       console.error('PDF error:', err);
@@ -114,6 +136,17 @@ export default function AttestationCorrectionPage() {
                 >
                   {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>
+              ) : key === 'employeeName' ? (
+                <EmployeeSelect
+                  value={form.employeeName}
+                  onChange={(name, emp) => {
+                    handleChange('employeeName', name);
+                    if (emp && emp.id) handleChange('_employeeId', emp.id);
+                  }}
+                  onPositionFill={(pos) => handleChange('employeePosition', pos)}
+                  storeNumber={form.storeNumber}
+                  placeholder="Search employees..."
+                />
               ) : (
                 <input
                   type={type}
