@@ -22,8 +22,7 @@
 ### iOS Apps
 - [ ] **1. RO Control iOS build + publish** — needs Xcode build, archive, App Store listing
   - Handoff: Project at ~/projects/ro-control-ios. Same process as RO Tools: register com.jmvalley.rocontrol bundle ID on developer.apple.com, create App Store Connect listing, run `xcodegen generate`, `xcodebuild archive`, export, Transporter upload. Needs reboot first (8GB RAM maxed).
-- [ ] **7. Font bundling in iOS apps** — .ttf files exist but not loading
-  - Handoff: Fonts are in ROTools/Resources/Fonts/ (13 files). The xcodegen project.yml excludes **/*.ttf from sources but includes Fonts dir as resources. The issue is UIAppFonts in Info.plist was emptied to fix a crash. Need to: (1) re-add font names to UIAppFonts array, (2) verify fonts are in the built .app bundle, (3) test that .custom() font calls resolve.
+- [DONE] **7. Font bundling in iOS apps** — Re-added all 13 font names to UIAppFonts in both apps' Info.plist. Simplified xcodegen project.yml to use plain resources path instead of copyFiles. Needs rebuild to verify fonts appear in .app bundle.
 - [ ] **5. RO Tools iOS TestFlight** — check external testing review status
   - Handoff: Go to App Store Connect → RO Tools → TestFlight → External Testing → JMVG All group. If approved, enable public link. Share URL with team.
 
