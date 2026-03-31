@@ -23,7 +23,9 @@
 - **Date:** 2026-03-30
 - **Location:** ~/projects/ro-control-ios
 - **Description:** Project scaffolded (26 files) but never compiled with Xcode. No .xcodeproj generated yet (needs xcodegen). No archive, no IPA, no App Store listing. Blocked on RAM — needs reboot.
-- **Status:** OPEN
+- **Status:** FIXED
+- **Fixed by:** manager
+- **Fix details:** RC iOS builds successfully on Xcode 16 simulator (iPhone 16). Warnings only (image set unassigned child). No compile errors. Ready for archive + App Store submission.
 
 ### [WARNING] Mission Control kiosk — ~50 unclaimed tasks
 - **Found by:** techy
