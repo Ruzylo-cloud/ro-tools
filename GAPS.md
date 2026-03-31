@@ -7,6 +7,56 @@
 
 ---
 
+## MASTER TODO — All Remaining Work
+
+### PHASE 1: PostgreSQL Migration (T1) — IN PROGRESS
+- [ ] Set up Neon/Supabase PostgreSQL instance (need connection string)
+- [ ] Run migration script (121 files, 1,120 queries) — scripts/migrate-to-pg.ts
+- [ ] Create PostgreSQL schema (all tables from SQLite migrations)
+- [ ] Migrate existing data (30 stores, 669 employees)
+- [ ] Update database.ts to use pgAdapter.ts
+- [ ] Add DATABASE_URL to env-vars.yaml
+- [ ] Test every system after migration
+- [ ] Verify data persists across Cloud Run deploys
+
+### PHASE 5: Testing (T22)
+- [ ] RO Tools: login → auto-setup → tour → all 12 generators → training → catering → scoreboard
+- [ ] RO Tools: marketing directives → reading → store profile → dark mode → admin
+- [ ] RO Control: login → dashboard → Jarvis → tasks → schedule → checklists
+- [ ] RO Control: L10 inline edit → People hub → employee docs → performance notes → onboarding
+- [ ] RO Control: closeout → stability → AMEX → reports → dark mode
+- [ ] Kiosk: clock → on shift → checklists → mid-day → end-of-day → PIN lockout
+- [ ] iOS: RT login + generators + dark mode
+- [ ] iOS: RC login + schedule + L10 + kiosk
+- [ ] Cross-platform: doc in RT → visible in RC employee docs
+- [ ] Cross-platform: profile edit RT → syncs to RC
+
+### PHASE 6: /welcome + Presentations (T23-25)
+- [ ] Update /welcome with ALL new features (People hub, schedule builder, crew login, marketing, reading)
+- [ ] RT presentation (~4 min)
+- [ ] RC presentation (~4 min)
+- [ ] Dashboard operational widgets (shift lead+ labor view)
+
+### PHASE 7: iOS + App Store (T26-29)
+- [ ] App icons (larger JMVG logo)
+- [ ] 24 screenshots (6 iPhone + 6 iPad per app)
+- [ ] Rebuild both iOS apps with all changes
+- [ ] App Store metadata text files
+- [ ] Register com.jmvalley.rocontrol bundle ID
+- [ ] Submit both apps for review
+
+### PHASE 8: Final Verification (T30-34)
+- [ ] Zero gaps in gaps.md
+- [ ] Zero errors in errors.md
+- [ ] Zero unchecked in matchingstyle.md
+- [ ] features.md complete for both platforms
+- [ ] hierarchy.md verified
+- [ ] Memory leak + dead code scan
+- [ ] Docker builds clean
+- [ ] /welcome verified by all sessions
+
+---
+
 ## Active Gaps
 
 ### RO Tools Web
