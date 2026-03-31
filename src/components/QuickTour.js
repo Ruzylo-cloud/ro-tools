@@ -41,12 +41,7 @@ const TOUR_STEPS = [
     desc: '12 weeks of performance data across all 29+ stores. Grand Slams, Trifectas, and growth rankings.',
     path: '/dashboard/scoreboard',
   },
-  {
-    icon: '📋',
-    title: 'L10 Scorecard',
-    desc: 'Weekly scorecard with 30 metrics. Fill out every Monday, auto-grades your performance, reviewed with your DM.',
-    path: '/dashboard/l10',
-  },
+  // L10 removed from RO Tools — now on RO Control only
   {
     icon: '📢',
     title: 'Directives',
