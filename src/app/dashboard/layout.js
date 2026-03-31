@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import QuickTour from '@/components/QuickTour';
 
 export default function DashboardLayout({ children }) {
   const { user, loading } = useAuth();
@@ -72,6 +73,7 @@ export default function DashboardLayout({ children }) {
       <main style={{ minHeight: 'calc(100vh - 64px)', background: '#fafbfc' }}>
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
+      <QuickTour />
       {/* Demo Mode Badge */}
       {isDemoMode && (
         <div style={{
