@@ -36,7 +36,7 @@ function checkAdmin(session) {
  *   offset   — pagination offset (default 0)
  */
 export async function GET(request) {
-  const session = getSession();
+  const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
@@ -130,7 +130,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
   }
 
-  const session = getSession();
+  const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }

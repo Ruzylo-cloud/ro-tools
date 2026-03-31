@@ -12,7 +12,7 @@ function checkAuth(request) {
   const { searchParams } = new URL(request.url);
   const key = searchParams.get('key');
   if (key === API_KEY) return true;
-  const session = getSession();
+  const session = await getSession();
   return session && isSuperAdmin(session.email);
 }
 

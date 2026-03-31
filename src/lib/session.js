@@ -38,8 +38,8 @@ function verify(token) {
  * Extract and verify user session from ro_session cookie.
  * Returns null if no session, invalid, or tampered.
  */
-export function getSession() {
-  const cookieStore = cookies();
+export async function getSession() {
+  const cookieStore = await cookies();
   const session = cookieStore.get('ro_session') || cookieStore.get('ro_session_backup');
   if (!session?.value) return null;
 

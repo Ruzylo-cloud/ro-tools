@@ -5,8 +5,8 @@ import { getSession } from '@/lib/session';
  * Get an authenticated Google client using the user's OAuth tokens from session.
  * Used for user-scoped operations (their own Drive, Sheets, Docs).
  */
-export function getAuthenticatedClient() {
-  const data = getSession();
+export async function getAuthenticatedClient() {
+  const data = await getSession();
   if (!data?.accessToken) return null;
 
   const client = new google.auth.OAuth2(

@@ -32,7 +32,7 @@ async function loadTickets() {
 }
 
 export async function GET() {
-  const session = getSession();
+  const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   if (isDemo(session)) {
@@ -51,7 +51,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
   }
 
-  const session = getSession();
+  const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   if (isDemo(session)) {

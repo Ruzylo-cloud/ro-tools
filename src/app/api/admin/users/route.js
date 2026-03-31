@@ -7,7 +7,7 @@ import { DEMO_USERS, isDemo } from '@/lib/demo-data';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const session = getSession();
+  const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   // Demo mode: return sample users

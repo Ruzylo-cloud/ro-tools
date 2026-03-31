@@ -9,7 +9,7 @@ export async function POST(request) {
   const { limited } = rateLimit('signing-create', 60000, 10, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
-  const session = getSession();
+  const session = await getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   let body;
