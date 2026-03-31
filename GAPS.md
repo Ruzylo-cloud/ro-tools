@@ -29,10 +29,46 @@
 ### Mission Control / RO Control Web
 - [DONE - manager] **9. Mission Control kiosk** — all 125 tasks checked (118 DONE, rest N/A removed)
 
-> **Note:** The only remaining gaps are #1 (RO Control iOS build), #5 (TestFlight review), #6 (App Store review), and #8 (real device testing) — all waiting on Apple/Xcode, no code changes needed.
+> Remaining Apple/Xcode gaps: #1, #5, #6, #8 — no code changes needed, just manual App Store steps.
 
 ---
 
-## Completed
-- [DONE] **2. L10 API backend** — POST/GET /api/l10 with server-side JSON persistence on GCS volume. DM view via ?all=true parameter. Page updated to use API with localStorage fallback.
-- [DONE] **10. RO Control iOS auth** — MC uses JWT username/password not OAuth. AuthManager updated with login(username, password). LoginView has text fields. Matches backend.
+## Launch Prompt Tasks (34 total)
+
+### Phase 1: Database + Data
+- [IN PROGRESS] **Task 1:** PostgreSQL migration — abstraction layer + pg driver installed. Full migration pending.
+- [DONE] **Task 2:** hierarchy.md complete — 29 stores, 669 employees, 5 DMs
+- [DONE] **Task 3:** Auto-provision on first login — email/name matching to Homebase employee data
+- [DONE] **Task 4:** Employee dropdown in all 9 RT generators + dual-save
+
+### Phase 2: Reorganization
+- [DONE] **Task 5:** L10 removed from RT web + iOS. RC only.
+- [DONE] **Task 6:** RC nav: Overview | Dashboard | Operations | L10 | People | Tools | Store Profile | Admin
+
+### Phase 3: Features
+- [DONE] **Task 7:** People Hub nav + page stubs (Time Clock, Timesheets, Tips, Employee Docs, Performance Notes, Recognition, Certs, Hiring, Onboarding)
+- [DONE] **Task 8:** Kiosk closeout — Mid-Day + End-of-Day forms, PIN auth
+- [IN PROGRESS] **Task 9:** Schedule builder — Homebase-style visual blocks (another session)
+- [DONE] **Task 10:** Marketing Directives API routes on RT (proxy to MC)
+- [DONE] **Task 11:** L10 inline editing — scorecard, cascading, IDS, TODO
+- [DONE] **Task 12:** Reading / Book Log — 15 books, 100+ excerpts, discussion Qs
+- [DONE] **Task 13:** Checklists auto-generate (4 AM cron + on-page-load fallback)
+- [DONE] **Task 14:** Stability inline editing
+- [DONE] **Task 15:** Store Profile Sync API (RT → MC, MC → RT)
+- [ ] **Task 16:** Crew PIN login for RC iOS (needs iOS work)
+- [DONE] **Task 17:** Feature page stubs wired into nav + loaders
+
+### Phase 4: Quality
+- [DONE] **Task 18:** Dark mode — mid-grey on RT + RC web
+- [DONE] **Task 19:** Keyboard shortcuts removed
+- [DONE] **Task 20:** 879 bare catch {} fixed
+- [DONE] **Task 21:** Style verified — all tokens match RT gold standard
+
+### Phase 5-8: Testing + Launch
+- [ ] **Task 22-34:** Testing, /welcome rebuild, presentations, icons, screenshots, iOS builds, metadata, final audit
+
+---
+
+## Completed (original gaps)
+- [DONE] **2. L10 API backend**
+- [DONE] **10. RO Control iOS auth**

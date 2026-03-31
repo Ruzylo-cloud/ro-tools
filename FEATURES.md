@@ -160,6 +160,68 @@
 
 ---
 
+## Marketing Directives
+
+- Monthly directive system with 5 tabs: Directives, Outreach Tracker, Scorecard, Calendar, Overview
+- Admin creates monthly directives (title, goals, action items, upsell focus)
+- Outreach Tracker: ROs log business visits (name, contact, materials, order Y/N, follow-up)
+- Scorecard: end-of-month revenue tracking ($upsell, $marketing, $store idea, growth %)
+- Calendar: key dates tied to action items
+- Role-based: RO sees store, DM sees all 9 stores, Admin sees everything
+
+---
+
+## Reading / Book Log
+
+- Dedicated Reading tab in navbar
+- Per-book pages with: author bio, importance, extensive excerpts, chapter summaries
+- Discussion questions for team meetings
+- Application sections (how to apply in-store)
+- Audible + Amazon purchase links on every page
+
+---
+
+## Employee System
+
+- EmployeeSelect component: searchable dropdown grouped by store
+- Auto-fills position and store info on employee selection
+- Dual-save: PDF generated + metadata saved to employee file
+- All 9 employee-related generators have dropdown
+- Powered by Homebase import (669 employees, 29+ stores)
+- Employee Docs viewable cross-platform in RO Control
+
+---
+
+## Dark Mode
+
+- System-wide dark mode toggle in navbar (moon/sun icon)
+- Mid-grey palette (#1e1e24 bg, #2a2a36 cards)
+- Brand colors brightened for contrast (#4a90d0 blue, same red)
+- Consistent across all pages including generators, training, catering
+- Persists via localStorage
+
+---
+
+## Quick Tour
+
+- Interactive onboarding for first-time users
+- 8 steps walking through key features
+- Navigates to each page as it highlights
+- Skippable, one-time (localStorage + server flag)
+- Playfair Display title, blue buttons, red progress bar
+
+---
+
+## Auto-Setup
+
+- First login with @jmvalley.com auto-matches Homebase employee data
+- Auto-fills: name, store number, store name, address, phone, RO, DM
+- Auto-assigns role based on hierarchy (RO, DM, Admin)
+- Skips setup wizard entirely — straight to Quick Tour
+- Store Profile syncs with RO Control
+
+---
+
 ## Infrastructure
 
 - Google Cloud Run (auto-scaling, containerized)
