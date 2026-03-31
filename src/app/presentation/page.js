@@ -107,7 +107,7 @@ const SLIDES = [
     type: 'feature',
     label: 'HR COMPLIANCE',
     title: 'Written Warning Generator',
-    description: 'Every written warning across all 29 stores follows the exact same format. Same legal language, same structure, same compliance. HR can search and verify any warning instantly.',
+    description: 'Every written warning across all 30+ stores follows the exact same format. Same legal language, same structure, same compliance. HR can search and verify any warning instantly.',
     bullets: [
       '5 levels: Verbal → Written → Final → Suspension → Termination',
       'Violation categories with structured improvement plans',
@@ -257,7 +257,7 @@ const SLIDES = [
       'Employee Handbook Generator — standardized onboarding docs',
       'Crew Tools — self-service portal for non-manager employees',
       'Live Scoreboard API — auto-import weekly data from Google Sheets',
-      'Homebase Integration — live schedule and timecard sync across 29 stores',
+      'Homebase Integration — live schedule and timecard sync across 30+ stores',
       'Multi-Language Support — Spanish forms for bilingual staff',
       'RO Control iOS App — now on TestFlight, full store operations on mobile',
     ],
