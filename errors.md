@@ -15,8 +15,8 @@
 - **Date:** 2026-03-28
 - **Location:** ro-tools-ios, ro-control-ios — ROTools/Resources/Fonts/
 - **Description:** 13 .ttf font files exist in Resources/Fonts/ and are listed in UIAppFonts in Info.plist, but the simulator build doesn't include them in the .app bundle. App falls back to system fonts. xcodegen project.yml was updated to use plain resources path but needs rebuild to verify.
-- **Status:** FIXING
-- **Fix details:** UIAppFonts re-added to Info.plist in both apps. project.yml simplified. Needs Xcode rebuild to confirm fonts appear in bundle.
+- **Status:** OPEN (confirmed — fonts not in bundle after clean build)
+- **Fix details:** UIAppFonts in Info.plist, project.yml updated. Both apps build clean (BUILD SUCCEEDED) but .ttf files not copied to .app bundle. Falls back to system fonts. Need to verify xcodegen resources config or add Copy Files build phase manually.
 
 ### [WARNING] RO Control iOS not yet built or archived
 - **Found by:** techy
