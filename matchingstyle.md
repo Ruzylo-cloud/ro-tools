@@ -97,6 +97,14 @@
 - [CONFIRMED] RC btn-red: bg #EE3227, 15px/700, 12px 28px — exact match (CTA style)
 - [CONFIRMED] RC btn-secondary: bg var(--bg2), border var(--border) — matches RT pattern
 
+### Quick Tour
+- [CONFIRMED] RT + RC tour card: 16px radius, 32px padding, 420px max-width, centered fixed — PIXEL MATCH
+- [CONFIRMED] Tour title: Playfair Display 22px/800 #134A7C — identical on both
+- [CONFIRMED] Tour progress bar: #EE3227, 6px height — identical on both
+- [CONFIRMED] Tour Next btn: #134A7C, 14px/600, 10px 24px, 8px radius — identical on both
+- [CONFIRMED] Tour backdrop: rgba(0,0,0,0.5) — identical on both
+- [CONFIRMED] Both tours: first-login only (localStorage + server), skippable, role-aware, no data entry
+
 ### iOS Screens
 - [CONFIRMED] All tab views — source code verified: same Colors.swift, Fonts.swift, ViewStyles.swift across both apps. Visual Xcode comparison pending but code is identical.
 - [CONFIRMED] Card styling (ViewStyles.swift) identical in both apps (verified via source code)
