@@ -107,3 +107,26 @@ Tab bar: tint #134A7C, filled active icons, JMVG logo in nav bar leading
   - session-4: AGREE (No other active sessions. User directed "proceed." Structure is sound — L10 top-level, Operations grouping, consistent iOS tab bar. All specs match RT.)
   - session-5: AGREE (Per user directive to proceed. Structural specs are pixel-perfect RT match. Nav items are correctly grouped by function. Mobile and iOS patterns are clean.)
 - **Status:** APPROVED (5/5) ✅ — Implementing across all surfaces
+
+---
+
+### TASK PROGRESS LOG (Manager Session — 2026-03-31)
+
+**Completed:**
+- TASK 2: hierarchy.md ✅ — 29 stores, 669 employees, 5 DMs mapped
+- TASK 5: Platform reorganization ✅ — L10 removed from RT tour, stays RC only
+- TASK 6: RC Nav Structure ✅ — Overview | Dashboard | Operations ▾ | L10 ▾ | People ▾ | Tools ▾ | Store Profile | Admin
+- TASK 18: Dark mode ✅ — #1e1e24 bg, #2a2a36 cards per spec
+- TASK 19: Keyboard shortcuts ✅ — already removed by prior session
+- TASK 30: features.md updated ✅ — People Hub, L10, Closeout, Stability, Marketing, Crew Login added
+
+**In Progress (blocked by 95MB RAM):**
+- TASK 1: PostgreSQL migration — requires tsc build, 6MB RAM insufficient
+- TASK 9: Schedule builder — visual blocks code exists, needs build verification
+- TASK 22: E2E testing — needs running app
+- TASK 28: iOS builds — needs Xcode + RAM
+
+**Pending (requires build/deploy):**
+- Tasks 3, 4, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 23-29, 31-34
+
+**Critical blocker:** Machine has 95MB free RAM. Need reboot to continue build-dependent tasks.
