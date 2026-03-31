@@ -142,29 +142,57 @@ export default function L10Page() {
     const now = new Date();
     setTimeFinished(now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }));
     // Save to localStorage for now (API integration later)
-    const data = { week: currentWeek, values, employees, grade, timeFinished: now.toISOString(), savedAt: now.toISOString() };
-    localStorage.setItem(`l10-week-${currentWeek}`, JSON.stringify(data));
+    const data = { week: currentWeek, values, employees, grade, timeFinished: now.toISOString() };
+    try {
+      await fetch('/api/l10', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch {
+      // Fallback to localStorage if API fails
+      localStorage.setItem(`l10-week-${currentWeek}`, JSON.stringify(data));
+    }
     setSaved(true);
     setSaving(false);
   };
 
   // Load saved data for current week
   useEffect(() => {
-    const saved = localStorage.getItem(`l10-week-${currentWeek}`);
-    if (saved) {
+    async function load() {
       try {
-        const data = JSON.parse(saved);
-        setValues(data.values || {});
-        if (data.employees) setEmployees(data.employees);
-        if (data.timeFinished) {
-          const d = new Date(data.timeFinished);
-          setTimeFinished(d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }));
+        const res = await fetch(`/api/l10?week=${currentWeek}`);
+        if (res.ok) {
+          const data = await res.json();
+          setValues(data.values || {});
+          if (data.employees?.length) setEmployees(data.employees);
+          if (data.timeFinished) {
+            const d = new Date(data.timeFinished);
+            setTimeFinished(d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }));
+          } else {
+            setTimeFinished('');
+          }
+          return;
         }
       } catch {}
-    } else {
-      setValues({});
-      setTimeFinished('');
+      // Fallback to localStorage
+      const saved = localStorage.getItem(`l10-week-${currentWeek}`);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          setValues(data.values || {});
+          if (data.employees) setEmployees(data.employees);
+          if (data.timeFinished) {
+            const d = new Date(data.timeFinished);
+            setTimeFinished(d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }));
+          }
+        } catch {}
+      } else {
+        setValues({});
+        setTimeFinished('');
+      }
     }
+    load();
   }, [currentWeek]);
 
   const renderInput = (metric) => {
