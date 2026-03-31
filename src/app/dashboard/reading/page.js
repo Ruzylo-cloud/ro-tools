@@ -17,6 +17,24 @@ const BOOKS = [
       { chapter: 'The 2nd Law: Make It Attractive', excerpt: 'The culture we live in determines which behaviors are attractive to us. We tend to adopt habits that are praised and approved of by our culture because we have a strong desire to fit in and belong.' },
       { chapter: 'The 3rd Law: Make It Easy', excerpt: 'The most effective way to learn is practice, not planning. Focus on taking action, not being in motion. Habit formation is the process by which a behavior becomes progressively more automatic through repetition.' },
       { chapter: 'The 4th Law: Make It Satisfying', excerpt: 'We are more likely to repeat a behavior when the experience is satisfying. The human brain evolved to prioritize immediate rewards over delayed rewards. The Cardinal Rule of Behavior Change: What is immediately rewarded is repeated.' },
+      { chapter: 'Identity-Based Habits', excerpt: 'The most effective way to change your habits is to focus not on what you want to achieve, but on who you wish to become. Every action you take is a vote for the type of person you wish to become.' },
+      { chapter: 'The Plateau of Latent Potential', excerpt: 'People make a few small changes, fail to see a tangible result, and decide to stop. But habits often appear to make no difference until you cross a critical threshold — the Plateau of Latent Potential.' },
+      { chapter: 'Habit Stacking', excerpt: 'One of the best ways to build a new habit is to identify a current habit you already do each day and then stack your new behavior on top. This is called habit stacking: After I [CURRENT HABIT], I will [NEW HABIT].' },
+    ],
+    discussionQuestions: [
+      'What is one habit you currently have at your store that compounds positively? What about negatively?',
+      'James Clear says "You do not rise to the level of your goals — you fall to the level of your systems." What systems at your store need improvement?',
+      'Which of the four laws (Obvious, Attractive, Easy, Satisfying) is the hardest to apply with your team?',
+      'How could you use habit stacking to improve your opening or closing procedures?',
+      'Clear talks about identity-based habits. Instead of "I want to run a better store," the shift is "I am the type of operator who..." — finish that sentence.',
+      'What is one 1% improvement you could make this week that would compound over time?',
+    ],
+    howToApply: [
+      'Post a "Habit Scorecard" in the back office — list 5 daily habits (9:59 ready, bread count by 10 AM, FIFO check, etc.) and check them off each day.',
+      'Use habit stacking for your team: "After clocking in, the first thing you do is check the prep list" — make it the default, not a choice.',
+      'Make good habits obvious: put the closing checklist on the counter at 8 PM, not hidden in a binder.',
+      'Celebrate small wins publicly — when someone hits their bread count 5 days in a row, call it out at the next team meeting.',
+      'Remove friction from desired behaviors: pre-stage cleaning supplies so the closing crew doesn\'t have to hunt for them.',
     ],
     audibleUrl: 'https://www.audible.com/pd/Atomic-Habits-Audiobook/1524779261',
     amazonUrl: 'https://www.amazon.com/Atomic-Habits-Proven-Build-Break/dp/0735211299',
@@ -345,6 +363,37 @@ export default function ReadingPage() {
               </div>
             ))}
           </div>
+
+          {/* Discussion Questions */}
+          {book.discussionQuestions && book.discussionQuestions.length > 0 && (
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#134A7C', marginBottom: 16 }}>
+                Discussion Questions for Book Club
+              </h2>
+              <ol style={{ paddingLeft: 24, fontSize: 15, lineHeight: 2, color: '#374151' }}>
+                {book.discussionQuestions.map((q, i) => (
+                  <li key={i} style={{ marginBottom: 8 }}>{q}</li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          {/* How to Apply */}
+          {book.howToApply && (
+            <div style={{ background: 'linear-gradient(135deg, #134A7C 0%, #1a5a94 100%)', borderRadius: 14, padding: 28, marginBottom: 20, color: '#fff' }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, marginBottom: 16 }}>
+                How to Apply This at Your Store
+              </h2>
+              <div style={{ fontSize: 15, lineHeight: 1.9, opacity: 0.95 }}>
+                {book.howToApply.map((item, i) => (
+                  <div key={i} style={{ marginBottom: 12, display: 'flex', gap: 10 }}>
+                    <span style={{ fontWeight: 700, flexShrink: 0 }}>{i + 1}.</span>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Get the Book */}
           <div style={{ textAlign: 'center', padding: '32px 0', marginTop: 20 }}>
