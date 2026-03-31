@@ -53,16 +53,18 @@ export async function GET(request) {
       return NextResponse.redirect(mobileCallback);
     }
 
-    // Web: use state param as return URL if present (from scope upgrade flow)
+    // Web: set cookie and redirect to dashboard
     const returnTo = state && state.startsWith('/') ? state : '/dashboard';
     const response = NextResponse.redirect(`${baseUrl}${returnTo}`);
     response.cookies.set('ro_session', signed, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
+      sameSite: 'lax',
       path: '/',
       maxAge: 60 * 60 * 24 * 7,
     });
+    // Also set with 'none' for cross-site mobile redirect compatibility
+    response.headers.append('Set-Cookie', `ro_session_backup=${signed}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${60 * 60 * 24 * 7}`);
 
     return response;
   } catch (err) {

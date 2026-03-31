@@ -40,7 +40,7 @@ function verify(token) {
  */
 export function getSession() {
   const cookieStore = cookies();
-  const session = cookieStore.get('ro_session');
+  const session = cookieStore.get('ro_session') || cookieStore.get('ro_session_backup');
   if (!session?.value) return null;
 
   // Try signed format first (new)
