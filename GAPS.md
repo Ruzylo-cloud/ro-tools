@@ -30,10 +30,9 @@
 ### Mission Control / RO Control Web
 - [ ] **9. Mission Control kiosk** — 70+ task plan, ~50 unclaimed tasks
   - Handoff: PLAN-IPAD-KIOSK.md in Mission Control repo has full task list. Phase 1 (routes, HTML, CSS, JS) mostly done by session-main. Phase 2 (clock system, DB, APIs) done by jarvis. Remaining: Phase 2 PIN pad UI, employee management, Phase 3 checklists, Phase 4 kiosk chrome, Phase 5 offline/PWA, Phase 6 integrations, Phase 7 security. CSS is aligned to RO Tools.
-- [ ] **10. Google OAuth mobile callback for RO Control** — rocontrol:// URL scheme
-  - Handoff: Follow exact pattern from RO Tools: (1) Add getMobileAuthUrl() to auth module that passes state='mobile', (2) In OAuth callback, detect state==='mobile' and redirect to rocontrol://auth/callback?token=JWT, (3) The iOS app's AuthManager already handles the rocontrol:// callback URL scheme via ASWebAuthenticationSession.
 
 ---
 
 ## Completed
 - [DONE] **2. L10 API backend** — POST/GET /api/l10 with server-side JSON persistence on GCS volume. DM view via ?all=true parameter. Page updated to use API with localStorage fallback.
+- [DONE] **10. RO Control iOS auth** — MC uses JWT username/password not OAuth. AuthManager updated with login(username, password). LoginView has text fields. Matches backend.
