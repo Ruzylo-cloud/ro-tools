@@ -53,11 +53,14 @@ export async function GET(request) {
       return NextResponse.redirect(mobileCallback);
     }
 
-    // Redirect to intermediate page that sets cookie on our domain
-    // This works around Mobile Safari ITP blocking cookies on cross-site redirects
+    // Use intermediate session page for all clients
+    // Google OAuth redirect → our callback (cross-origin) → session page (same-origin, sets cookie) → dashboard
+    // This fixes Safari ITP and ensures cookies work on all browsers
     const returnTo = state && state.startsWith('/') ? state : '/dashboard';
-    const authLandingUrl = `${baseUrl}/api/auth/session?token=${encodeURIComponent(signed)}&next=${encodeURIComponent(returnTo)}`;
-    return NextResponse.redirect(authLandingUrl);
+    const sessionUrl = new URL('/api/auth/session', baseUrl);
+    sessionUrl.searchParams.set('token', signed);
+    sessionUrl.searchParams.set('next', returnTo);
+    return NextResponse.redirect(sessionUrl.toString());
   } catch (err) {
     console.error('OAuth callback error:', err);
     return NextResponse.redirect(`${baseUrl}/?error=auth_failed`);
