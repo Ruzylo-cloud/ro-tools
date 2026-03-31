@@ -94,3 +94,18 @@
 - **Status:** FIXED
 - **Fixed by:** techy + agents
 - **Fix details:** All underscore patterns replaced with borderBottom: 1px solid #2D2D2D spans across all 7 packets + Orientation.
+
+### [BUG] RO Control dropdowns not clickable + name shows "-"
+- **Found by:** chris (user)
+- **Date:** 2026-03-30
+- **Location:** Mission Control dashboard after login
+- **Description:** User reports: (1) dropdown buttons don't respond to clicks, (2) name shows "-" next to Sign Out, (3) background was extremely dark. Dark mode was the cause of #3 — now fixed to mid-grey by all agents. #1 may be z-index issue or cached old CSS. #2 is data issue — fullName not set in user profile.
+- **Status:** FIXING
+- **Fix details:** Dark mode palette updated to mid-grey (#1e1e24 bg, #2a2a36 cards). User should hard-refresh (Cmd+Shift+R) to clear cached dark theme. Name issue requires setting fullName in user profile or users.json.
+
+### [TASK] Move comparison page to /welcome, rebuild RO Control dashboard
+- **Found by:** chris (user)
+- **Date:** 2026-03-30
+- **Location:** Mission Control dashBody.ts
+- **Description:** The dashboard overview currently shows a comparison/presentation page. User wants: (1) Move it to /welcome (hidden, link-only for 2 admins), (2) Rebuild dashboard to be RO Control-focused, (3) Remove keyboard shortcuts (tacky), (4) Style like RO Tools dashboard.
+- **Status:** OPEN
