@@ -485,3 +485,96 @@
     font-size: 15px;
   }
 }
+
+/* ═══ Dark Theme ═══ */
+:global([data-theme="dark"]) .nav {
+  background: #252530;
+  border-bottom-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .logoText {
+  color: #4a90d0;
+}
+
+:global([data-theme="dark"]) .navLink {
+  color: #a0a0b0;
+}
+
+:global([data-theme="dark"]) .navLink:hover {
+  color: #4a90d0;
+  background: rgba(74,144,208,0.08);
+}
+
+:global([data-theme="dark"]) .navLinkActive {
+  color: #4a90d0;
+  background: rgba(74,144,208,0.12);
+}
+
+:global([data-theme="dark"]) .dropdown {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .dropdownItem {
+  color: #c8c8d8;
+}
+
+:global([data-theme="dark"]) .dropdownItem:hover {
+  background: rgba(74,144,208,0.1);
+  color: #4a90d0;
+}
+
+:global([data-theme="dark"]) .dropdownHint {
+  color: #8888a0;
+}
+
+:global([data-theme="dark"]) .userName {
+  color: #e8e8ed;
+}
+
+:global([data-theme="dark"]) .signOut {
+  color: #a0a0b0;
+  border-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .signOut:hover {
+  color: var(--jm-red);
+  border-color: var(--jm-red);
+}
+
+:global([data-theme="dark"]) .iconBtn {
+  color: #a0a0b0;
+}
+
+:global([data-theme="dark"]) .iconBtn:hover {
+  color: #4a90d0;
+  background: rgba(74,144,208,0.08);
+}
+
+:global([data-theme="dark"]) .mobileMenu {
+  background: #1e1e24;
+  border-top-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .mobileNavLink {
+  color: #c8c8d8;
+}
+
+:global([data-theme="dark"]) .mobileNavLink:hover {
+  color: #4a90d0;
+  background: rgba(74,144,208,0.08);
+}
+
+:global([data-theme="dark"]) .hamburgerLine {
+  background: #e8e8ed;
+}
+
+:global([data-theme="dark"]) .mobileSignOut {
+  color: #a0a0b0;
+  border-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .mobileSignOut:hover {
+  color: var(--jm-red);
+  border-color: var(--jm-red);
+}

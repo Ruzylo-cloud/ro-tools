@@ -429,3 +429,42 @@
   .sectionTitle { font-size: 18px; }
   .updatesSection { padding: 12px; border-radius: 10px; }
 }
+
+/* ═══ Dark Theme ═══ */
+:global([data-theme="dark"]) .container {
+  background: #1e1e24;
+}
+
+:global([data-theme="dark"]) .pillar {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+  border-top-color: var(--jm-red);
+}
+
+:global([data-theme="dark"]) .pillarTitle {
+  color: #e8e8ed;
+}
+
+:global([data-theme="dark"]) .updatesSection {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .updateRow {
+  border-bottom-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .toolItem {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .modal {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+}
+
+:global([data-theme="dark"]) .complianceCard {
+  background: rgba(74,144,208,0.08);
+  border-color: rgba(74,144,208,0.2);
+}

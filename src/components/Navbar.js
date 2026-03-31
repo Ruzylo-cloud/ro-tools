@@ -56,6 +56,22 @@ export default function Navbar() {
     setOpenDropdown(null);
   }, []);
 
+  // Dark mode toggle
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('ro-tools-theme') || 'light';
+    setTheme(saved);
+    document.documentElement.setAttribute('data-theme', saved);
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    const next = theme === 'light' ? 'dark' : 'light';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('ro-tools-theme', next);
+  }, [theme]);
+
   return (
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.left}>
@@ -127,6 +143,10 @@ export default function Navbar() {
       </div>
 
       <div className={styles.right}>
+        {/* Theme toggle */}
+        <button className={styles.iconBtn} onClick={toggleTheme} title={theme === 'light' ? 'Dark mode' : 'Light mode'} style={{ fontSize: '18px' }}>
+          {theme === 'light' ? '\u{1F319}' : '\u{2600}\u{FE0F}'}
+        </button>
         {/* Support icon */}
         <Link href="/dashboard/support" className={styles.iconBtn} onClick={closeDropdown} title="Support">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

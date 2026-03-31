@@ -79,3 +79,38 @@ button:disabled {
   scrollbar-width: thin;
   scrollbar-color: #EE3227 transparent;
 }
+
+/* ═══ Dark Theme — mid-grey, same brand colors ═══ */
+[data-theme="dark"] {
+  --jm-blue: #4a90d0;
+  --jm-blue-light: #5b9cf5;
+  --charcoal: #e8e8ed;
+  --gray-50: #1e1e24;
+  --gray-100: #252530;
+  --gray-200: #3d3d4a;
+  --gray-300: #505060;
+  --gray-400: #8888a0;
+  --gray-500: #a0a0b0;
+  --gray-600: #a0a0b0;
+  --gray-700: #c8c8d8;
+  --gray-800: #e8e8ed;
+  --white: #1e1e24;
+  --border: #3d3d4a;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.25);
+  --shadow-lg: 0 8px 30px rgba(0,0,0,0.35);
+}
+
+[data-theme="dark"] body {
+  background: #1e1e24;
+  color: #e8e8ed;
+}
+
+[data-theme="dark"] html {
+  background: #EE3227;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(74,144,208,0.25);
+  color: #f5f5f7;
+}
