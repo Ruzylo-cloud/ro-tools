@@ -10,8 +10,8 @@
 ## Active Gaps
 
 ### RO Tools Web
-- [DONE] **3. L10 in RO Control** — DM view showing all ROs' scorecards side by side
-  - Handoff: RO Tools API has `GET /api/l10?week=13&all=true` for DM view. Need to build a tab in Mission Control dashboard that calls this endpoint and renders a table of all ROs with their grades, color-coded metrics. Each RO row expandable to show full scorecard.
+- [DONE - techy] **3. L10 in RO Control** — DM view showing all ROs' scorecards side by side
+  - DM all-stores comparison view built as a tab in Mission Control dashboard with scorecard comparison table, per-store summary cards, to-dos, and IDS panels.
 - [DONE] **4. L10 in iOS apps** — add L10 form to both RO Tools and RO Control iOS views
   - Handoff: The L10 page.js has the full CATEGORIES array with all 30 metrics, goals, and evaluate functions. Port this to a SwiftUI view that posts to /api/l10. Add an "L10" tab item to MainTabView in both ro-tools-ios and ro-control-ios.
 - [ ] **6. App Store review for RO Tools** — waiting on Apple (24-48 hrs)
@@ -27,8 +27,9 @@
   - Handoff: Go to App Store Connect → RO Tools → TestFlight → External Testing → JMVG All group. If approved, enable public link. Share URL with team.
 
 ### Mission Control / RO Control Web
-- [ ] **9. Mission Control kiosk** — 70+ task plan, ~50 unclaimed tasks
-  - Handoff: PLAN-IPAD-KIOSK.md in Mission Control repo has full task list. Phase 1 (routes, HTML, CSS, JS) mostly done by session-main. Phase 2 (clock system, DB, APIs) done by jarvis. Remaining: Phase 2 PIN pad UI, employee management, Phase 3 checklists, Phase 4 kiosk chrome, Phase 5 offline/PWA, Phase 6 integrations, Phase 7 security. CSS is aligned to RO Tools.
+- [DONE - manager] **9. Mission Control kiosk** — all 125 tasks checked (118 DONE, rest N/A removed)
+
+> **Note:** The only remaining gaps are #1 (RO Control iOS build), #5 (TestFlight review), #6 (App Store review), and #8 (real device testing) — all waiting on Apple/Xcode, no code changes needed.
 
 ---
 
