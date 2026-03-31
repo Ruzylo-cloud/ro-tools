@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 const API_KEY = '02629e14ed2ddcdedaec36e0d113c0420ed7fe717b2d81c28ff899816b737a7e';
 
-function checkAuth(request) {
+async function checkAuth(request) {
   const { searchParams } = new URL(request.url);
   const key = searchParams.get('key');
   if (key === API_KEY) return true;
@@ -18,7 +18,7 @@ function checkAuth(request) {
 
 // GET /api/admin/drive-scan — list files OR read a specific file's content
 export async function GET(request) {
-  if (!checkAuth(request)) {
+  if (!(await checkAuth(request))) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 

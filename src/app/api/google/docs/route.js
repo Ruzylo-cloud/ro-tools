@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 
 // Get document content
 export async function GET(request) {
-  const auth = getAuthenticatedClient();
+  const auth = await getAuthenticatedClient();
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const { searchParams } = new URL(request.url);
@@ -47,7 +47,7 @@ export async function GET(request) {
 
 // Create a new document
 export async function POST(request) {
-  const auth = getAuthenticatedClient();
+  const auth = await getAuthenticatedClient();
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const body = await request.json();
