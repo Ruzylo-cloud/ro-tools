@@ -130,7 +130,12 @@ export default function Navbar() {
             <Link href="/dashboard/scoreboard" className={`${styles.navLink} ${isActive('/dashboard/scoreboard') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Scoreboard</Link>
           </div>
 
-          {/* 6. Store Profile */}
+          {/* 6. Reading */}
+          <div className={styles.navItem}>
+            <Link href="/dashboard/reading" className={`${styles.navLink} ${isActive('/dashboard/reading') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Reading</Link>
+          </div>
+
+          {/* 7. Store Profile */}
           <div className={styles.navItem}>
             <Link href="/dashboard/profile" className={`${styles.navLink} ${isActive('/dashboard/profile') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Store Profile</Link>
           </div>
@@ -197,6 +202,7 @@ export default function Navbar() {
         <Link href="/dashboard/directives" className={styles.mobileNavLink} onClick={closeMobileMenu}>Directives</Link>
         <Link href="/dashboard/scoreboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Scoreboard</Link>
 
+        <Link href="/dashboard/reading" className={styles.mobileNavLink} onClick={closeMobileMenu}>Reading</Link>
         <Link href="/dashboard/profile" className={styles.mobileNavLink} onClick={closeMobileMenu}>Store Profile</Link>
         <Link href="/dashboard/support" className={styles.mobileNavLink} onClick={closeMobileMenu}>Support</Link>
 
