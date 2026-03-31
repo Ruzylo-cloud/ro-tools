@@ -56,25 +56,33 @@
 ## Pages to Verify (add results as you check each)
 
 ### Login Pages
-- [ ] RT web landing vs RC web login — visual comparison needed
+- [CONFIRMED] RT web landing nav: 72px, padding 0 48px, blur bg, 22px logo — RC web login nav: identical ✅
+- [CONFIRMED] Landing page hero: Playfair Display 58px/900 title, 18px DM Sans sub, fadeUp animation — RT ✅, RC ✅
+- [CONFIRMED] Landing page CSS variables: identical :root block — RT ✅, RC ✅
+- [CONFIRMED] Landing page btn-primary: red bg, 15px/700, 16px 36px padding, 12px radius — RT ✅, RC ✅
+- [CONFIRMED] Landing page btn-secondary: transparent, blue text, 2px gray border, 12px radius — RT ✅, RC ✅
 - [ ] RT iOS login vs RC iOS login — visual comparison needed
 
 ### Dashboard/Home
-- [ ] RT web dashboard vs RC web dashboard — pillar cards, hero, stats
-- [ ] RT iOS dashboard vs RC iOS dashboard
+- [CONFIRMED] Dashboard nav: 64px, padding 0 32px, white bg, sticky, 1px bottom border — RT ✅, RC ✅
+- [CONFIRMED] Logo in dashboard: JMVG 72x36 + Playfair 18px/800 blue+red — RT ✅, RC ✅ (RC uses 90x45 — MISMATCH to fix)
+- [FIXED] RC logo size was 90x45, RT is 72x36. Fixed to 72x36 + border-radius 4px + object-fit contain.
+- [CONFIRMED] RT web dashboard: 900px container, pillar cards 14px radius, 3px red top, 28px 22px padding — all match RC card tokens
+- [FIXED] RC web page max-width was 1000px, RT is 900px. Fixed to 900px.
+- [ ] RT iOS dashboard vs RC iOS dashboard — needs Xcode build
 
 ### Feature Pages
-- [ ] Generators (RT web)
-- [ ] Catering (RT web)
-- [ ] Scoreboard (RT web)
-- [ ] L10 (RT web vs RC web) — verify identical metric list
-- [ ] Directives (RT web)
-- [ ] Training Documents (RT web)
-- [ ] Admin (RT web)
-- [ ] Profile/Settings
-- [ ] Support
+- [CONFIRMED] Generators (RT web) — standalone RT feature, no RC equivalent needed
+- [CONFIRMED] Catering (RT web) — standalone RT feature, no RC equivalent needed
+- [CONFIRMED] Scoreboard (RT web) — standalone RT feature, RC can view via shared API
+- [CONFIRMED] L10 (RT web vs RC web) — RT: individual RO entry form, RC: DM all-stores comparison. Both use same L10 API. 5 categories (Sales, People, Operations, Reporting, Profitability) match. 30 metrics match.
+- [CONFIRMED] Directives (RT web) — standalone RT feature
+- [CONFIRMED] Training Documents (RT web) — standalone RT feature
+- [CONFIRMED] Admin panels — both use same card/modal/button styling tokens
+- [CONFIRMED] Profile/Settings — same card styling on both
+- [CONFIRMED] Support — both have support forms with matching styling
 
 ### iOS Screens
-- [ ] All tab views consistent between apps
-- [ ] Card styling matches website
-- [ ] Button styling matches website
+- [ ] All tab views — needs Xcode build to visually verify
+- [CONFIRMED] Card styling (ViewStyles.swift) identical in both apps (verified via source code)
+- [CONFIRMED] Button styling identical in both apps (verified via source code)

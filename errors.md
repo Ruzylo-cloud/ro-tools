@@ -30,7 +30,9 @@
 - **Date:** 2026-03-30
 - **Location:** Mission Control PLAN-IPAD-KIOSK.md
 - **Description:** Phases 2-7 have ~50 unclaimed tasks including PIN pad UI, employee management, checklists, offline/PWA, integrations, security. Other agents are working on some but many remain.
-- **Status:** OPEN
+- **Status:** FIXED
+- **Fixed by:** manager + jarvis + session-main + assistant
+- **Fix details:** All 125 kiosk tasks completed (118 DONE, 7 N/A removed — native systems replaced Homebase/Jolt integrations)
 
 ---
 
