@@ -12,7 +12,7 @@
 ### RO Tools Web
 - [ ] **3. L10 in RO Control** — DM view showing all ROs' scorecards side by side
   - Handoff: RO Tools API has `GET /api/l10?week=13&all=true` for DM view. Need to build a tab in Mission Control dashboard that calls this endpoint and renders a table of all ROs with their grades, color-coded metrics. Each RO row expandable to show full scorecard.
-- [ ] **4. L10 in iOS apps** — add L10 form to both RO Tools and RO Control iOS views
+- [DONE] **4. L10 in iOS apps** — add L10 form to both RO Tools and RO Control iOS views
   - Handoff: The L10 page.js has the full CATEGORIES array with all 30 metrics, goals, and evaluate functions. Port this to a SwiftUI view that posts to /api/l10. Add an "L10" tab item to MainTabView in both ro-tools-ios and ro-control-ios.
 - [ ] **6. App Store review for RO Tools** — waiting on Apple (24-48 hrs)
   - Handoff: Nothing to do. Check appstoreconnect.apple.com for approval email. Once approved, click "Release this version" to go live. Then enable public TestFlight link.
