@@ -22,7 +22,7 @@ async function ensureDir(dir) {
 export async function POST(request) {
   try {
     const cookieStore = await cookies();
-    const session = cookieStore.get('ro-tools-session');
+    const session = cookieStore.get('ro_session');
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
@@ -100,7 +100,7 @@ export async function POST(request) {
 export async function GET(request) {
   try {
     const cookieStore = await cookies();
-    const session = cookieStore.get('ro-tools-session');
+    const session = cookieStore.get('ro_session');
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }

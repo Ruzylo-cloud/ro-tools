@@ -17,7 +17,7 @@ const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f
 export async function GET(request) {
   try {
     const cookieStore = await cookies();
-    const session = cookieStore.get('ro-tools-session');
+    const session = cookieStore.get('ro_session');
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
