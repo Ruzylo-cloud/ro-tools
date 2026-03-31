@@ -104,7 +104,12 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* 4. Directives (standalone page) */}
+          {/* 4. L10 Scorecard */}
+          <div className={styles.navItem}>
+            <Link href="/dashboard/l10" className={`${styles.navLink} ${isActive('/dashboard/l10') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>L10</Link>
+          </div>
+
+          {/* 5. Directives (standalone page) */}
           <div className={styles.navItem}>
             <Link href="/dashboard/directives" className={`${styles.navLink} ${isActive('/dashboard/directives') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Directives</Link>
           </div>
@@ -174,6 +179,7 @@ export default function Navbar() {
           </div>
         )}
 
+        <Link href="/dashboard/l10" className={styles.mobileNavLink} onClick={closeMobileMenu}>L10</Link>
         <Link href="/dashboard/directives" className={styles.mobileNavLink} onClick={closeMobileMenu}>Directives</Link>
         <Link href="/dashboard/scoreboard" className={styles.mobileNavLink} onClick={closeMobileMenu}>Scoreboard</Link>
 
