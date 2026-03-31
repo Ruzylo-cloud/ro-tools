@@ -82,7 +82,23 @@
 - [CONFIRMED] Profile/Settings — same card styling on both
 - [CONFIRMED] Support — both have support forms with matching styling
 
+### Modals (code verified)
+- [CONFIRMED] RC modal: border-radius 16px, padding 40px 36px 32px, max-width 440px, border-top 4px solid #EE3227 — matches RT spec exactly
+- [CONFIRMED] RC modal backdrop: rgba(0,0,0,0.5) with blur(4px) — RT uses rgba(0,0,0,0.45) no blur — MINOR diff, acceptable
+- [CONFIRMED] RC modal animation: modalEnter 0.2s ease — RT uses same pattern
+
+### Input Focus (code verified)
+- [CONFIRMED] RC input focus: border-color #134A7C, box-shadow 0 0 0 3px rgba(19,74,124,0.1) — matches RT focus-visible ring concept
+- [CONFIRMED] RT uses focus-visible outline (2px solid blue, offset 2px), RC uses focus border-color — both blue, both accessible
+
+### Buttons (code verified)
+- [CONFIRMED] RC btn-primary: bg var(--jm-navy)=#134A7C, 15px/700, 12px 28px — exact match
+- [CONFIRMED] RC btn-primary hover: bg #0e3a63, translateY(-1px), shadow — exact match
+- [CONFIRMED] RC btn-red: bg #EE3227, 15px/700, 12px 28px — exact match (CTA style)
+- [CONFIRMED] RC btn-secondary: bg var(--bg2), border var(--border) — matches RT pattern
+
 ### iOS Screens
 - [ ] All tab views — needs Xcode build to visually verify
 - [CONFIRMED] Card styling (ViewStyles.swift) identical in both apps (verified via source code)
 - [CONFIRMED] Button styling identical in both apps (verified via source code)
+- [CONFIRMED] L10View.swift identical in both apps (copied from RT iOS to RC iOS)
