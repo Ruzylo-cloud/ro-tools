@@ -53,20 +53,11 @@ export async function GET(request) {
       return NextResponse.redirect(mobileCallback);
     }
 
-    // Web: set cookie and redirect to dashboard
+    // Redirect to intermediate page that sets cookie on our domain
+    // This works around Mobile Safari ITP blocking cookies on cross-site redirects
     const returnTo = state && state.startsWith('/') ? state : '/dashboard';
-    const response = NextResponse.redirect(`${baseUrl}${returnTo}`);
-    response.cookies.set('ro_session', signed, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    });
-    // Also set with 'none' for cross-site mobile redirect compatibility
-    response.headers.append('Set-Cookie', `ro_session_backup=${signed}; Path=/; HttpOnly; Secure; SameSite=None; Max-Age=${60 * 60 * 24 * 7}`);
-
-    return response;
+    const authLandingUrl = `${baseUrl}/api/auth/session?token=${encodeURIComponent(signed)}&next=${encodeURIComponent(returnTo)}`;
+    return NextResponse.redirect(authLandingUrl);
   } catch (err) {
     console.error('OAuth callback error:', err);
     return NextResponse.redirect(`${baseUrl}/?error=auth_failed`);
