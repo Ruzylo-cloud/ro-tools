@@ -145,6 +145,46 @@
 - [ ] **EBITDA goals** — check Google Sheets for monthly goals, add to L10 or Reports
 - [ ] **Growth goal sheets** — replicate in appropriate dashboard section
 
+## Kiosk iPad Parity — FROM 25 SCREENSHOT REVIEW
+
+### Homebase Kiosk Features We Need
+- [ ] **Color-coded weekly schedule in kiosk** — Homebase kiosk shows full weekly grid with color-coded shift blocks (green=Opener, blue=RO, red=Shift Lead, etc). Our kiosk only shows "Who's On Shift" as a simple list. Need the full schedule grid view accessible from kiosk.
+- [ ] **Week View + Day View toggle** — Homebase kiosk has tabs to switch between weekly grid and daily list. Our kiosk has neither as a schedule view.
+- [ ] **Hours Scheduled counter** — Top-right shows "201.75 HOURS SCHEDULED" for the week. Quick labor visibility.
+- [ ] **Employee avatar on clock-in** — After PIN, shows employee photo + "Good evening, Chris. Nice to see you again!" personalized greeting before Clock In button.
+- [ ] **Camera on clock-in** — Homebase requests camera access to take employee photo during clock events (GPS + photo validation).
+
+### Jolt Kiosk Features We Need
+- [ ] **Per-item PIN auth** — CRITICAL. Jolt requires PIN entry to mark EACH checklist item complete, not just once per session. Ensures individual accountability — you know exactly who completed each item.
+- [ ] **3-dot menu per checklist item** — Take photo, Create logbook entry, Clear response. Each item has its own context menu.
+- [ ] **Checklist search** — Search bar across all available lists with keyboard. Quick access to any checklist.
+- [ ] **Rich sidebar nav in kiosk** — Jolt kiosk has full sidebar: Home, Lists, Library, Logbook, Labels, Sensors, Reports, People, Tools, Settings. Our kiosk has 5 tabs only (Clock, On Shift, Checklists, Mid-Day, End-of-Day).
+- [ ] **Shared device setup** — Jolt asks "Personal device" or "Shared device (team members share using unique PINs)". Clean setup flow.
+- [ ] **Cloud sync progress** — "Connect to the cloud" screen with download progress bar. Good UX for initial setup.
+
+### Closeout Sheet Improvements
+- [ ] **Combined mid-day + EOD on one view** — The Google Sheet closeout report shows BOTH mid-day and end-of-day data on one comprehensive sheet with color-coded cells (green/yellow/red). Our forms are separate. Consider a combined daily report view.
+- [ ] **Borrowed + FSC columns in daily report** — Closeout sheet includes Borrowed amount and FSC (Free Sub Card) count per day alongside sales/labor/tips. Integrate these into our closeout form.
+- [ ] **Color-coded performance cells** — Green = good, Yellow = watch, Red = bad for labor %, variance, etc. Visual at-a-glance health of each metric.
+- [ ] **Register variance tracking** — Day Count ($200 default), Night Crew count, Register count, Variance auto-calculated. Our closeout has some of this but verify it matches the sheet format exactly.
+
+## Payroll & Reports — FROM CHROME REVIEW
+
+### Jolt Reports (from completionReporting page)
+- [ ] **Item Completion Report** — Completion Rate donut chart (93.87%), Group by Location table: Location | Complete % | On-Time % | Late % | Missed % | Summary bar. Date range picker. Open/Closed items toggle. Save as report, Duplicate, Email, Print. Our checklist reports need this level of analytics.
+- [ ] **Full Jolt report types to match** — Calendar Report, Daily Temperature Log, Grid View, Item Completion, List Completion, List Flags, List Time, Probe Report, Score Report. Verify our Reports tab covers equivalent data.
+
+### Homebase Reports (from /reports page)
+- [ ] **Reports Overview dashboard** — Charts: Scheduled vs Actual Hours (bar by day), Hours by Role (pie), Yesterday Hours vs Sales (overlaid), On-Time Rate (donut 83%/17%). Tables: Type of Hours with Hours/Costs/% of Sales. Widgets: Avg Shift Feedback (5/5 stars), Biggest Exceptions list.
+- [ ] **Report sections to match** — Scheduled vs Actual Hours, Scheduled vs Actual Clock-Ins, On-Time Arrival, Shift Feedback, Hourly Labor Costs, Labor By Role, Labor Cost Summary, Sales Summary, Departments, Certificates. Verify our Reports tab has equivalent pages.
+- [ ] **On-time percentage with settable ranges** — Chris specifically wants configurable on-time thresholds (e.g. within 5 min = on-time, 5-15 min = late, 15+ = very late).
+
+### Payroll System (NEW SECTION NEEDED)
+- [ ] **Payroll sheet replication** — Google Sheet "Payroll 20360 Santa Barbara" has per-store tabs with pay period columns. Need: employee rows, hours worked, tips (cash + CC combined), deposits, calculations. Click-to-edit like Sheets. Switch by pay period (Week/Pay Period/Month tabs like Homebase).
+- [ ] **Closeout → Payroll flow** — Bank deposit from register ($200 default + tips = deposit amount). Compare entered deposits to actual bank deposits. CC tips from FlexePOS + cash tips from register = total tips for payroll.
+- [ ] **FlexePOS integration** — Once admin logs in to fms.flexepos.com, auto-pull sales data, tip data, and transaction details. Detail store report with all checkboxes. Auto-fill payroll sheet.
+- [ ] **Payroll belongs on RO Control** — Operations dropdown or its own top-level nav item. This is manager/admin functionality, not RO Tools.
+
 ## iOS Apps — Missing Features
 - [ ] **RC iOS kiosk closeout** — MISSING: MidDayCloseoutView.swift + EndOfDayCloseoutView.swift (only 3 of 5 kiosk tabs exist)
 - [ ] **iOS dark mode adaptive colors** — Colors.swift has NO adaptive colors, all static. Need UIColor userInterfaceStyle checks.
