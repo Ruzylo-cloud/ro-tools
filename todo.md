@@ -45,13 +45,52 @@
 - [x] **Weather in day headers** — DONE: 7-day forecast from Open-Meteo wired into column headers
 - [x] **position_id optional** — DONE: shift creation no longer blocked when no role selected
 
-## Jolt Parity — Checklists & Food Safety (P0)
-- [ ] **Clone Jolt UI** — use ai-website-cloner-template at ~/projects/temp-clones/jolt-clone
-- [ ] **Temperature logging with anomaly alerts** — verify fully working, compare to Jolt
-- [ ] **Corrective actions with photo evidence** — verify fully working
-- [ ] **Food safety scoring** — verify dashboard shows scores
-- [ ] **Checklist auto-generation by shift** — verify 4 AM cron + on-page fallback
-- [ ] **Label printing integration** — verify food label templates work
+## Jolt Parity — Checklists & Food Safety (P0) — FROM 54 SCREENSHOT REVIEW
+
+### Checklists (Jolt "Lists")
+- [ ] **Photo evidence per checklist item** — CRITICAL. Jolt allows photo proof for EVERY checklist item. Employee takes photo, it appears inline with timestamp. Our system needs camera capture + photo storage per item on both web and iOS kiosk.
+- [ ] **Checklist scoring (1-5 per item)** — Jolt shows numeric score badge (1-5) on each completed item. We need score field per checklist item.
+- [ ] **Checklist history with date presets** — Jolt: Today, Yesterday, Last 7 Days, Custom date range. Our history needs these quick-filter presets.
+- [ ] **Checklist metadata display** — Each checklist shows: Displayed date, Due by time, Expires time. Verify ours shows same.
+- [ ] **Submit Items button** — Green CTA at bottom of checklist. Verify ours has clear submit action.
+- [x] **Checklist auto-generation by shift** — COVERED by 4 AM cron + on-page fallback
+
+### Attestation System
+- [ ] **Multi-question attestation flow** — Jolt: select employee name -> answer 5+ questions (meal period, rest breaks, time accuracy, injury, expenses) -> each with YES/NO -> canvas signature -> employee photo capture. Verify our attestation covers all these questions.
+- [ ] **Canvas signature on attestation** — Jolt captures hand-drawn signature. Verify our e-sign system works on attestation.
+- [ ] **Employee photo capture on attestation** — Jolt captures employee selfie after signature. We may not have this — add if missing.
+- [ ] **Full CA labor law attestation text** — Verify our attestation includes proper legal language matching Jolt's (meal period §512, rest breaks, time accuracy, injury reporting, expenses).
+
+### Information Library (Jolt "Information Library")
+- [ ] **Document/media library** — Jolt has folder-based library: LTO Subs, Deep Cleaning Videos, Food Safety Booklet, GM training videos, Operational Guides. Our Knowledge Base needs similar folder structure with photos/videos.
+- [ ] **Add media: photo/video/library upload** — Verify our Knowledge Base supports photo+video upload, not just documents.
+- [ ] **Star/favorite content** — Jolt has starred/favorite items. Add if missing.
+
+### Logbook (Jolt "Logbook")
+- [x] **Manager Log** — COVERED by our Manager Log generator on RT + manager_log routes on RC. Chronological feed with entries per board.
+- [ ] **Logbook filtering** — Jolt: Date Range presets + Flag Status (All/Flagged/Resolved) + Read Status (Both/Unread/Read). Verify our Manager Log has equivalent filtering.
+- [ ] **Flag/resolve entries** — Jolt entries can be flagged and resolved. Add if missing from our Manager Log.
+
+### Labels & Printing
+- [x] **Food label templates** — COVERED by our Food Labels generator on RT
+- [ ] **Bluetooth/network printer discovery** — Jolt discovers printers via Bluetooth and network. Our system currently only prints via browser. iOS app needs AirPrint or direct printer support.
+- [ ] **QR code for clock-in** — Jolt generates location QR code (store name + code + 24hr expiry + print). For kiosk clock-in without PIN. Add if missing.
+
+### Sensors / Temperature
+- [ ] **IoT temperature sensor management** — Jolt connects to physical sensors (gateways + sensors + visual alerts). We have manual temp logging but no IoT sensor support. Note: this is hardware-dependent, may defer.
+- [x] **Temperature logging with anomaly alerts** — COVERED by our temp log routes + anomaly detection in joltConnector.ts
+
+### Tools
+- [x] **Weather** — COVERED (Open-Meteo, wired into schedule + dashboard)
+- [ ] **Built-in calculator** — Jolt has one. Simple but useful for kiosk mode. Add to RC iOS kiosk tools.
+- [x] **QR codes** — COVERED by equipment QR routes in work orders
+- [ ] **Temperature probe integration** — Jolt connects to Bluetooth temp probes. Hardware-dependent, may defer.
+
+### Settings / Config
+- [ ] **Scheduling notification preferences** — Jolt: Push/Email/Text toggles for schedule published + shift reminders. Verify our system has notification preferences per employee.
+- [ ] **Multi-location switcher** — Jolt shows all company locations with radio select. Our DM view handles this but verify single-tap location switching exists.
+- [ ] **Device diagnostic report** — Jolt can send diagnostic info. Low priority but nice for troubleshooting.
+- [ ] **QR clock-in code** — Store-specific QR with 24hr expiry for touchless clock-in. Printable.
 
 ## Vantage Point Reports
 - [ ] **Search Gmail** — find all Vantage Point daily/weekly/monthly reports
