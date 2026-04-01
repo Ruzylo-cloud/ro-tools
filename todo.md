@@ -33,6 +33,45 @@
 - [ ] **/welcome page** — verify complete with all features, comparison, security, ROI, presentations
 - [ ] **Crew PIN login** — verify schedule first tab, swaps, time off, availability
 
+## Schedule Builder — Homebase Parity (P0 EMERGENCY)
+- [ ] **Day view timeline** — horizontal shift bars on hourly timeline (7am-10pm), employees on left
+- [ ] **Per-hour coverage bars** — headcount visualization showing staffing per hour
+- [ ] **Open Shifts row** — top of grid, shows unclaimed shifts with pending approval
+- [ ] **Availability + Time-off blocks** — visible in day cells, grayed unavailable slots
+- [ ] **Schedule Viewed/Not Viewed** — status badge per employee
+- [ ] **Multi-location shifts** — grayed out with location name when employee works at other stores
+- [ ] **Print in 3 formats** — white bg, full color, colored borders (Homebase has all 3)
+- [ ] **Publish with notifications** — notify everyone, custom selection, notification preferences
+- [x] **Weather in day headers** — DONE: 7-day forecast from Open-Meteo wired into column headers
+- [x] **position_id optional** — DONE: shift creation no longer blocked when no role selected
+
+## Jolt Parity — Checklists & Food Safety (P0)
+- [ ] **Clone Jolt UI** — use ai-website-cloner-template at ~/projects/temp-clones/jolt-clone
+- [ ] **Temperature logging with anomaly alerts** — verify fully working, compare to Jolt
+- [ ] **Corrective actions with photo evidence** — verify fully working
+- [ ] **Food safety scoring** — verify dashboard shows scores
+- [ ] **Checklist auto-generation by shift** — verify 4 AM cron + on-page fallback
+- [ ] **Label printing integration** — verify food label templates work
+
+## Vantage Point Reports
+- [ ] **Search Gmail** — find all Vantage Point daily/weekly/monthly reports
+- [ ] **Replicate report formats** — daily sales, weekly summary, monthly P&L in Reports tab
+- [ ] **Marketing calendars** — check Google Sheets, replicate in Marketing tab
+- [ ] **EBITDA goals** — check Google Sheets for monthly goals, add to L10 or Reports
+- [ ] **Growth goal sheets** — replicate in appropriate dashboard section
+
+## iOS Apps — Missing Features
+- [ ] **RC iOS kiosk closeout** — MISSING: MidDayCloseoutView.swift + EndOfDayCloseoutView.swift (only 3 of 5 kiosk tabs exist)
+- [ ] **iOS dark mode adaptive colors** — Colors.swift has NO adaptive colors, all static. Need UIColor userInterfaceStyle checks.
+- [ ] **RT iOS: 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets need iOS views
+
+## Command Palette
+- [x] **Missing commands added** — DONE: L10, Stability, Closeout, all People Hub sections, Knowledge Base, AMEX, Store Profile, Messaging
+
+## CSS Token Mismatches
+- [ ] **RC --text #ededf0** — should be #e8e8ed to match RT --charcoal
+- [ ] **RC .rc-nav-user hardcodes #ededf0** — should use var(--charcoal)
+
 ## Data Verification
 - [ ] **hierarchy.md** — verify all 29+ stores, 5 DMs, all ROs correct
 - [ ] **669 employees imported** — verify in employee dropdowns

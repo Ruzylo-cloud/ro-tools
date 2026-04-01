@@ -59,6 +59,28 @@
 
 ## Active Gaps
 
+### Schedule Builder — Homebase Parity (P0 EMERGENCY)
+- [ ] **Day view timeline** — Homebase has hourly horizontal bars (7am-10pm). We only have week grid view. Need Day tab with timeline.
+- [ ] **Per-hour coverage** — Homebase shows headcount bars per hour at bottom. We show daily totals only.
+- [ ] **Open Shifts row** — Homebase has unclaimed shifts at top of grid. We don't have this.
+- [ ] **Availability blocks** — Homebase shows unavailable/time-off in cells. We don't display availability.
+- [ ] **Print 3 formats** — Homebase offers white bg, full color, colored borders. We have none.
+- [DONE] **Weather in headers** — 7-day forecast from Open-Meteo wired into day column headers (techy, pushed 3348870)
+- [DONE] **position_id optional** — Shift creation unblocked when no role selected (techy, pushed 3348870)
+
+### Jolt Parity — Checklists
+- [ ] **Jolt UI clone** — Need to capture Jolt's checklist UI design and ensure ours is 30% better
+- [ ] **Food safety scoring dashboard** — Verify scores visible, compare to Jolt's scoring
+
+### iOS Apps
+- [ ] **RC iOS kiosk closeout** — MidDayCloseoutView + EndOfDayCloseoutView missing (only 3 of 5 tabs)
+- [ ] **iOS dark mode** — Colors.swift has no adaptive colors for system dark mode
+- [ ] **RT iOS 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets
+
+### Vantage Point
+- [ ] **Reports replication** — Need to search Gmail for VP daily/weekly/monthly reports and replicate formats
+- [ ] **Marketing/EBITDA sheets** — Check Google Sheets for calendars, goal sheets
+
 ### RO Tools Web
 - [DONE - techy] **3. L10 in RO Control** — DM view showing all ROs' scorecards side by side
   - DM all-stores comparison view built as a tab in Mission Control dashboard with scorecard comparison table, per-store summary cards, to-dos, and IDS panels.
