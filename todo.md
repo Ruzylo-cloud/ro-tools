@@ -69,11 +69,15 @@
 - [x] **Missing commands added** — DONE: L10, Stability, Closeout, all People Hub sections, Knowledge Base, AMEX, Store Profile, Messaging
 
 ## Google Sheets / Docs to Replicate in System
-- [ ] **FSC (Free Sub Card) Tracker** — Each store has a tab. Columns: guest name, email, address, reason (bad review/complaint), # of free sub cards, date. Search Gmail or Sheets for "free sub card" or "FSC"
-- [ ] **Bonus charts/sheets** — Shared by josh@jmvalley, bethany@jmvalley, brittany@jmvalley. Search Sheets home + Gmail.
-- [ ] **Marketing report calendars** — Monthly marketing calendars in Sheets
-- [ ] **Monthly EBITDA goals** — Growth/profit goal sheets
-- [ ] **All other operational sheets** — Implement as many sheets/docs into the website as possible, robustly
+- [ ] **FSC (Free Sub Card) Tracker** — NOT BUILT. Per-store tabs. Columns: Guest Name, Address, Complaint Date/Time, How Many Cards, Note/Reason, Date Sent. Source: Google Sheet "FSC Request" owned by Brittany Heery. Needs new page in RO Control Operations dropdown. Guest recovery for bad reviews/complaints.
+- [x] **Marketing report calendars** — COVERED by Marketing Directives Calendar tab on RT
+- [x] **JMVG Sales Growth Scorecard** — COVERED by Marketing Directives Scorecard tab on RT
+- [x] **Weekly scoreboard** — COVERED by RT Scoreboard page
+- [x] **Vantage Point attestation reports** — COVERED by attestation wizard + timeclock compliance
+- [x] **ezCater growth** — COVERED by RT Catering CRM revenue tracking
+- [x] **Master closeout sheet** — COVERED by Kiosk EOD closeout
+- [ ] **Bonus charts/sheets** — Need to search for bonus-specific sheets from josh@, bethany@, brittany@jmvalley
+- [ ] **Monthly EBITDA goals** — Check if growth goal sheets exist, add to L10 or Reports if found
 
 ## CSS Token Mismatches
 - [ ] **RC --text #ededf0** — should be #e8e8ed to match RT --charcoal
