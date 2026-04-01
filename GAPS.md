@@ -103,6 +103,21 @@
 - [DONE] **Employee directory with invite status** — We have People Hub.
 - [DONE] **Schedule day view with role colors** — We have Day timeline + Week grid.
 - [DONE] **Employee profile with DOB/phone/emergency** — We have employee records in People Hub.
+
+### iPad Kiosk Audit (25 screenshots — Homebase + Jolt + Closeout Sheet)
+- [ ] **PIN per checklist item** — Jolt requires employee PIN before completing each checklist item for accountability tracking. Our kiosk checklists should require PIN to know WHO completed each item.
+- [ ] **Schedule view in kiosk** — Homebase kiosk shows Week View (color-coded shift blocks per employee) and Day View (table with employee/hours/role/status). Add schedule tab or integrate into On Shift view.
+- [ ] **Camera photo flow in kiosk checklists** — Jolt kiosk has "Take Photo" button per checklist item, opens iPad camera, Retake/Use Photo flow. Photos attached to completed items. Our kiosk checklists need camera integration.
+- [ ] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
+- [ ] **Closeout: Lunch SL + Dinner SL sections** — The real closeout spreadsheet has separate Lunch Shift Lead and Dinner Shift Lead sections with different register counts, safe amounts, and variance calculations per shift. Our Mid-Day/EOD split partially covers this but needs shift lead name entry and per-shift register/safe tracking.
+- [ ] **Closeout: Bacon/Bread tossed tracking** — Spreadsheet tracks Bacon Tossed and bread waste (White/Wheat/Rosemary/Minis) daily. Our Mid-Day closeout has waste field but needs specific bacon+bread fields.
+- [ ] **Closeout: Cash vs Variance calculation** — Register cash compared to expected, with variance highlighted in color (green/yellow/red). Add auto-calculation of over/short with color coding.
+
+### Payroll Sheet Integration (Chris directive)
+- [ ] **Payroll processing sheet** — Accounting company uses payroll sheet. Need to understand: bank deposits (default $200 register base), tips entry flow (register tips → added to deposit → bank deposit = base + tips), CC tips + cash tips = total tips. Build as own section in RC with per-pay-period switching, click-to-edit, auto-fill from Flexepos.
+- [ ] **Flexepos integration** — Connect to fms.flexepos.com for store sales reports (detail store report). Pull sales data to auto-fill payroll and closeout sheets once admin logs in.
+- [ ] **Tips reconciliation** — Register tips entered at closeout → added to deposit amount (default $200 base). If tips = $39 on $290 deposit, new bank deposit = $329. Compare to actual bank deposit. Track CC tips separately. Total tips = cash + CC for payroll.
+- [DONE] **Employee profile with DOB/phone/emergency** — We have employee records in People Hub.
 - [N/A] **IoT Sensors** — Jolt has gateway+sensor hardware integration. This requires physical hardware — not a software gap.
 - [N/A] **Calculator/Temp Probe tools** — Nice-to-have utilities, not core features.
 
