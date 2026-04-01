@@ -114,3 +114,23 @@ button:disabled {
   background: rgba(74,144,208,0.25);
   color: #f5f5f7;
 }
+
+/* Dark mode form inputs — prevent bright white fields */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select {
+  background: var(--gray-100);
+  color: var(--charcoal);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus,
+[data-theme="dark"] select:focus {
+  box-shadow: 0 0 0 3px rgba(74,144,208,0.2);
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: var(--gray-400);
+}

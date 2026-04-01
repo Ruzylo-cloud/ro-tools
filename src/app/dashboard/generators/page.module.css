@@ -114,3 +114,18 @@
   .card { padding: 20px 14px; border-radius: 12px; }
   .cardTitle { font-size: 17px; }
 }
+
+/* ─── Dark Mode ─── */
+:global([data-theme="dark"]) .card {
+  background: #2a3a4e;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+}
+
+:global([data-theme="dark"]) .card:hover {
+  box-shadow: 0 16px 50px rgba(0,0,0,0.45);
+  background: #334a62;
+}
+
+:global([data-theme="dark"]) .cardAction {
+  color: #ff6b63;
+}

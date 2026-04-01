@@ -268,3 +268,22 @@
   margin-top: 12px;
   line-height: 1.5;
 }
+
+/* ─── Dark Mode ─── */
+:global([data-theme="dark"]) .input {
+  background: var(--gray-100);
+  color: var(--charcoal);
+  border-color: var(--border);
+}
+
+:global([data-theme="dark"]) .input:focus {
+  box-shadow: 0 0 0 3px rgba(74,144,208,0.2);
+}
+
+:global([data-theme="dark"]) .saveBtn {
+  color: #fff;
+}
+
+:global([data-theme="dark"]) .serviceConnectBtn:hover {
+  background: #5b9cf5;
+}

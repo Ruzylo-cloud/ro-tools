@@ -59,7 +59,7 @@ export default function DashboardLayout({ children }) {
 
   if (pathname === '/dashboard/setup') {
     return (
-      <main style={{ minHeight: '100vh', background: '#fafbfc' }}>
+      <main style={{ minHeight: '100vh', background: 'var(--gray-50)' }}>
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
     );
@@ -70,7 +70,7 @@ export default function DashboardLayout({ children }) {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: 'calc(100vh - 64px)', background: '#fafbfc' }}>
+      <main style={{ minHeight: 'calc(100vh - 64px)', background: 'var(--gray-50)' }}>
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
       <QuickTour />
