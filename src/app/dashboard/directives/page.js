@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
 const DIRECTIVES = [
@@ -153,6 +153,29 @@ const DIRECTIVES = [
   },
 ];
 
+// Marketing calendar month->focus map for Overview tab
+const MONTH_FOCUS = {
+  'January': 'New Year Kickoff',
+  'February': 'Super Bowl / Valentine\'s',
+  'March': 'Spring Catering Push',
+  'April': 'Medical Office Grassroots',
+  'May': 'Graduation Season + Retreat',
+  'June': 'Summer Launch',
+  'July': '4th of July / Summer Peak',
+  'August': 'Back to School',
+  'September': 'Football Season Start',
+  'October': 'Fall Promotions',
+  'November': 'Holiday Prep',
+  'December': 'Holiday Season',
+};
+
+const MONTH_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+const SCORECARD_MONTHS = [
+  'January 2026','February 2026','March 2026','April 2026','May 2026','June 2026',
+  'July 2026','August 2026','September 2026','October 2026','November 2026','December 2026',
+];
+
 function formatDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00');
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -167,11 +190,113 @@ function isPast(dateStr) {
   return new Date(dateStr + 'T23:59:59') < new Date();
 }
 
+function isCurrentMonth(dateStr) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const now = new Date();
+  return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+}
+
 export default function DirectivesPage() {
+  const [tab, setTab] = useState('overview');
   const [expanded, setExpanded] = useState(DIRECTIVES[0]?.id || null);
 
+  // Outreach state
+  const [outreachEntries, setOutreachEntries] = useState([]);
+  const [outreachForm, setOutreachForm] = useState({
+    business: '', contact: '', position: '', phone: '', materials: 'FSC & Menu', qty: '3', order: 'N', followUp: '',
+  });
+  const [outreachSaved, setOutreachSaved] = useState(false);
+
+  // Scorecard state
+  const [scorecard, setScorecard] = useState({});
+  const [scorecardMonth, setScorecardMonth] = useState('April 2026');
+  const [scorecardSaved, setScorecardSaved] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('reading-outreach');
+      if (stored) setOutreachEntries(JSON.parse(stored));
+    } catch {}
+    try {
+      const sc = localStorage.getItem('directives-scorecard');
+      if (sc) setScorecard(JSON.parse(sc));
+    } catch {}
+  }, []);
+
+  // Helpers
+  const saveOutreach = (entries) => {
+    setOutreachEntries(entries);
+    localStorage.setItem('reading-outreach', JSON.stringify(entries));
+  };
+
+  const addOutreachEntry = () => {
+    if (!outreachForm.business.trim()) return;
+    const entry = { ...outreachForm, id: Date.now(), addedAt: new Date().toISOString() };
+    const updated = [...outreachEntries, entry];
+    saveOutreach(updated);
+    setOutreachForm({ business: '', contact: '', position: '', phone: '', materials: 'FSC & Menu', qty: '3', order: 'N', followUp: '' });
+    setOutreachSaved(true);
+    setTimeout(() => setOutreachSaved(false), 2000);
+  };
+
+  const removeOutreachEntry = (id) => {
+    saveOutreach(outreachEntries.filter(e => e.id !== id));
+  };
+
+  const saveScorecardMonth = () => {
+    const updated = { ...scorecard, [scorecardMonth]: { ...(scorecard[scorecardMonth] || {}), ...(scorecardMonthData) } };
+    setScorecard(updated);
+    localStorage.setItem('directives-scorecard', JSON.stringify(updated));
+    setScorecardSaved(true);
+    setTimeout(() => setScorecardSaved(false), 2000);
+  };
+
+  const scorecardMonthData = scorecard[scorecardMonth] || {};
+  const updateScorecardField = (field, value) => {
+    setScorecard(prev => ({
+      ...prev,
+      [scorecardMonth]: { ...(prev[scorecardMonth] || {}), [field]: value },
+    }));
+  };
+
+  // Calendar: collect all date items from DIRECTIVES
+  const allCalendarDates = [];
+  DIRECTIVES.forEach(d => {
+    d.sections.forEach(s => {
+      if (s.type === 'dates') {
+        s.items.forEach(item => {
+          allCalendarDates.push({ ...item, source: d.title });
+        });
+      }
+    });
+  });
+  // Add marketing calendar items (first of each month as synthetic dates)
+  const calendarMonthDates = [
+    { date: '2026-01-01', label: 'January Focus: New Year Kickoff', source: '2026 Marketing Calendar' },
+    { date: '2026-02-01', label: 'February Focus: Super Bowl / Valentine\'s', source: '2026 Marketing Calendar' },
+    { date: '2026-03-01', label: 'March Focus: Spring Catering Push', source: '2026 Marketing Calendar' },
+    { date: '2026-04-01', label: 'April Focus: Medical Office Grassroots', source: '2026 Marketing Calendar' },
+    { date: '2026-05-01', label: 'May Focus: Graduation Season + Retreat', source: '2026 Marketing Calendar' },
+    { date: '2026-06-01', label: 'June Focus: Summer Launch', source: '2026 Marketing Calendar' },
+    { date: '2026-07-01', label: 'July Focus: 4th of July / Summer Peak', source: '2026 Marketing Calendar' },
+    { date: '2026-08-01', label: 'August Focus: Back to School', source: '2026 Marketing Calendar' },
+    { date: '2026-09-01', label: 'September Focus: Football Season Start', source: '2026 Marketing Calendar' },
+    { date: '2026-10-01', label: 'October Focus: Fall Promotions', source: '2026 Marketing Calendar' },
+    { date: '2026-11-01', label: 'November Focus: Holiday Prep', source: '2026 Marketing Calendar' },
+    { date: '2026-12-01', label: 'December Focus: Holiday Season', source: '2026 Marketing Calendar' },
+  ];
+  const allDates = [...allCalendarDates, ...calendarMonthDates].sort((a, b) => a.date.localeCompare(b.date));
+
+  // Overview stats
+  const activeCount = DIRECTIVES.filter(d => d.status === 'active').length;
+  const now = new Date();
+  const currentMonthName = MONTH_NAMES[now.getMonth()];
+  const currentFocus = MONTH_FOCUS[currentMonthName] || '—';
+  const futureDates = allCalendarDates.filter(d => !isPast(d.date)).sort((a, b) => a.date.localeCompare(b.date));
+  const nextKeyDate = futureDates[0] || null;
+
   const renderSection = (section) => {
-    // Highlight block
     if (section.type === 'highlight') {
       return (
         <div className={styles.highlightBlock}>
@@ -180,7 +305,6 @@ export default function DirectivesPage() {
       );
     }
 
-    // Table
     if (section.type === 'table') {
       return (
         <div className={styles.tableSection}>
@@ -201,7 +325,6 @@ export default function DirectivesPage() {
       );
     }
 
-    // Scorecard
     if (section.type === 'scorecard') {
       return (
         <div className={styles.scorecardSection}>
@@ -218,7 +341,6 @@ export default function DirectivesPage() {
       );
     }
 
-    // Action items
     if (section.type === 'actions') {
       return (
         <div className={styles.sectionItems}>
@@ -234,7 +356,6 @@ export default function DirectivesPage() {
       );
     }
 
-    // Dates
     if (section.type === 'dates') {
       return (
         <div className={styles.datesList}>
@@ -248,7 +369,6 @@ export default function DirectivesPage() {
       );
     }
 
-    // Simple list
     if (section.type === 'list') {
       return (
         <div className={styles.sectionItems}>
@@ -259,7 +379,6 @@ export default function DirectivesPage() {
       );
     }
 
-    // Month items (marketing calendar)
     if (section.type === 'months') {
       return (
         <div className={styles.sectionItems}>
@@ -286,41 +405,314 @@ export default function DirectivesPage() {
         <p className={styles.subtitle}>Monthly marketing directives, action items, and campaign calendar for JMVG.</p>
       </div>
 
-      <div className={styles.directivesList}>
-        {DIRECTIVES.map((directive) => (
-          <div key={directive.id} className={styles.directive}>
-            <button
-              className={`${styles.directiveHeader} ${expanded === directive.id ? styles.directiveHeaderActive : ''}`}
-              onClick={() => setExpanded(prev => prev === directive.id ? null : directive.id)}
-            >
-              <div className={styles.directiveHeaderLeft}>
-                <span className={`${styles.statusBadge} ${styles['status_' + directive.status]}`}>
-                  {directive.status === 'active' ? 'Active' : 'Archived'}
-                </span>
-                <div>
-                  <div className={styles.directiveTitle}>{directive.title}</div>
-                  <div className={styles.directiveDesc}>{directive.description}</div>
-                </div>
-              </div>
-              <div className={styles.directiveHeaderRight}>
-                <span className={styles.directiveDate}>Updated {formatDate(directive.updatedDate)}</span>
-                <span className={`${styles.expandChevron} ${expanded === directive.id ? styles.expandChevronOpen : ''}`}>&#x25BE;</span>
-              </div>
-            </button>
-
-            {expanded === directive.id && (
-              <div className={styles.directiveBody}>
-                {directive.sections.map((section) => (
-                  <div key={section.title} className={styles.section}>
-                    <h3 className={styles.sectionTitle}>{section.title}</h3>
-                    {renderSection(section)}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+      {/* Tab Bar */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 32, borderBottom: '1px solid #e5e7eb', paddingBottom: 12, flexWrap: 'wrap' }}>
+        {['overview', 'directives', 'outreach', 'scorecard', 'calendar'].map(t => (
+          <button key={t} onClick={() => setTab(t)} style={{ padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : '#6b7280', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>{t}</button>
         ))}
       </div>
+
+      {/* ─── OVERVIEW TAB ─── */}
+      {tab === 'overview' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+            {/* Active Directives card */}
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Active Directives</div>
+              <div style={{ fontSize: 42, fontWeight: 800, color: '#134A7C', lineHeight: 1, marginBottom: 6 }}>{activeCount}</div>
+              <div style={{ fontSize: 13, color: '#6b7280' }}>directives currently active</div>
+            </div>
+
+            {/* Current Focus card */}
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Current Focus</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: '#134A7C', lineHeight: 1.25, marginBottom: 6 }}>{currentFocus}</div>
+              <div style={{ fontSize: 13, color: '#6b7280' }}>{currentMonthName} marketing focus</div>
+            </div>
+
+            {/* Next Key Date card */}
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Next Key Date</div>
+              {nextKeyDate ? (
+                <>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: '#134A7C', lineHeight: 1.25, marginBottom: 6 }}>{formatShortDate(nextKeyDate.date)}</div>
+                  <div style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.4 }}>{nextKeyDate.label}</div>
+                </>
+              ) : (
+                <div style={{ fontSize: 14, color: '#6b7280' }}>No upcoming dates</div>
+              )}
+            </div>
+          </div>
+
+          {/* Quick summary of active directives */}
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Active Directives</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {DIRECTIVES.filter(d => d.status === 'active').map(d => (
+                <div key={d.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 14px', background: '#f9fafb', borderRadius: 10, borderLeft: '3px solid #134A7C' }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: '#2D2D2D', marginBottom: 2 }}>{d.title}</div>
+                    <div style={{ fontSize: 12, color: '#6b7280' }}>{d.description}</div>
+                  </div>
+                  <div style={{ fontSize: 11, color: '#9ca3af', whiteSpace: 'nowrap', marginTop: 2 }}>Updated {formatDate(d.updatedDate)}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ─── DIRECTIVES TAB ─── */}
+      {tab === 'directives' && (
+        <div className={styles.directivesList}>
+          {DIRECTIVES.map((directive) => (
+            <div key={directive.id} className={styles.directive}>
+              <button
+                className={`${styles.directiveHeader} ${expanded === directive.id ? styles.directiveHeaderActive : ''}`}
+                onClick={() => setExpanded(prev => prev === directive.id ? null : directive.id)}
+              >
+                <div className={styles.directiveHeaderLeft}>
+                  <span className={`${styles.statusBadge} ${styles['status_' + directive.status]}`}>
+                    {directive.status === 'active' ? 'Active' : 'Archived'}
+                  </span>
+                  <div>
+                    <div className={styles.directiveTitle}>{directive.title}</div>
+                    <div className={styles.directiveDesc}>{directive.description}</div>
+                  </div>
+                </div>
+                <div className={styles.directiveHeaderRight}>
+                  <span className={styles.directiveDate}>Updated {formatDate(directive.updatedDate)}</span>
+                  <span className={`${styles.expandChevron} ${expanded === directive.id ? styles.expandChevronOpen : ''}`}>&#x25BE;</span>
+                </div>
+              </button>
+
+              {expanded === directive.id && (
+                <div className={styles.directiveBody}>
+                  {directive.sections.map((section) => (
+                    <div key={section.title} className={styles.section}>
+                      <h3 className={styles.sectionTitle}>{section.title}</h3>
+                      {renderSection(section)}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ─── OUTREACH TAB ─── */}
+      {tab === 'outreach' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          {/* Form */}
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Log Business Visit</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Business Name *</label>
+                <input value={outreachForm.business} onChange={e => setOutreachForm(f => ({ ...f, business: e.target.value }))} placeholder="e.g. Kaiser Permanente" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Contact Name</label>
+                <input value={outreachForm.contact} onChange={e => setOutreachForm(f => ({ ...f, contact: e.target.value }))} placeholder="e.g. Jane Smith" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Position</label>
+                <input value={outreachForm.position} onChange={e => setOutreachForm(f => ({ ...f, position: e.target.value }))} placeholder="e.g. Department Manager" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Phone / Email</label>
+                <input value={outreachForm.phone} onChange={e => setOutreachForm(f => ({ ...f, phone: e.target.value }))} placeholder="e.g. (805) 555-0100" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Materials Handed Out</label>
+                <input value={outreachForm.materials} onChange={e => setOutreachForm(f => ({ ...f, materials: e.target.value }))} placeholder="e.g. FSC & Menu" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Quantity</label>
+                <input value={outreachForm.qty} onChange={e => setOutreachForm(f => ({ ...f, qty: e.target.value }))} placeholder="3" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Order Placed?</label>
+                <select value={outreachForm.order} onChange={e => setOutreachForm(f => ({ ...f, order: e.target.value }))} style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: '#fff', boxSizing: 'border-box' }}>
+                  <option value="N">No</option>
+                  <option value="Y">Yes</option>
+                </select>
+              </div>
+              <div>
+                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Follow-Up Date</label>
+                <input type="date" value={outreachForm.followUp} onChange={e => setOutreachForm(f => ({ ...f, followUp: e.target.value }))} style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <button onClick={addOutreachEntry} disabled={!outreachForm.business.trim()} style={{ padding: '10px 22px', background: outreachForm.business.trim() ? '#134A7C' : '#e5e7eb', color: outreachForm.business.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: outreachForm.business.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit', transition: 'background 0.15s' }}>Add Entry</button>
+              {outreachSaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>Saved!</span>}
+            </div>
+          </div>
+
+          {/* Table */}
+          {outreachEntries.length > 0 && (
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Outreach Log ({outreachEntries.length} entries)</div>
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, minWidth: 640 }}>
+                  <thead>
+                    <tr style={{ background: '#f9fafb' }}>
+                      {['Business', 'Contact', 'Position', 'Phone/Email', 'Materials', 'Qty', 'Order?', 'Follow-Up', ''].map((h, i) => (
+                        <th key={i} style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.3px', fontSize: 10, borderBottom: '2px solid #e5e7eb', whiteSpace: 'nowrap' }}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {outreachEntries.map((e) => (
+                      <tr key={e.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                        <td style={{ padding: '8px 10px', color: '#2D2D2D', fontWeight: 600 }}>{e.business}</td>
+                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.contact || '—'}</td>
+                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.position || '—'}</td>
+                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.phone || '—'}</td>
+                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.materials}</td>
+                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.qty}</td>
+                        <td style={{ padding: '8px 10px' }}>
+                          <span style={{ fontWeight: 700, color: e.order === 'Y' ? '#16a34a' : '#6b7280' }}>{e.order}</span>
+                        </td>
+                        <td style={{ padding: '8px 10px', color: '#4b5563', whiteSpace: 'nowrap' }}>{e.followUp ? formatShortDate(e.followUp) : '—'}</td>
+                        <td style={{ padding: '8px 10px' }}>
+                          <button onClick={() => removeOutreachEntry(e.id)} style={{ background: 'none', border: 'none', color: '#EE3227', cursor: 'pointer', fontSize: 13, fontWeight: 700, padding: '2px 6px' }}>x</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {outreachEntries.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '40px 20px', color: '#9ca3af', fontSize: 14 }}>No outreach entries yet. Log your first business visit above.</div>
+          )}
+        </div>
+      )}
+
+      {/* ─── SCORECARD TAB ─── */}
+      {tab === 'scorecard' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Monthly Revenue Scorecard</div>
+
+            {/* Month selector */}
+            <div style={{ marginBottom: 20 }}>
+              <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 6 }}>Month</label>
+              <select value={scorecardMonth} onChange={e => setScorecardMonth(e.target.value)} style={{ padding: '9px 14px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', background: '#fff', fontWeight: 600, color: '#134A7C' }}>
+                {SCORECARD_MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </div>
+
+            {/* Fields */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {[
+                { key: 'upselling', label: '$ from Upselling', desc: 'Revenue from upselling focus items (Cali Club, Extra Bacon)', prefix: '$' },
+                { key: 'marketing', label: '$ from Marketing Initiative', desc: 'Revenue from grassroots outreach and campaigns', prefix: '$' },
+                { key: 'storeIdea', label: '$ from Store-Specific Idea', desc: 'Revenue from your own store-level creative marketing idea', prefix: '$' },
+                { key: 'growthTarget', label: 'Growth % Target', desc: 'Default: 5% month-over-month growth target', prefix: '%', default: '5' },
+                { key: 'growthActual', label: 'Actual Growth %', desc: 'Your actual growth vs. same month last year', prefix: '%' },
+              ].map(field => {
+                const val = (scorecard[scorecardMonth] || {})[field.key] || '';
+                const isGrowthComparison = field.key === 'growthActual';
+                const targetVal = parseFloat((scorecard[scorecardMonth] || {}).growthTarget || 5);
+                const actualVal = parseFloat(val);
+                let highlightColor = null;
+                if (isGrowthComparison && val !== '') {
+                  highlightColor = actualVal >= targetVal ? '#16a34a' : '#EE3227';
+                }
+                return (
+                  <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : '#f9fafb', borderRadius: 10, borderLeft: `3px solid ${highlightColor || '#134A7C'}` }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#2D2D2D', marginBottom: 2 }}>{field.label}</div>
+                      <div style={{ fontSize: 12, color: '#6b7280' }}>{field.desc}</div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {field.prefix === '$' && <span style={{ fontSize: 16, fontWeight: 700, color: '#9ca3af' }}>$</span>}
+                      <input
+                        type="number"
+                        value={val || (field.key === 'growthTarget' ? (val === '' ? '' : val) : '')}
+                        placeholder={field.key === 'growthTarget' ? '5' : '0'}
+                        onChange={e => updateScorecardField(field.key, e.target.value)}
+                        style={{ width: 90, padding: '8px 10px', border: `1px solid ${highlightColor || '#e5e7eb'}`, borderRadius: 8, fontSize: 14, fontWeight: 700, textAlign: 'right', color: highlightColor || '#2D2D2D', outline: 'none', fontFamily: 'inherit', background: '#fff' }}
+                      />
+                      {field.prefix === '%' && <span style={{ fontSize: 14, fontWeight: 700, color: '#9ca3af' }}>%</span>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
+              <button onClick={saveScorecardMonth} style={{ padding: '10px 22px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>Save Scorecard</button>
+              {scorecardSaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>Saved!</span>}
+            </div>
+          </div>
+
+          {/* Saved months summary */}
+          {Object.keys(scorecard).length > 0 && (
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Saved Months</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {Object.entries(scorecard).filter(([, v]) => v && Object.keys(v).some(k => v[k] !== '' && v[k] !== undefined)).map(([month, data]) => {
+                  const target = parseFloat(data.growthTarget || 5);
+                  const actual = parseFloat(data.growthActual);
+                  const hasGrowth = !isNaN(actual);
+                  const met = hasGrowth && actual >= target;
+                  return (
+                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: '#f9fafb', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : '#EE3227') : '#134A7C'}` }}>
+                      <div style={{ fontWeight: 700, color: '#134A7C', fontSize: 14, minWidth: 120 }}>{month}</div>
+                      <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', flex: 1 }}>
+                        {data.upselling && <span style={{ fontSize: 12, color: '#4b5563' }}>Upselling: <strong>${data.upselling}</strong></span>}
+                        {data.marketing && <span style={{ fontSize: 12, color: '#4b5563' }}>Marketing: <strong>${data.marketing}</strong></span>}
+                        {data.storeIdea && <span style={{ fontSize: 12, color: '#4b5563' }}>Store Idea: <strong>${data.storeIdea}</strong></span>}
+                        {hasGrowth && <span style={{ fontSize: 12, fontWeight: 700, color: met ? '#16a34a' : '#EE3227' }}>Growth: {data.growthActual}% {met ? '(met target)' : `(target ${target}%)`}</span>}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ─── CALENDAR TAB ─── */}
+      {tab === 'calendar' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 20, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>2026 Key Dates Timeline</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {allDates.map((item, i) => {
+                const past = isPast(item.date);
+                const current = isCurrentMonth(item.date);
+                const isCalendarMonth = item.source === '2026 Marketing Calendar';
+                return (
+                  <div key={i} style={{ display: 'flex', gap: 0, position: 'relative' }}>
+                    {/* Timeline line */}
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 32, flexShrink: 0 }}>
+                      <div style={{ width: 10, height: 10, borderRadius: '50%', background: current ? '#16a34a' : past ? '#d1d5db' : '#134A7C', border: `2px solid ${current ? '#16a34a' : past ? '#d1d5db' : '#134A7C'}`, marginTop: 14, flexShrink: 0, zIndex: 1 }} />
+                      {i < allDates.length - 1 && <div style={{ width: 2, flex: 1, background: '#e5e7eb', minHeight: 8 }} />}
+                    </div>
+                    {/* Content */}
+                    <div style={{ flex: 1, padding: '10px 0 10px 10px', opacity: past ? 0.45 : 1 }}>
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: current ? '#16a34a' : past ? '#9ca3af' : '#134A7C', minWidth: 70, flexShrink: 0 }}>{formatShortDate(item.date)}</span>
+                        <span style={{ fontSize: 13, color: past ? '#9ca3af' : '#2D2D2D', fontWeight: isCalendarMonth ? 400 : 500 }}>{item.label}</span>
+                        {current && <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(22,163,74,0.12)', color: '#16a34a', padding: '2px 8px', borderRadius: 100 }}>THIS MONTH</span>}
+                      </div>
+                      {item.source && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{item.source}</div>}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
