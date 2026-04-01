@@ -33,6 +33,52 @@
 - [ ] **/welcome page** — verify complete with all features, comparison, security, ROI, presentations
 - [ ] **Crew PIN login** — verify schedule first tab, swaps, time off, availability
 
+## Homebase App Parity — FROM 108 SCREENSHOT REVIEW
+
+### Schedule (Homebase has, we need to verify/add)
+- [ ] **Overtime badge** — Yellow "Overtime" badge on shifts where employee exceeds scheduled time. Show on both web + iOS.
+- [ ] **Seeking cover badge** — Teal "Seeking cover" badge on shifts posted for coverage. Show in schedule grid.
+- [ ] **Birthday events in schedule** — Show employee birthdays as events in the day header with "Message" CTA button.
+- [ ] **L10 Review as schedule event** — L10 meetings show as events in the schedule (seen in Buellton screenshots).
+- [ ] **Request cover from shift** — 3-dot menu on shift card: "Request cover" + "Trade shift". Opens flow to invite coworkers.
+- [ ] **Delete unpublished/all shifts** — Context menu: "Delete unpublished shifts this week" and "Delete all shifts this week".
+
+### Timesheets (Critical — Homebase is very detailed)
+- [ ] **Photo & GPS validation on time cards** — CRITICAL GAP. Homebase captures 4 selfie photos per shift: clock-in, break-start, break-end, clock-out. Shows face photos with timestamps. We have none of this. Need camera capture on clock events in kiosk + iOS.
+- [ ] **Break penalty hours** — Homebase shows "Break Penalty: 0.00 hour(s)" field. CA compliance for missed/late breaks.
+- [ ] **Edit history audit trail** — Homebase shows full timeline: "Clock in: 10:27am on iPad Time Clock, Photo upload: 10:27am, Break started: 3:02pm..." etc. Complete audit log per time card.
+- [ ] **Manager notes on time cards** — Expandable "Manager notes (0)" section per time card. Add note capability.
+- [ ] **Issues filter on daily review** — Filter by: No show, Auto clock out, Missing clock out, Unscheduled shift, Missed paid/unpaid break, Clock in/out time added. We need these issue types flagged.
+- [ ] **Pay period selector tabs** — Week / Pay Period / Month tabs for date range selection. Clean UI.
+
+### Messaging (Homebase has full chat system)
+- [ ] **Team messaging with channels** — Homebase: Entire Team, Opening Crew, Celebration, All Managers, individual DMs. Full chat with photo sharing + emoji reactions (heart, thumbs up). We have basic messaging — need channel-based group chat.
+- [ ] **Announcements tab** — Separate from messages. Posts with attachments sent to specific teams/locations. Pin capability.
+- [ ] **Pinned messages** — View pinned messages in conversations.
+- [ ] **All Attachments & Links browser** — Filter by file type and location. Shows all shared media.
+
+### Employee Profile (Homebase is very rich)
+- [ ] **Employee earnings view** — Bar chart: Scheduled vs Actual per day. BEST day highlighted. Per-shift earnings breakdown with dollar amounts. Employee can see their own pay.
+- [ ] **Employee stats dashboard** — Last 30 days: On-time rate %, Average shift rating, Hours/week (avg), Shifts worked, Missed clock-outs, Missed breaks, No-shows. Per-employee analytics.
+- [ ] **Shout outs / Recognition with categories** — Received + Given tabs. Categories: Great Attitude, Above & Beyond, Heavy Lifter, Team Player. With party emoji animations. Maps to our Recognition system but needs category badges.
+- [ ] **Achievement badges** — Hexagonal badge icons with counts. Gamification for milestones (shifts worked, on-time streaks, etc).
+- [ ] **Resume section in profile** — Experience (role + company + dates), Certifications, Education, Export to PDF button. Employee can manage their own career history.
+- [ ] **Store PIN displayed in More tab** — Large prominent PIN number for each location. Quick reference for kiosk clock-in.
+
+### Team Management
+- [ ] **Employee invite status tracking** — "Signed in", "Invited X days ago", "Needs Invite" status per employee. Track onboarding progress.
+- [ ] **Quick contact actions** — Call + Message + Shout out icon buttons on employee list cards.
+- [ ] **Tax classification on add employee** — W-2 Employee, 1099 Contractor Individual, 1099 Contractor Business. Determines onboarding packet type.
+- [ ] **Onboarding invite options** — Send New Hire Onboarding Packet, Send app download invite, or Nothing. Three choices when adding employee.
+- [ ] **Terminate team member button** — Red "Terminate team member" CTA with "Termination details" link on employee profile.
+- [ ] **Add from contacts** — Import employee from device contacts (phone address book).
+
+### Settings & Config
+- [ ] **Calendar sync** — Sync 2 months of shifts to device calendar (iOS Calendar integration).
+- [ ] **Geofence for mobile clock-in** — Map view with store location pin. Toggle to allow/disallow mobile clock-in. GPS radius enforcement.
+- [ ] **Granular notification preferences** — 9 notification types each with Email/Push/Text toggles: schedule published, trade/cover requests, time off updates, open shift updates, shift start alert (configurable hours before), clock in/out, break due back, new tasks, overdue tasks.
+- [ ] **MFA toggle** — Multi-factor authentication enable/disable in security settings.
+
 ## Schedule Builder — Homebase Parity (P0 EMERGENCY)
 - [ ] **Day view timeline** — horizontal shift bars on hourly timeline (7am-10pm), employees on left
 - [ ] **Per-hour coverage bars** — headcount visualization showing staffing per hour
