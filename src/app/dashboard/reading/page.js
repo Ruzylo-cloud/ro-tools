@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from '../page.module.css';
 
 const BOOKS = [
@@ -465,9 +465,30 @@ const BOOKS = [
   },
 ];
 
+const DEFAULT_FAVORITES = ['atomic-habits', 'traction', 'multi-unit-leadership', 'unreasonable-hospitality', 'leaders-eat-last'];
+
 export default function ReadingPage() {
   const [selectedBook, setSelectedBook] = useState(null);
+  const [favorites, setFavorites] = useState(DEFAULT_FAVORITES);
   const book = BOOKS.find(b => b.id === selectedBook);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('reading-favorites');
+      if (saved) setFavorites(JSON.parse(saved));
+    } catch(e) {}
+  }, []);
+
+  const toggleFavorite = (e, id) => {
+    e.stopPropagation();
+    setFavorites(prev => {
+      const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
+      localStorage.setItem('reading-favorites', JSON.stringify(next));
+      return next;
+    });
+  };
+
+  const sortedBooks = [...BOOKS].sort((a, b) => a.author.localeCompare(b.author));
 
   return (
     <div className={styles.container}>
@@ -482,8 +503,8 @@ export default function ReadingPage() {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
-            {BOOKS.map(b => (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            {sortedBooks.map(b => (
               <div
                 key={b.id}
                 onClick={() => setSelectedBook(b.id)}
@@ -495,11 +516,13 @@ export default function ReadingPage() {
                 onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(19,74,124,0.1)'; }}
                 onMouseOut={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; }}
               >
-                {b.readCount > 1 && (
-                  <div style={{ position: 'absolute', top: 12, right: 12, background: '#EE3227', color: '#fff', fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10 }}>
-                    Read {b.readCount}x
-                  </div>
-                )}
+                <button
+                  onClick={(e) => toggleFavorite(e, b.id)}
+                  style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, padding: 0, lineHeight: 1 }}
+                  title={favorites.includes(b.id) ? 'Remove from favorites' : 'Add to favorites'}
+                >
+                  {favorites.includes(b.id) ? '\u2764\uFE0F' : '\u{1F90D}'}
+                </button>
                 <div style={{ fontSize: 36, marginBottom: 12 }}>📖</div>
                 <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 4 }}>
                   {b.title}
@@ -525,11 +548,12 @@ export default function ReadingPage() {
               {book.title}
             </h1>
             <div style={{ fontSize: 18, color: '#6b7280', marginBottom: 8 }}>by {book.author}</div>
-            {book.readCount > 1 && (
-              <span style={{ background: 'rgba(238,50,39,0.1)', color: '#EE3227', fontSize: 13, fontWeight: 600, padding: '4px 12px', borderRadius: 20 }}>
-                Read {book.readCount} times
-              </span>
-            )}
+            <button
+              onClick={(e) => toggleFavorite(e, book.id)}
+              style={{ background: 'none', border: '1px solid #e5e7eb', borderRadius: 20, padding: '4px 14px', cursor: 'pointer', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+            >
+              {favorites.includes(book.id) ? '\u2764\uFE0F' : '\u{1F90D}'} {favorites.includes(book.id) ? 'Favorited' : 'Add to Favorites'}
+            </button>
           </div>
 
           {/* About the Author */}
