@@ -87,6 +87,22 @@
 - [DONE] **Logbook** — Jolt has daily journal entries per employee with flag/read/date filtering. We have Manager Log.
 - [DONE] **People directory** — Jolt shows employees with roles, search, filter. We have People Hub.
 - [DONE] **QR codes** — Jolt has QR code printing for equipment. We have this in Food Labels + Equipment.
+
+### Homebase iPhone App Audit (108 screenshots reviewed)
+- [ ] **Employee earnings view** — Homebase shows employees their pay ($1,076 for pay period). Employees can see earnings details. We need employee self-service earnings view.
+- [ ] **Shift feedback rating** — After each shift, employees rate 1-5 stars "How was your last shift?". Quick morale pulse. Add to clock-out flow.
+- [ ] **Birthday tracking** — Homebase shows birthdays inline in schedule with "Message" button. Add birthday field to employee records + schedule display.
+- [ ] **Cover request invitations** — Homebase lets employees request cover, invites 5 eligible employees, tracks reply status (No reply/Claimed). Our trade board needs invitation tracking.
+- [ ] **Time clock selfie photos** — Homebase captures selfie at EVERY clock event (in, break start, break end, out). Full photo audit trail on time cards. Our kiosk has camera but may not capture at every event.
+- [ ] **Resume/experience export** — Employee profile shows experience history (role, shift count, dates), certifications, education with "Export to PDF". Add to employee profile.
+- [ ] **Per-category notification toggles** — Homebase has granular: trade/cover, time off, open shifts, shift start (with lead time), clock events, break reminders, task overdue. Our iOS app needs notification settings screen.
+- [ ] **Daily labor cost bar chart** — Dashboard shows daily labor cost as green bar chart (Fri $690, Sat $615, etc). Add to RC dashboard.
+- [ ] **Shift notes visible on clock-in** — When creating a shift, notes are shown to employee when they clock in. Add to our shift creation + kiosk clock-in.
+- [ ] **Group chat reactions + read receipts** — Homebase messaging has photo sharing, thumbs/heart reactions, read receipts (11/36), pins, edited indicator. Our messaging needs these.
+- [DONE] **Recognition/Shout outs** — Categories: Great Attitude, Above & Beyond with received/given tabs. We have Recognition in People Hub.
+- [DONE] **Employee directory with invite status** — We have People Hub.
+- [DONE] **Schedule day view with role colors** — We have Day timeline + Week grid.
+- [DONE] **Employee profile with DOB/phone/emergency** — We have employee records in People Hub.
 - [N/A] **IoT Sensors** — Jolt has gateway+sensor hardware integration. This requires physical hardware — not a software gap.
 - [N/A] **Calculator/Temp Probe tools** — Nice-to-have utilities, not core features.
 
