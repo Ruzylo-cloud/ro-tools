@@ -15,6 +15,11 @@ const TOOLS = [
   { href: '/dashboard/generators/resignation', icon: '\u{1F4E4}', title: 'Employee Resignation', desc: 'Resignation documentation with exit checklist and final pay info.' },
   { href: '/dashboard/generators/termination', icon: '\u{1F6D1}', title: 'Employee Termination', desc: 'Termination forms with prior discipline, final pay, and property return.' },
   { href: '/dashboard/generators/meal-break-waiver', icon: '\u{1F37D}\u{FE0F}', title: 'Meal Break Waiver', desc: 'California-compliant meal period waiver per Labor Code §512.' },
+  { href: '/dashboard/generators/food-labels', icon: '\u{1F3F7}\u{FE0F}', title: 'Food Labels', desc: 'Printable food prep labels with item name, prep/expiry dates, and allergens.' },
+  { href: '/dashboard/generators/work-orders', icon: '\u{1F527}', title: 'Work Orders', desc: 'Maintenance and equipment work orders with priority, assignment, and tracking.' },
+  { href: '/dashboard/generators/manager-log', icon: '\u{1F4D3}', title: 'Manager Log', desc: 'Daily manager log across boards: General, Injuries, Maintenance, Cleaning.' },
+  { href: '/dashboard/generators/dm-walkthroughs', icon: '\u{1F50D}', title: 'DM Walk-Through', desc: 'Store inspection evaluations with 14 scored categories and action items.' },
+  { href: '/dashboard/generators/onboarding-packets', icon: '\u{1F4CB}', title: 'Onboarding Packet', desc: 'New hire document checklist with progress tracking and e-signatures.' },
   { href: '/dashboard/documents', icon: '\u{1F4C4}', title: 'Training Documents', desc: 'Level 1-3 training packets and new hire onboarding checklists.' },
 ];
 
