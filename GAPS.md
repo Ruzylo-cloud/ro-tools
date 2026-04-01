@@ -117,6 +117,15 @@
 - [ ] **Payroll processing sheet** — Accounting company uses payroll sheet. Need to understand: bank deposits (default $200 register base), tips entry flow (register tips → added to deposit → bank deposit = base + tips), CC tips + cash tips = total tips. Build as own section in RC with per-pay-period switching, click-to-edit, auto-fill from Flexepos.
 - [ ] **Flexepos integration** — Connect to fms.flexepos.com for store sales reports (detail store report). Pull sales data to auto-fill payroll and closeout sheets once admin logs in.
 - [ ] **Tips reconciliation** — Register tips entered at closeout → added to deposit amount (default $200 base). If tips = $39 on $290 deposit, new bank deposit = $329. Compare to actual bank deposit. Track CC tips separately. Total tips = cash + CC for payroll.
+
+### Jolt Reports (from assistant's Chrome deep-dive)
+- [ ] **Completion rate donut chart** — Jolt shows: 93.87% completion, 88.05% on-time, 5.82% late, 6.13% missed. Need donut chart in RC Reports showing these 4 metrics.
+- [ ] **Per-store completion comparison** — Jolt shows: Santa Barbara 95.75%, Buellton 92.68%. Need multi-store checklist completion comparison table.
+- [ ] **Weekly completion trend line** — Chart showing completion % over weeks. Add to RC Reports.
+- [ ] **Save custom reports** — Jolt has "SAVE AS NEW REPORT" for custom filter combos. Add to RC Reports.
+
+### Payroll Sheet (from assistant's analysis)
+- [ ] **Payroll section in RC** — Replicate spreadsheet: Per pay period (biweekly), columns: Name, Hourly Wage, Regular Hours, OT Hours, Tipped Hours, Tips (by role: Manager/SL/Crew), Meal Periods, Rest Breaks, Sick Hours. Sections: Manager ($27-32/hr), AGM ($22/hr), Shift Lead ($20.75/hr), Crew ($20/hr), Trainees (NO TIPS). CC Tips + Cash Tips = Total Tips, Remaining Crew Tips distribution by tipped hours. Click-to-edit cells, switch by pay period, auto-fill from Flexepos.
 - [DONE] **Employee profile with DOB/phone/emergency** — We have employee records in People Hub.
 - [N/A] **IoT Sensors** — Jolt has gateway+sensor hardware integration. This requires physical hardware — not a software gap.
 - [N/A] **Calculator/Temp Probe tools** — Nice-to-have utilities, not core features.
