@@ -217,11 +217,11 @@ export default function DirectivesPage() {
     try {
       const stored = localStorage.getItem('reading-outreach');
       if (stored) setOutreachEntries(JSON.parse(stored));
-    } catch {}
+    } catch(e) {}
     try {
       const sc = localStorage.getItem('directives-scorecard');
       if (sc) setScorecard(JSON.parse(sc));
-    } catch {}
+    } catch(e) {}
   }, []);
 
   // Helpers

@@ -250,7 +250,7 @@ export default function CateringTrackerPage() {
       const url = isEdit ? `/api/catering/clients/${selectedClient.id}` : '/api/catering/clients';
       const method = isEdit ? 'PATCH' : 'POST';
       const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
-      if (!res.ok) { let msg = 'Failed to save client.'; try { const e = await res.json(); msg = e.error || msg; } catch {} throw new Error(msg); }
+      if (!res.ok) { let msg = 'Failed to save client.'; try { const e = await res.json(); msg = e.error || msg; } catch(e) {} throw new Error(msg); }
       showToast(isEdit ? 'Client updated.' : 'Client added.', 'success');
       closeModal();
       fetchClients();

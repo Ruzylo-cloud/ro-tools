@@ -33,7 +33,7 @@ export default function DashboardPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ autoAdminNotified: true }),
       });
-    } catch {}
+    } catch(e) {}
   };
 
   const firstName = profile?.displayName?.split(' ')[0] || user?.name?.split(' ')[0] || '';

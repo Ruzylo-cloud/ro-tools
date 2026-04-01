@@ -62,3 +62,22 @@ export function getSession() {
 export function createSessionToken(data) {
   return sign(data);
 }
+
+/**
+ * Verify a signed session token and return its data.
+ * Returns null if invalid or tampered.
+ */
+export function verifySessionToken(token) {
+  return verify(token);
+}
+
+/**
+ * Extract session data from a request object.
+ * Reads the ro_session cookie and verifies it.
+ */
+export function getSessionData(request) {
+  const cookieHeader = request.headers.get('cookie') || '';
+  const match = cookieHeader.match(/ro_session=([^;]+)/);
+  if (!match) return null;
+  return verify(match[1]);
+}

@@ -16,7 +16,7 @@ const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.
 const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
 
 async function ensureDir(dir) {
-  try { await fs.mkdir(dir, { recursive: true }); } catch {}
+  try { await fs.mkdir(dir, { recursive: true }); } catch(e) {}
 }
 
 export async function POST(request) {
