@@ -77,6 +77,19 @@
 - [ ] **iOS dark mode** — Colors.swift has no adaptive colors for system dark mode
 - [ ] **RT iOS 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets
 
+### Jolt iPhone App Audit (54 screenshots reviewed)
+- [ ] **Checklist item scoring** — Jolt has 1-5 score badges per checklist item. Our items are pass/fail. Add score option.
+- [ ] **Checklist due/expires pickers** — Jolt has configurable display/due/expires with time interval or specific time. Our auto-generation works but manual creation needs these pickers.
+- [ ] **Attestation selfie capture** — Jolt captures employee selfie photo at end of attestation in addition to signature. We have signature but not selfie.
+- [ ] **Information Library enhancement** — Jolt has folder-based doc/video library (LTO recipes, deep cleaning videos, food safety booklet, GM training, operational guides). Our Knowledge Base/Reading needs folder+media support.
+- [ ] **iOS Bluetooth printer pairing** — Jolt pairs with Zebra label printers via Bluetooth for food labels. Our web has label generation but iOS app lacks printer pairing.
+- [ ] **iOS settings screen** — Jolt has: notification toggles (push/email/text), sleep prevention, diagnostic reports, location selector, device info. Our iOS app needs this.
+- [DONE] **Logbook** — Jolt has daily journal entries per employee with flag/read/date filtering. We have Manager Log.
+- [DONE] **People directory** — Jolt shows employees with roles, search, filter. We have People Hub.
+- [DONE] **QR codes** — Jolt has QR code printing for equipment. We have this in Food Labels + Equipment.
+- [N/A] **IoT Sensors** — Jolt has gateway+sensor hardware integration. This requires physical hardware — not a software gap.
+- [N/A] **Calculator/Temp Probe tools** — Nice-to-have utilities, not core features.
+
 ### Vantage Point & Sheets Integration
 - [DONE] **VP Weekly Attestation Report** — Already covered by attestation wizard + timeclock compliance
 - [DONE] **MASTER Sales Growth Scorecard** — Covered by RT Marketing Directives (Outreach + Scorecard tabs)
