@@ -77,9 +77,14 @@
 - [ ] **iOS dark mode** — Colors.swift has no adaptive colors for system dark mode
 - [ ] **RT iOS 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets
 
-### Vantage Point
-- [ ] **Reports replication** — Need to search Gmail for VP daily/weekly/monthly reports and replicate formats
-- [ ] **Marketing/EBITDA sheets** — Check Google Sheets for calendars, goal sheets
+### Vantage Point & Sheets Integration
+- [DONE] **VP Weekly Attestation Report** — Already covered by attestation wizard + timeclock compliance
+- [DONE] **MASTER Sales Growth Scorecard** — Covered by RT Marketing Directives (Outreach + Scorecard tabs)
+- [DONE] **2026 Marketing Calendar** — Covered by RT Marketing Directives Calendar tab
+- [DONE] **Monthly Marketing Sheet** — Covered by RT Marketing Directives
+- [DONE] **Master closeout** — Covered by RC Daily Closeout (Mid-Day + EOD)
+- [DONE] **Store closeout reports (20381 March etc)** — Covered by RC Closeout system
+- [ ] **FSC Request tracker** — Guest recovery for complaints. Per-store: guest name, address, complaint date, card count, reason, date sent. Currently in Google Sheets — needs feature in RC Operations
 
 ### RO Tools Web
 - [DONE - techy] **3. L10 in RO Control** — DM view showing all ROs' scorecards side by side
@@ -120,7 +125,7 @@
 ### Phase 3: Features
 - [DONE] **Task 7:** People Hub nav + page stubs (Time Clock, Timesheets, Tips, Employee Docs, Performance Notes, Recognition, Certs, Hiring, Onboarding)
 - [DONE] **Task 8:** Kiosk closeout — Mid-Day + End-of-Day forms, PIN auth
-- [IN PROGRESS] **Task 9:** Schedule builder — Homebase-style visual blocks (another session)
+- [DONE] **Task 9:** Schedule builder — Homebase-style Week grid + Day timeline + Coverage chart + Add/Edit/Delete modals
 - [DONE] **Task 10:** Marketing Directives API routes on RT (proxy to MC)
 - [DONE] **Task 11:** L10 inline editing — scorecard, cascading, IDS, TODO
 - [DONE] **Task 12:** Reading / Book Log — 15 books, 100+ excerpts, discussion Qs

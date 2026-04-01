@@ -68,6 +68,13 @@
 ## Command Palette
 - [x] **Missing commands added** — DONE: L10, Stability, Closeout, all People Hub sections, Knowledge Base, AMEX, Store Profile, Messaging
 
+## Google Sheets / Docs to Replicate in System
+- [ ] **FSC (Free Sub Card) Tracker** — Each store has a tab. Columns: guest name, email, address, reason (bad review/complaint), # of free sub cards, date. Search Gmail or Sheets for "free sub card" or "FSC"
+- [ ] **Bonus charts/sheets** — Shared by josh@jmvalley, bethany@jmvalley, brittany@jmvalley. Search Sheets home + Gmail.
+- [ ] **Marketing report calendars** — Monthly marketing calendars in Sheets
+- [ ] **Monthly EBITDA goals** — Growth/profit goal sheets
+- [ ] **All other operational sheets** — Implement as many sheets/docs into the website as possible, robustly
+
 ## CSS Token Mismatches
 - [ ] **RC --text #ededf0** — should be #e8e8ed to match RT --charcoal
 - [ ] **RC .rc-nav-user hardcodes #ededf0** — should use var(--charcoal)
