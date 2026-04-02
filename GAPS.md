@@ -62,7 +62,7 @@
 ### Schedule Builder — Homebase Parity (P0 EMERGENCY)
 - [DONE] **Day view timeline** — Homebase has hourly horizontal bars (7am-10pm). We only have week grid view. Need Day tab with timeline.
 - [DONE] **Per-hour coverage** — Homebase shows headcount bars per hour at bottom. We show daily totals only.
-- [ ] **Open Shifts row** — Homebase has unclaimed shifts at top of grid. We don't have this.
+- [DONE] **Open Shifts row** — Homebase has unclaimed shifts at top of grid. We don't have this.
 - [ ] **Availability blocks** — Homebase shows unavailable/time-off in cells. We don't display availability.
 - [ ] **Print 3 formats** — Homebase offers white bg, full color, colored borders. We have none.
 - [DONE] **Weather in headers** — 7-day forecast from Open-Meteo wired into day column headers (techy, pushed 3348870)
@@ -122,7 +122,7 @@
 - [DONE] **Completion rate donut chart** — Jolt shows: 93.87% completion, 88.05% on-time, 5.82% late, 6.13% missed. Need donut chart in RC Reports showing these 4 metrics.
 - [DONE] **Per-store completion comparison** — Jolt shows: Santa Barbara 95.75%, Buellton 92.68%. Need multi-store checklist completion comparison table.
 - [DONE] **Weekly completion trend line** — Chart showing completion % over weeks. Add to RC Reports.
-- [ ] **Save custom reports** — Jolt has "SAVE AS NEW REPORT" for custom filter combos. Add to RC Reports.
+- [DONE] **Save custom reports** — Jolt has "SAVE AS NEW REPORT" for custom filter combos. Add to RC Reports.
 
 ### Payroll Sheet (from assistant's analysis)
 - [DONE] **Payroll section in RC** — Replicate spreadsheet: Per pay period (biweekly), columns: Name, Hourly Wage, Regular Hours, OT Hours, Tipped Hours, Tips (by role: Manager/SL/Crew), Meal Periods, Rest Breaks, Sick Hours. Sections: Manager ($27-32/hr), AGM ($22/hr), Shift Lead ($20.75/hr), Crew ($20/hr), Trainees (NO TIPS). CC Tips + Cash Tips = Total Tips, Remaining Crew Tips distribution by tipped hours. Click-to-edit cells, switch by pay period, auto-fill from Flexepos.
