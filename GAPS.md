@@ -111,12 +111,12 @@
 - [DONE] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
 - [ ] **Closeout: Lunch SL + Dinner SL sections** — The real closeout spreadsheet has separate Lunch Shift Lead and Dinner Shift Lead sections with different register counts, safe amounts, and variance calculations per shift. Our Mid-Day/EOD split partially covers this but needs shift lead name entry and per-shift register/safe tracking.
 - [DONE] **Closeout: Bacon/Bread tossed tracking** — Spreadsheet tracks Bacon Tossed and bread waste (White/Wheat/Rosemary/Minis) daily. Our Mid-Day closeout has waste field but needs specific bacon+bread fields.
-- [ ] **Closeout: Cash vs Variance calculation** — Register cash compared to expected, with variance highlighted in color (green/yellow/red). Add auto-calculation of over/short with color coding.
+- [DONE] **Closeout: Cash vs Variance calculation** — Register cash compared to expected, with variance highlighted in color (green/yellow/red). Add auto-calculation of over/short with color coding.
 
 ### Payroll Sheet Integration (Chris directive)
 - [DONE] **Payroll processing sheet** — Accounting company uses payroll sheet. Need to understand: bank deposits (default $200 register base), tips entry flow (register tips → added to deposit → bank deposit = base + tips), CC tips + cash tips = total tips. Build as own section in RC with per-pay-period switching, click-to-edit, auto-fill from Flexepos.
 - [ ] **Flexepos integration** — Connect to fms.flexepos.com for store sales reports (detail store report). Pull sales data to auto-fill payroll and closeout sheets once admin logs in.
-- [ ] **Tips reconciliation** — Register tips entered at closeout → added to deposit amount (default $200 base). If tips = $39 on $290 deposit, new bank deposit = $329. Compare to actual bank deposit. Track CC tips separately. Total tips = cash + CC for payroll.
+- [DONE] **Tips reconciliation** — Register tips entered at closeout → added to deposit amount (default $200 base). If tips = $39 on $290 deposit, new bank deposit = $329. Compare to actual bank deposit. Track CC tips separately. Total tips = cash + CC for payroll.
 
 ### Jolt Reports (from assistant's Chrome deep-dive)
 - [DONE] **Completion rate donut chart** — Jolt shows: 93.87% completion, 88.05% on-time, 5.82% late, 6.13% missed. Need donut chart in RC Reports showing these 4 metrics.
