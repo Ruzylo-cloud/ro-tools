@@ -190,6 +190,10 @@ export default function DocumentsPage() {
         setTrainingProgress(updated);
         try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch {}
       }
+      // RT-179: Track last download for certificate offer
+      if (form.employeeName && selected !== 'newhire') {
+        setLastDownload({ employeeName: form.employeeName, template: selected, date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) });
+      }
     } catch (err) {
       console.error('PDF generation error:', err);
       alert('Failed to generate PDF. Please try again.');
@@ -387,6 +391,69 @@ export default function DocumentsPage() {
           generatorType={selected === 'newhire' ? 'new-hire-checklist' : `training-${selected}`}
           formData={docData}
         />
+
+        {/* RT-179: Completion certificate offer */}
+        {lastDownload && lastDownload.template === selected && (
+          <div style={{ marginTop: 10, padding: '10px 14px', background: 'rgba(22,163,74,0.06)', border: '1px solid rgba(22,163,74,0.2)', borderRadius: 8 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#15803d', marginBottom: 6 }}>✓ Training downloaded!</div>
+            <button
+              onClick={async () => {
+                const { jsPDF } = await import('jspdf');
+                const pdf = new jsPDF({ orientation: 'landscape', unit: 'pt', format: 'letter' });
+                const W = 792, H = 612;
+                // Background
+                pdf.setFillColor(248, 250, 252);
+                pdf.rect(0, 0, W, H, 'F');
+                // Border
+                pdf.setDrawColor(19, 74, 124);
+                pdf.setLineWidth(3);
+                pdf.rect(20, 20, W - 40, H - 40);
+                pdf.setLineWidth(1);
+                pdf.rect(28, 28, W - 56, H - 56);
+                // Header
+                pdf.setFontSize(11);
+                pdf.setTextColor(19, 74, 124);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text('JM VALLEY GROUP', W / 2, 80, { align: 'center' });
+                pdf.setFontSize(28);
+                pdf.text('Certificate of Completion', W / 2, 130, { align: 'center' });
+                // Body
+                pdf.setFontSize(14);
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(100, 100, 100);
+                pdf.text('This certifies that', W / 2, 195, { align: 'center' });
+                pdf.setFontSize(26);
+                pdf.setFont('helvetica', 'bold');
+                pdf.setTextColor(19, 74, 124);
+                pdf.text(lastDownload.employeeName, W / 2, 240, { align: 'center' });
+                pdf.setFontSize(14);
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(100, 100, 100);
+                const tname = TEMPLATES.find(t => t.id === lastDownload.template)?.name || lastDownload.template;
+                pdf.text(`has successfully completed the`, W / 2, 280, { align: 'center' });
+                pdf.setFontSize(18);
+                pdf.setFont('helvetica', 'bold');
+                pdf.setTextColor(238, 50, 39);
+                pdf.text(tname, W / 2, 315, { align: 'center' });
+                pdf.setFontSize(12);
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(100, 100, 100);
+                pdf.text(`Issued: ${lastDownload.date}`, W / 2, 370, { align: 'center' });
+                // Signature line
+                pdf.setDrawColor(180, 180, 180);
+                pdf.line(220, 440, 380, 440);
+                pdf.line(430, 440, 590, 440);
+                pdf.setFontSize(10);
+                pdf.text('Manager Signature', 300, 455, { align: 'center' });
+                pdf.text('Date', 510, 455, { align: 'center' });
+                pdf.save(`completion-certificate-${lastDownload.employeeName.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+              }}
+              style={{ width: '100%', padding: '8px', background: '#16a34a', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              🏆 Download Completion Certificate
+            </button>
+          </div>
+        )}
       </div>
 
       {/* RT-165: Preview panel with toggle */}
