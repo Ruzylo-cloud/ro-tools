@@ -89,7 +89,7 @@
 - [DONE] **QR codes** — Jolt has QR code printing for equipment. We have this in Food Labels + Equipment.
 
 ### Homebase iPhone App Audit (108 screenshots reviewed)
-- [ ] **Employee earnings view** — Homebase shows employees their pay ($1,076 for pay period). Employees can see earnings details. We need employee self-service earnings view.
+- [DONE] **Employee earnings view** — Homebase shows employees their pay ($1,076 for pay period). Employees can see earnings details. We need employee self-service earnings view.
 - [DONE] **Shift feedback rating** — After each shift, employees rate 1-5 stars "How was your last shift?". Quick morale pulse. Add to clock-out flow.
 - [DONE] **Birthday tracking** — Homebase shows birthdays inline in schedule with "Message" button. Add birthday field to employee records + schedule display.
 - [ ] **Cover request invitations** — Homebase lets employees request cover, invites 5 eligible employees, tracks reply status (No reply/Claimed). Our trade board needs invitation tracking.
