@@ -9,6 +9,35 @@ import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import styles from './page.module.css';
 
+// RT-107: Pre-termination checklist component
+const TERM_CHECKLIST = [
+  'HR / district manager notified',
+  'Final paycheck prepared',
+  'Exit interview scheduled or waived',
+  'Final timesheet reviewed',
+  'System access removed (POS, Homebase)',
+  'Unemployment notice provided',
+];
+
+function TerminationChecklist() {
+  const [checked, setChecked] = useState([]);
+  const toggle = (item) => setChecked(prev => prev.includes(item) ? prev.filter(x => x !== item) : [...prev, item]);
+  const allDone = checked.length === TERM_CHECKLIST.length;
+  return (
+    <div style={{ background: allDone ? 'rgba(22,163,74,0.05)' : 'rgba(220,38,38,0.04)', border: `1px solid ${allDone ? '#bbf7d0' : '#fecaca'}`, borderRadius: 8, padding: '12px 14px', marginBottom: 16 }}>
+      <div style={{ fontSize: 12, fontWeight: 700, color: allDone ? '#16a34a' : '#dc2626', marginBottom: 8 }}>
+        PRE-TERMINATION CHECKLIST {allDone ? '✓' : `${checked.length}/${TERM_CHECKLIST.length}`}
+      </div>
+      {TERM_CHECKLIST.map(item => (
+        <label key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#374151', cursor: 'pointer', padding: '3px 0' }}>
+          <input type="checkbox" checked={checked.includes(item)} onChange={() => toggle(item)} style={{ accentColor: '#134A7C' }} />
+          <span style={{ textDecoration: checked.includes(item) ? 'line-through' : 'none', color: checked.includes(item) ? '#9ca3af' : '#374151' }}>{item}</span>
+        </label>
+      ))}
+    </div>
+  );
+}
+
 const TERMINATION_TYPES = [
   'Involuntary - Performance',
   'Involuntary - Policy Violation',
@@ -171,6 +200,8 @@ export default function TerminationPage() {
         <p className={styles.sidebarDesc}>
           Fill out the termination details. Store info is pre-filled from your profile.
         </p>
+        {/* RT-107: Pre-termination checklist */}
+        <TerminationChecklist />
         <div className={styles.fields}>
           <div className={styles.field}>
             <label className={styles.label}>Employee Name</label>

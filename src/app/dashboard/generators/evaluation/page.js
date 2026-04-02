@@ -224,6 +224,24 @@ export default function EvaluationPage() {
 
           {/* Ratings — RT-093: Visual star rating */}
           <div className={styles.sectionLabel}>Performance Ratings</div>
+          {/* RT-100: Average score bar */}
+          {Object.keys(form.ratings).length > 0 && (() => {
+            const rated = RATING_CATEGORIES.filter(c => form.ratings[c]);
+            const avg = rated.length > 0 ? (rated.reduce((s, c) => s + form.ratings[c], 0) / rated.length) : 0;
+            const pct = (avg / 5) * 100;
+            const color = avg >= 4 ? '#16a34a' : avg >= 3 ? '#2563eb' : avg >= 2 ? '#ca8a04' : '#dc2626';
+            return (
+              <div style={{ marginBottom: 12, padding: '10px 12px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
+                  <span>Overall Score</span>
+                  <span style={{ color }}>{avg.toFixed(1)} / 5.0 ({rated.length}/{RATING_CATEGORIES.length} rated)</span>
+                </div>
+                <div style={{ height: 6, background: '#e5e7eb', borderRadius: 3 }}>
+                  <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: 3, transition: 'width 0.3s' }} />
+                </div>
+              </div>
+            );
+          })()}
           {RATING_CATEGORIES.map((cat) => (
             <div key={cat} className={styles.ratingField}>
               <label className={styles.label}>{cat}</label>

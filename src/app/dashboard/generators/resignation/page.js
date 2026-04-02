@@ -79,7 +79,20 @@ export default function ResignationPage() {
   }, [user]);
 
   const handleChange = (key, value) => {
-    setForm(prev => ({ ...prev, [key]: value }));
+    setForm(prev => {
+      const next = { ...prev, [key]: value };
+      // RT-106: Auto-calculate last day from resignation date + notice period
+      const noticeKey = key === 'noticeGiven' ? value : next.noticeGiven;
+      const dateKey = key === 'resignationDate' ? value : next.resignationDate;
+      if (noticeKey && dateKey) {
+        const base = new Date(dateKey + 'T12:00:00');
+        const daysMap = { '2+ Weeks': 14, '1 Week': 7, 'Less Than 1 Week': 3, 'No Notice': 0, 'Immediate': 0 };
+        const days = daysMap[noticeKey] ?? 0;
+        base.setDate(base.getDate() + days);
+        next.lastDay = base.toISOString().split('T')[0];
+      }
+      return next;
+    });
   };
 
   const handleEquipmentChange = (item, checked) => {
@@ -275,6 +288,12 @@ export default function ResignationPage() {
                 <option key={n} value={n}>{n}</option>
               ))}
             </select>
+            {/* RT-106: Auto-calc hint */}
+            {form.lastDay && (
+              <p style={{ fontSize: 11, color: '#6b7280', marginTop: 4 }}>
+                Last day auto-set to {new Date(form.lastDay + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              </p>
+            )}
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Equipment Returned</label>
