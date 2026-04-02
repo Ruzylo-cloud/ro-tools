@@ -60,6 +60,8 @@ export default function LandingPage() {
   const router = useRouter();
   // RT-242/246: OAuth error display
   const [authError, setAuthError] = useState(null);
+  // RT-251: Remember me
+  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -153,11 +155,16 @@ export default function LandingPage() {
               </div>
             )}
             <div className={styles.heroActions}>
-              <button className={styles.btnPrimary} onClick={login}>
+              <button className={styles.btnPrimary} onClick={() => login(rememberMe)}>
                 <GoogleIcon /> Sign In with Google
               </button>
               <a href="#tools" className={styles.btnSecondary}>See the Tools</a>
             </div>
+            {/* RT-251: Remember me checkbox */}
+            <label style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 10, fontSize: 12, color: '#6b7280', cursor: 'pointer', userSelect: 'none' }}>
+              <input type="checkbox" checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} style={{ width: 14, height: 14, accentColor: '#134A7C' }} />
+              Stay signed in for 30 days
+            </label>
             {/* RT-252: Workspace SSO hint */}
             <div style={{ marginTop: 8, fontSize: 11, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 5 }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0, color: '#16a34a' }}><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

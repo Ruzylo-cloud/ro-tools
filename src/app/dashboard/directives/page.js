@@ -450,7 +450,7 @@ export default function DirectivesPage() {
 
       {/* Tab Bar */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 32, borderBottom: '1px solid #e5e7eb', paddingBottom: 12, flexWrap: 'wrap' }}>
-        {['overview', 'directives', 'outreach', 'scorecard', 'calendar'].map(t => (
+        {['overview', 'directives', 'outreach', 'scorecard', 'calendar', 'history'].map(t => (
           <button key={t} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : '#6b7280', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>
             {t}
             {/* RT-197: Badge on Directives tab */}
@@ -849,6 +849,47 @@ export default function DirectivesPage() {
               })}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ─── RT-145: HISTORY TAB ─── */}
+      {tab === 'history' && (
+        <div>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 16 }}>Communication History</h2>
+          {readIds.size === 0 && outreachEntries.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: '#9ca3af' }}>
+              <div style={{ fontSize: 36, marginBottom: 12 }}>📋</div>
+              <div style={{ fontSize: 15, fontWeight: 600 }}>No history yet</div>
+              <div style={{ fontSize: 13, marginTop: 4 }}>Mark directives as read and log outreach visits to see your history here.</div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {/* Read directives */}
+              {DIRECTIVES.filter(d => readIds.has(d.id)).map(d => (
+                <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #16a34a', borderRadius: 8 }}>
+                  <span style={{ fontSize: 18 }}>✓</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#2D2D2D' }}>{d.title}</div>
+                    <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>Directive acknowledged</div>
+                  </div>
+                  <span style={{ fontSize: 11, background: 'rgba(22,163,74,0.1)', color: '#166534', padding: '3px 8px', borderRadius: 6, fontWeight: 600 }}>Read</span>
+                </div>
+              ))}
+              {/* Outreach visits */}
+              {outreachEntries.slice().reverse().map(e => (
+                <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #134A7C', borderRadius: 8 }}>
+                  <span style={{ fontSize: 18 }}>🏢</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#2D2D2D' }}>{e.business}</div>
+                    <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
+                      {e.contact && `${e.contact} · `}{e.materials} · {e.qty} qty
+                    </div>
+                  </div>
+                  <span style={{ fontSize: 11, background: 'rgba(19,74,124,0.1)', color: '#134A7C', padding: '3px 8px', borderRadius: 6, fontWeight: 600 }}>Outreach</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>

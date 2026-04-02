@@ -16,15 +16,16 @@ import styles from './page.module.css';
 
 // RT-185: Thumbnails — each template has an emoji + accent color for visual thumbnail
 // RT-183: addedDate tracks when templates were added/updated for "New" notification
+// RT-127: version field for template versioning
 const TEMPLATES = [
-  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: '🎯', color: '#134A7C', addedDate: '2025-01-01' },
-  { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '🥖', color: '#2563eb', addedDate: '2025-01-01' },
-  { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '🧾', color: '#0891b2', addedDate: '2025-01-01' },
-  { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '🔥', color: '#dc2626', addedDate: '2025-01-01' },
-  { id: 'slicer', name: 'Slicer Training', desc: '4-Week Certification', icon: '🏆', color: '#d97706', addedDate: '2026-03-01' },
-  { id: 'opener', name: 'Opener Training', desc: 'Opening Shift', icon: '🌅', color: '#7c3aed', addedDate: '2026-03-01' },
-  { id: 'shiftlead', name: 'Shift Lead', desc: 'Leadership Program', icon: '⭐', color: '#059669', addedDate: '2026-03-01' },
-  { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '📋', color: '#64748b', addedDate: '2025-06-01' },
+  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: '🎯', color: '#134A7C', addedDate: '2025-01-01', version: '1.2' },
+  { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '🥖', color: '#2563eb', addedDate: '2025-01-01', version: '1.3' },
+  { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '🧾', color: '#0891b2', addedDate: '2025-01-01', version: '1.3' },
+  { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '🔥', color: '#dc2626', addedDate: '2025-01-01', version: '1.3' },
+  { id: 'slicer', name: 'Slicer Training', desc: '4-Week Certification', icon: '🏆', color: '#d97706', addedDate: '2026-03-01', version: '2.0' },
+  { id: 'opener', name: 'Opener Training', desc: 'Opening Shift', icon: '🌅', color: '#7c3aed', addedDate: '2026-03-01', version: '2.0' },
+  { id: 'shiftlead', name: 'Shift Lead', desc: 'Leadership Program', icon: '⭐', color: '#059669', addedDate: '2026-03-01', version: '2.0' },
+  { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '📋', color: '#64748b', addedDate: '2025-06-01', version: '1.1' },
 ];
 
 const TEMPLATE_FIELDS = {
@@ -289,6 +290,8 @@ export default function DocumentsPage() {
                 </div>
                 <div className={styles.templateName}>{t.name}</div>
                 <div className={styles.templateDesc}>{t.desc}</div>
+                {/* RT-127: Version tag */}
+                {t.version && <div style={{ fontSize: 9, fontWeight: 700, color: selected === t.id ? 'rgba(255,255,255,0.6)' : '#9ca3af', marginTop: 2 }}>v{t.version}</div>}
                 {/* RT-178: Completed checkmark */}
                 {isDone && <div className={styles.templateDone}>✓ Done</div>}
               </div>

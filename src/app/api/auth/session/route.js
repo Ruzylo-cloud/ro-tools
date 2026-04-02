@@ -26,6 +26,8 @@ export async function GET(request) {
   const baseUrl = `${proto}://${host}`;
 
   const response = NextResponse.redirect(`${baseUrl}${next}`);
+  // RT-251: Remember me — 30-day cookie vs default 7-day
+  const remember = searchParams.get('remember') === '1';
 
   // Set cookie — this is a same-origin request now, so Safari will accept it
   response.cookies.set('ro_session', token, {
@@ -33,7 +35,7 @@ export async function GET(request) {
     secure: true,
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: remember ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 7,
   });
 
   return response;

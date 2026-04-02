@@ -9,6 +9,24 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // RT-182: Auto-cleanup expired form drafts and stale localStorage keys
+    try {
+      const now = Date.now();
+      const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
+      for (const key of Object.keys(localStorage)) {
+        if (key.startsWith('rt-draft-')) {
+          try {
+            const val = JSON.parse(localStorage.getItem(key));
+            if (val && val._savedAt && now - val._savedAt > maxAge) {
+              localStorage.removeItem(key);
+            }
+          } catch { localStorage.removeItem(key); }
+        }
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
     let cancelled = false;
 
     fetch('/api/auth/me')
@@ -32,8 +50,8 @@ export function AuthProvider({ children }) {
     return () => { cancelled = true; };
   }, []);
 
-  const login = () => {
-    window.location.href = '/api/auth/login';
+  const login = (remember = false) => {
+    window.location.href = `/api/auth/login${remember ? '?remember=1' : ''}`;
   };
 
   const logout = () => {

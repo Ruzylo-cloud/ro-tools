@@ -276,9 +276,42 @@ export default function InjuryReportPage() {
                 {INJURY_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
+            {/* RT-102: Body diagram — click to select body part */}
             <div className={styles.field}>
               <label className={styles.label}>Body Part Affected</label>
-              <input type="text" className={styles.input} value={form.bodyPartAffected} onChange={(e) => handleChange('bodyPartAffected', e.target.value)} placeholder="e.g. Left hand, right ankle" />
+              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                <svg viewBox="0 0 80 160" width="70" height="140" style={{ flexShrink: 0, cursor: 'pointer' }} aria-label="Body diagram - click to select body part">
+                  {/* Head */}
+                  <ellipse cx="40" cy="14" rx="11" ry="13" fill={form.bodyPartAffected === 'Head' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Head')} style={{ cursor: 'pointer' }} />
+                  {/* Neck */}
+                  <rect x="36" y="27" width="8" height="8" rx="2" fill={form.bodyPartAffected === 'Neck' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Neck')} style={{ cursor: 'pointer' }} />
+                  {/* Torso */}
+                  <rect x="25" y="35" width="30" height="38" rx="4" fill={form.bodyPartAffected === 'Chest / Back' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Chest / Back')} style={{ cursor: 'pointer' }} />
+                  {/* Left arm */}
+                  <rect x="10" y="36" width="13" height="32" rx="5" fill={form.bodyPartAffected === 'Left Arm' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Left Arm')} style={{ cursor: 'pointer' }} />
+                  {/* Right arm */}
+                  <rect x="57" y="36" width="13" height="32" rx="5" fill={form.bodyPartAffected === 'Right Arm' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Right Arm')} style={{ cursor: 'pointer' }} />
+                  {/* Left hand */}
+                  <ellipse cx="16" cy="76" rx="7" ry="5" fill={form.bodyPartAffected === 'Left Hand' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Left Hand')} style={{ cursor: 'pointer' }} />
+                  {/* Right hand */}
+                  <ellipse cx="64" cy="76" rx="7" ry="5" fill={form.bodyPartAffected === 'Right Hand' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Right Hand')} style={{ cursor: 'pointer' }} />
+                  {/* Left leg */}
+                  <rect x="26" y="73" width="13" height="46" rx="5" fill={form.bodyPartAffected === 'Left Leg' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Left Leg')} style={{ cursor: 'pointer' }} />
+                  {/* Right leg */}
+                  <rect x="41" y="73" width="13" height="46" rx="5" fill={form.bodyPartAffected === 'Right Leg' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Right Leg')} style={{ cursor: 'pointer' }} />
+                  {/* Left foot */}
+                  <ellipse cx="31" cy="125" rx="9" ry="5" fill={form.bodyPartAffected === 'Left Foot' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Left Foot')} style={{ cursor: 'pointer' }} />
+                  {/* Right foot */}
+                  <ellipse cx="49" cy="125" rx="9" ry="5" fill={form.bodyPartAffected === 'Right Foot' ? '#EE3227' : '#e5e7eb'} stroke="#9ca3af" strokeWidth="1" onClick={() => handleChange('bodyPartAffected', 'Right Foot')} style={{ cursor: 'pointer' }} />
+                </svg>
+                <div style={{ flex: 1, minWidth: 100 }}>
+                  <div style={{ fontSize: 10, color: '#9ca3af', marginBottom: 6 }}>Click body part or type below</div>
+                  <input type="text" className={styles.input} value={form.bodyPartAffected} onChange={(e) => handleChange('bodyPartAffected', e.target.value)} placeholder="e.g. Left hand, right ankle" />
+                  {form.bodyPartAffected && (
+                    <button onClick={() => handleChange('bodyPartAffected', '')} style={{ marginTop: 4, fontSize: 10, color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Clear</button>
+                  )}
+                </div>
+              </div>
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Description of Incident *</label>

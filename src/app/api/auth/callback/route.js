@@ -56,10 +56,18 @@ export async function GET(request) {
     // Use intermediate session page for all clients
     // Google OAuth redirect → our callback (cross-origin) → session page (same-origin, sets cookie) → dashboard
     // This fixes Safari ITP and ensures cookies work on all browsers
-    const returnTo = state && state.startsWith('/') ? state : '/dashboard';
+    // RT-251: Parse state for returnTo + remember flag
+    let returnTo = '/dashboard';
+    let remember = false;
+    if (state) {
+      const parts = state.split('|');
+      if (parts[0].startsWith('/')) returnTo = parts[0];
+      if (parts.includes('remember')) remember = true;
+    }
     const sessionUrl = new URL('/api/auth/session', baseUrl);
     sessionUrl.searchParams.set('token', signed);
     sessionUrl.searchParams.set('next', returnTo);
+    if (remember) sessionUrl.searchParams.set('remember', '1');
     return NextResponse.redirect(sessionUrl.toString());
   } catch (err) {
     console.error('OAuth callback error:', err);

@@ -20,13 +20,14 @@ const EXTENDED_SCOPES = [
   'https://www.googleapis.com/auth/gmail.send',
 ];
 
-export function getAuthUrl() {
+export function getAuthUrl(remember = false) {
   const client = getOAuth2Client();
   return client.generateAuthUrl({
     access_type: 'offline',
     prompt: 'consent',
     scope: BASIC_SCOPES,
     hd: 'jmvalley.com',
+    state: remember ? '/dashboard|remember' : undefined,
   });
 }
 
