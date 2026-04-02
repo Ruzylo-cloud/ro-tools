@@ -60,8 +60,8 @@
 ## Active Gaps
 
 ### Schedule Builder — Homebase Parity (P0 EMERGENCY)
-- [ ] **Day view timeline** — Homebase has hourly horizontal bars (7am-10pm). We only have week grid view. Need Day tab with timeline.
-- [ ] **Per-hour coverage** — Homebase shows headcount bars per hour at bottom. We show daily totals only.
+- [DONE] **Day view timeline** — Homebase has hourly horizontal bars (7am-10pm). We only have week grid view. Need Day tab with timeline.
+- [DONE] **Per-hour coverage** — Homebase shows headcount bars per hour at bottom. We show daily totals only.
 - [ ] **Open Shifts row** — Homebase has unclaimed shifts at top of grid. We don't have this.
 - [ ] **Availability blocks** — Homebase shows unavailable/time-off in cells. We don't display availability.
 - [ ] **Print 3 formats** — Homebase offers white bg, full color, colored borders. We have none.
@@ -78,7 +78,7 @@
 - [ ] **RT iOS 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets
 
 ### Jolt iPhone App Audit (54 screenshots reviewed)
-- [ ] **Checklist item scoring** — Jolt has 1-5 score badges per checklist item. Our items are pass/fail. Add score option.
+- [DONE] **Checklist item scoring** — Jolt has 1-5 score badges per checklist item. Our items are pass/fail. Add score option.
 - [ ] **Checklist due/expires pickers** — Jolt has configurable display/due/expires with time interval or specific time. Our auto-generation works but manual creation needs these pickers.
 - [ ] **Attestation selfie capture** — Jolt captures employee selfie photo at end of attestation in addition to signature. We have signature but not selfie.
 - [ ] **Information Library enhancement** — Jolt has folder-based doc/video library (LTO recipes, deep cleaning videos, food safety booklet, GM training, operational guides). Our Knowledge Base/Reading needs folder+media support.
@@ -90,14 +90,14 @@
 
 ### Homebase iPhone App Audit (108 screenshots reviewed)
 - [ ] **Employee earnings view** — Homebase shows employees their pay ($1,076 for pay period). Employees can see earnings details. We need employee self-service earnings view.
-- [ ] **Shift feedback rating** — After each shift, employees rate 1-5 stars "How was your last shift?". Quick morale pulse. Add to clock-out flow.
-- [ ] **Birthday tracking** — Homebase shows birthdays inline in schedule with "Message" button. Add birthday field to employee records + schedule display.
+- [DONE] **Shift feedback rating** — After each shift, employees rate 1-5 stars "How was your last shift?". Quick morale pulse. Add to clock-out flow.
+- [DONE] **Birthday tracking** — Homebase shows birthdays inline in schedule with "Message" button. Add birthday field to employee records + schedule display.
 - [ ] **Cover request invitations** — Homebase lets employees request cover, invites 5 eligible employees, tracks reply status (No reply/Claimed). Our trade board needs invitation tracking.
 - [ ] **Time clock selfie photos** — Homebase captures selfie at EVERY clock event (in, break start, break end, out). Full photo audit trail on time cards. Our kiosk has camera but may not capture at every event.
 - [ ] **Resume/experience export** — Employee profile shows experience history (role, shift count, dates), certifications, education with "Export to PDF". Add to employee profile.
 - [ ] **Per-category notification toggles** — Homebase has granular: trade/cover, time off, open shifts, shift start (with lead time), clock events, break reminders, task overdue. Our iOS app needs notification settings screen.
-- [ ] **Daily labor cost bar chart** — Dashboard shows daily labor cost as green bar chart (Fri $690, Sat $615, etc). Add to RC dashboard.
-- [ ] **Shift notes visible on clock-in** — When creating a shift, notes are shown to employee when they clock in. Add to our shift creation + kiosk clock-in.
+- [DONE] **Daily labor cost bar chart** — Dashboard shows daily labor cost as green bar chart (Fri $690, Sat $615, etc). Add to RC dashboard.
+- [DONE] **Shift notes visible on clock-in** — When creating a shift, notes are shown to employee when they clock in. Add to our shift creation + kiosk clock-in.
 - [ ] **Group chat reactions + read receipts** — Homebase messaging has photo sharing, thumbs/heart reactions, read receipts (11/36), pins, edited indicator. Our messaging needs these.
 - [DONE] **Recognition/Shout outs** — Categories: Great Attitude, Above & Beyond with received/given tabs. We have Recognition in People Hub.
 - [DONE] **Employee directory with invite status** — We have People Hub.
@@ -110,22 +110,22 @@
 - [ ] **Camera photo flow in kiosk checklists** — Jolt kiosk has "Take Photo" button per checklist item, opens iPad camera, Retake/Use Photo flow. Photos attached to completed items. Our kiosk checklists need camera integration.
 - [ ] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
 - [ ] **Closeout: Lunch SL + Dinner SL sections** — The real closeout spreadsheet has separate Lunch Shift Lead and Dinner Shift Lead sections with different register counts, safe amounts, and variance calculations per shift. Our Mid-Day/EOD split partially covers this but needs shift lead name entry and per-shift register/safe tracking.
-- [ ] **Closeout: Bacon/Bread tossed tracking** — Spreadsheet tracks Bacon Tossed and bread waste (White/Wheat/Rosemary/Minis) daily. Our Mid-Day closeout has waste field but needs specific bacon+bread fields.
+- [DONE] **Closeout: Bacon/Bread tossed tracking** — Spreadsheet tracks Bacon Tossed and bread waste (White/Wheat/Rosemary/Minis) daily. Our Mid-Day closeout has waste field but needs specific bacon+bread fields.
 - [ ] **Closeout: Cash vs Variance calculation** — Register cash compared to expected, with variance highlighted in color (green/yellow/red). Add auto-calculation of over/short with color coding.
 
 ### Payroll Sheet Integration (Chris directive)
-- [ ] **Payroll processing sheet** — Accounting company uses payroll sheet. Need to understand: bank deposits (default $200 register base), tips entry flow (register tips → added to deposit → bank deposit = base + tips), CC tips + cash tips = total tips. Build as own section in RC with per-pay-period switching, click-to-edit, auto-fill from Flexepos.
+- [DONE] **Payroll processing sheet** — Accounting company uses payroll sheet. Need to understand: bank deposits (default $200 register base), tips entry flow (register tips → added to deposit → bank deposit = base + tips), CC tips + cash tips = total tips. Build as own section in RC with per-pay-period switching, click-to-edit, auto-fill from Flexepos.
 - [ ] **Flexepos integration** — Connect to fms.flexepos.com for store sales reports (detail store report). Pull sales data to auto-fill payroll and closeout sheets once admin logs in.
 - [ ] **Tips reconciliation** — Register tips entered at closeout → added to deposit amount (default $200 base). If tips = $39 on $290 deposit, new bank deposit = $329. Compare to actual bank deposit. Track CC tips separately. Total tips = cash + CC for payroll.
 
 ### Jolt Reports (from assistant's Chrome deep-dive)
-- [ ] **Completion rate donut chart** — Jolt shows: 93.87% completion, 88.05% on-time, 5.82% late, 6.13% missed. Need donut chart in RC Reports showing these 4 metrics.
-- [ ] **Per-store completion comparison** — Jolt shows: Santa Barbara 95.75%, Buellton 92.68%. Need multi-store checklist completion comparison table.
-- [ ] **Weekly completion trend line** — Chart showing completion % over weeks. Add to RC Reports.
+- [DONE] **Completion rate donut chart** — Jolt shows: 93.87% completion, 88.05% on-time, 5.82% late, 6.13% missed. Need donut chart in RC Reports showing these 4 metrics.
+- [DONE] **Per-store completion comparison** — Jolt shows: Santa Barbara 95.75%, Buellton 92.68%. Need multi-store checklist completion comparison table.
+- [DONE] **Weekly completion trend line** — Chart showing completion % over weeks. Add to RC Reports.
 - [ ] **Save custom reports** — Jolt has "SAVE AS NEW REPORT" for custom filter combos. Add to RC Reports.
 
 ### Payroll Sheet (from assistant's analysis)
-- [ ] **Payroll section in RC** — Replicate spreadsheet: Per pay period (biweekly), columns: Name, Hourly Wage, Regular Hours, OT Hours, Tipped Hours, Tips (by role: Manager/SL/Crew), Meal Periods, Rest Breaks, Sick Hours. Sections: Manager ($27-32/hr), AGM ($22/hr), Shift Lead ($20.75/hr), Crew ($20/hr), Trainees (NO TIPS). CC Tips + Cash Tips = Total Tips, Remaining Crew Tips distribution by tipped hours. Click-to-edit cells, switch by pay period, auto-fill from Flexepos.
+- [DONE] **Payroll section in RC** — Replicate spreadsheet: Per pay period (biweekly), columns: Name, Hourly Wage, Regular Hours, OT Hours, Tipped Hours, Tips (by role: Manager/SL/Crew), Meal Periods, Rest Breaks, Sick Hours. Sections: Manager ($27-32/hr), AGM ($22/hr), Shift Lead ($20.75/hr), Crew ($20/hr), Trainees (NO TIPS). CC Tips + Cash Tips = Total Tips, Remaining Crew Tips distribution by tipped hours. Click-to-edit cells, switch by pay period, auto-fill from Flexepos.
 - [DONE] **Employee profile with DOB/phone/emergency** — We have employee records in People Hub.
 - [N/A] **IoT Sensors** — Jolt has gateway+sensor hardware integration. This requires physical hardware — not a software gap.
 - [N/A] **Calculator/Temp Probe tools** — Nice-to-have utilities, not core features.
@@ -137,7 +137,7 @@
 - [DONE] **Monthly Marketing Sheet** — Covered by RT Marketing Directives
 - [DONE] **Master closeout** — Covered by RC Daily Closeout (Mid-Day + EOD)
 - [DONE] **Store closeout reports (20381 March etc)** — Covered by RC Closeout system
-- [ ] **FSC Request tracker** — Guest recovery for complaints. Per-store: guest name, address, complaint date, card count, reason, date sent. Currently in Google Sheets — needs feature in RC Operations
+- [DONE] **FSC Request tracker** — Guest recovery for complaints. Per-store: guest name, address, complaint date, card count, reason, date sent. Currently in Google Sheets — needs feature in RC Operations
 
 ### RO Tools Web
 - [DONE - techy] **3. L10 in RO Control** — DM view showing all ROs' scorecards side by side
