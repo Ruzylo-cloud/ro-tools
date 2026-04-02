@@ -74,7 +74,7 @@
 
 ### iOS Apps
 - [ ] **RC iOS kiosk closeout** — MidDayCloseoutView + EndOfDayCloseoutView missing (only 3 of 5 tabs)
-- [ ] **iOS dark mode** — Colors.swift has no adaptive colors for system dark mode
+- [DONE] **iOS dark mode** — Colors.swift now uses _adaptive() for all colors, forced light mode removed from both apps
 - [ ] **RT iOS 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets
 
 ### Jolt iPhone App Audit (54 screenshots reviewed)
