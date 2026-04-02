@@ -84,6 +84,9 @@ export default function ScoreboardPage() {
   const [selectedWeek, setSelectedWeek] = useState(11);
   // RT-144: Metric category filter
   const [metricTab, setMetricTab] = useState('all');
+  // RT-148: Store comparison
+  const [compareA, setCompareA] = useState('');
+  const [compareB, setCompareB] = useState('');
 
   const leaderboards = getLeaderboards();
   const weeks = getAvailableWeeks();
@@ -142,6 +145,10 @@ export default function ScoreboardPage() {
         </button>
         <button className={`${styles.tab} ${tab === 'weekly' ? styles.tabActive : ''}`} onClick={() => setTab('weekly')}>
           Weekly Scoreboard
+        </button>
+        {/* RT-148: Store comparison tab */}
+        <button className={`${styles.tab} ${tab === 'compare' ? styles.tabActive : ''}`} onClick={() => setTab('compare')}>
+          Compare Stores
         </button>
       </div>
 
@@ -433,6 +440,67 @@ export default function ScoreboardPage() {
           )}
         </div>
       )}
+
+      {/* RT-148: Store comparison tab */}
+      {tab === 'compare' && (() => {
+        const storeIds = weekData ? [...new Set(weekData.rows.map(r => r.storeId))].sort() : [];
+        const rowA = compareA && weekData ? weekData.rows.find(r => r.storeId === compareA) : null;
+        const rowB = compareB && weekData ? weekData.rows.find(r => r.storeId === compareB) : null;
+        const METRICS = [
+          { key: 'netSales', label: 'Net Sales', fmt: formatCurrency, higherBetter: true },
+          { key: 'pyGrowth', label: 'PY Growth %', fmt: formatPct, higherBetter: true },
+          { key: 'breadCount', label: 'Bread Count', fmt: v => v, higherBetter: true },
+          { key: 'cogsActual', label: 'COGs %', fmt: formatPct, higherBetter: false },
+          { key: 'cogsVariance', label: 'COGs Variance', fmt: formatPct, higherBetter: false },
+          { key: 'labor', label: 'Labor %', fmt: formatPct, higherBetter: false },
+          { key: 'laborTarget', label: 'Labor Target', fmt: formatPct },
+        ];
+        return (
+          <div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
+              {[{ label: 'Store A', val: compareA, setter: setCompareA, color: '#134A7C' }, { label: 'Store B', val: compareB, setter: setCompareB, color: '#EE3227' }].map(s => (
+                <div key={s.label}>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>{s.label}</label>
+                  <select
+                    value={s.val}
+                    onChange={e => s.setter(e.target.value)}
+                    style={{ width: '100%', padding: '10px 12px', border: `2px solid ${s.val ? s.color : 'var(--border)'}`, borderRadius: 8, fontSize: 13, fontFamily: 'inherit', background: 'var(--white)', color: 'var(--charcoal)' }}
+                  >
+                    <option value="">Select a store...</option>
+                    {storeIds.map(id => <option key={id} value={id}>{getStoreName(id)} — #{id}</option>)}
+                  </select>
+                </div>
+              ))}
+            </div>
+            {rowA && rowB ? (
+              <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: 'var(--gray-50)', padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#134A7C' }}>{getStoreName(compareA)}</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-400)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Metric</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#EE3227', textAlign: 'right' }}>{getStoreName(compareB)}</span>
+                </div>
+                {METRICS.map(m => {
+                  const vA = rowA[m.key], vB = rowB[m.key];
+                  const aWins = m.higherBetter !== undefined ? (m.higherBetter ? vA > vB : vA < vB) : null;
+                  return (
+                    <div key={m.key} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '12px 16px', borderBottom: '1px solid var(--gray-100)', alignItems: 'center' }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: aWins === true ? '#16a34a' : aWins === false ? '#dc2626' : 'var(--charcoal)' }}>{m.fmt(vA)}</span>
+                      <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-400)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.4px' }}>{m.label}</span>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: aWins === false ? '#16a34a' : aWins === true ? '#dc2626' : 'var(--charcoal)', textAlign: 'right' }}>{m.fmt(vB)}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className={styles.emptyState}>
+                <div className={styles.emptyIcon}>⚖️</div>
+                <h3 className={styles.emptyTitle}>Select Two Stores</h3>
+                <p className={styles.emptyDesc}>Choose two stores above to compare their Week {selectedWeek} metrics head-to-head.</p>
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Data Note */}
       <div className={styles.disclaimer}>
