@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getLeaderboards, getWeekScoreboard, getAvailableWeeks } from '@/lib/scoreboard-data';
-import { getStoreName, getStoreLabel } from '@/lib/store-directory';
+import { getStoreName, getStoreLabel, STORE_DIRECTORY } from '@/lib/store-directory';
 import styles from './page.module.css';
 
 const COLOR_MAP = {
@@ -87,6 +87,9 @@ export default function ScoreboardPage() {
   // RT-148: Store comparison
   const [compareA, setCompareA] = useState('');
   const [compareB, setCompareB] = useState('');
+  // RT-146: Data entry form
+  const [entryForm, setEntryForm] = useState({ storeId: '', netSales: '', pySales: '', breadCount: '', cogsActual: '', cogsVariance: '', labor: '', laborTarget: '' });
+  const [entrySaved, setEntrySaved] = useState(false);
 
   const leaderboards = getLeaderboards();
   const weeks = getAvailableWeeks();
@@ -149,6 +152,10 @@ export default function ScoreboardPage() {
         {/* RT-148: Store comparison tab */}
         <button className={`${styles.tab} ${tab === 'compare' ? styles.tabActive : ''}`} onClick={() => setTab('compare')}>
           Compare Stores
+        </button>
+        {/* RT-146: Data entry tab */}
+        <button className={`${styles.tab} ${tab === 'entry' ? styles.tabActive : ''}`} onClick={() => setTab('entry')}>
+          Enter Data
         </button>
       </div>
 
@@ -501,6 +508,85 @@ export default function ScoreboardPage() {
           </div>
         );
       })()}
+
+      {/* RT-146: Data entry tab */}
+      {tab === 'entry' && (
+        <div>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 6 }}>Enter Weekly Scoreboard Data</h2>
+          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Enter Week {selectedWeek} data for a store. Saved entries are stored locally for this session.</p>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14, marginBottom: 20 }}>
+              {/* Store selector */}
+              <div style={{ gridColumn: '1 / -1' }}>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 5 }}>Store *</label>
+                <select value={entryForm.storeId} onChange={e => setEntryForm(f => ({ ...f, storeId: e.target.value }))} style={{ width: '100%', maxWidth: 340, padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', background: 'var(--white)' }}>
+                  <option value="">Select a store...</option>
+                  {STORE_DIRECTORY.filter(s => s.ro).map(s => <option key={s.id} value={s.id}>{s.name !== s.id ? s.name : s.id} — #{s.id}</option>)}
+                </select>
+              </div>
+              {[
+                { key: 'netSales', label: 'Net Sales ($)', placeholder: '45000' },
+                { key: 'pySales', label: 'PY Sales ($)', placeholder: '42000' },
+                { key: 'breadCount', label: 'Bread Count', placeholder: '265' },
+                { key: 'cogsActual', label: 'COGs Actual (%)', placeholder: '23.5' },
+                { key: 'cogsVariance', label: 'COGs Variance (%)', placeholder: '-1.5' },
+                { key: 'labor', label: 'Labor (%)', placeholder: '19.2' },
+                { key: 'laborTarget', label: 'Labor Target (%)', placeholder: '20.0' },
+              ].map(f => (
+                <div key={f.key}>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 5 }}>{f.label}</label>
+                  <input
+                    type="number"
+                    value={entryForm[f.key]}
+                    onChange={e => setEntryForm(prev => ({ ...prev, [f.key]: e.target.value }))}
+                    placeholder={f.placeholder}
+                    style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box' }}
+                  />
+                </div>
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <button
+                onClick={() => {
+                  if (!entryForm.storeId || !entryForm.netSales) return;
+                  const existing = JSON.parse(localStorage.getItem('scoreboard-entries') || '[]');
+                  existing.push({ ...entryForm, weekNum: selectedWeek, savedAt: new Date().toISOString() });
+                  localStorage.setItem('scoreboard-entries', JSON.stringify(existing));
+                  setEntryForm({ storeId: '', netSales: '', pySales: '', breadCount: '', cogsActual: '', cogsVariance: '', labor: '', laborTarget: '' });
+                  setEntrySaved(true);
+                  setTimeout(() => setEntrySaved(false), 2500);
+                }}
+                disabled={!entryForm.storeId || !entryForm.netSales}
+                style={{ padding: '10px 24px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: (!entryForm.storeId || !entryForm.netSales) ? 0.5 : 1 }}
+              >
+                Save Entry
+              </button>
+              {entrySaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>✓ Saved!</span>}
+            </div>
+          </div>
+          {/* Recent entries */}
+          {(() => {
+            const entries = JSON.parse(typeof window !== 'undefined' ? localStorage.getItem('scoreboard-entries') || '[]' : '[]');
+            const weekEntries = entries.filter(e => e.weekNum === selectedWeek);
+            if (weekEntries.length === 0) return null;
+            return (
+              <div style={{ marginTop: 20 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Saved Week {selectedWeek} Entries</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {weekEntries.map((e, i) => (
+                    <div key={i} style={{ padding: '10px 14px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                      <span style={{ fontWeight: 700 }}>{getStoreName(e.storeId)} #{e.storeId}</span>
+                      <span>Sales: ${parseFloat(e.netSales).toLocaleString()}</span>
+                      {e.labor && <span>Labor: {e.labor}%</span>}
+                      {e.cogsActual && <span>COGs: {e.cogsActual}%</span>}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
 
       {/* Data Note */}
       <div className={styles.disclaimer}>
