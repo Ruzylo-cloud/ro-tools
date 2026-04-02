@@ -307,9 +307,20 @@ export default function ScoreboardPage() {
                   {weekData.rows.map((row, i) => {
                     const c = COLOR_MAP[row.color] || COLOR_MAP.none;
                     const prev = prevWeekMap[row.storeId];
+                    // RT-154: Threshold alert — flag rows with critically out-of-range metrics
+                    const criticalAlerts = [];
+                    if (row.cogsActual > 27) criticalAlerts.push(`COGs ${formatPct(row.cogsActual)} (target 22–25%)`);
+                    if (row.pySales > 0 && row.pyGrowth < -5) criticalAlerts.push(`PY growth ${formatPct(row.pyGrowth)}`);
+                    if (row.labor > row.laborTarget + 3) criticalAlerts.push(`Labor ${formatPct(row.labor)} (${formatPct(row.labor - row.laborTarget)} over target)`);
                     return (
                       <tr key={row.storeId} style={{ background: c.bg }}>
-                        <td>{i + 1}</td>
+                        <td>
+                          {i + 1}
+                          {/* RT-154: Critical threshold alert icon */}
+                          {criticalAlerts.length > 0 && (
+                            <span title={`Alerts:\n${criticalAlerts.join('\n')}`} style={{ marginLeft: 4, cursor: 'default', fontSize: 12 }}>⚠️</span>
+                          )}
+                        </td>
                         <td className={styles.storeCell}>
                           <span className={styles.storeName}>{getStoreName(row.storeId)}</span>
                           <span className={styles.storeId}>#{row.storeId}</span>

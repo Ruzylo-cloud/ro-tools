@@ -158,6 +158,11 @@ export default function LandingPage() {
               </button>
               <a href="#tools" className={styles.btnSecondary}>See the Tools</a>
             </div>
+            {/* RT-252: Workspace SSO hint */}
+            <div style={{ marginTop: 8, fontSize: 11, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 5 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0, color: '#16a34a' }}><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Requires a <strong style={{ color: '#134A7C' }}>@jmvalley.com</strong> Google Workspace account
+            </div>
             {/* RT-258: Login feature badges */}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 16 }}>
               {['📝 12 Generators', '📊 Scoreboard', '🖊️ E-Sign', '🚀 Auto-fill'].map(f => (
@@ -290,6 +295,7 @@ export default function LandingPage() {
         <button className={styles.btnPrimary} onClick={login}>
           <GoogleIcon /> Sign In with Google
         </button>
+        <p style={{ marginTop: 10, fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>@jmvalley.com accounts only</p>
       </section>
 
       {/* FOOTER */}

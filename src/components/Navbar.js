@@ -215,7 +215,8 @@ export default function Navbar() {
             >
               <div className={styles.avatar}>
                 {user.picture ? (
-                  <img src={user.picture} alt="" width={28} height={28} className={styles.avatarImg} />
+                  // RT-268: Lazy load avatar image
+                  <img src={user.picture} alt="" width={28} height={28} className={styles.avatarImg} loading="lazy" />
                 ) : (
                   <span className={styles.avatarInitials}>
                     {(user.name || user.email || '?').slice(0, 1).toUpperCase()}

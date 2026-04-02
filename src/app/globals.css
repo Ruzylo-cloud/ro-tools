@@ -1411,3 +1411,345 @@ textarea:focus-visible,
   margin-top: 2px;
   text-align: right;
 }
+
+/* ─── RT-274: Input labels visible for all form elements ─── */
+.rt-label, label.rt-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700, #374151);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.rt-label-required::after {
+  content: ' *';
+  color: var(--jm-red, #EE3227);
+  font-weight: 700;
+}
+
+/* ─── RT-284: aria-describedby helper text + error ─── */
+.rt-helper-text {
+  font-size: 11px;
+  color: var(--gray-500, #6b7280);
+  margin-top: 3px;
+  display: block;
+  line-height: 1.4;
+}
+.rt-input-error {
+  border-color: var(--jm-red, #EE3227) !important;
+  box-shadow: 0 0 0 2px rgba(238, 50, 39, 0.12);
+}
+.rt-error-text {
+  font-size: 11px;
+  color: var(--jm-red, #EE3227);
+  margin-top: 3px;
+  display: block;
+  font-weight: 600;
+}
+
+/* ─── RT-288: Heading hierarchy (clamp-based responsive) ─── */
+.rt-h1 { font-size: clamp(22px, 3vw, 32px); font-weight: 800; line-height: 1.2; color: var(--jm-blue, #134A7C); letter-spacing: -0.5px; }
+.rt-h2 { font-size: clamp(18px, 2.5vw, 24px); font-weight: 700; line-height: 1.3; color: var(--gray-900, #111827); }
+.rt-h3 { font-size: clamp(15px, 2vw, 18px); font-weight: 600; line-height: 1.4; color: var(--gray-800, #1f2937); }
+
+/* ─── RT-289: Descriptive links — external indicator ─── */
+a.rt-link-external::after {
+  content: ' \2197';
+  font-size: 0.8em;
+  opacity: 0.65;
+  display: inline-block;
+  vertical-align: super;
+}
+a.rt-link-external {
+  color: var(--jm-blue, #134A7C);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ─── RT-292: Font tokens match RC (DM Sans + Playfair Display) ─── */
+:root {
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-mono: 'Fira Code', 'Courier New', monospace;
+}
+
+/* ─── RT-295: Shadow tokens match RC ─── */
+:root {
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.10), 0 8px 32px rgba(0, 0, 0, 0.10);
+}
+
+/* ─── RT-296: Spacing tokens match RC ─── */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+}
+
+/* ─── RT-059: Smooth scroll for anchor navigation ─── */
+html { scroll-behavior: smooth; }
+
+/* ─── RT-069: Print-optimized styles ─── */
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: #fff !important; color: #000 !important; font-size: 12pt; }
+  a[href]::after { content: ' (' attr(href) ')'; font-size: 10pt; }
+  .page-break { page-break-before: always; }
+}
+
+/* ─── RT-076: Reduced motion support ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── RT-088: High contrast mode support ─── */
+@media (forced-colors: active) {
+  .stat-card, .pillar { border: 1px solid ButtonText; }
+  button { forced-color-adjust: none; }
+}
+
+/* ─── RT-094: Selection brand color ─── */
+::selection { background: rgba(19,74,124,0.18); color: var(--charcoal); }
+::-moz-selection { background: rgba(19,74,124,0.18); color: var(--charcoal); }
+
+/* ─── RT-101: Lazy image fade-in ─── */
+img[loading="lazy"] { opacity: 0; transition: opacity 0.3s ease; }
+img[loading="lazy"].rt-loaded { opacity: 1; }
+
+/* ─── RT-102: Sticky sidebar utility ─── */
+.rt-sticky-sidebar { position: sticky; top: 80px; max-height: calc(100vh - 100px); overflow-y: auto; }
+
+/* ─── RT-103: Card hover lift ─── */
+.rt-card-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; cursor: pointer; }
+.rt-card-lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+/* ─── RT-105: Pulse for loading states ─── */
+@keyframes rt-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+.rt-pulse { animation: rt-pulse 1.5s ease-in-out infinite; }
+
+/* ─── RT-114: Focus management after modal close ─── */
+[data-focus-return]:focus { outline: 3px solid var(--jm-blue); outline-offset: 2px; border-radius: 4px; }
+
+/* ─── RT-125: Form section dividers ─── */
+.rt-form-divider { height: 1px; background: var(--border); margin: 24px 0; }
+.rt-form-section-title { font-size: 12px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+
+/* ─── RT-126: Required field indicator ─── */
+.rt-required::after { content: ' *'; color: var(--jm-red); font-weight: 700; }
+
+/* ─── RT-127: Character counter ─── */
+.rt-char-counter { font-size: 11px; color: var(--gray-400); text-align: right; margin-top: 3px; }
+.rt-char-counter.near-limit { color: var(--jm-red); font-weight: 600; }
+
+/* ─── RT-128: Inline validation icon ─── */
+.rt-field-wrap { position: relative; }
+.rt-field-valid .rt-field-icon::after { content: '✓'; color: #16a34a; font-size: 13px; }
+.rt-field-invalid .rt-field-icon::after { content: '✗'; color: var(--jm-red); font-size: 13px; }
+
+/* ─── RT-141: Client tag chips ─── */
+.rt-tag-chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: rgba(19,74,124,0.06); border: 1px solid rgba(19,74,124,0.15); border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--jm-blue); white-space: nowrap; }
+
+/* ─── RT-142: Order trend arrow ─── */
+.rt-trend-up { color: #16a34a; font-weight: 700; }
+.rt-trend-down { color: var(--jm-red); font-weight: 700; }
+.rt-trend-flat { color: var(--gray-400); }
+
+/* ─── RT-148: CSV import drop zone ─── */
+.rt-drop-zone { padding: 24px; border: 2px dashed var(--border); border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s; font-size: 14px; color: var(--gray-400); }
+.rt-drop-zone:hover, .rt-drop-zone.drag-over { border-color: var(--jm-blue); color: var(--jm-blue); background: rgba(19,74,124,0.03); }
+
+/* ─── RT-154: Document preview zoom ─── */
+.rt-zoom-controls { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--gray-100); border-radius: 8px; }
+.rt-zoom-btn { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 700; color: var(--gray-600); transition: all 0.15s; }
+.rt-zoom-btn:hover { background: var(--jm-blue); color: #fff; border-color: var(--jm-blue); }
+.rt-zoom-level { font-size: 12px; font-weight: 600; color: var(--gray-500); min-width: 40px; text-align: center; }
+
+/* ─── RT-158: Mobile sidebar collapse ─── */
+@media (max-width: 768px) {
+  .rt-mobile-collapsible { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+  .rt-mobile-collapsible.open { max-height: 2000px; }
+}
+
+/* ─── RT-159: Preview fullscreen on mobile ─── */
+@media (max-width: 900px) {
+  .rt-preview-overlay { position: fixed; inset: 0; z-index: 500; background: #fff; overflow-y: auto; padding: 16px; }
+}
+
+/* ─── RT-167: Document version badge ─── */
+.rt-version-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: rgba(19,74,124,0.08); border-radius: 10px; font-size: 11px; font-weight: 700; color: var(--jm-blue); }
+
+/* ─── RT-174: Page count indicator ─── */
+.rt-page-count { font-size: 12px; color: var(--gray-400); display: flex; align-items: center; gap: 4px; }
+.rt-page-count strong { color: var(--gray-600); }
+
+/* ─── RT-179: Notification dot on nav ─── */
+.rt-nav-dot { position: absolute; top: 2px; right: 2px; width: 8px; height: 8px; border-radius: 50%; background: var(--jm-red); border: 2px solid #fff; pointer-events: none; }
+
+/* ─── RT-180: Breadcrumb navigation ─── */
+.rt-breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-400); margin-bottom: 16px; flex-wrap: wrap; }
+.rt-breadcrumb a { color: var(--jm-blue); text-decoration: none; font-weight: 500; }
+.rt-breadcrumb a:hover { text-decoration: underline; }
+.rt-breadcrumb-sep { opacity: 0.4; font-size: 10px; }
+
+/* ─── RT-181: Collapsible panels ─── */
+.rt-collapse-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 8px 0; user-select: none; transition: color 0.15s; }
+.rt-collapse-toggle:hover { color: var(--jm-blue); }
+.rt-collapse-icon { font-size: 12px; transition: transform 0.2s; }
+.rt-collapse-icon.open { transform: rotate(180deg); }
+.rt-collapse-body { overflow: hidden; transition: max-height 0.3s ease; max-height: 0; }
+.rt-collapse-body.open { max-height: 2000px; }
+
+/* ─── RT-182: Float save indicator ─── */
+.rt-float-save { position: fixed; bottom: 24px; right: 24px; padding: 10px 18px; background: #111827; color: #fff; border-radius: 10px; font-size: 13px; font-weight: 600; z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.rt-float-save.show { opacity: 1; }
+
+/* ─── RT-183: Skeleton shimmer ─── */
+.rt-skeleton { background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%); background-size: 200% 100%; animation: rt-shimmer 1.5s infinite; border-radius: 6px; }
+@keyframes rt-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+/* ─── RT-184: Tooltip ─── */
+.rt-tooltip-wrap { position: relative; display: inline-flex; align-items: center; }
+.rt-tooltip { position: absolute; bottom: calc(100% + 7px); left: 50%; transform: translateX(-50%); background: #111827; color: #fff; font-size: 11px; line-height: 1.4; padding: 5px 9px; border-radius: 6px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 999; max-width: 220px; white-space: normal; }
+.rt-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: #111827; }
+.rt-tooltip-wrap:hover .rt-tooltip, .rt-tooltip-wrap:focus-within .rt-tooltip { opacity: 1; }
+
+/* ─── RT-185: Table row hover ─── */
+.rt-table-hover tr:hover td { background: var(--gray-50); }
+
+/* ─── RT-186: Input glow on focus ─── */
+.rt-input-glow:focus { box-shadow: 0 0 0 3px rgba(19,74,124,0.12); border-color: var(--jm-blue); outline: none; }
+
+/* ─── RT-187: Badge pop animation ─── */
+@keyframes rt-badge-pop { 0% { transform: scale(0.6); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+.rt-badge-pop { animation: rt-badge-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* ─── RT-188: Destructive confirm button ─── */
+.rt-btn-destroy { background: var(--jm-red); color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+.rt-btn-destroy:hover { background: #c9261e; }
+.rt-btn-destroy:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ─── RT-189: Copyable text field ─── */
+.rt-copy-field { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--gray-100); border-radius: 8px; font-family: monospace; font-size: 13px; border: 1px solid var(--border); }
+.rt-copy-btn-sm { padding: 4px 9px; background: var(--jm-blue); color: #fff; border: none; border-radius: 5px; font-size: 11px; font-weight: 600; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+.rt-copy-btn-sm:hover { background: var(--jm-blue-light); }
+
+/* ─── RT-196: Empty state ─── */
+.rt-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 24px; text-align: center; gap: 12px; }
+.rt-empty-icon { font-size: 48px; opacity: 0.25; }
+.rt-empty-title { font-size: 18px; font-weight: 700; color: var(--charcoal); }
+.rt-empty-msg { font-size: 14px; color: var(--gray-400); max-width: 320px; line-height: 1.5; }
+
+/* ─── RT-197: Offline banner ─── */
+.rt-offline-bar { padding: 8px 20px; background: #ca8a04; color: #fff; font-size: 13px; font-weight: 600; text-align: center; position: sticky; top: 0; z-index: 100; }
+
+/* ─── RT-212: PDF quality toggle ─── */
+.rt-quality-toggle { display: flex; gap: 6px; }
+.rt-quality-opt { padding: 5px 12px; font-size: 12px; font-weight: 600; border-radius: 6px; border: 1px solid var(--border); background: #fff; color: var(--gray-500); cursor: pointer; transition: all 0.15s; }
+.rt-quality-opt.active { background: var(--jm-blue); color: #fff; border-color: var(--jm-blue); }
+
+/* ─── RT-216: Inline date input ─── */
+input[type="date"].rt-date { padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; color: var(--charcoal); background: #fff; cursor: pointer; }
+input[type="date"].rt-date:focus { border-color: var(--jm-blue); box-shadow: 0 0 0 3px rgba(19,74,124,0.1); outline: none; }
+
+/* ─── RT-220: Filter pill strip ─── */
+.rt-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.rt-pill { padding: 5px 14px; font-size: 12px; font-weight: 600; border-radius: 16px; border: 1px solid var(--border); background: #fff; color: var(--gray-600); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.rt-pill.on { background: var(--jm-blue); color: #fff; border-color: var(--jm-blue); }
+.rt-pill:hover:not(.on) { border-color: var(--jm-blue); color: var(--jm-blue); }
+
+/* ─── RT-221: Popover menu ─── */
+.rt-popover { position: absolute; background: #fff; border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-lg); padding: 6px; z-index: 300; min-width: 160px; }
+.rt-popover-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 6px; font-size: 13px; color: var(--charcoal); cursor: pointer; transition: background 0.1s; border: none; background: none; width: 100%; text-align: left; }
+.rt-popover-item:hover { background: var(--gray-100); }
+.rt-popover-item.danger { color: var(--jm-red); }
+
+/* ─── RT-227: Field-level validation messages ─── */
+.rt-field-err { font-size: 11px; color: var(--jm-red); font-weight: 600; margin-top: 3px; display: flex; align-items: center; gap: 3px; }
+.rt-field-ok { font-size: 11px; color: #16a34a; font-weight: 600; margin-top: 3px; }
+
+/* ─── RT-228: Animated counter ─── */
+.rt-counter { font-variant-numeric: tabular-nums; transition: color 0.3s ease; }
+
+/* ─── RT-236: Two-column form grid ─── */
+.rt-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .rt-2col { grid-template-columns: 1fr; } }
+
+/* ─── RT-237: Step indicator ─── */
+.rt-steps { display: flex; align-items: center; margin-bottom: 24px; gap: 0; }
+.rt-step-node { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; position: relative; }
+.rt-step-circle { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.rt-step-circle.done { background: #16a34a; color: #fff; }
+.rt-step-circle.active { background: var(--jm-blue); color: #fff; box-shadow: 0 0 0 4px rgba(19,74,124,0.12); }
+.rt-step-circle.idle { background: var(--gray-200); color: var(--gray-400); }
+.rt-step-connector { height: 2px; flex: 1; background: var(--border); }
+.rt-step-connector.done { background: #16a34a; }
+
+/* ─── RT-238: Toast queue ─── */
+.rt-toast-queue { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column-reverse; gap: 8px; z-index: 9000; pointer-events: none; }
+
+/* ─── RT-243: Avatar initials component ─── */
+.rt-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: #fff; flex-shrink: 0; background: var(--jm-blue); }
+.rt-avatar-sm { width: 28px; height: 28px; font-size: 11px; }
+.rt-avatar-lg { width: 52px; height: 52px; font-size: 20px; }
+
+/* ─── RT-246: Search result highlight ─── */
+mark.rt-match { background: rgba(238,50,39,0.15); color: inherit; border-radius: 2px; padding: 0 1px; }
+
+/* ─── RT-247: Search result meta ─── */
+.rt-result-meta { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+
+/* ─── RT-248: Matched result indent ─── */
+.rt-result-match { border-left: 3px solid var(--jm-blue); padding-left: 10px; margin: 4px 0; }
+
+/* ─── RT-249: Diff added ─── */
+.rt-added { background: rgba(22,163,74,0.08); border-left: 3px solid #16a34a; padding: 4px 8px; border-radius: 0 4px 4px 0; }
+
+/* ─── RT-250: Diff removed ─── */
+.rt-removed { background: rgba(238,50,39,0.08); border-left: 3px solid var(--jm-red); padding: 4px 8px; border-radius: 0 4px 4px 0; text-decoration: line-through; opacity: 0.7; }
+
+/* ─── RT-251: Diff neutral ─── */
+.rt-neutral-diff { background: var(--gray-50); border-left: 3px solid var(--border); padding: 4px 8px; border-radius: 0 4px 4px 0; }
+
+/* ─── RT-252: Drag handle ─── */
+.rt-drag { cursor: grab; opacity: 0.4; padding: 0 4px; font-size: 14px; user-select: none; }
+.rt-drag:active { cursor: grabbing; opacity: 0.8; }
+
+/* ─── RT-256: Alert box variants ─── */
+.rt-alert { padding: 12px 16px; border-radius: 8px; font-size: 13px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+.rt-alert.warn { background: rgba(202,138,4,0.08); border: 1px solid rgba(202,138,4,0.3); color: #92400e; }
+.rt-alert.err { background: rgba(238,50,39,0.06); border: 1px solid rgba(238,50,39,0.25); color: var(--jm-red); }
+.rt-alert.ok { background: rgba(22,163,74,0.06); border: 1px solid rgba(22,163,74,0.25); color: #166534; }
+.rt-alert.info { background: rgba(19,74,124,0.06); border: 1px solid rgba(19,74,124,0.2); color: var(--jm-blue); }
+
+/* ─── RT-257: Progress ring (SVG) ─── */
+.rt-ring { transform: rotate(-90deg); }
+.rt-ring-track { fill: none; stroke: var(--gray-200); }
+.rt-ring-fill { fill: none; stroke: var(--jm-blue); stroke-linecap: round; transition: stroke-dashoffset 0.5s ease; }
+
+/* ─── RT-259: Expandable/read-more text ─── */
+.rt-truncate { overflow: hidden; transition: max-height 0.3s ease; }
+.rt-more-btn { font-size: 12px; color: var(--jm-blue); font-weight: 600; cursor: pointer; margin-top: 4px; background: none; border: none; padding: 0; display: inline-block; }
+
+/* ─── RT-265: content-visibility for off-screen panels ─── */
+.rt-lazy { content-visibility: auto; contain-intrinsic-size: 0 300px; }
+
+/* ─── RT-266: will-change for animated elements ─── */
+.rt-anim { will-change: transform, opacity; }
+
+/* ─── RT-268: CSS containment for isolated panels ─── */
+.rt-isolated { contain: layout style; }

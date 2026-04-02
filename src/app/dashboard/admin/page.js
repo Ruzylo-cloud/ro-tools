@@ -52,6 +52,8 @@ export default function AdminPage() {
   const [logDateTo, setLogDateTo] = useState('');
   // RT-225: User search filter
   const [userSearch, setUserSearch] = useState('');
+  // RT-128: Analytics stats
+  const [analytics, setAnalytics] = useState(null);
   // RT-229: Stats
   const [userStats, setUserStats] = useState({ total: 0, pending: 0, approved: 0, admins: 0 });
 
@@ -292,6 +294,18 @@ export default function AdminPage() {
         >
           Activity Logs
         </button>
+        {/* RT-128: Analytics tab */}
+        <button
+          className={`${styles.tab} ${tab === 'stats' ? styles.tabActive : ''}`}
+          onClick={() => {
+            setTab('stats');
+            if (!analytics) {
+              fetch('/api/logs/analytics').then(r => r.json()).then(d => setAnalytics(d)).catch(() => {});
+            }
+          }}
+        >
+          Analytics
+        </button>
       </div>
 
       {/* RT-219: Deactivation confirmation modal */}
@@ -495,6 +509,63 @@ export default function AdminPage() {
                   </button>
                 </div>
               )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* RT-128: Analytics tab */}
+      {tab === 'stats' && (
+        <div>
+          {!analytics ? (
+            <div style={{ padding: 40, textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>Loading analytics...</div>
+          ) : (
+            <>
+              {/* Summary stats */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10, marginBottom: 24 }}>
+                {[
+                  { label: 'Total Generated', val: analytics.total, color: '#134A7C' },
+                  { label: 'Today', val: analytics.today, color: '#2563eb' },
+                  { label: 'This Week', val: analytics.thisWeek, color: '#16a34a' },
+                  { label: 'This Month', val: analytics.thisMonth, color: '#7c3aed' },
+                  { label: 'Active Users (7d)', val: analytics.activeUsers7, color: '#b45309' },
+                  { label: 'Active Users (30d)', val: analytics.activeUsers30, color: '#0891b2' },
+                ].map(s => (
+                  <div key={s.label} style={{ padding: '14px 16px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, textAlign: 'center' }}>
+                    <div style={{ fontSize: 24, fontWeight: 800, color: s.color }}>{s.val}</div>
+                    <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 2 }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Top generators */}
+              <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '20px 20px 16px' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#134A7C', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Top Generators</div>
+                {analytics.topGenerators.length === 0 ? (
+                  <div style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', padding: '20px 0' }}>No data yet</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    {analytics.topGenerators.map((g, i) => {
+                      const maxCount = analytics.topGenerators[0]?.count || 1;
+                      const pct = Math.round((g.count / maxCount) * 100);
+                      return (
+                        <div key={g.type} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <div style={{ width: 20, fontSize: 11, fontWeight: 700, color: '#9ca3af', textAlign: 'right', flexShrink: 0 }}>{i + 1}</div>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                              <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.label}</span>
+                              <span style={{ fontSize: 12, fontWeight: 700, color: '#134A7C', flexShrink: 0, marginLeft: 8 }}>{g.count}</span>
+                            </div>
+                            <div style={{ height: 4, background: '#f3f4f6', borderRadius: 2, overflow: 'hidden' }}>
+                              <div style={{ height: '100%', borderRadius: 2, background: i === 0 ? '#EE3227' : '#134A7C', width: `${pct}%`, transition: 'width 0.5s' }} />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>

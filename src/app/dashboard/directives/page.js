@@ -205,6 +205,8 @@ export default function DirectivesPage() {
   const [categoryFilter, setCategoryFilter] = useState('');
   // RT-198: Archive view (show vs. hide older items)
   const [showArchive, setShowArchive] = useState(false);
+  // RT-199: Per-directive acknowledgment set
+  const [readIds, setReadIds] = useState(new Set());
 
   // Outreach state
   const [outreachEntries, setOutreachEntries] = useState([]);
@@ -228,7 +230,22 @@ export default function DirectivesPage() {
       const sc = localStorage.getItem('directives-scorecard');
       if (sc) setScorecard(JSON.parse(sc));
     } catch(e) {}
+    // RT-199: Load read directive IDs
+    try {
+      const r = localStorage.getItem('directives-read');
+      if (r) setReadIds(new Set(JSON.parse(r)));
+    } catch(e) {}
   }, []);
+
+  // RT-199: Toggle directive read status
+  const toggleRead = (id) => {
+    setReadIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      localStorage.setItem('directives-read', JSON.stringify([...next]));
+      return next;
+    });
+  };
 
   // Helpers
   const saveOutreach = (entries) => {
@@ -293,6 +310,14 @@ export default function DirectivesPage() {
     { date: '2026-12-01', label: 'December Focus: Holiday Season', source: '2026 Marketing Calendar' },
   ];
   const allDates = [...allCalendarDates, ...calendarMonthDates].sort((a, b) => a.date.localeCompare(b.date));
+
+  // RT-197: New directive notification (updated within 14 days)
+  const isNewDirective = (dateStr) => {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 14);
+    return new Date(dateStr + 'T00:00:00') >= cutoff;
+  };
+  const newDirectiveCount = DIRECTIVES.filter(d => d.status === 'active' && isNewDirective(d.updatedDate)).length;
 
   // Overview stats
   const activeCount = DIRECTIVES.filter(d => d.status === 'active').length;
@@ -411,10 +436,28 @@ export default function DirectivesPage() {
         <p className={styles.subtitle}>Monthly marketing directives, action items, and campaign calendar for JMVG.</p>
       </div>
 
+      {/* RT-197: New directives notification banner */}
+      {newDirectiveCount > 0 && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(238,50,39,0.06)', border: '1px solid rgba(238,50,39,0.2)', borderRadius: 10, padding: '10px 16px', marginBottom: 20, fontSize: 13 }}>
+          <span style={{ fontSize: 16 }}>🔔</span>
+          <span style={{ fontWeight: 700, color: '#EE3227' }}>{newDirectiveCount} new {newDirectiveCount === 1 ? 'directive' : 'directives'}</span>
+          <span style={{ color: '#4b5563' }}>updated in the last 14 days — review the Directives tab</span>
+          {tab !== 'directives' && (
+            <button onClick={() => setTab('directives')} style={{ marginLeft: 'auto', padding: '4px 12px', background: '#EE3227', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>View</button>
+          )}
+        </div>
+      )}
+
       {/* Tab Bar */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 32, borderBottom: '1px solid #e5e7eb', paddingBottom: 12, flexWrap: 'wrap' }}>
         {['overview', 'directives', 'outreach', 'scorecard', 'calendar'].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : '#6b7280', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>{t}</button>
+          <button key={t} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : '#6b7280', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>
+            {t}
+            {/* RT-197: Badge on Directives tab */}
+            {t === 'directives' && newDirectiveCount > 0 && (
+              <span style={{ background: '#EE3227', color: '#fff', borderRadius: 10, fontSize: 10, fontWeight: 800, padding: '1px 5px', lineHeight: 1.4 }}>{newDirectiveCount}</span>
+            )}
+          </button>
         ))}
       </div>
 
@@ -523,39 +566,75 @@ export default function DirectivesPage() {
             if (filtered.length === 0) {
               return <div className="empty-state"><div className="empty-title">No directives found</div><div className="empty-desc">Try adjusting your search or filters.</div></div>;
             }
-            return filtered.map((directive) => (
-            <div key={directive.id} className={styles.directive}>
-              <button
-                className={`${styles.directiveHeader} ${expanded === directive.id ? styles.directiveHeaderActive : ''}`}
-                onClick={() => setExpanded(prev => prev === directive.id ? null : directive.id)}
-              >
-                <div className={styles.directiveHeaderLeft}>
-                  <span className={`${styles.statusBadge} ${styles['status_' + directive.status]}`}>
-                    {directive.status === 'active' ? 'Active' : 'Archived'}
-                  </span>
-                  <div>
-                    <div className={styles.directiveTitle}>{directive.title}</div>
-                    <div className={styles.directiveDesc}>{directive.description}</div>
-                  </div>
-                </div>
-                <div className={styles.directiveHeaderRight}>
-                  <span className={styles.directiveDate}>Updated {formatDate(directive.updatedDate)}</span>
-                  <span className={`${styles.expandChevron} ${expanded === directive.id ? styles.expandChevronOpen : ''}`}>&#x25BE;</span>
-                </div>
-              </button>
+            // RT-199: Compliance summary bar
+            const activeCount = filtered.filter(d => d.status === 'active').length;
+            const readCount = filtered.filter(d => d.status === 'active' && readIds.has(d.id)).length;
+            const pct = activeCount > 0 ? Math.round((readCount / activeCount) * 100) : 0;
 
-              {expanded === directive.id && (
-                <div className={styles.directiveBody}>
-                  {directive.sections.map((section) => (
-                    <div key={section.title} className={styles.section}>
-                      <h3 className={styles.sectionTitle}>{section.title}</h3>
-                      {renderSection(section)}
-                    </div>
-                  ))}
+            return (
+              <>
+                {/* RT-199: Compliance header */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, padding: '10px 16px', background: pct === 100 ? 'rgba(22,163,74,0.08)' : 'rgba(245,158,11,0.08)', borderRadius: 8, border: `1px solid ${pct === 100 ? 'rgba(22,163,74,0.2)' : 'rgba(245,158,11,0.2)'}` }}>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: pct === 100 ? '#166534' : '#92400e' }}>
+                    {pct === 100 ? '✓ All directives acknowledged' : `${readCount}/${activeCount} directives acknowledged`}
+                  </span>
+                  <div style={{ flex: 1, height: 6, background: 'rgba(0,0,0,0.08)', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${pct}%`, background: pct === 100 ? '#16a34a' : '#d97706', borderRadius: 3, transition: 'width 0.3s' }} />
+                  </div>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: pct === 100 ? '#166534' : '#92400e' }}>{pct}%</span>
                 </div>
-              )}
-            </div>
-          ));
+                {filtered.map((directive) => (
+                <div key={directive.id} className={styles.directive}>
+                  <button
+                    className={`${styles.directiveHeader} ${expanded === directive.id ? styles.directiveHeaderActive : ''}`}
+                    onClick={() => setExpanded(prev => prev === directive.id ? null : directive.id)}
+                  >
+                    <div className={styles.directiveHeaderLeft}>
+                      <span className={`${styles.statusBadge} ${styles['status_' + directive.status]}`}>
+                        {directive.status === 'active' ? 'Active' : 'Archived'}
+                      </span>
+                      {/* RT-197: New badge for recently updated directives */}
+                      {isNewDirective(directive.updatedDate) && (
+                        <span style={{ fontSize: 10, fontWeight: 800, background: '#EE3227', color: '#fff', padding: '2px 6px', borderRadius: 4, letterSpacing: '0.5px' }}>NEW</span>
+                      )}
+                      {/* RT-199: Read badge */}
+                      {readIds.has(directive.id) && (
+                        <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(22,163,74,0.12)', color: '#166534', padding: '2px 7px', borderRadius: 4 }}>✓ Read</span>
+                      )}
+                      <div>
+                        <div className={styles.directiveTitle}>{directive.title}</div>
+                        <div className={styles.directiveDesc}>{directive.description}</div>
+                      </div>
+                    </div>
+                    <div className={styles.directiveHeaderRight}>
+                      <span className={styles.directiveDate}>Updated {formatDate(directive.updatedDate)}</span>
+                      <span className={`${styles.expandChevron} ${expanded === directive.id ? styles.expandChevronOpen : ''}`}>&#x25BE;</span>
+                    </div>
+                  </button>
+
+                  {expanded === directive.id && (
+                    <div className={styles.directiveBody}>
+                      {directive.sections.map((section) => (
+                        <div key={section.title} className={styles.section}>
+                          <h3 className={styles.sectionTitle}>{section.title}</h3>
+                          {renderSection(section)}
+                        </div>
+                      ))}
+                      {/* RT-199: Mark as read button */}
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 16, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); toggleRead(directive.id); }}
+                          style={{ padding: '7px 16px', borderRadius: 7, border: '1.5px solid', fontSize: 12, fontWeight: 700, cursor: 'pointer', transition: 'all 0.15s', background: readIds.has(directive.id) ? 'rgba(22,163,74,0.1)' : 'transparent', borderColor: readIds.has(directive.id) ? '#16a34a' : 'var(--border)', color: readIds.has(directive.id) ? '#166534' : 'var(--gray-600)' }}
+                        >
+                          {readIds.has(directive.id) ? '✓ Marked as Read' : 'Mark as Read'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+              </>
+            );
           })()}
         </div>
       )}

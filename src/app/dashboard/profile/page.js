@@ -164,6 +164,21 @@ export default function ProfilePage() {
                 />
               </div>
             ))}
+            {/* RT-216: Map preview */}
+            {(store.street && store.city) && (
+              <div style={{ marginTop: 12 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>Location Preview</div>
+                <iframe
+                  title={`Map for ${store.storeName || 'store'}`}
+                  width="100%"
+                  height="180"
+                  style={{ border: 'none', borderRadius: 8, display: 'block' }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent([store.street, store.city, store.state].filter(Boolean).join(', '))}&output=embed&zoom=15`}
+                />
+              </div>
+            )}
           </div>
         ))}
 

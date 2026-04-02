@@ -14,15 +14,17 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
+// RT-185: Thumbnails — each template has an emoji + accent color for visual thumbnail
+// RT-183: addedDate tracks when templates were added/updated for "New" notification
 const TEMPLATES = [
-  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: 'O' },
-  { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '1' },
-  { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '2' },
-  { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '3' },
-  { id: 'slicer', name: 'Slicer Training', desc: '4-Week Certification', icon: 'S' },
-  { id: 'opener', name: 'Opener Training', desc: 'Opening Shift', icon: 'O' },
-  { id: 'shiftlead', name: 'Shift Lead', desc: 'Leadership Program', icon: 'L' },
-  { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '+' },
+  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: '🎯', color: '#134A7C', addedDate: '2025-01-01' },
+  { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '🥖', color: '#2563eb', addedDate: '2025-01-01' },
+  { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '🧾', color: '#0891b2', addedDate: '2025-01-01' },
+  { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '🔥', color: '#dc2626', addedDate: '2025-01-01' },
+  { id: 'slicer', name: 'Slicer Training', desc: '4-Week Certification', icon: '🏆', color: '#d97706', addedDate: '2026-03-01' },
+  { id: 'opener', name: 'Opener Training', desc: 'Opening Shift', icon: '🌅', color: '#7c3aed', addedDate: '2026-03-01' },
+  { id: 'shiftlead', name: 'Shift Lead', desc: 'Leadership Program', icon: '⭐', color: '#059669', addedDate: '2026-03-01' },
+  { id: 'newhire', name: 'New Hire Checklist', desc: 'Manager Onboarding', icon: '📋', color: '#64748b', addedDate: '2025-06-01' },
 ];
 
 const TEMPLATE_FIELDS = {
@@ -101,6 +103,8 @@ export default function DocumentsPage() {
   const [trainingProgress, setTrainingProgress] = useState(() => {
     try { return JSON.parse(localStorage.getItem('rt-training-progress') || '{}'); } catch { return {}; }
   });
+  // RT-179: Show certificate option after successful download
+  const [lastDownload, setLastDownload] = useState(null);
   const docRef = useRef(null);
 
   useEffect(() => {
@@ -262,13 +266,23 @@ export default function DocumentsPage() {
           {TEMPLATES.map(t => {
             const empKey = (form.employeeName || '').trim().toLowerCase();
             const isDone = empKey && trainingProgress[empKey]?.includes(t.id);
+            // RT-183: "New" badge for recently added/updated templates (within 60 days)
+            const isNew = t.addedDate && (Date.now() - new Date(t.addedDate).getTime()) < 60 * 86400000;
             return (
               <div
                 key={t.id}
                 className={`${styles.templateCard} ${selected === t.id ? styles.templateCardActive : ''}`}
                 onClick={() => handleTemplateChange(t.id)}
+                style={{ position: 'relative' }}
               >
-                <div className={styles.templateIcon}>{t.icon}</div>
+                {/* RT-183: New badge */}
+                {isNew && !isDone && (
+                  <span style={{ position: 'absolute', top: 6, right: 6, fontSize: 8, fontWeight: 800, padding: '1px 5px', borderRadius: 8, background: '#EE3227', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>New</span>
+                )}
+                {/* RT-185: Visual thumbnail */}
+                <div className={styles.templateThumb} style={{ background: selected === t.id ? 'rgba(255,255,255,0.15)' : `${t.color}18` }}>
+                  <span style={{ fontSize: 22 }}>{t.icon}</span>
+                </div>
                 <div className={styles.templateName}>{t.name}</div>
                 <div className={styles.templateDesc}>{t.desc}</div>
                 {/* RT-178: Completed checkmark */}

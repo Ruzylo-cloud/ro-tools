@@ -528,6 +528,22 @@ export default function ReadingPage() {
             </p>
           </div>
 
+          {/* RT-199: Compliance report */}
+          {readBooks.length > 0 && (
+            <div style={{ marginBottom: 20, padding: '12px 16px', background: 'rgba(19,74,124,0.05)', border: '1px solid rgba(19,74,124,0.12)', borderRadius: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#134A7C', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reading Progress</span>
+                <span style={{ fontSize: 13, fontWeight: 800, color: readBooks.length === BOOKS.length ? '#16a34a' : '#134A7C' }}>
+                  {Math.round((readBooks.length / BOOKS.length) * 100)}% complete
+                </span>
+              </div>
+              <div style={{ height: 6, background: '#e5e7eb', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ height: '100%', borderRadius: 3, background: readBooks.length === BOOKS.length ? '#16a34a' : '#134A7C', width: `${Math.round((readBooks.length / BOOKS.length) * 100)}%`, transition: 'width 0.4s' }} />
+              </div>
+              <div style={{ marginTop: 5, fontSize: 11, color: '#6b7280' }}>{readBooks.length} of {BOOKS.length} books marked read</div>
+            </div>
+          )}
+
           {/* RT-202: Search filter */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 24, alignItems: 'center' }}>
             <input
@@ -535,13 +551,9 @@ export default function ReadingPage() {
               placeholder="Search by title or author..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
+              aria-label="Search books by title or author"
               style={{ flex: 1, padding: '10px 14px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, outline: 'none', color: '#111' }}
             />
-            {readBooks.length > 0 && (
-              <span style={{ fontSize: 13, color: '#6b7280', whiteSpace: 'nowrap' }}>
-                {readBooks.length}/{BOOKS.length} read
-              </span>
-            )}
           </div>
 
           {/* RT-206: Mobile article layout — responsive grid */}

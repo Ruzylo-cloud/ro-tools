@@ -137,13 +137,24 @@ const FoodLabelPreview = forwardRef(function FoodLabelPreview({ data }, ref) {
         </div>
       </div>
 
-      {/* Label Grid */}
+      {/* RT-101: Label Grid with print sheet layout (cut lines) */}
       <div style={{
-        padding: '0 28px', flex: 1,
-        display: 'flex', flexWrap: 'wrap', gap: '12px',
+        padding: '0 28px 8px', flex: 1,
+        display: 'flex', flexWrap: 'wrap', gap: '0',
         alignContent: 'flex-start', justifyContent: 'center',
       }}>
-        {Array.from({ length: qty }, (_, i) => renderLabel(i))}
+        {Array.from({ length: qty }, (_, i) => (
+          <div key={i} style={{
+            padding: '6px',
+            borderRight: '1px dashed #d1d5db',
+            borderBottom: '1px dashed #d1d5db',
+            borderLeft: i % 3 === 0 ? '1px dashed #d1d5db' : 'none',
+            borderTop: i < 3 ? '1px dashed #d1d5db' : 'none',
+            boxSizing: 'border-box',
+          }}>
+            {renderLabel(i)}
+          </div>
+        ))}
       </div>
 
       {/* Footer */}

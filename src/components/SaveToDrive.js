@@ -21,6 +21,8 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
   const [loadingFolders, setLoadingFolders] = useState(false);
   const [result, setResult] = useState(null);
   const [needsUpgrade, setNeedsUpgrade] = useState(false);
+  // RT-181: Storage usage
+  const [storageQuota, setStorageQuota] = useState(null);
 
   const currentFolderId = breadcrumb[breadcrumb.length - 1].id;
   const isAtRoot = breadcrumb.length === 1 && currentFolderId === 'root';
@@ -39,6 +41,10 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
     }
     setNeedsUpgrade(false);
     setShowPicker(true);
+    // RT-181: Load storage quota when picker opens
+    fetch('/api/drive/quota').then(r => r.json()).then(d => {
+      if (d.limit && d.usage) setStorageQuota(d);
+    }).catch(() => {});
   };
 
   const handleUpgrade = () => {
@@ -251,6 +257,19 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
               &times;
             </button>
           </div>
+
+          {/* RT-181: Storage usage bar */}
+          {storageQuota && storageQuota.limit > 0 && (
+            <div style={{ padding: '6px 14px', borderBottom: '1px solid #f3f4f6', background: '#f9fafb' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#6b7280', marginBottom: 3 }}>
+                <span>Drive Storage</span>
+                <span>{(storageQuota.usage / 1073741824).toFixed(1)} GB / {(storageQuota.limit / 1073741824).toFixed(0)} GB</span>
+              </div>
+              <div style={{ height: 3, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ height: '100%', borderRadius: 2, background: storageQuota.usage / storageQuota.limit > 0.9 ? '#dc2626' : '#134A7C', width: `${Math.min(100, (storageQuota.usage / storageQuota.limit) * 100).toFixed(1)}%` }} />
+              </div>
+            </div>
+          )}
 
           {/* Breadcrumb */}
           <div style={{

@@ -237,7 +237,7 @@ export default function DashboardPage() {
       <div className={styles.recentSection}>
         <div className={styles.recentHeader}>
           <h2 className={styles.recentTitle}>Recently Generated</h2>
-          <Link href="/dashboard/history" className={styles.recentViewAll}>View All &rarr;</Link>
+          <Link href="/dashboard/history" className={styles.recentViewAll} aria-label="View all recently generated documents">View All &rarr;</Link>
         </div>
         <div className={styles.recentList}>
           {recentDocs === null ? (
@@ -352,21 +352,21 @@ export default function DashboardPage() {
           <div className={styles.step}>
             <div className={styles.stepNumber}>1</div>
             <div>
-              <h4 className={styles.stepTitle}>Choose a Generator</h4>
+              <h3 className={styles.stepTitle}>Choose a Generator</h3>
               <p className={styles.stepDesc}>Pick the document type you need from the Generators hub.</p>
             </div>
           </div>
           <div className={styles.step}>
             <div className={styles.stepNumber}>2</div>
             <div>
-              <h4 className={styles.stepTitle}>Fill in the Details</h4>
+              <h3 className={styles.stepTitle}>Fill in the Details</h3>
               <p className={styles.stepDesc}>Enter employee info, dates, and specifics. Your store info is pre-filled.</p>
             </div>
           </div>
           <div className={styles.step}>
             <div className={styles.stepNumber}>3</div>
             <div>
-              <h4 className={styles.stepTitle}>Preview & Download</h4>
+              <h3 className={styles.stepTitle}>Preview &amp; Download</h3>
               <p className={styles.stepDesc}>See a live preview, download as PDF, save to Google Drive, or send for e-signature — all in one click.</p>
             </div>
           </div>
@@ -539,7 +539,7 @@ export default function DashboardPage() {
         <div className={styles.updatesSection}>
           <div className={styles.updatesHeader}>
             <h2 className={styles.updatesTitle}>Recent Updates</h2>
-            <Link href="/dashboard/updates" className={styles.updatesViewAll}>View All &rarr;</Link>
+            <Link href="/dashboard/updates" className={styles.updatesViewAll} aria-label="View all recent updates">View All &rarr;</Link>
           </div>
           {recentUpdates.map((u) => (
             <div key={`${u.version}-${u.title}`} className={styles.updateRow}>
