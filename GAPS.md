@@ -109,7 +109,7 @@
 - [ ] **Schedule view in kiosk** — Homebase kiosk shows Week View (color-coded shift blocks per employee) and Day View (table with employee/hours/role/status). Add schedule tab or integrate into On Shift view.
 - [DONE] **Camera photo flow in kiosk checklists** — Jolt kiosk has "Take Photo" button per checklist item, opens iPad camera, Retake/Use Photo flow. Photos attached to completed items. Our kiosk checklists need camera integration.
 - [DONE] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
-- [ ] **Closeout: Lunch SL + Dinner SL sections** — The real closeout spreadsheet has separate Lunch Shift Lead and Dinner Shift Lead sections with different register counts, safe amounts, and variance calculations per shift. Our Mid-Day/EOD split partially covers this but needs shift lead name entry and per-shift register/safe tracking.
+- [DONE] **Closeout: Lunch SL + Dinner SL sections** — The real closeout spreadsheet has separate Lunch Shift Lead and Dinner Shift Lead sections with different register counts, safe amounts, and variance calculations per shift. Our Mid-Day/EOD split partially covers this but needs shift lead name entry and per-shift register/safe tracking.
 - [DONE] **Closeout: Bacon/Bread tossed tracking** — Spreadsheet tracks Bacon Tossed and bread waste (White/Wheat/Rosemary/Minis) daily. Our Mid-Day closeout has waste field but needs specific bacon+bread fields.
 - [DONE] **Closeout: Cash vs Variance calculation** — Register cash compared to expected, with variance highlighted in color (green/yellow/red). Add auto-calculation of over/short with color coding.
 
