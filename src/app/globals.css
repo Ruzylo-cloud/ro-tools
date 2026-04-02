@@ -134,3 +134,560 @@ button:disabled {
 [data-theme="dark"] textarea::placeholder {
   color: var(--gray-400);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FINAL POLISH — RO Tools CSS Improvements (RT-001 to RT-080)
+   Matched to RO Control design system for cross-platform consistency.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── RT-001: Smooth scrolling ─── */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* ─── RT-002: Tabular numbers for stats ─── */
+.stat-value, .metric, .count, .badge-count, time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── RT-003: Selection styling for dark mode ─── */
+[data-theme="dark"] ::selection {
+  background: rgba(74, 144, 208, 0.25);
+  color: #f5f5f7;
+}
+
+/* ─── RT-004: Text balance for headings ─── */
+h1, h2, h3 { text-wrap: balance; }
+
+/* ─── RT-005: Truncate utility ─── */
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ─── RT-006: Tooltip system ─── */
+[data-tooltip] { position: relative; }
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+  background: var(--charcoal, #1a1a2e);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s, transform 0.15s;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  line-height: 1.4;
+}
+[data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) scale(1); }
+
+/* ─── RT-007: Badge component ─── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.badge-success { background: rgba(22, 163, 74, 0.08); color: #15803d; }
+.badge-warning { background: rgba(202, 138, 4, 0.1); color: #a16207; }
+.badge-danger { background: rgba(220, 38, 38, 0.08); color: #b91c1c; }
+.badge-info { background: rgba(37, 99, 235, 0.08); color: #1d4ed8; }
+.badge-neutral { background: rgba(107, 114, 128, 0.08); color: #4b5563; }
+
+/* ─── RT-008: Stat card component ─── */
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.stat-card .stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--charcoal);
+  line-height: 1.2;
+}
+.stat-card .stat-label {
+  font-size: 10px;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.stat-card.success { border-top: 3px solid #16a34a; }
+.stat-card.danger { border-top: 3px solid #dc2626; }
+.stat-card.warning { border-top: 3px solid #ca8a04; }
+.stat-card.info { border-top: 3px solid #2563eb; }
+
+/* ─── RT-009: Empty state ─── */
+.empty-state {
+  text-align: center;
+  padding: 52px 24px;
+  color: var(--gray-500);
+}
+.empty-state .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
+.empty-state .empty-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+}
+.empty-state .empty-desc {
+  font-size: 13px;
+  max-width: 320px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ─── RT-010: Skeleton loading ─── */
+.skeleton {
+  background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-50) 50%, var(--gray-100) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: 4px;
+}
+@keyframes skeleton-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-line { height: 14px; margin-bottom: 8px; }
+.skeleton-line.short { width: 40%; }
+.skeleton-line.medium { width: 65%; }
+
+/* ─── RT-011: Toast notification ─── */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 9999;
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 13px;
+  font-weight: 500;
+  max-width: 340px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast-success { background: #f0fdf4; border-left: 3px solid #15803d; color: #15803d; }
+.toast-error { background: #fef2f2; border-left: 3px solid #b91c1c; color: #b91c1c; }
+.toast-info { background: #eff6ff; border-left: 3px solid #1d4ed8; color: #1d4ed8; }
+.toast-warn { background: #fefce8; border-left: 3px solid #a16207; color: #a16207; }
+.toast::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.25;
+  animation: toast-progress 5s linear forwards;
+}
+@keyframes toast-progress { from { width: 100%; } to { width: 0%; } }
+
+[data-theme="dark"] .toast-success { background: #1e2e25; color: #a7f3d0; }
+[data-theme="dark"] .toast-error { background: #2e1e1e; color: #fecaca; }
+[data-theme="dark"] .toast-info { background: #1e2535; color: #bfdbfe; }
+[data-theme="dark"] .toast-warn { background: #2e2a1e; color: #fde68a; }
+
+/* ─── RT-012: Chip / tag component ─── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: var(--gray-100);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--jm-blue); }
+.chip-primary { background: rgba(19, 74, 124, 0.08); border-color: rgba(19, 74, 124, 0.15); color: var(--jm-blue); }
+.chip-success { background: rgba(22, 163, 74, 0.08); color: #16a34a; }
+.chip-danger { background: rgba(220, 38, 38, 0.08); color: #dc2626; }
+
+/* ─── RT-013: Info banner ─── */
+.info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.info-banner.info { background: rgba(37, 99, 235, 0.05); border: 1px solid rgba(37, 99, 235, 0.12); }
+.info-banner.warning { background: rgba(202, 138, 4, 0.05); border: 1px solid rgba(202, 138, 4, 0.12); }
+.info-banner.danger { background: rgba(220, 38, 38, 0.05); border: 1px solid rgba(220, 38, 38, 0.12); }
+.info-banner.success { background: rgba(22, 163, 74, 0.05); border: 1px solid rgba(22, 163, 74, 0.12); }
+
+/* ─── RT-014: Divider ─── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--gray-500);
+  font-size: 12px;
+  font-weight: 600;
+  margin: 16px 0;
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ─── RT-015: Step indicator ─── */
+.steps { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
+.step { display: flex; align-items: center; gap: 8px; flex: 1; }
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--gray-100); color: var(--gray-500);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.step.active .step-num { background: var(--jm-blue); color: #fff; }
+.step.done .step-num { background: #16a34a; color: #fff; }
+.step-label { font-size: 12px; color: var(--gray-500); font-weight: 500; }
+.step.active .step-label { color: var(--charcoal); font-weight: 600; }
+.step-line { flex: 1; height: 2px; background: var(--border); margin: 0 8px; }
+
+/* ─── RT-016: Accordion ─── */
+.accordion { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.accordion-item { border-bottom: 1px solid var(--border); }
+.accordion-item:last-child { border-bottom: none; }
+.accordion-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; cursor: pointer; background: var(--white);
+  font-size: 14px; font-weight: 600; color: var(--charcoal);
+  border: none; width: 100%; text-align: left; transition: background 0.15s;
+}
+.accordion-header:hover { background: var(--gray-50); }
+.accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.accordion-item.open .accordion-body { max-height: 600px; }
+.accordion-content { padding: 14px 18px; font-size: 13px; color: var(--gray-500); line-height: 1.6; }
+
+/* ─── RT-017: Keyboard shortcut display ─── */
+kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 22px; height: 22px; padding: 0 6px;
+  background: var(--gray-50); border: 1px solid var(--border);
+  border-bottom-width: 2px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; color: var(--gray-500);
+}
+
+/* ─── RT-018: Progress ring ─── */
+.progress-ring { position: relative; display: inline-flex; align-items: center; justify-content: center; }
+.progress-ring svg { transform: rotate(-90deg); }
+.progress-ring-value { position: absolute; font-size: 12px; font-weight: 700; }
+
+/* ─── RT-019: Avatar group ─── */
+.avatar-group { display: flex; }
+.avatar-group .avatar { margin-left: -8px; border: 2px solid var(--white); }
+.avatar-group .avatar:first-child { margin-left: 0; }
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gray-200); color: var(--gray-500);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+}
+
+/* ─── RT-020: Content tabs ─── */
+.content-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+.content-tab {
+  padding: 10px 18px; font-size: 13px; font-weight: 600; color: var(--gray-500);
+  cursor: pointer; border: none; background: none;
+  border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s;
+}
+.content-tab:hover { color: var(--charcoal); }
+.content-tab.active { color: var(--jm-blue); border-bottom-color: var(--jm-blue); }
+
+/* ─── RT-021: Date preset pills ─── */
+.date-presets { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+.date-preset {
+  padding: 4px 12px; border: 1px solid var(--border); border-radius: 100px;
+  font-size: 12px; color: var(--gray-500); cursor: pointer;
+  background: var(--white); transition: all 0.15s;
+}
+.date-preset:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.date-preset.active { background: var(--jm-blue); color: #fff; border-color: var(--jm-blue); }
+
+/* ─── RT-022: Dropdown menu ─── */
+.dropdown-menu {
+  position: absolute; top: calc(100% + 4px); right: 0;
+  min-width: 180px; background: var(--white);
+  border: 1px solid var(--border); border-radius: 8px;
+  box-shadow: var(--shadow-lg); z-index: 200; padding: 4px;
+  display: none;
+}
+.dropdown-menu.open { display: block; }
+.dropdown-menu-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; font-size: 13px; cursor: pointer;
+  border-radius: 6px; transition: background 0.1s;
+  border: none; background: none; width: 100%; text-align: left;
+}
+.dropdown-menu-item:hover { background: var(--gray-50); }
+
+/* ─── RT-023: Side panel / drawer ─── */
+.side-panel {
+  position: fixed; top: 0; right: -480px;
+  width: 480px; max-width: 90vw; height: 100vh;
+  background: var(--white); border-left: 1px solid var(--border);
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.1); z-index: 901;
+  transition: right 0.3s ease; display: flex; flex-direction: column;
+}
+.side-panel.open { right: 0; }
+.side-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.side-panel-body { flex: 1; overflow-y: auto; padding: 20px; }
+
+/* ─── RT-024: File input styling ─── */
+.file-input-wrap { position: relative; display: inline-flex; }
+.file-input-wrap input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.file-input-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; background: var(--gray-50);
+  border: 1px dashed var(--border); border-radius: 8px;
+  font-size: 13px; color: var(--gray-500); cursor: pointer;
+}
+.file-input-label:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+
+/* ─── RT-025: Inline edit ─── */
+.inline-edit {
+  border: 1px solid transparent; padding: 2px 6px; border-radius: 4px;
+  transition: all 0.15s; cursor: text;
+}
+.inline-edit:hover { border-color: var(--border); background: var(--gray-50); }
+.inline-edit:focus { border-color: var(--jm-blue); outline: none; box-shadow: 0 0 0 3px rgba(19, 74, 124, 0.1); }
+
+/* ─── RT-026: Status indicators ─── */
+.status-indicator { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; }
+.status-indicator::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.status-indicator.online::before { background: #16a34a; box-shadow: 0 0 6px rgba(22, 163, 74, 0.4); }
+.status-indicator.offline::before { background: #dc2626; }
+.status-indicator.busy::before { background: #ca8a04; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ─── RT-027: Trend arrows ─── */
+.trend-up { color: #16a34a; font-weight: 600; }
+.trend-up::before { content: '\2191 '; }
+.trend-down { color: #dc2626; font-weight: 600; }
+.trend-down::before { content: '\2193 '; }
+.trend-flat { color: var(--gray-500); }
+.trend-flat::before { content: '\2192 '; }
+
+/* ─── RT-028: Count-up animation ─── */
+.count-up { animation: countUp 0.5s ease-out; }
+@keyframes countUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── RT-029: Loading dots ─── */
+.loading-dots::after { content: '...'; animation: loading-dots 1.5s infinite; }
+@keyframes loading-dots { 0% { content: '.'; } 33% { content: '..'; } 66% { content: '...'; } }
+
+/* ─── RT-030: Hide number input spinners ─── */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+/* ─── RT-031: Autofill styling ─── */
+input:-webkit-autofill {
+  -webkit-text-fill-color: var(--charcoal);
+  -webkit-box-shadow: 0 0 0 1000px var(--white) inset;
+}
+[data-theme="dark"] input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--gray-100) inset;
+}
+
+/* ─── RT-032: Card section divider ─── */
+.card-section { padding: 16px 0; border-bottom: 1px solid var(--border); }
+.card-section:last-child { border-bottom: none; padding-bottom: 0; }
+.card-section:first-child { padding-top: 0; }
+
+/* ─── RT-033: Form group focus highlight ─── */
+.form-group:focus-within label { color: var(--jm-blue); transition: color 0.15s; }
+
+/* ─── RT-034: Dark mode calendar picker ─── */
+[data-theme="dark"] input[type="date"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+[data-theme="dark"] input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+}
+
+/* ─── RT-035: Widget grid ─── */
+.widget-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+@media (max-width: 768px) { .widget-grid { grid-template-columns: 1fr; } }
+
+/* ─── RT-036: Metadata text ─── */
+.meta-text { font-size: 12px; color: var(--gray-500); font-variant-numeric: tabular-nums; }
+
+/* ─── RT-037: Scroll shadow ─── */
+.scroll-shadow {
+  background: linear-gradient(var(--white) 30%, transparent),
+    linear-gradient(transparent, var(--white) 70%) 0 100%,
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, 0.08), transparent),
+    radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, 0.08), transparent) 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 40px, 100% 40px, 100% 8px, 100% 8px;
+  background-attachment: local, local, scroll, scroll;
+}
+
+/* ─── RT-038: Character count ─── */
+.char-count { font-size: 11px; color: var(--gray-500); text-align: right; margin-top: 4px; }
+.char-count.near-limit { color: #ca8a04; }
+.char-count.at-limit { color: #dc2626; font-weight: 600; }
+
+/* ─── RT-039: Table improvements ─── */
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; font-size: 10.5px; font-weight: 600;
+  color: var(--gray-500); text-transform: uppercase;
+  letter-spacing: 0.6px; padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) td { background: rgba(0, 0, 0, 0.015); }
+tr:hover td { background: rgba(0, 0, 0, 0.03); }
+
+/* ─── RT-040: Button loading state ─── */
+.btn-loading { position: relative; color: transparent !important; pointer-events: none; }
+.btn-loading::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 16px; height: 16px; margin: -8px 0 0 -8px;
+  border: 2px solid currentColor; border-top-color: transparent;
+  border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── RT-041: Drag handle ─── */
+.drag-handle {
+  width: 20px; height: 20px; cursor: grab;
+  color: var(--gray-400); display: flex; align-items: center;
+  justify-content: center; border-radius: 4px; flex-shrink: 0;
+}
+.drag-handle:hover { color: var(--charcoal); background: var(--gray-50); }
+.drag-handle:active { cursor: grabbing; }
+
+/* ─── RT-042: Backdrop filter ─── */
+.modal-backdrop { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+
+/* ─── RT-043: Search bar ─── */
+.search-bar { position: relative; }
+.search-bar input {
+  width: 100%; padding: 8px 12px 8px 36px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 14px; background: var(--white); outline: none;
+}
+.search-bar input:focus { border-color: var(--jm-blue); box-shadow: 0 0 0 3px rgba(19, 74, 124, 0.1); }
+.search-bar .search-icon {
+  position: absolute; left: 10px; top: 50%;
+  transform: translateY(-50%); color: var(--gray-400); pointer-events: none;
+}
+
+/* ─── RT-044: Spotlight / onboarding tips ─── */
+.tip-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); z-index: 5000; }
+.tip-card {
+  position: fixed; z-index: 5002;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px 24px; max-width: 360px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+  animation: tipEnter 0.3s ease;
+}
+@keyframes tipEnter { from { opacity: 0; transform: translateY(8px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.tip-step-indicator { display: flex; gap: 4px; margin-bottom: 12px; }
+.tip-step-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); }
+.tip-step-dot.active { background: var(--jm-red); width: 20px; border-radius: 4px; }
+.tip-step-dot.done { background: #16a34a; }
+.tip-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(238, 50, 39, 0.08); color: var(--jm-red);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 12px;
+}
+.tip-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 800; color: var(--jm-blue); margin-bottom: 6px; }
+.tip-desc { font-size: 13px; color: var(--gray-500); line-height: 1.6; margin-bottom: 16px; }
+.tip-next {
+  padding: 8px 20px; background: var(--jm-red); color: #fff;
+  border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.tip-next:hover { background: #c8102e; }
+.tip-skip { background: none; border: none; color: var(--gray-500); font-size: 12px; cursor: pointer; }
+
+/* ─── RT-045: Feature banner ─── */
+.feature-banner {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, rgba(19, 74, 124, 0.04), rgba(238, 50, 39, 0.04));
+  border: 1px solid rgba(19, 74, 124, 0.1);
+  border-radius: 14px; margin-bottom: 16px;
+}
+.feature-banner-icon { font-size: 24px; }
+.feature-banner-title { font-size: 14px; font-weight: 700; color: var(--jm-blue); }
+.feature-banner-desc { font-size: 12px; color: var(--gray-500); }
+
+/* ─── RT-046: Improved responsive ─── */
+@media (min-width: 1400px) { .container { max-width: 1100px; } }
+@media (min-width: 1600px) { .container { max-width: 1200px; } }
+
+/* ─── RT-047: Print styles ─── */
+@media print {
+  nav, .toast-container, .modal-backdrop, button:not(.print-btn) { display: none !important; }
+  body { background: #fff; color: #000; }
+}
+
+/* ─── RT-048: Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── RT-049: Smooth dark mode transition ─── */
+body, body * {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+/* ─── RT-050: Hotspot indicator ─── */
+.hotspot {
+  position: absolute; top: -4px; right: -4px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--jm-red); z-index: 100; cursor: pointer;
+  border: 2px solid var(--white);
+}
+.hotspot::before {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%; background: var(--jm-red);
+  opacity: 0.3; animation: hotspotPulse 2s ease-in-out infinite;
+}
+@keyframes hotspotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.3; }
+  50% { transform: scale(1.8); opacity: 0; }
+}
