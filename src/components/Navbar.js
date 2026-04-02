@@ -164,11 +164,51 @@ export default function Navbar() {
             </svg>
           </Link>
         )}
+        {/* RT-029: Profile dropdown */}
         {user && (
-          <>
-            <span className={styles.userName}>{user.name}</span>
-            <button onClick={logout} className={styles.signOut}>Sign Out</button>
-          </>
+          <div className={styles.profileWrap}>
+            <button
+              className={styles.profileBtn}
+              onClick={() => toggleDropdown('profile')}
+              aria-expanded={openDropdown === 'profile'}
+              aria-haspopup="true"
+              aria-label="User menu"
+            >
+              <div className={styles.avatar}>
+                {user.picture ? (
+                  <img src={user.picture} alt="" width={28} height={28} className={styles.avatarImg} />
+                ) : (
+                  <span className={styles.avatarInitials}>
+                    {(user.name || user.email || '?').slice(0, 1).toUpperCase()}
+                  </span>
+                )}
+              </div>
+              <span className={styles.profileName}>{user.name?.split(' ')[0] || 'Account'}</span>
+              <span className={`${styles.chevron} ${openDropdown === 'profile' ? styles.chevronOpen : ''}`}>&#x25BE;</span>
+            </button>
+            {openDropdown === 'profile' && (
+              <div className={`${styles.dropdown} ${styles.profileDropdown}`} style={{ right: 0, left: 'auto', minWidth: 200 }}>
+                <div className={styles.profileInfo}>
+                  <div className={styles.profileFullName}>{user.name}</div>
+                  <div className={styles.profileEmail}>{user.email}</div>
+                </div>
+                <div className={styles.dropdownDivider} />
+                <Link href="/dashboard/profile" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>🏪</span>
+                  <div><div className={styles.dropdownLabel}>Store Profile</div></div>
+                </Link>
+                <Link href="/dashboard/support" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>💬</span>
+                  <div><div className={styles.dropdownLabel}>Support</div></div>
+                </Link>
+                <div className={styles.dropdownDivider} />
+                <button className={`${styles.dropdownItem} ${styles.signOutItem}`} onClick={() => { closeDropdown(); logout(); }}>
+                  <span className={styles.dropdownIcon}>🚪</span>
+                  <div><div className={styles.dropdownLabel} style={{ color: 'var(--jm-red)' }}>Sign Out</div></div>
+                </button>
+              </div>
+            )}
+          </div>
         )}
       </div>
 

@@ -578,3 +578,44 @@
   color: var(--jm-red);
   border-color: var(--jm-red);
 }
+
+/* RT-029: Profile dropdown */
+.profileWrap { position: relative; }
+.profileBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  color: var(--charcoal);
+}
+.profileBtn:hover { background: var(--gray-100); }
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--jm-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.avatarImg { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.avatarInitials { color: white; font-size: 12px; font-weight: 700; }
+.profileName { font-size: 13px; font-weight: 600; color: var(--charcoal); }
+.profileDropdown { min-width: 200px; }
+.profileInfo { padding: 12px 16px; }
+.profileFullName { font-size: 13px; font-weight: 700; color: var(--charcoal); }
+.profileEmail { font-size: 11px; color: var(--gray-400); margin-top: 2px; }
+.dropdownDivider { height: 1px; background: var(--border); margin: 4px 0; }
+.signOutItem { width: 100%; text-align: left; background: none; border: none; cursor: pointer; }
+
+:global([data-theme="dark"]) .profileBtn:hover { background: rgba(255,255,255,0.08); }
+:global([data-theme="dark"]) .profileName { color: #e8e8ed; }
+:global([data-theme="dark"]) .profileFullName { color: #e8e8ed; }
+:global([data-theme="dark"]) .dropdownDivider { background: #3d3d4a; }

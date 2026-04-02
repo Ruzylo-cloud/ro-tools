@@ -64,3 +64,140 @@
   .container { padding: 28px 16px; }
   .tabs { flex-direction: column; }
 }
+
+/* RT-139: Week Navigator */
+.weekNav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.weekNavBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--jm-blue);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.weekNavBtn:hover:not(:disabled) { background: var(--jm-blue); color: white; border-color: var(--jm-blue); }
+.weekNavBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+.weekSelectorWrap { display: flex; flex-direction: column; gap: 4px; }
+.weekLabel { font-size: 16px; font-weight: 700; color: var(--jm-blue); }
+
+/* RT-144: Metric Category Tabs */
+.metricTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.metricTab {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.metricTab:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.metricTabActive {
+  background: var(--jm-blue);
+  color: white;
+  border-color: var(--jm-blue);
+}
+
+/* RT-136: Sticky header */
+.stickyHead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--jm-blue);
+}
+.stickyHead th {
+  background: var(--jm-blue);
+  color: white !important;
+}
+
+/* RT-138: Enhanced empty state */
+.emptyState {
+  text-align: center;
+  padding: 64px 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-top: 16px;
+}
+.emptyIcon { font-size: 48px; margin-bottom: 16px; }
+.emptyTitle { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--jm-blue); margin-bottom: 8px; }
+.emptyDesc { font-size: 14px; color: var(--gray-500); margin-bottom: 20px; }
+.emptyBtn {
+  background: var(--jm-blue);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* RT-143: Mobile card layout */
+.mobileCards { display: none; }
+
+.mobileCard {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 4px solid;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.mobileCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.mobileCardRank {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--gray-400);
+  min-width: 28px;
+}
+.mobileCardStore { font-size: 15px; font-weight: 700; color: var(--charcoal); }
+.mobileCardId { font-size: 11px; color: var(--gray-400); }
+.mobileCardMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.mobileMetric { display: flex; flex-direction: column; gap: 2px; }
+.mobileMetricLabel { font-size: 10px; color: var(--gray-400); font-weight: 600; text-transform: uppercase; }
+.mobileMetricVal { font-size: 14px; font-weight: 700; color: var(--charcoal); }
+
+/* Responsive: show mobile cards on small screens */
+@media (max-width: 768px) {
+  .table { display: none; }
+  .mobileCards { display: block; }
+  .tableWrap { background: transparent; border: none; padding: 0; border-radius: 0; }
+  .mobileCardMetrics { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Dark mode scoreboard additions */
+:global([data-theme="dark"]) .weekNavBtn { background: #2a2a36; border-color: #3d3d4a; color: #4a90d0; }
+:global([data-theme="dark"]) .weekNavBtn:hover:not(:disabled) { background: #4a90d0; color: white; }
+:global([data-theme="dark"]) .metricTab { background: #2a2a36; border-color: #3d3d4a; color: #a0a0b0; }
+:global([data-theme="dark"]) .metricTabActive { background: #4a90d0; border-color: #4a90d0; }
+:global([data-theme="dark"]) .emptyState { background: #2a2a36; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .mobileCard { background: #2a2a36; border-color: #3d3d4a; }

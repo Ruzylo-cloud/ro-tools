@@ -4,8 +4,42 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import QuickTour from '@/components/QuickTour';
+
+// RT-018: Page title map for document.title updates
+const PAGE_TITLES = {
+  '/dashboard': 'Dashboard — RO Tools',
+  '/dashboard/generators': 'Generators — RO Tools',
+  '/dashboard/generators/written-warning': 'Written Warning — RO Tools',
+  '/dashboard/generators/evaluation': 'Performance Evaluation — RO Tools',
+  '/dashboard/generators/coaching-form': 'Employee Coaching — RO Tools',
+  '/dashboard/generators/resignation': 'Employee Resignation — RO Tools',
+  '/dashboard/generators/termination': 'Employee Termination — RO Tools',
+  '/dashboard/generators/injury-report': 'Injury Report — RO Tools',
+  '/dashboard/generators/timesheet-correction': 'Timesheet Correction — RO Tools',
+  '/dashboard/generators/attestation-correction': 'Attestation Correction — RO Tools',
+  '/dashboard/generators/meal-break-waiver': 'Meal Break Waiver — RO Tools',
+  '/dashboard/generators/catering-order': 'Catering Order — RO Tools',
+  '/dashboard/generators/food-labels': 'Food Labels — RO Tools',
+  '/dashboard/generators/work-orders': 'Work Orders — RO Tools',
+  '/dashboard/generators/manager-log': 'Manager Log — RO Tools',
+  '/dashboard/generators/dm-walkthroughs': 'DM Walk-Through — RO Tools',
+  '/dashboard/generators/onboarding-packets': 'Onboarding Packet — RO Tools',
+  '/dashboard/flyer': 'Catering Flyer — RO Tools',
+  '/dashboard/scoreboard': 'Scoreboard — RO Tools',
+  '/dashboard/catering-tracker': 'Catering Tracker — RO Tools',
+  '/dashboard/directives': 'Directives — RO Tools',
+  '/dashboard/profile': 'Store Profile — RO Tools',
+  '/dashboard/support': 'Support — RO Tools',
+  '/dashboard/admin': 'Admin Panel — RO Tools',
+  '/dashboard/documents': 'Training Documents — RO Tools',
+  '/dashboard/history': 'Document History — RO Tools',
+  '/dashboard/updates': 'Updates — RO Tools',
+  '/dashboard/reading': 'Reading — RO Tools',
+  '/dashboard/setup': 'Setup — RO Tools',
+};
 
 export default function DashboardLayout({ children }) {
   const { user, loading } = useAuth();
@@ -20,6 +54,12 @@ export default function DashboardLayout({ children }) {
       router.push('/');
     }
   }, [user, loading, router]);
+
+  // RT-018: Update document.title on route change
+  useEffect(() => {
+    const title = PAGE_TITLES[pathname] || 'RO Tools';
+    document.title = title;
+  }, [pathname]);
 
   const checkSetup = useCallback(() => {
     if (!user) return;
@@ -71,9 +111,11 @@ export default function DashboardLayout({ children }) {
     <>
       <a href="#main-content" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden', zIndex: 10000 }} onFocus={e => { e.target.style.position = 'fixed'; e.target.style.left = '16px'; e.target.style.top = '16px'; e.target.style.width = 'auto'; e.target.style.height = 'auto'; e.target.style.padding = '8px 16px'; e.target.style.background = 'var(--jm-blue, #134A7C)'; e.target.style.color = '#fff'; e.target.style.borderRadius = '8px'; e.target.style.fontSize = '14px'; e.target.style.fontWeight = '600'; }} onBlur={e => { e.target.style.position = 'absolute'; e.target.style.left = '-9999px'; e.target.style.width = '1px'; e.target.style.height = '1px'; }}>Skip to main content</a>
       <Navbar />
-      <main id="main-content" role="main" style={{ minHeight: 'calc(100vh - 64px)', background: 'var(--gray-50)' }}>
+      <main id="main-content" role="main" style={{ minHeight: 'calc(100vh - 64px - 53px)', background: 'var(--gray-50)' }}>
         <ErrorBoundary>{children}</ErrorBoundary>
       </main>
+      {/* RT-016: Footer */}
+      <Footer />
       <QuickTour />
       {/* Demo Mode Badge */}
       {isDemoMode && (
