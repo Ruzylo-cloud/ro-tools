@@ -24,8 +24,11 @@ export default function SupportPage() {
   const { showToast } = useToast();
   const [bugTitle, setBugTitle] = useState('');
   const [bugDesc, setBugDesc] = useState('');
+  const [bugScreenshot, setBugScreenshot] = useState(null); // RT-231
   const [featureTitle, setFeatureTitle] = useState('');
   const [featureDesc, setFeatureDesc] = useState('');
+  const [featurePriority, setFeaturePriority] = useState('nice-to-have'); // RT-232
+  const [featureCategory, setFeatureCategory] = useState(''); // RT-232
   const [bugSubmitting, setBugSubmitting] = useState(false);
   const [featureSubmitting, setFeatureSubmitting] = useState(false);
   const [bugSuccess, setBugSuccess] = useState(false);
@@ -95,6 +98,17 @@ export default function SupportPage() {
             <label className={styles.label}>Steps to reproduce</label>
             <textarea className={styles.textarea} value={bugDesc} onChange={e => setBugDesc(e.target.value)} placeholder="Tell us what you were doing when it happened..." />
           </div>
+          {/* RT-231: Optional screenshot upload */}
+          <div className={styles.field}>
+            <label className={styles.label}>Screenshot (optional)</label>
+            <input
+              type="file"
+              accept="image/*"
+              className={styles.fileInput}
+              onChange={e => setBugScreenshot(e.target.files[0] || null)}
+            />
+            {bugScreenshot && <div className={styles.fileSelected}>📎 {bugScreenshot.name}</div>}
+          </div>
           <button className={`${styles.submitBtn} ${styles.bugBtn}`} onClick={() => submitTicket('bug')} disabled={bugSubmitting || !bugTitle.trim() || !bugDesc.trim()}>
             {bugSubmitting ? 'Submitting...' : 'Submit Bug Report'}
           </button>
@@ -113,6 +127,30 @@ export default function SupportPage() {
           <div className={styles.field}>
             <label className={styles.label}>Tell us more</label>
             <textarea className={styles.textarea} value={featureDesc} onChange={e => setFeatureDesc(e.target.value)} placeholder="Describe the tool or feature you'd like to see..." />
+          </div>
+          {/* RT-232: Priority + category selectors */}
+          <div className={styles.fieldRow}>
+            <div className={styles.field}>
+              <label className={styles.label}>Priority</label>
+              <select className={styles.select} value={featurePriority} onChange={e => setFeaturePriority(e.target.value)}>
+                <option value="urgent">🔴 Urgent — blocking me</option>
+                <option value="high">🟠 High — need soon</option>
+                <option value="nice-to-have">🟢 Nice to have</option>
+              </select>
+            </div>
+            <div className={styles.field}>
+              <label className={styles.label}>Category</label>
+              <select className={styles.select} value={featureCategory} onChange={e => setFeatureCategory(e.target.value)}>
+                <option value="">Select...</option>
+                <option value="generator">Generator / Form</option>
+                <option value="pdf">PDF Output</option>
+                <option value="catering">Catering</option>
+                <option value="scheduling">Scheduling</option>
+                <option value="reporting">Reports / Scoreboard</option>
+                <option value="mobile">Mobile / iOS</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
           </div>
           <button className={`${styles.submitBtn} ${styles.featureBtn}`} onClick={() => submitTicket('feature')} disabled={featureSubmitting || !featureTitle.trim() || !featureDesc.trim()}>
             {featureSubmitting ? 'Submitting...' : 'Submit Feature Request'}

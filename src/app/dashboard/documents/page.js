@@ -97,6 +97,10 @@ export default function DocumentsPage() {
   const [recentTemplates, setRecentTemplates] = useState(() => {
     try { return JSON.parse(localStorage.getItem('rt-recent-docs') || '[]'); } catch { return []; }
   });
+  // RT-178: Training progress tracking (employee → completed levels)
+  const [trainingProgress, setTrainingProgress] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('rt-training-progress') || '{}'); } catch { return {}; }
+  });
   const docRef = useRef(null);
 
   useEffect(() => {
@@ -175,6 +179,13 @@ export default function DocumentsPage() {
       pdf.save(fileName);
       setGenerateProgress(100);
       logActivity({ generatorType: selected === 'newhire' ? 'new-hire-checklist' : `training-${selected}`, action: 'download', formData: docData, filename: fileName });
+      // RT-178: Track training progress
+      if (form.employeeName) {
+        const key = form.employeeName.trim().toLowerCase();
+        const updated = { ...trainingProgress, [key]: [...new Set([...(trainingProgress[key] || []), selected])] };
+        setTrainingProgress(updated);
+        try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch {}
+      }
     } catch (err) {
       console.error('PDF generation error:', err);
       alert('Failed to generate PDF. Please try again.');
@@ -248,17 +259,23 @@ export default function DocumentsPage() {
         {/* Template Selector */}
         <div className={styles.sectionLabel}>Select Template</div>
         <div className={styles.templateGrid}>
-          {TEMPLATES.map(t => (
-            <div
-              key={t.id}
-              className={`${styles.templateCard} ${selected === t.id ? styles.templateCardActive : ''}`}
-              onClick={() => handleTemplateChange(t.id)}
-            >
-              <div className={styles.templateIcon}>{t.icon}</div>
-              <div className={styles.templateName}>{t.name}</div>
-              <div className={styles.templateDesc}>{t.desc}</div>
-            </div>
-          ))}
+          {TEMPLATES.map(t => {
+            const empKey = (form.employeeName || '').trim().toLowerCase();
+            const isDone = empKey && trainingProgress[empKey]?.includes(t.id);
+            return (
+              <div
+                key={t.id}
+                className={`${styles.templateCard} ${selected === t.id ? styles.templateCardActive : ''}`}
+                onClick={() => handleTemplateChange(t.id)}
+              >
+                <div className={styles.templateIcon}>{t.icon}</div>
+                <div className={styles.templateName}>{t.name}</div>
+                <div className={styles.templateDesc}>{t.desc}</div>
+                {/* RT-178: Completed checkmark */}
+                {isDone && <div className={styles.templateDone}>✓ Done</div>}
+              </div>
+            );
+          })}
         </div>
 
         {/* Fields */}
@@ -308,6 +325,29 @@ export default function DocumentsPage() {
         >
           {generating ? `Generating PDF… ${generateProgress}%` : 'Download PDF'}
         </button>
+
+        {/* RT-177: Training packet navigation (prev / next) */}
+        {(() => {
+          const idx = TEMPLATES.findIndex(t => t.id === selected);
+          return (
+            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <button
+                onClick={() => idx > 0 && handleTemplateChange(TEMPLATES[idx - 1].id)}
+                disabled={idx <= 0}
+                style={{ flex: 1, padding: '8px', background: '#f0f4f8', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx <= 0 ? '#9ca3af' : '#374151', cursor: idx <= 0 ? 'not-allowed' : 'pointer' }}
+              >
+                ← {idx > 0 ? TEMPLATES[idx - 1].name : 'Previous'}
+              </button>
+              <button
+                onClick={() => idx < TEMPLATES.length - 1 && handleTemplateChange(TEMPLATES[idx + 1].id)}
+                disabled={idx >= TEMPLATES.length - 1}
+                style={{ flex: 1, padding: '8px', background: '#f0f4f8', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx >= TEMPLATES.length - 1 ? '#9ca3af' : '#374151', cursor: idx >= TEMPLATES.length - 1 ? 'not-allowed' : 'pointer' }}
+              >
+                {idx < TEMPLATES.length - 1 ? TEMPLATES[idx + 1].name : 'Next'} →
+              </button>
+            </div>
+          );
+        })()}
 
         {/* RT-169: Print + RT-168: Copy Link */}
         <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>

@@ -7,6 +7,7 @@ import EvaluationPreview from '@/components/EvaluationPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const RATING_CATEGORIES = [
@@ -47,6 +48,7 @@ export default function EvaluationPage() {
   });
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [errors, setErrors] = useState({}); // RT-135
   const previewRef = useRef(null);
 
   useEffect(() => {
@@ -82,6 +84,10 @@ export default function EvaluationPage() {
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
 
   const handleDownload = useCallback(async () => {
+    // RT-135: Client validation
+    const errs = validateRequired(form, ['employeeName', 'evaluationDate']);
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -159,7 +165,7 @@ export default function EvaluationPage() {
           {/* Employee Info */}
           <div className={styles.sectionLabel}>Employee Info</div>
           <div className={styles.field}>
-            <label className={styles.label}>Employee Name</label>
+            <label className={styles.label}>Employee Name <span style={{color:'var(--jm-red)'}}>*</span></label>
             <EmployeeSelect
               value={form.employeeName}
               onChange={(name, emp) => {
@@ -170,6 +176,7 @@ export default function EvaluationPage() {
               storeNumber={form.storeNumber}
               placeholder="Search employees..."
             />
+            {errors.employeeName && <div style={{color:'var(--jm-red)',fontSize:'12px',marginTop:'3px'}}>{errors.employeeName}</div>}
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Position</label>
