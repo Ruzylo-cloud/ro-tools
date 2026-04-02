@@ -1,5 +1,5 @@
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 48px 32px;
 }
@@ -19,17 +19,96 @@
 .subtitle {
   font-size: 16px;
   color: var(--gray-600);
+  margin-bottom: 20px;
 }
 
+/* RT-037: Search */
+.searchWrap {
+  position: relative;
+  max-width: 400px;
+}
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  pointer-events: none;
+}
+.searchInput {
+  width: 100%;
+  padding: 10px 36px 10px 36px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--charcoal);
+  background: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.searchInput:focus { border-color: var(--jm-blue); }
+.searchClear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+.searchClear:hover { color: var(--charcoal); }
+
+/* RT-038: Category grouping */
+.category {
+  margin-bottom: 48px;
+}
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--gray-100);
+}
+.categoryIcon { font-size: 20px; }
+.categoryLabel {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--jm-blue);
+  margin: 0;
+}
+.categoryCount {
+  background: var(--jm-blue);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 4px;
+}
+
+/* RT-049: Grid — 4 cols desktop, responsive */
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* RT-056: Card tooltip wrapper */
+.cardWrap {
+  position: relative;
 }
 
 .card {
   border-radius: 16px;
-  padding: 32px 24px;
+  padding: 28px 20px;
   position: relative;
   transition: all 0.3s;
   text-decoration: none;
@@ -46,73 +125,133 @@
 }
 
 .cardIcon {
-  font-size: 28px;
-  margin-bottom: 16px;
+  font-size: 26px;
+  margin-bottom: 14px;
 }
 
 .cardTitle {
   font-family: 'Playfair Display', serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   margin-bottom: 8px;
 }
 
 .cardDesc {
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.6;
   opacity: 0.8;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .cardAction {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--jm-red);
 }
 
+/* RT-051: New badge */
+.badgeNew {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #10b981;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* RT-056: Tooltip */
+.tooltipBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  color: white;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background 0.2s;
+}
+.tooltipBtn:hover { background: rgba(255,255,255,0.45); }
+.tooltipBox {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  background: #1a2332;
+  color: white;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 10px 12px;
+  border-radius: 8px;
+  width: 220px;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+.tooltipBox::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 6px;
+  border: 6px solid transparent;
+  border-top-color: #1a2332;
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 80px 20px;
+}
+.emptyIcon { font-size: 48px; margin-bottom: 16px; }
+.emptyText { font-size: 18px; color: var(--gray-600); margin-bottom: 16px; }
+.emptyReset {
+  background: var(--jm-blue);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1200px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
   .container { padding: 44px 28px; }
 }
 
-@media (max-width: 950px) {
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
   .container { padding: 40px 24px; }
   .title { font-size: 32px; }
 }
 
-@media (max-width: 810px) {
-  .card { padding: 28px 22px; }
-  .title { font-size: 30px; }
-}
-
-@media (max-width: 670px) {
+@media (max-width: 640px) {
   .grid { grid-template-columns: 1fr; }
-  .container { padding: 36px 20px; }
-  .title { font-size: 28px; }
-}
-
-@media (max-width: 600px) {
-  .card { padding: 26px 20px; }
-}
-
-@media (max-width: 530px) {
   .container { padding: 32px 16px; }
-  .title { font-size: 26px; }
-}
-
-@media (max-width: 460px) {
-  .container { padding: 28px 12px; }
-  .title { font-size: 24px; }
+  .title { font-size: 28px; }
   .card { padding: 24px 18px; }
-  .cardTitle { font-size: 18px; }
+  .categoryLabel { font-size: 20px; }
 }
 
-@media (max-width: 360px) {
-  .container { padding: 24px 10px; }
-  .title { font-size: 22px; }
+@media (max-width: 400px) {
+  .container { padding: 24px 12px; }
+  .title { font-size: 24px; }
   .card { padding: 20px 14px; border-radius: 12px; }
-  .cardTitle { font-size: 17px; }
+  .cardTitle { font-size: 16px; }
 }
 
 /* ─── Dark Mode ─── */
@@ -120,12 +259,17 @@
   background: #2a3a4e;
   box-shadow: 0 8px 30px rgba(0,0,0,0.35);
 }
-
 :global([data-theme="dark"]) .card:hover {
   box-shadow: 0 16px 50px rgba(0,0,0,0.45);
   background: #334a62;
 }
-
-:global([data-theme="dark"]) .cardAction {
-  color: #ff6b63;
+:global([data-theme="dark"]) .cardAction { color: #ff6b63; }
+:global([data-theme="dark"]) .searchInput {
+  background: #1e1e24;
+  border-color: #3d3d4a;
+  color: #e8e8ed;
 }
+:global([data-theme="dark"]) .categoryHeader { border-color: #3d3d4a; }
+:global([data-theme="dark"]) .categoryLabel { color: #4a90d0; }
+:global([data-theme="dark"]) .tooltipBox { background: #0f1724; }
+:global([data-theme="dark"]) .tooltipBox::after { border-top-color: #0f1724; }

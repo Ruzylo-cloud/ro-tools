@@ -6,12 +6,55 @@ import { useAuth } from '@/components/AuthProvider';
 import { changelog } from '@/lib/changelog';
 import styles from './page.module.css';
 
+// RT-032: Quick action definitions
+const QUICK_ACTIONS = [
+  { href: '/dashboard/generators/written-warning', icon: '📝', label: 'Written Warning' },
+  { href: '/dashboard/generators/evaluation', icon: '⭐', label: 'Evaluation' },
+  { href: '/dashboard/generators/catering-order', icon: '📦', label: 'Catering Order' },
+  { href: '/dashboard/scoreboard', icon: '📊', label: 'Scoreboard' },
+  { href: '/dashboard/generators/injury-report', icon: '🚑', label: 'Injury Report' },
+  { href: '/dashboard/generators/coaching-form', icon: '💬', label: 'Coaching Form' },
+  { href: '/dashboard/flyer', icon: '📋', label: 'Catering Flyer' },
+  { href: '/dashboard/generators', icon: '⚙️', label: 'All Tools' },
+];
+
+const DOC_TYPE_ICONS = {
+  'written-warning': '📝',
+  'evaluation': '⭐',
+  'coaching-form': '💬',
+  'resignation': '📤',
+  'termination': '🛑',
+  'injury-report': '🚑',
+  'timesheet-correction': '⏰',
+  'attestation-correction': '📋',
+  'meal-break-waiver': '🍽️',
+  'catering-order': '📦',
+  'flyer': '📋',
+  'food-labels': '🏷️',
+  'work-orders': '🔧',
+  'manager-log': '📓',
+  'dm-walkthroughs': '🔍',
+};
+
+function formatRelativeTime(ts) {
+  if (!ts) return '';
+  const diff = (Date.now() - new Date(ts).getTime()) / 1000;
+  if (diff < 60) return 'Just now';
+  if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+  if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+  if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+  return new Date(ts).toLocaleDateString();
+}
+
 const recentUpdates = changelog.slice(0, 3);
 
 export default function DashboardPage() {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  // RT-033: Recently generated documents
+  const [recentDocs, setRecentDocs] = useState(null); // null = loading
+  const [recentError, setRecentError] = useState(false);
 
   useEffect(() => {
     fetch('/api/profile')
@@ -23,6 +66,19 @@ export default function DashboardPage() {
         }
       })
       .catch(() => {});
+  }, []);
+
+  // RT-033: Load recent activity
+  useEffect(() => {
+    fetch('/api/audit?limit=5')
+      .then(res => res.json())
+      .then(data => {
+        setRecentDocs(Array.isArray(data.logs) ? data.logs.slice(0, 5) : []);
+      })
+      .catch(() => {
+        setRecentError(true);
+        setRecentDocs([]);
+      });
   }, []);
 
   const dismissAdminModal = async () => {
@@ -83,6 +139,58 @@ export default function DashboardPage() {
         <Link href="/dashboard/generators" className={styles.heroCta}>
           Open Generators &rarr;
         </Link>
+      </div>
+
+      {/* RT-032: Quick Actions */}
+      <div className={styles.quickActions}>
+        {QUICK_ACTIONS.map(a => (
+          <Link key={a.href} href={a.href} className={styles.quickAction}>
+            <span className={styles.quickActionIcon}>{a.icon}</span>
+            <span className={styles.quickActionLabel}>{a.label}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* RT-033: Recently Generated + RT-041: Loading Skeleton */}
+      <div className={styles.recentSection}>
+        <div className={styles.recentHeader}>
+          <h2 className={styles.recentTitle}>Recently Generated</h2>
+          <Link href="/dashboard/history" className={styles.recentViewAll}>View All &rarr;</Link>
+        </div>
+        <div className={styles.recentList}>
+          {recentDocs === null ? (
+            // RT-041: Loading skeleton
+            [0,1,2].map(i => (
+              <div key={i} className={styles.skeletonItem}>
+                <div className={`${styles.skeletonBox} ${styles.skeletonIcon}`} />
+                <div className={styles.skeletonText}>
+                  <div className={`${styles.skeletonBox} ${styles.skeletonLine}`} style={{ width: '60%' }} />
+                  <div className={`${styles.skeletonBox} ${styles.skeletonLine}`} />
+                </div>
+              </div>
+            ))
+          ) : recentDocs.length === 0 ? (
+            <div className={styles.recentEmpty}>
+              No documents generated yet. <Link href="/dashboard/generators" style={{ color: 'var(--jm-blue)', fontWeight: 600 }}>Open Generators &rarr;</Link>
+            </div>
+          ) : (
+            recentDocs.map((doc, i) => {
+              const type = doc.generatorType || doc.type || 'document';
+              const icon = DOC_TYPE_ICONS[type] || '📄';
+              const name = doc.formData?.employeeName || doc.filename || type.replace(/-/g, ' ');
+              return (
+                <div key={i} className={styles.recentItem}>
+                  <div className={styles.recentItemIcon}>{icon}</div>
+                  <div className={styles.recentItemInfo}>
+                    <div className={styles.recentItemName}>{name}</div>
+                    <div className={styles.recentItemMeta}>{type.replace(/-/g, ' ')} &middot; {formatRelativeTime(doc.timestamp || doc.createdAt)}</div>
+                  </div>
+                  <Link href={`/dashboard/generators/${type}`} className={styles.recentItemAction}>Open &rarr;</Link>
+                </div>
+              );
+            })
+          )}
+        </div>
       </div>
 
       {/* What is RO Tools */}

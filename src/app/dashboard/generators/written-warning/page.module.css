@@ -107,6 +107,71 @@
   transform: none;
 }
 
+.downloadBtnSuccess {
+  background: #10b981 !important;
+}
+
+/* RT-117: Button spinner */
+.btnSpinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* RT-117: Loading state */
+.loadingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: 16px;
+  color: var(--gray-500);
+}
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--gray-200);
+  border-top-color: var(--jm-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* RT-062: Inline validation */
+.required { color: var(--jm-red); margin-left: 2px; }
+.inputError { border-color: #ef4444 !important; background: #fff5f5 !important; }
+.errorMsg {
+  color: #ef4444;
+  font-size: 11px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+.validationSummary { color: #ef4444; font-weight: 600; }
+
+/* RT-064: Character count */
+.charCount {
+  font-size: 11px;
+  color: var(--gray-400);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* RT-120: Keyboard hint */
+.keyboardHint {
+  font-size: 11px;
+  color: var(--gray-400);
+  text-align: center;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
 .preview {
   flex: 1;
   padding: 24px;
