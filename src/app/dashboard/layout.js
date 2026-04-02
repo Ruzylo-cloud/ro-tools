@@ -48,12 +48,23 @@ export default function DashboardLayout({ children }) {
   const [setupChecked, setSetupChecked] = useState(false);
   const [setupComplete, setSetupComplete] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
+  // RT-026: Session timeout warning
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/');
     }
   }, [user, loading, router]);
+
+  // RT-026: Session timeout warning (warn at 55 min, expire at 60 min)
+  useEffect(() => {
+    if (!user) return;
+    // Show warning 5 minutes before 1-hour session expiry
+    const warnTimer = setTimeout(() => setShowTimeoutWarning(true), 55 * 60 * 1000);
+    const expireTimer = setTimeout(() => { if (typeof logout === 'function') logout(); }, 60 * 60 * 1000);
+    return () => { clearTimeout(warnTimer); clearTimeout(expireTimer); };
+  }, [user]);
 
   // RT-018: Update document.title on route change
   useEffect(() => {
@@ -117,6 +128,24 @@ export default function DashboardLayout({ children }) {
       {/* RT-016: Footer */}
       <Footer />
       <QuickTour />
+      {/* RT-026: Session Timeout Warning */}
+      {showTimeoutWarning && (
+        <div style={{
+          position: 'fixed', top: 80, right: 16, zIndex: 9999,
+          background: '#fff9e6', border: '1.5px solid #f59e0b',
+          borderRadius: '12px', padding: '12px 16px',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+          maxWidth: 300, fontSize: '13px', color: '#92400e',
+          display: 'flex', alignItems: 'flex-start', gap: 10,
+        }}>
+          <span style={{ fontSize: '18px', flexShrink: 0 }}>⚠️</span>
+          <div>
+            <div style={{ fontWeight: 700, marginBottom: 4 }}>Session Expiring Soon</div>
+            <div>Your session will expire in 5 minutes. Save your work.</div>
+          </div>
+          <button onClick={() => setShowTimeoutWarning(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#92400e', fontSize: 16, flexShrink: 0, padding: '0 2px', marginLeft: 4 }}>×</button>
+        </div>
+      )}
       {/* Demo Mode Badge */}
       {isDemoMode && (
         <div style={{
