@@ -696,6 +696,17 @@ body, body * {
    RT-065 to RT-300 — Dashboard, a11y, performance, cross-platform polish
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* ─── RT-119: Larger radio/checkbox touch targets (44px min) ─── */
+input[type="radio"], input[type="checkbox"] {
+  width: 16px; height: 16px; cursor: pointer; accent-color: var(--jm-blue);
+}
+label:has(input[type="radio"]), label:has(input[type="checkbox"]) {
+  min-height: 44px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+}
+
+/* ─── RT-087: PDF preview dark mode container ─── */
+[data-theme="dark"] .previewContainer { background: #2a2a36; }
+
 /* ─── RT-065: Dark mode hero gradient ─── */
 [data-theme="dark"] .hero-gradient {
   background: linear-gradient(135deg, rgba(74,144,208,0.12) 0%, rgba(238,50,39,0.08) 100%);

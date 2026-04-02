@@ -72,6 +72,8 @@ export default function WrittenWarningPage() {
   const [generating, setGenerating] = useState(false);
   // RT-062: Inline validation errors
   const [errors, setErrors] = useState({});
+  // RT-086: PDF preview zoom
+  const [previewZoom, setPreviewZoom] = useState(100);
   const [showSuccess, setShowSuccess] = useState(false);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -267,6 +269,22 @@ export default function WrittenWarningPage() {
               onChange={(e) => handleChange('warningType', e.target.value)}>
               {WARNING_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
             </select>
+            {/* RT-110: Severity visual (1-3 scale) */}
+            {form.warningType && (
+              <div style={{ display: 'flex', gap: '4px', marginTop: '6px', alignItems: 'center' }}>
+                {['Verbal Warning', 'Written Warning', 'Final Warning', 'Suspension', 'Termination'].map((type, i) => {
+                  const currentIdx = WARNING_TYPES.indexOf(form.warningType);
+                  const isActive = i <= currentIdx;
+                  const color = i >= 4 ? '#dc2626' : i >= 3 ? '#f97316' : i >= 2 ? '#ca8a04' : i >= 1 ? '#2563eb' : '#6b7280';
+                  return (
+                    <div key={type} title={type} style={{ flex: 1, height: '4px', borderRadius: '2px', background: isActive ? color : 'var(--border)', transition: 'background 0.2s' }} />
+                  );
+                })}
+                <span style={{ fontSize: '11px', color: 'var(--gray-500)', marginLeft: '6px', whiteSpace: 'nowrap' }}>
+                  {WARNING_TYPES.indexOf(form.warningType) + 1}/5
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Violation Category — required */}
@@ -374,9 +392,19 @@ export default function WrittenWarningPage() {
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <h2 className={styles.previewTitle}>Live Preview</h2>
+          {/* RT-086: Zoom controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--gray-500)' }}>
+            <button onClick={() => setPreviewZoom(z => Math.max(50, z - 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+            <span style={{ minWidth: '36px', textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>{previewZoom}%</span>
+            <button onClick={() => setPreviewZoom(z => Math.min(150, z + 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+            <button onClick={() => setPreviewZoom(100)} style={{ padding: '2px 8px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '11px' }}>Reset</button>
+          </div>
         </div>
-        <div className={styles.previewContainer}>
-          <WrittenWarningPreview ref={previewRef} data={form} />
+        {/* RT-087: Preview scale + dark mode */}
+        <div className={styles.previewContainer} style={{ overflow: 'auto' }}>
+          <div style={{ transform: `scale(${previewZoom / 100})`, transformOrigin: 'top left', width: `${10000 / previewZoom}%` }}>
+            <WrittenWarningPreview ref={previewRef} data={form} />
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useAuth } from '@/components/AuthProvider';
@@ -58,11 +58,22 @@ const TOOLS = [
 export default function LandingPage() {
   const { user, login } = useAuth();
   const router = useRouter();
+  // RT-242/246: OAuth error display
+  const [authError, setAuthError] = useState(null);
 
   useEffect(() => {
     if (user) {
+      // RT-244: Redirect to preserved destination after login
+      const dest = sessionStorage.getItem('rt-post-login');
+      if (dest) { sessionStorage.removeItem('rt-post-login'); router.push(dest); return; }
       router.push('/dashboard');
     }
+    // RT-242/246: Show OAuth error if redirected from failed auth
+    const params = new URLSearchParams(window.location.search);
+    const err = params.get('error');
+    if (err === 'domain_restricted') setAuthError('Only @jmvalley.com accounts can access RO Tools. Please sign in with your work email.');
+    else if (err === 'auth_failed') setAuthError('Sign-in failed. Please try again or contact your admin.');
+    else if (err) setAuthError(`Authentication error: ${err}`);
     // Always start at the top on page load (prevent hash anchor scroll)
     if (window.location.hash) {
       window.history.replaceState(null, '', window.location.pathname);
@@ -134,6 +145,12 @@ export default function LandingPage() {
             <p className={styles.heroSub}>
               Generators, trackers, directives, and documents — all branded to your store and ready in seconds. Sign in with your @jmvalley.com account and everything auto-fills.
             </p>
+            {/* RT-242/246: Auth error display */}
+            {authError && (
+              <div style={{ marginBottom: '12px', padding: '10px 14px', background: 'rgba(220,38,38,0.08)', border: '1px solid rgba(220,38,38,0.2)', borderRadius: '8px', fontSize: '13px', color: '#b91c1c', fontWeight: 500 }}>
+                {authError}
+              </div>
+            )}
             <div className={styles.heroActions}>
               <button className={styles.btnPrimary} onClick={login}>
                 <GoogleIcon /> Sign In with Google

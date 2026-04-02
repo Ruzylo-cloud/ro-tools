@@ -9,6 +9,23 @@ import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import styles from './page.module.css';
 
+// RT-108: Pay period options (Homebase uses Sun-Sat weekly)
+function getPayPeriods() {
+  const periods = [];
+  const now = new Date();
+  for (let i = 0; i < 8; i++) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - (d.getDay() + i * 7));
+    const start = new Date(d);
+    start.setDate(start.getDate() - start.getDay());
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    const fmt = (dt) => dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    periods.push({ label: `${fmt(start)} – ${fmt(end)}`, startDate: start.toISOString().split('T')[0], endDate: end.toISOString().split('T')[0] });
+  }
+  return periods;
+}
+
 const FIELDS = [
   { key: 'employeeName', label: 'Employee Name', type: 'text' },
   { key: 'employeePosition', label: 'Position', type: 'text' },
@@ -114,6 +131,24 @@ export default function TimesheetCorrectionPage() {
         <h2 className={styles.sidebarTitle}>Timesheet Correction</h2>
         <p className={styles.sidebarDesc}>Fill in the correction details. Auto-fills from your store profile.</p>
         <div className={styles.fields}>
+          {/* RT-108: Pay period selector */}
+          <div className={styles.field}>
+            <label className={styles.label}>Pay Period</label>
+            <select
+              className={styles.select}
+              value={form._payPeriod || ''}
+              onChange={e => {
+                const [startDate, endDate] = e.target.value.split('|');
+                setForm(prev => ({ ...prev, _payPeriod: e.target.value, originalDate: startDate || prev.originalDate }));
+              }}
+            >
+              <option value="">Select pay period...</option>
+              {getPayPeriods().map(p => (
+                <option key={p.startDate} value={`${p.startDate}|${p.endDate}`}>{p.label}</option>
+              ))}
+            </select>
+          </div>
+
           {FIELDS.map(({ key, label, type }) => (
             <div key={key} className={styles.field}>
               <label className={styles.label}>{label}</label>
