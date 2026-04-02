@@ -350,3 +350,22 @@
     font-size: 15px;
   }
 }
+
+/* ─── RT-207: Dark mode article styling ─── */
+:global([data-theme="dark"]) .directiveBody {
+  background: #1e1e2a;
+  color: #e0e0ed;
+}
+:global([data-theme="dark"]) .directiveHeader {
+  background: #252535;
+  border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .directiveTitle {
+  color: #c8d8e8;
+}
+:global([data-theme="dark"]) .item {
+  border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .container {
+  background: #16161e;
+}

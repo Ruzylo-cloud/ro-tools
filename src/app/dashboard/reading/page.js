@@ -544,7 +544,8 @@ export default function ReadingPage() {
             )}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          {/* RT-206: Mobile article layout — responsive grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
             {filteredBooks.map(b => (
               <div
                 key={b.id}
@@ -602,12 +603,24 @@ export default function ReadingPage() {
               {book.title}
             </h1>
             <div style={{ fontSize: 18, color: '#6b7280', marginBottom: 8 }}>by {book.author}</div>
-            <button
-              onClick={(e) => toggleFavorite(e, book.id)}
-              style={{ background: 'none', border: '1px solid #e5e7eb', borderRadius: 20, padding: '4px 14px', cursor: 'pointer', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-            >
-              {favorites.includes(book.id) ? '\u2764\uFE0F' : '\u{1F90D}'} {favorites.includes(book.id) ? 'Favorited' : 'Add to Favorites'}
-            </button>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <button
+                onClick={(e) => toggleFavorite(e, book.id)}
+                style={{ background: 'none', border: '1px solid #e5e7eb', borderRadius: 20, padding: '4px 14px', cursor: 'pointer', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                {favorites.includes(book.id) ? '\u2764\uFE0F' : '\u{1F90D}'} {favorites.includes(book.id) ? 'Favorited' : 'Add to Favorites'}
+              </button>
+              {/* RT-208: Share button */}
+              <button
+                onClick={() => {
+                  const url = `${window.location.origin}/dashboard/reading?book=${book.id}`;
+                  navigator.clipboard.writeText(url).then(() => alert('Link copied!')).catch(() => {});
+                }}
+                style={{ background: 'none', border: '1px solid #e5e7eb', borderRadius: 20, padding: '4px 14px', cursor: 'pointer', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}
+              >
+                🔗 Share
+              </button>
+            </div>
           </div>
 
           {/* About the Author */}

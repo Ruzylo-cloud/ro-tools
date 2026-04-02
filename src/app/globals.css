@@ -1403,3 +1403,11 @@ textarea:focus-visible,
   font-size: 14px;
   font-weight: 600;
 }
+
+/* ─── RT-115: Undo hint tooltip on form fields ─── */
+.rt-undo-hint {
+  font-size: 10px;
+  color: var(--gray-400);
+  margin-top: 2px;
+  text-align: right;
+}

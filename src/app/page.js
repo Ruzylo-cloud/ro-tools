@@ -73,6 +73,7 @@ export default function LandingPage() {
     const err = params.get('error');
     if (err === 'domain_restricted') setAuthError('Only @jmvalley.com accounts can access RO Tools. Please sign in with your work email.');
     else if (err === 'auth_failed') setAuthError('Sign-in failed. Please try again or contact your admin.');
+    else if (err === 'session_expired') setAuthError('Your session expired. Please sign in again to continue.'); // RT-245
     else if (err) setAuthError(`Authentication error: ${err}`);
     // Always start at the top on page load (prevent hash anchor scroll)
     if (window.location.hash) {
@@ -156,6 +157,12 @@ export default function LandingPage() {
                 <GoogleIcon /> Sign In with Google
               </button>
               <a href="#tools" className={styles.btnSecondary}>See the Tools</a>
+            </div>
+            {/* RT-258: Login feature badges */}
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 16 }}>
+              {['📝 12 Generators', '📊 Scoreboard', '🖊️ E-Sign', '🚀 Auto-fill'].map(f => (
+                <span key={f} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', background: 'rgba(19,74,124,0.08)', color: '#134A7C', borderRadius: 20, border: '1px solid rgba(19,74,124,0.15)' }}>{f}</span>
+              ))}
             </div>
           </div>
           <div className={styles.heroVisual}>

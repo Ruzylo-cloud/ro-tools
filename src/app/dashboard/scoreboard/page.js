@@ -22,6 +22,47 @@ function formatPct(n) {
   return n.toFixed(2) + '%';
 }
 
+// RT-152: Metric definition tooltip
+const METRIC_DEFS = {
+  'Net Sales': 'Total gross sales for the week, excluding refunds.',
+  'Bread': 'Bread loaves ordered — cross-referenced against sales volume.',
+  'PY Growth': 'Year-over-year growth vs the same week last year. Target: > 0%.',
+  'COGs': 'Cost of Goods Sold as % of net sales. Target: 22%–25%.',
+  'Variance': 'COGs vs theoretical cost. Target: -1% to -2.5%.',
+  'Labor': 'Labor cost as % of net sales. Target varies by store volume.',
+  'Target': "Store's weekly labor % target set by the district manager.",
+  'Status': 'Achievement tier: Grand Slam (4 targets), Trifecta (3), etc.',
+};
+
+function MetricTh({ label, children }) {
+  const [show, setShow] = useState(false);
+  const def = METRIC_DEFS[label];
+  return (
+    <th style={{ position: 'relative' }}>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3 }}>
+        {children || label}
+        {def && (
+          <span
+            style={{ position: 'relative', display: 'inline-block' }}
+            onMouseEnter={() => setShow(true)}
+            onMouseLeave={() => setShow(false)}
+          >
+            <span style={{ fontSize: 9, opacity: 0.7, cursor: 'default', userSelect: 'none' }}>ⓘ</span>
+            {show && (
+              <span style={{
+                position: 'absolute', bottom: '100%', left: '50%', transform: 'translateX(-50%)',
+                background: '#1e293b', color: '#f1f5f9', fontSize: 11, padding: '6px 10px',
+                borderRadius: 6, pointerEvents: 'none', marginBottom: 4, zIndex: 100,
+                fontWeight: 400, lineHeight: 1.4, width: 190, whiteSpace: 'normal', textTransform: 'none',
+              }}>{def}</span>
+            )}
+          </span>
+        )}
+      </span>
+    </th>
+  );
+}
+
 // RT-121: Trend arrow component
 function TrendArrow({ current, previous, higherIsBetter = true, fmt }) {
   if (!previous || previous === 0) return null;
@@ -227,6 +268,23 @@ export default function ScoreboardPage() {
 
           {/* RT-138: Empty state */}
           {/* RT-137: Scoreboard Table with sticky header */}
+          {/* RT-153: Targets reference bar */}
+          {weekData && (
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
+              {[
+                { label: 'PY Growth', target: '> 0%', color: '#16a34a' },
+                { label: 'COGs', target: '22–25%', color: '#2563eb' },
+                { label: 'COGs Variance', target: '-1% to -2.5%', color: '#2563eb' },
+                { label: 'Labor', target: 'Below store target', color: '#b45309' },
+              ].map(t => (
+                <div key={t.label} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 6, background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: '#374151' }}>
+                  <span style={{ color: '#6b7280', fontWeight: 500 }}>{t.label}: </span>
+                  <span style={{ color: t.color }}>{t.target}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           {weekData ? (
             <div className={styles.tableWrap}>
               <table className={styles.table}>
@@ -235,14 +293,14 @@ export default function ScoreboardPage() {
                   <tr>
                     <th>#</th>
                     <th>Store</th>
-                    {(metricTab === 'all' || metricTab === 'sales') && <th>Net Sales</th>}
-                    {(metricTab === 'all' || metricTab === 'sales') && <th>Bread</th>}
-                    {(metricTab === 'all' || metricTab === 'sales') && <th>PY Growth</th>}
-                    {(metricTab === 'all' || metricTab === 'cogs') && <th>COGs</th>}
-                    {(metricTab === 'all' || metricTab === 'cogs') && <th>Variance</th>}
-                    {(metricTab === 'all' || metricTab === 'labor') && <th>Labor</th>}
-                    {(metricTab === 'all' || metricTab === 'labor') && <th>Target</th>}
-                    <th>Status</th>
+                    {(metricTab === 'all' || metricTab === 'sales') && <MetricTh label="Net Sales" />}
+                    {(metricTab === 'all' || metricTab === 'sales') && <MetricTh label="Bread" />}
+                    {(metricTab === 'all' || metricTab === 'sales') && <MetricTh label="PY Growth" />}
+                    {(metricTab === 'all' || metricTab === 'cogs') && <MetricTh label="COGs" />}
+                    {(metricTab === 'all' || metricTab === 'cogs') && <MetricTh label="Variance" />}
+                    {(metricTab === 'all' || metricTab === 'labor') && <MetricTh label="Labor" />}
+                    {(metricTab === 'all' || metricTab === 'labor') && <MetricTh label="Target" />}
+                    <MetricTh label="Status" />
                   </tr>
                 </thead>
                 <tbody>
