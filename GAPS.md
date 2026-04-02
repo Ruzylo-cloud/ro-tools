@@ -64,7 +64,7 @@
 - [DONE] **Per-hour coverage** — Homebase shows headcount bars per hour at bottom. We show daily totals only.
 - [DONE] **Open Shifts row** — Homebase has unclaimed shifts at top of grid. We don't have this.
 - [ ] **Availability blocks** — Homebase shows unavailable/time-off in cells. We don't display availability.
-- [ ] **Print 3 formats** — Homebase offers white bg, full color, colored borders. We have none.
+- [DONE] **Print 3 formats** — Homebase offers white bg, full color, colored borders. We have none.
 - [DONE] **Weather in headers** — 7-day forecast from Open-Meteo wired into day column headers (techy, pushed 3348870)
 - [DONE] **position_id optional** — Shift creation unblocked when no role selected (techy, pushed 3348870)
 
@@ -107,8 +107,8 @@
 ### iPad Kiosk Audit (25 screenshots — Homebase + Jolt + Closeout Sheet)
 - [ ] **PIN per checklist item** — Jolt requires employee PIN before completing each checklist item for accountability tracking. Our kiosk checklists should require PIN to know WHO completed each item.
 - [ ] **Schedule view in kiosk** — Homebase kiosk shows Week View (color-coded shift blocks per employee) and Day View (table with employee/hours/role/status). Add schedule tab or integrate into On Shift view.
-- [ ] **Camera photo flow in kiosk checklists** — Jolt kiosk has "Take Photo" button per checklist item, opens iPad camera, Retake/Use Photo flow. Photos attached to completed items. Our kiosk checklists need camera integration.
-- [ ] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
+- [DONE] **Camera photo flow in kiosk checklists** — Jolt kiosk has "Take Photo" button per checklist item, opens iPad camera, Retake/Use Photo flow. Photos attached to completed items. Our kiosk checklists need camera integration.
+- [DONE] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
 - [ ] **Closeout: Lunch SL + Dinner SL sections** — The real closeout spreadsheet has separate Lunch Shift Lead and Dinner Shift Lead sections with different register counts, safe amounts, and variance calculations per shift. Our Mid-Day/EOD split partially covers this but needs shift lead name entry and per-shift register/safe tracking.
 - [DONE] **Closeout: Bacon/Bread tossed tracking** — Spreadsheet tracks Bacon Tossed and bread waste (White/Wheat/Rosemary/Minis) daily. Our Mid-Day closeout has waste field but needs specific bacon+bread fields.
 - [ ] **Closeout: Cash vs Variance calculation** — Register cash compared to expected, with variance highlighted in color (green/yellow/red). Add auto-calculation of over/short with color coding.
