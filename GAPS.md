@@ -105,7 +105,7 @@
 - [DONE] **Employee profile with DOB/phone/emergency** — We have employee records in People Hub.
 
 ### iPad Kiosk Audit (25 screenshots — Homebase + Jolt + Closeout Sheet)
-- [ ] **PIN per checklist item** — Jolt requires employee PIN before completing each checklist item for accountability tracking. Our kiosk checklists should require PIN to know WHO completed each item.
+- [DONE] **PIN per checklist item** — Jolt requires employee PIN before completing each checklist item for accountability tracking. Our kiosk checklists should require PIN to know WHO completed each item.
 - [ ] **Schedule view in kiosk** — Homebase kiosk shows Week View (color-coded shift blocks per employee) and Day View (table with employee/hours/role/status). Add schedule tab or integrate into On Shift view.
 - [DONE] **Camera photo flow in kiosk checklists** — Jolt kiosk has "Take Photo" button per checklist item, opens iPad camera, Retake/Use Photo flow. Photos attached to completed items. Our kiosk checklists need camera integration.
 - [DONE] **Checklist 3-dot action menu** — Jolt has per-item menu: Take photo, Create logbook entry, Clear response. Adds flexibility beyond just checkmark completion.
