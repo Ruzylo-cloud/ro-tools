@@ -5,6 +5,20 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
+// RT-233: FAQ accordion item
+function FaqItem({ q, a }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="accordion-item">
+      <button className="accordion-header" onClick={() => setOpen(v => !v)}>
+        {q}
+        <span style={{ fontSize: '12px', transition: 'transform 0.2s', display: 'inline-block', transform: open ? 'rotate(180deg)' : 'none' }}>▼</span>
+      </button>
+      {open && <div className="accordion-body" style={{ maxHeight: '200px' }}><div className="accordion-content">{a}</div></div>}
+    </div>
+  );
+}
+
 export default function SupportPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -107,6 +121,34 @@ export default function SupportPage() {
       </div>
 
       {/* Previous tickets */}
+      {/* RT-233: FAQ Accordion */}
+      <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px', marginBottom: '24px' }}>
+        <h2 style={{ fontFamily: '\'Playfair Display\', serif', fontSize: '20px', fontWeight: 800, color: 'var(--jm-blue)', marginBottom: '16px' }}>Frequently Asked Questions</h2>
+        <div className="accordion">
+          {[
+            { q: 'How do I update my store info?', a: 'Go to Store Profile in the nav. All fields are editable. Your store info auto-fills into every generator once saved.' },
+            { q: 'Why isn\'t my signature saving?', a: 'Signatures are captured client-side. If the signature pad isn\'t working, try using a stylus or your finger on mobile. On desktop, a mouse works fine.' },
+            { q: 'Can I save documents to Google Drive?', a: 'Yes — connect Google Drive in your Store Profile under Connected Services. Then every generator shows a "Save to Drive" button.' },
+            { q: 'How do e-signatures work?', a: 'Click "Send for Signature" on any HR document. The employee receives an email with a secure link. They sign on any device and you both get a PDF copy.' },
+            { q: 'Who can access Admin features?', a: 'Administrators and District Managers can access Admin. Role requests must be approved by an existing admin. Contact chrisr@jmvalley.com for issues.' },
+            { q: 'How do I report a bug?', a: 'Use the Bug Report form on this page. Include what you were doing and what went wrong. We\'ll investigate within 24 hours.' },
+          ].map((item, i) => (
+            <FaqItem key={i} q={item.q} a={item.a} />
+          ))}
+        </div>
+        {/* RT-234: Status page + RT-235: Contact */}
+        <div style={{ marginTop: '16px', display: 'flex', gap: '12px', flexWrap: 'wrap', borderTop: '1px solid var(--border)', paddingTop: '16px' }}>
+          <span style={{ fontSize: '12px', color: 'var(--gray-500)' }}>
+            System status:{' '}
+            <span style={{ color: '#16a34a', fontWeight: 600 }}>● All systems operational</span>
+          </span>
+          <span style={{ fontSize: '12px', color: 'var(--gray-500)' }}>
+            Contact:{' '}
+            <a href="mailto:chrisr@jmvalley.com" style={{ color: 'var(--jm-blue)', fontWeight: 600 }}>chrisr@jmvalley.com</a>
+          </span>
+        </div>
+      </div>
+
       <div className={styles.ticketsSection}>
         <div className={styles.ticketsTitle}>Your Submissions</div>
         {tickets.length === 0 ? (

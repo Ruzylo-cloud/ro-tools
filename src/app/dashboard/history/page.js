@@ -48,6 +48,25 @@ function actionBadgeClass(action) {
   return styles.badgeDownload;
 }
 
+// RT-239: CSV export helper
+function exportToCSV(logs) {
+  const headers = ['Date', 'Document Type', 'Action', 'Key Details'];
+  const rows = logs.map(log => [
+    formatDate(log.timestamp),
+    TYPE_LABELS[log.generatorType] || log.generatorType || '',
+    ACTION_LABELS[log.action] || log.action || '',
+    getKeyDetail(log),
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `ro-tools-history-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function HistoryPage() {
   const { user } = useAuth();
   const [logs, setLogs] = useState([]);
@@ -121,7 +140,18 @@ export default function HistoryPage() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>History</h1>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+        <h1 className={styles.title} style={{ margin: 0 }}>History</h1>
+        {/* RT-239: CSV export */}
+        {displayLogs.length > 0 && (
+          <button
+            onClick={() => exportToCSV(displayLogs)}
+            style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px', fontWeight: 600, color: 'var(--jm-blue)', cursor: 'pointer' }}
+          >
+            ↓ Export CSV
+          </button>
+        )}
+      </div>
       <p className={styles.subtitle}>Your document generation history</p>
 
       {/* Filters */}

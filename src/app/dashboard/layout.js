@@ -59,13 +59,30 @@ export default function DashboardLayout({ children }) {
   }, [user, loading, router]);
 
   // RT-026: Session timeout warning (warn at 55 min, expire at 60 min)
+  // RT-253: Auto-logout after 30min inactivity
   useEffect(() => {
     if (!user) return;
-    // Show warning 5 minutes before 1-hour session expiry
+    let inactivityTimer;
+    const INACTIVITY_MS = 30 * 60 * 1000; // 30 min
+    const resetTimer = () => {
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(() => {
+        // Store redirect destination and push to login
+        sessionStorage.setItem('rt-post-login', window.location.pathname);
+        router.push('/');
+      }, INACTIVITY_MS);
+    };
+    const events = ['mousedown', 'keydown', 'scroll', 'touchstart'];
+    events.forEach(e => document.addEventListener(e, resetTimer, { passive: true }));
+    resetTimer();
+    // Warn at 55 min of session (session-level, not inactivity)
     const warnTimer = setTimeout(() => setShowTimeoutWarning(true), 55 * 60 * 1000);
-    const expireTimer = setTimeout(() => { if (typeof logout === 'function') logout(); }, 60 * 60 * 1000);
-    return () => { clearTimeout(warnTimer); clearTimeout(expireTimer); };
-  }, [user]);
+    return () => {
+      clearTimeout(inactivityTimer);
+      clearTimeout(warnTimer);
+      events.forEach(e => document.removeEventListener(e, resetTimer));
+    };
+  }, [user, router]);
 
   // RT-018: Update document.title on route change
   useEffect(() => {

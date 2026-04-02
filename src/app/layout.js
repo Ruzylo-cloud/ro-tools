@@ -15,6 +15,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <meta name="theme-color" content="#EE3227" />
+        {/* RT-271: PWA manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="RO Tools" />
         {/* RT-269: Preconnect hints for fonts */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -27,6 +32,14 @@ export default function RootLayout({ children }) {
       <body>
         {/* RT-283: Skip to content link */}
         <a href="#main-content" className="skip-to-content">Skip to content</a>
+        {/* RT-270: Service worker registration */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+              navigator.serviceWorker.register('/sw.js').catch(function(){});
+            });
+          }
+        `}} />
         <AuthProvider>
           <ToastProvider>
             {children}

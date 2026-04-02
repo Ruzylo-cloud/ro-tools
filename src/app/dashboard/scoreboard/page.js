@@ -56,11 +56,42 @@ export default function ScoreboardPage() {
   const minWeek = weeks.length > 0 ? weeks[0].weekNum : 1;
   const maxWeek = weeks.length > 0 ? weeks[weeks.length - 1].weekNum : 11;
 
+  // RT-150: CSV export for current week
+  const exportScoreboardCSV = () => {
+    if (!weekData) return;
+    const headers = ['Rank', 'Store', 'Net Sales', 'PY Growth %', 'Labor %', 'COGs %', 'Targets Hit'];
+    const rows = weekData.rows.map((row, i) => [
+      i + 1,
+      getStoreLabel(row.storeId),
+      row.netSales,
+      row.pySales > 0 ? formatPct(row.pyGrowth) : 'N/A',
+      formatPct(row.labor),
+      formatPct(row.cogsActual),
+      row.colorCode || '',
+    ]);
+    const csv = [headers, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `scoreboard-week${selectedWeek}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>JMVG Scoreboard</h1>
-        <p className={styles.subtitle}>Weekly performance across all 30+ stores. Track targets, growth, and who&apos;s leading the pack.</p>
+      <div className={styles.header} style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+        <div>
+          <h1 className={styles.title}>JMVG Scoreboard</h1>
+          <p className={styles.subtitle}>Weekly performance across all 30+ stores. Track targets, growth, and who&apos;s leading the pack.</p>
+        </div>
+        {/* RT-150: Export CSV */}
+        {weekData && (
+          <button onClick={exportScoreboardCSV} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px', fontWeight: 600, color: 'var(--jm-blue)', cursor: 'pointer', flexShrink: 0 }}>
+            ↓ Export CSV
+          </button>
+        )}
       </div>
 
       {/* Tabs */}

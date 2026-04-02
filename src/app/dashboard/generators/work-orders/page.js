@@ -131,9 +131,17 @@ export default function WorkOrdersPage() {
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Priority</label>
-                <select className={styles.select} value={form.priority} onChange={(e) => handleChange('priority', e.target.value)}>
-                  {PRIORITIES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
-                </select>
+                {/* RT-109: Priority color indicator */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <select className={styles.select} style={{ flex: 1 }} value={form.priority} onChange={(e) => handleChange('priority', e.target.value)}>
+                    {PRIORITIES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
+                  </select>
+                  <span style={{
+                    width: '10px', height: '10px', borderRadius: '50%', flexShrink: 0,
+                    background: form.priority === 'urgent' ? '#dc2626' : form.priority === 'high' ? '#f97316' : form.priority === 'medium' ? '#ca8a04' : '#6b7280',
+                    boxShadow: form.priority === 'urgent' ? '0 0 6px rgba(220,38,38,0.5)' : 'none',
+                  }} />
+                </div>
               </div>
             </div>
             <div className={styles.field}>

@@ -199,6 +199,12 @@ function isCurrentMonth(dateStr) {
 export default function DirectivesPage() {
   const [tab, setTab] = useState('overview');
   const [expanded, setExpanded] = useState(DIRECTIVES[0]?.id || null);
+  // RT-194: Search filter
+  const [directiveSearch, setDirectiveSearch] = useState('');
+  // RT-195: Category filter
+  const [categoryFilter, setCategoryFilter] = useState('');
+  // RT-198: Archive view (show vs. hide older items)
+  const [showArchive, setShowArchive] = useState(false);
 
   // Outreach state
   const [outreachEntries, setOutreachEntries] = useState([]);
@@ -465,7 +471,59 @@ export default function DirectivesPage() {
       {/* ─── DIRECTIVES TAB ─── */}
       {tab === 'directives' && (
         <div className={styles.directivesList}>
-          {DIRECTIVES.map((directive) => (
+          {/* RT-194: Search, RT-195: Category filter, RT-198: Archive toggle */}
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="search-bar" style={{ flex: '1', minWidth: '200px' }}>
+              <span className="search-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <input
+                type="text"
+                placeholder="Search directives..."
+                value={directiveSearch}
+                onChange={e => setDirectiveSearch(e.target.value)}
+                style={{ fontFamily: 'inherit' }}
+              />
+            </div>
+            <select
+              value={categoryFilter}
+              onChange={e => setCategoryFilter(e.target.value)}
+              style={{ padding: '8px 12px', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px', background: 'var(--white)', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              <option value="">All Categories</option>
+              <option value="marketing">Marketing</option>
+              <option value="operations">Operations</option>
+              <option value="calendar">Calendar</option>
+            </select>
+            {/* RT-198: Archive toggle */}
+            <button
+              onClick={() => setShowArchive(v => !v)}
+              style={{ padding: '8px 14px', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px', fontWeight: 600, background: showArchive ? 'var(--jm-blue)' : 'var(--white)', color: showArchive ? '#fff' : 'var(--gray-600)', cursor: 'pointer' }}
+            >
+              {showArchive ? '📁 Showing Archived' : '📁 Show Archived'}
+            </button>
+            {/* RT-200: Print */}
+            <button
+              onClick={() => window.print()}
+              style={{ padding: '8px 14px', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px', fontWeight: 600, background: 'none', cursor: 'pointer', color: 'var(--gray-600)' }}
+            >
+              🖨️ Print
+            </button>
+          </div>
+          {(() => {
+            const filtered = DIRECTIVES.filter(d => {
+              if (!showArchive && d.status !== 'active') return false;
+              if (categoryFilter && d.category !== categoryFilter) return false;
+              if (directiveSearch) {
+                const q = directiveSearch.toLowerCase();
+                return d.title.toLowerCase().includes(q) || d.description.toLowerCase().includes(q);
+              }
+              return true;
+            });
+            if (filtered.length === 0) {
+              return <div className="empty-state"><div className="empty-title">No directives found</div><div className="empty-desc">Try adjusting your search or filters.</div></div>;
+            }
+            return filtered.map((directive) => (
             <div key={directive.id} className={styles.directive}>
               <button
                 className={`${styles.directiveHeader} ${expanded === directive.id ? styles.directiveHeaderActive : ''}`}
@@ -497,7 +555,8 @@ export default function DirectivesPage() {
                 </div>
               )}
             </div>
-          ))}
+          ));
+          })()}
         </div>
       )}
 

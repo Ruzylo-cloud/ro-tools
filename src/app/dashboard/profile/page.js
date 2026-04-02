@@ -6,6 +6,10 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
+// RT-215: Store hours defaults
+const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const DEFAULT_HOURS = { open: '10:00', close: '21:00', closed: false };
+
 const STORE_FIELDS = [
   { key: 'storeName', label: 'Store Name', placeholder: "Jersey Mike's #12345" },
   { key: 'street', label: 'Street Address', placeholder: '199 S Turnpike Rd' },
@@ -173,9 +177,37 @@ export default function ProfilePage() {
           </button>
         )}
 
+        {/* RT-215: Store hours */}
+        <hr style={{ border: 'none', borderTop: '1px solid #e5e7eb', margin: '24px 0' }} />
+        <div style={{ marginBottom: '20px' }}>
+          <h3 style={{ fontFamily: '\'Playfair Display\', serif', fontSize: '18px', fontWeight: 800, color: 'var(--jm-blue)', marginBottom: '4px' }}>Store Hours</h3>
+          <p style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '16px' }}>Auto-fills into catering flyers and order forms.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {DAYS.map(day => {
+              const hours = (profile?.hours || {})[day] || DEFAULT_HOURS;
+              return (
+                <div key={day} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 12px', background: 'var(--gray-50)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                  <span style={{ width: '90px', fontSize: '13px', fontWeight: 600, color: 'var(--charcoal)', flexShrink: 0 }}>{day}</span>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '12px', color: 'var(--gray-500)', flexShrink: 0 }}>
+                    <input type="checkbox" checked={hours.closed || false} onChange={e => updateField('hours', { ...(profile?.hours || {}), [day]: { ...hours, closed: e.target.checked } })} />
+                    Closed
+                  </label>
+                  {!hours.closed && (
+                    <>
+                      <input type="time" value={hours.open || '10:00'} onChange={e => updateField('hours', { ...(profile?.hours || {}), [day]: { ...hours, open: e.target.value } })} style={{ padding: '4px 8px', border: '1px solid var(--border)', borderRadius: '6px', fontSize: '13px', fontFamily: 'inherit' }} />
+                      <span style={{ color: 'var(--gray-400)', fontSize: '12px' }}>to</span>
+                      <input type="time" value={hours.close || '21:00'} onChange={e => updateField('hours', { ...(profile?.hours || {}), [day]: { ...hours, close: e.target.value } })} style={{ padding: '4px 8px', border: '1px solid var(--border)', borderRadius: '6px', fontSize: '13px', fontFamily: 'inherit' }} />
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className={styles.actions}>
           <button type="submit" className={styles.saveBtn} disabled={saving}>
-            {saving ? 'Saving...' : saved ? 'Saved!' : 'Save Profile'}
+            {saving ? 'Saving...' : saved ? '✓ Saved!' : 'Save Profile'}
           </button>
         </div>
       </form>

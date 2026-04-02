@@ -21,11 +21,12 @@ export async function GET() {
 
   const isAdmin = isSuperAdmin(session.email) || isDefaultAdmin(session.email) || (profile?.role === 'administrator' && profile?.roleApproved === true);
 
+  // RT-267: Short client-side cache (30s private)
   return NextResponse.json({
     profile,
     isAdmin,
     isSuperAdmin: isSuperAdmin(session.email),
-  });
+  }, { headers: { 'Cache-Control': 'private, max-age=30, stale-while-revalidate=60' } });
 }
 
 export async function POST(request) {

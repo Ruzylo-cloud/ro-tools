@@ -1,0 +1,37 @@
+{
+  "name": "RO Tools — Restaurant Operator Tools",
+  "short_name": "RO Tools",
+  "description": "Professional tools for Jersey Mike's franchise operators",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#EE3227",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/jmvg-logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/jmvg-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Generators",
+      "url": "/dashboard/generators",
+      "description": "Open document generators"
+    },
+    {
+      "name": "Scoreboard",
+      "url": "/dashboard/scoreboard",
+      "description": "View store scoreboard"
+    }
+  ]
+}
