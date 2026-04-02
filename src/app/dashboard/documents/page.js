@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Orientation from '@/components/documents/Orientation';
 import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
@@ -89,8 +90,21 @@ const FILE_NAMES = {
 
 export default function DocumentsPage() {
   const { user } = useAuth();
-  const [selected, setSelected] = useState('level1');
-  const [form, setForm] = useState({});
+  const searchParams = useSearchParams();
+  const [selected, setSelected] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const t = new URLSearchParams(window.location.search).get('template');
+      if (t && COMPONENT_MAP[t]) return t;
+    }
+    return 'level1';
+  });
+  const [form, setForm] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const n = new URLSearchParams(window.location.search).get('name');
+      if (n) return { employeeName: n };
+    }
+    return {};
+  });
   const [storeInfo, setStoreInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -201,6 +215,20 @@ export default function DocumentsPage() {
     }
     setGenerating(false);
     setTimeout(() => setGenerateProgress(0), 1500);
+  };
+
+  // RT-126/RT-165: Batch download — generates current template + opens each remaining in new tab
+  const handleBatchDownload = () => {
+    const empName = form.employeeName || '';
+    if (!empName) { alert('Enter an employee name first to batch download all packets.'); return; }
+    // Download current doc immediately
+    handleDownload();
+    // Open remaining templates in new tabs with pre-filled name
+    TEMPLATES.filter(t => t.id !== selected && t.id !== 'newhire').forEach((t, i) => {
+      setTimeout(() => {
+        window.open(`${window.location.origin}/dashboard/documents?template=${t.id}&name=${encodeURIComponent(empName)}`, '_blank');
+      }, (i + 1) * 800);
+    });
   };
 
   // RT-168: Copy share/deep-link
@@ -369,6 +397,17 @@ export default function DocumentsPage() {
             </div>
           );
         })()}
+
+        {/* RT-126/RT-165: Batch download all packets */}
+        {form.employeeName && (
+          <button
+            onClick={handleBatchDownload}
+            disabled={generating}
+            style={{ width: '100%', marginTop: 8, padding: '10px', background: '#fff', border: '1px solid #134A7C', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#134A7C', cursor: 'pointer' }}
+          >
+            📦 Download All Packets
+          </button>
+        )}
 
         {/* RT-169: Print + RT-168: Copy Link */}
         <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
