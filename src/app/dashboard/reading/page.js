@@ -470,12 +470,20 @@ const DEFAULT_FAVORITES = ['atomic-habits', 'traction', 'multi-unit-leadership',
 export default function ReadingPage() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [favorites, setFavorites] = useState(DEFAULT_FAVORITES);
+  // RT-209: Mark as read tracking
+  const [readBooks, setReadBooks] = useState([]);
+  // RT-202: Search/filter
+  const [searchQuery, setSearchQuery] = useState('');
   const book = BOOKS.find(b => b.id === selectedBook);
 
   useEffect(() => {
     try {
       const saved = localStorage.getItem('reading-favorites');
       if (saved) setFavorites(JSON.parse(saved));
+    } catch(e) {}
+    try {
+      const savedRead = localStorage.getItem('rt-reading-read');
+      if (savedRead) setReadBooks(JSON.parse(savedRead));
     } catch(e) {}
   }, []);
 
@@ -488,13 +496,30 @@ export default function ReadingPage() {
     });
   };
 
+  // RT-209: Toggle read status
+  const toggleRead = (e, id) => {
+    e.stopPropagation();
+    setReadBooks(prev => {
+      const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
+      localStorage.setItem('rt-reading-read', JSON.stringify(next));
+      return next;
+    });
+  };
+
   const sortedBooks = [...BOOKS].sort((a, b) => a.author.localeCompare(b.author));
+  // RT-202: Filter by search
+  const filteredBooks = searchQuery
+    ? sortedBooks.filter(b =>
+        b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        b.author.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : sortedBooks;
 
   return (
     <div className={styles.container}>
       {!selectedBook ? (
         <>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 32 }}>
             <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 36, fontWeight: 800, color: '#134A7C', marginBottom: 8 }}>
               Leadership Reading
             </h1>
@@ -503,8 +528,24 @@ export default function ReadingPage() {
             </p>
           </div>
 
+          {/* RT-202: Search filter */}
+          <div style={{ display: 'flex', gap: 12, marginBottom: 24, alignItems: 'center' }}>
+            <input
+              type="text"
+              placeholder="Search by title or author..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              style={{ flex: 1, padding: '10px 14px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, outline: 'none', color: '#111' }}
+            />
+            {readBooks.length > 0 && (
+              <span style={{ fontSize: 13, color: '#6b7280', whiteSpace: 'nowrap' }}>
+                {readBooks.length}/{BOOKS.length} read
+              </span>
+            )}
+          </div>
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-            {sortedBooks.map(b => (
+            {filteredBooks.map(b => (
               <div
                 key={b.id}
                 onClick={() => setSelectedBook(b.id)}
@@ -523,11 +564,24 @@ export default function ReadingPage() {
                 >
                   {favorites.includes(b.id) ? '\u2764\uFE0F' : '\u{1F90D}'}
                 </button>
+                {/* RT-209: Read badge */}
+                {readBooks.includes(b.id) && (
+                  <div style={{ position: 'absolute', top: 0, left: 0, background: '#134A7C', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: '14px 0 8px 0', letterSpacing: '0.05em' }}>
+                    READ
+                  </div>
+                )}
                 <div style={{ fontSize: 36, marginBottom: 12 }}>📖</div>
                 <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 4 }}>
                   {b.title}
                 </div>
-                <div style={{ fontSize: 14, color: '#6b7280' }}>{b.author}</div>
+                <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 12 }}>{b.author}</div>
+                {/* RT-209: Mark as read button */}
+                <button
+                  onClick={e => toggleRead(e, b.id)}
+                  style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', border: `1px solid ${readBooks.includes(b.id) ? '#134A7C' : '#e5e7eb'}`, borderRadius: 20, background: readBooks.includes(b.id) ? '#134A7C' : 'transparent', color: readBooks.includes(b.id) ? '#fff' : '#6b7280', cursor: 'pointer' }}
+                >
+                  {readBooks.includes(b.id) ? '✓ Read' : 'Mark as Read'}
+                </button>
               </div>
             ))}
           </div>

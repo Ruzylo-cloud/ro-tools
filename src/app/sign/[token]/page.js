@@ -3,9 +3,44 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './page.module.css';
 
+// RT-171: Signing step progress indicator
+function SigningProgress({ step }) {
+  const steps = ['Review', 'Sign', 'Complete'];
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, gap: 0 }}>
+      {steps.map((label, i) => {
+        const active = i + 1 === step;
+        const done = i + 1 < step;
+        return (
+          <div key={label} style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: done ? '#134A7C' : active ? '#EE3227' : '#e5e7eb',
+                color: done || active ? '#fff' : '#9ca3af',
+                fontSize: 12, fontWeight: 700,
+              }}>
+                {done ? '✓' : i + 1}
+              </div>
+              <span style={{ fontSize: 11, fontWeight: active ? 700 : 500, color: active ? '#EE3227' : done ? '#134A7C' : '#9ca3af' }}>
+                {label}
+              </span>
+            </div>
+            {i < steps.length - 1 && (
+              <div style={{ width: 48, height: 2, background: done ? '#134A7C' : '#e5e7eb', margin: '0 4px', marginBottom: 18 }} />
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function SigningPage({ params }) {
   const { token } = params;
   const canvasRef = useRef(null);
+  // RT-175: Stroke history for undo
+  const strokeHistoryRef = useRef([]);
   const [signingData, setSigningData] = useState(null);
   const [status, setStatus] = useState('loading'); // loading, ready, signed, already-signed, expired, not-found, error
   const [signedAt, setSignedAt] = useState(null);
@@ -79,12 +114,25 @@ export default function SigningPage({ params }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    // RT-175: Save canvas state before each stroke for undo
+    strokeHistoryRef.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    if (strokeHistoryRef.current.length > 20) strokeHistoryRef.current.shift();
     const pos = getPos(e);
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
     setIsDrawing(true);
     setHasDrawn(true);
   }, [getPos]);
+
+  // RT-175: Undo last stroke
+  const undoStroke = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || strokeHistoryRef.current.length === 0) return;
+    const ctx = canvas.getContext('2d');
+    const snapshot = strokeHistoryRef.current.pop();
+    ctx.putImageData(snapshot, 0, 0);
+    setHasDrawn(strokeHistoryRef.current.length > 0);
+  }, []);
 
   const draw = useCallback((e) => {
     if (!isDrawing) return;
@@ -267,6 +315,9 @@ export default function SigningPage({ params }) {
     );
   }
 
+  // RT-171: Determine current signing step
+  const signingStep = status === 'signed' ? 3 : hasDrawn ? 2 : 1;
+
   // Main signing form
   const createdDate = signingData?.createdAt
     ? new Date(signingData.createdAt).toLocaleDateString('en-US', {
@@ -282,6 +333,9 @@ export default function SigningPage({ params }) {
           <p className={styles.headerSub}>Secure Document Signing</p>
         </div>
         <div className={styles.body}>
+          {/* RT-171: Progress indicator */}
+          <SigningProgress step={signingStep} />
+
           {/* Document Info */}
           <div className={styles.docInfo}>
             <p className={styles.docLabel}>Document</p>
@@ -329,9 +383,15 @@ export default function SigningPage({ params }) {
             <span className={styles.canvasHint}>
               {hasDrawn ? 'Signature captured' : 'Draw your signature above'}
             </span>
-            <button className={styles.clearBtn} onClick={clearCanvas} type="button">
-              Clear
-            </button>
+            <div style={{ display: 'flex', gap: 8 }}>
+              {/* RT-175: Undo last stroke */}
+              <button className={styles.clearBtn} onClick={undoStroke} type="button" disabled={strokeHistoryRef.current?.length === 0}>
+                Undo
+              </button>
+              <button className={styles.clearBtn} onClick={clearCanvas} type="button">
+                Clear
+              </button>
+            </div>
           </div>
 
           {errorMsg && (
