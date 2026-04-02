@@ -55,6 +55,12 @@ export default function DashboardPage() {
   // RT-033: Recently generated documents
   const [recentDocs, setRecentDocs] = useState(null); // null = loading
   const [recentError, setRecentError] = useState(false);
+  // RT-053: Quick stats
+  const [stats, setStats] = useState({ generated: 0, pendingApprovals: 0 });
+  // RT-060: Auto-refresh
+  const [autoRefresh, setAutoRefresh] = useState(false);
+  // RT-071: Last login
+  const [lastLogin, setLastLogin] = useState(null);
 
   useEffect(() => {
     fetch('/api/profile')
@@ -64,12 +70,27 @@ export default function DashboardPage() {
         if (data.profile?.autoAdminGranted === true && !data.profile?.autoAdminNotified) {
           setShowAdminModal(true);
         }
+        if (data.profile?.lastLoginAt) setLastLogin(data.profile.lastLoginAt);
       })
       .catch(() => {});
   }, []);
 
-  // RT-033: Load recent activity
+  // RT-053/063: Load stats + pending approvals
   useEffect(() => {
+    Promise.allSettled([
+      fetch('/api/audit?limit=1').then(r => r.json()),
+      fetch('/api/admin/users').then(r => r.json()),
+    ]).then(([auditRes, adminRes]) => {
+      const generated = auditRes.status === 'fulfilled' ? (auditRes.value?.total || 0) : 0;
+      const pendingApprovals = adminRes.status === 'fulfilled'
+        ? (Array.isArray(adminRes.value?.users) ? adminRes.value.users.filter(u => u.status === 'pending').length : 0)
+        : 0;
+      setStats({ generated, pendingApprovals });
+    });
+  }, []);
+
+  // RT-033: Load recent activity
+  const loadRecentDocs = () => {
     fetch('/api/audit?limit=5')
       .then(res => res.json())
       .then(data => {
@@ -79,7 +100,15 @@ export default function DashboardPage() {
         setRecentError(true);
         setRecentDocs([]);
       });
-  }, []);
+  };
+  useEffect(() => { loadRecentDocs(); }, []);
+
+  // RT-060: Auto-refresh every 60s
+  useEffect(() => {
+    if (!autoRefresh) return;
+    const id = setInterval(loadRecentDocs, 60000);
+    return () => clearInterval(id);
+  }, [autoRefresh]);
 
   const dismissAdminModal = async () => {
     setShowAdminModal(false);
@@ -108,7 +137,7 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="main-content">
       {/* Auto-Admin Granted Modal */}
       {showAdminModal && (
         <div className={styles.modalBackdrop} onClick={dismissAdminModal}>
@@ -132,6 +161,12 @@ export default function DashboardPage() {
       <div className={styles.hero}>
         <h1 className={styles.heroTitle}>{getGreeting()}{firstName ? `, ${firstName}` : ''}</h1>
         <p className={styles.heroDate}>{currentDate}</p>
+        {/* RT-071: Last login */}
+        {lastLogin && (
+          <p style={{ fontSize: '11px', color: 'var(--gray-400)', marginBottom: '8px' }}>
+            Last login: {formatRelativeTime(lastLogin)}
+          </p>
+        )}
         <p className={styles.heroSubtitle}>
           RO Tools is the operational backbone for JM Valley Group franchise managers.
           Everything you need to run your store — branded, automated, and always up to date.
@@ -139,6 +174,39 @@ export default function DashboardPage() {
         <Link href="/dashboard/generators" className={styles.heroCta}>
           Open Generators &rarr;
         </Link>
+        {/* RT-060: Auto-refresh toggle */}
+        <button
+          onClick={() => setAutoRefresh(v => !v)}
+          style={{ marginLeft: '12px', padding: '9px 16px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px', cursor: 'pointer', color: autoRefresh ? 'var(--jm-blue)' : 'var(--gray-500)' }}
+          title="Toggle auto-refresh"
+        >
+          {autoRefresh ? '⟳ Auto ON' : '⟳ Auto OFF'}
+        </button>
+      </div>
+
+      {/* RT-053: Quick stats row */}
+      <div style={{ display: 'flex', gap: '12px', marginBottom: '32px', flexWrap: 'wrap' }}>
+        <div className="stat-card" style={{ flex: '1', minWidth: '120px' }}>
+          <div className="stat-value">{stats.generated || '—'}</div>
+          <div className="stat-label">Docs Generated</div>
+        </div>
+        <div className="stat-card" style={{ flex: '1', minWidth: '120px' }}>
+          <div className="stat-value">29+</div>
+          <div className="stat-label">Stores</div>
+        </div>
+        <div className="stat-card" style={{ flex: '1', minWidth: '120px' }}>
+          <div className="stat-value">12</div>
+          <div className="stat-label">Generators</div>
+        </div>
+        {/* RT-063: Pending approvals for admins */}
+        {stats.pendingApprovals > 0 && (
+          <Link href="/dashboard/admin" style={{ textDecoration: 'none', flex: '1', minWidth: '120px' }}>
+            <div className="stat-card danger">
+              <div className="stat-value" style={{ color: '#dc2626' }}>{stats.pendingApprovals}</div>
+              <div className="stat-label">Pending Approvals</div>
+            </div>
+          </Link>
+        )}
       </div>
 
       {/* RT-032: Quick Actions */}

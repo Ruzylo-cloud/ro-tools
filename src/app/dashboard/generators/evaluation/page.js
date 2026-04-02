@@ -222,7 +222,7 @@ export default function EvaluationPage() {
             />
           </div>
 
-          {/* Ratings */}
+          {/* Ratings — RT-093: Visual star rating */}
           <div className={styles.sectionLabel}>Performance Ratings</div>
           {RATING_CATEGORIES.map((cat) => (
             <div key={cat} className={styles.ratingField}>
@@ -232,13 +232,19 @@ export default function EvaluationPage() {
                   <button
                     key={n}
                     type="button"
-                    className={`${styles.ratingBtn} ${form.ratings[cat] === n ? styles.ratingBtnActive : ''}`}
+                    className={`${styles.ratingBtn} ${form.ratings[cat] >= n ? styles.ratingBtnActive : ''}`}
                     onClick={() => handleRating(cat, n)}
-                    title={`${n} / 5`}
+                    title={['Unsatisfactory', 'Needs Improvement', 'Meets Expectations', 'Exceeds Expectations', 'Outstanding'][n - 1]}
+                    aria-label={`Rate ${cat} ${n} out of 5`}
                   >
-                    {n}
+                    ★
                   </button>
                 ))}
+                {form.ratings[cat] && (
+                  <span className={styles.ratingLabel}>
+                    {['Unsatisfactory', 'Needs Improvement', 'Meets Expectations', 'Exceeds Expectations', 'Outstanding'][form.ratings[cat] - 1]}
+                  </span>
+                )}
               </div>
             </div>
           ))}

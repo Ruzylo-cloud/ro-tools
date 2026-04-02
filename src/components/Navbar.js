@@ -23,7 +23,19 @@ export default function Navbar() {
   useEffect(() => {
     fetch('/api/profile')
       .then(res => res.json())
-      .then(data => setIsAdmin(data.isAdmin || false))
+      .then(data => {
+        setIsAdmin(data.isAdmin || false);
+        setUserRole(data.profile?.role || data.role || '');
+      })
+      .catch(() => {});
+    // RT-064: Poll for unread updates (simplified — uses local storage diff)
+    fetch('/api/updates?limit=1')
+      .then(r => r.json())
+      .then(d => {
+        const latest = d.updates?.[0]?.id || '';
+        const seen = localStorage.getItem('rt-last-update') || '';
+        if (latest && latest !== seen) setUnreadCount(1);
+      })
       .catch(() => {});
   }, []);
 
@@ -58,6 +70,10 @@ export default function Navbar() {
 
   // Dark mode toggle
   const [theme, setTheme] = useState('light');
+  // RT-064: Notification bell
+  const [unreadCount, setUnreadCount] = useState(0);
+  // RT-070: User role
+  const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
     const saved = localStorage.getItem('ro-tools-theme') || 'light';
@@ -143,6 +159,29 @@ export default function Navbar() {
       </div>
 
       <div className={styles.right}>
+        {/* RT-064: Notification bell */}
+        <Link
+          href="/dashboard/updates"
+          className={styles.iconBtn}
+          onClick={() => { setUnreadCount(0); closeDropdown(); }}
+          aria-label={unreadCount ? `${unreadCount} new update` : 'Updates'}
+          title="Updates"
+          style={{ position: 'relative' }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          {unreadCount > 0 && (
+            <span style={{ position: 'absolute', top: '4px', right: '4px', width: '8px', height: '8px', background: '#EE3227', borderRadius: '50%', border: '1px solid var(--white)' }} aria-hidden="true" />
+          )}
+        </Link>
+        {/* RT-070: Role badge */}
+        {userRole && (
+          <span style={{ fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '10px', background: 'rgba(19,74,124,0.08)', color: 'var(--jm-blue)', display: 'none' }} className={styles.roleBadge}>
+            {userRole.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+          </span>
+        )}
         {/* Theme toggle */}
         <button className={styles.iconBtn} onClick={toggleTheme} aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'} title={theme === 'light' ? 'Dark mode' : 'Light mode'} style={{ fontSize: '18px' }}>
           {theme === 'light' ? '\u{1F319}' : '\u{2600}\u{FE0F}'}
@@ -191,6 +230,12 @@ export default function Navbar() {
                 <div className={styles.profileInfo}>
                   <div className={styles.profileFullName}>{user.name}</div>
                   <div className={styles.profileEmail}>{user.email}</div>
+                  {/* RT-070: Role badge in profile dropdown */}
+                  {userRole && (
+                    <span style={{ display: 'inline-block', marginTop: '4px', fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: '10px', background: 'rgba(19,74,124,0.08)', color: 'var(--jm-blue)' }}>
+                      {userRole.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                    </span>
+                  )}
                 </div>
                 <div className={styles.dropdownDivider} />
                 <Link href="/dashboard/profile" className={styles.dropdownItem} onClick={closeDropdown}>

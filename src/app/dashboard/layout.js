@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import OfflineBanner from '@/components/OfflineBanner';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import QuickTour from '@/components/QuickTour';
 
@@ -121,6 +122,8 @@ export default function DashboardLayout({ children }) {
   return (
     <>
       <a href="#main-content" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: '1px', height: '1px', overflow: 'hidden', zIndex: 10000 }} onFocus={e => { e.target.style.position = 'fixed'; e.target.style.left = '16px'; e.target.style.top = '16px'; e.target.style.width = 'auto'; e.target.style.height = 'auto'; e.target.style.padding = '8px 16px'; e.target.style.background = 'var(--jm-blue, #134A7C)'; e.target.style.color = '#fff'; e.target.style.borderRadius = '8px'; e.target.style.fontSize = '14px'; e.target.style.fontWeight = '600'; }} onBlur={e => { e.target.style.position = 'absolute'; e.target.style.left = '-9999px'; e.target.style.width = '1px'; e.target.style.height = '1px'; }}>Skip to main content</a>
+      {/* RT-263: Offline banner */}
+      <OfflineBanner />
       <Navbar />
       <main id="main-content" role="main" style={{ minHeight: 'calc(100vh - 64px - 53px)', background: 'var(--gray-50)' }}>
         <ErrorBoundary>{children}</ErrorBoundary>

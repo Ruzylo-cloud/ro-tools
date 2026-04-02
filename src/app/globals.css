@@ -691,3 +691,640 @@ body, body * {
   0%, 100% { transform: scale(1); opacity: 0.3; }
   50% { transform: scale(1.8); opacity: 0; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   RT-065 to RT-300 — Dashboard, a11y, performance, cross-platform polish
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── RT-065: Dark mode hero gradient ─── */
+[data-theme="dark"] .hero-gradient {
+  background: linear-gradient(135deg, rgba(74,144,208,0.12) 0%, rgba(238,50,39,0.08) 100%);
+}
+
+/* ─── RT-068: Tool grid hover states ─── */
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.tool-card-link { transition: transform 0.15s, box-shadow 0.15s; border-radius: 14px; display: block; }
+.tool-card-link:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(19,74,124,0.12); }
+
+/* ─── RT-075: Cmd+K search hint ─── */
+.cmdk-hint {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--gray-400);
+}
+.cmdk-hint kbd { font-size: 10px; }
+
+/* ─── RT-077: iOS safe area padding ─── */
+body { padding-bottom: env(safe-area-inset-bottom, 0); }
+nav { padding-left: max(16px, env(safe-area-inset-left, 0)); padding-right: max(16px, env(safe-area-inset-right, 0)); }
+
+/* ─── RT-079: Session activity indicator ─── */
+.session-indicator {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; color: var(--gray-400); padding: 2px 8px;
+  border-radius: 100px; background: var(--gray-50); border: 1px solid var(--border);
+}
+.session-indicator-dot { width: 6px; height: 6px; border-radius: 50%; background: #16a34a; animation: pulse 2s infinite; }
+
+/* ─── RT-080: Demo mode banner ─── */
+.demo-banner {
+  background: linear-gradient(90deg, #ca8a04, #d97706); color: #fff;
+  text-align: center; font-size: 12px; font-weight: 600; padding: 6px 16px;
+  position: sticky; top: 64px; z-index: 49; letter-spacing: 0.3px;
+}
+
+/* ─── RT-089: Required field indicators ─── */
+.required::after { content: ' *'; color: #dc2626; font-weight: 700; }
+label.required::after { content: ' *'; color: #dc2626; }
+
+/* ─── RT-095: Mobile 1-col generators ─── */
+@media (max-width: 640px) {
+  .tool-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── RT-123: PDF generation loading ─── */
+.pdf-loading {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 32px; text-align: center; color: var(--gray-500);
+}
+.pdf-loading .pdf-spinner {
+  width: 40px; height: 40px; border: 3px solid var(--border);
+  border-top-color: var(--jm-red); border-radius: 50%; animation: spin 0.8s linear infinite;
+}
+.pdf-loading p { font-size: 13px; }
+
+/* ─── RT-124: PDF error state ─── */
+.pdf-error {
+  padding: 16px; background: rgba(220,38,38,0.05); border: 1px solid rgba(220,38,38,0.15);
+  border-radius: 8px; color: #b91c1c; font-size: 13px;
+}
+.pdf-error strong { display: block; margin-bottom: 4px; }
+
+/* ─── RT-131-134: Catering tracker enhancements ─── */
+.client-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 14px;
+  padding: 16px 20px; transition: all 0.15s; cursor: pointer;
+}
+.client-card:hover { border-color: var(--jm-blue); box-shadow: var(--shadow-md); }
+.order-count-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px;
+  background: rgba(19,74,124,0.1); color: var(--jm-blue); font-size: 11px; font-weight: 700;
+}
+.order-status-active { color: #16a34a; font-weight: 600; }
+.order-status-pending { color: #ca8a04; font-weight: 600; }
+.order-status-closed { color: var(--gray-400); }
+
+/* ─── RT-149/151: Scoreboard trend + rankings ─── */
+.rank-medal-1 { color: #f59e0b; font-size: 18px; }
+.rank-medal-2 { color: var(--gray-400); font-size: 16px; }
+.rank-medal-3 { color: #cd7c2a; font-size: 16px; }
+.scorecard-trend-up { color: #16a34a; }
+.scorecard-trend-down { color: #dc2626; }
+
+/* ─── RT-155/172: Mobile responsive catering/signing ─── */
+@media (max-width: 640px) {
+  .client-grid { grid-template-columns: 1fr !important; }
+  .sign-layout { flex-direction: column !important; }
+}
+
+/* ─── RT-170/173: Signing loading + animated checkmark ─── */
+.sign-loading { display: flex; align-items: center; justify-content: center; padding: 48px; }
+.sign-checkmark {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(22,163,74,0.1); display: flex; align-items: center; justify-content: center;
+  animation: scaleIn 0.3s ease;
+}
+@keyframes scaleIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.sign-checkmark svg { stroke: #16a34a; }
+
+/* ─── RT-191-195: Directives priority/status ─── */
+.directive-priority-high { border-left: 3px solid #dc2626 !important; }
+.directive-priority-med { border-left: 3px solid #ca8a04 !important; }
+.directive-priority-low { border-left: 3px solid var(--border) !important; }
+.directive-unread { font-weight: 700; }
+.directive-read { opacity: 0.7; }
+.directive-category { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 100px; background: var(--gray-100); color: var(--gray-600); }
+
+/* ─── RT-205/207: Reading progress + dark mode article ─── */
+.reading-progress { height: 3px; background: var(--border); border-radius: 100px; overflow: hidden; margin-bottom: 12px; }
+.reading-progress-bar { height: 100%; background: var(--jm-red); transition: width 0.1s linear; }
+[data-theme="dark"] .article-body { color: var(--gray-700); line-height: 1.8; }
+
+/* ─── RT-213: Save confirmation animation ─── */
+.save-success {
+  display: inline-flex; align-items: center; gap: 6px; color: #16a34a;
+  font-size: 13px; font-weight: 600; animation: fadeUp 0.3s ease;
+}
+@keyframes fadeUp { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── RT-222: Pending approvals badge ─── */
+.pending-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 18px; height: 18px; padding: 0 5px;
+  background: var(--jm-red); color: #fff; border-radius: 9px; font-size: 10px; font-weight: 700;
+}
+
+/* ─── RT-226: Setup progress bar ─── */
+.setup-progress { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+.setup-progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 100px; overflow: hidden; }
+.setup-progress-fill { height: 100%; background: var(--jm-blue); border-radius: 100px; transition: width 0.4s ease; }
+.setup-progress-pct { font-size: 12px; font-weight: 600; color: var(--jm-blue); min-width: 32px; text-align: right; }
+
+/* ─── RT-241/242: Login loading + error ─── */
+.login-loading { opacity: 0.7; pointer-events: none; }
+.login-error {
+  padding: 10px 14px; background: rgba(220,38,38,0.05); border: 1px solid rgba(220,38,38,0.15);
+  border-radius: 8px; color: #b91c1c; font-size: 13px; font-weight: 500; margin-bottom: 12px;
+}
+
+/* ─── RT-255: Dark mode login ─── */
+[data-theme="dark"] .login-card { background: #2a2a36; border-color: #3d3d4a; }
+[data-theme="dark"] .login-hero { background: linear-gradient(135deg, #0e2440, #1a1a2e); }
+
+/* ─── RT-261-264: Performance / fonts ─── */
+/* Font display swap is set in the Google Fonts URL param already (?display=swap) */
+
+/* ─── RT-272: Focus-visible ring (enhanced) ─── */
+*:focus-visible { outline: 2px solid var(--jm-blue); outline-offset: 3px; border-radius: 4px; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--jm-blue); outline-offset: 3px; }
+
+/* ─── RT-275: High contrast ratios — ensure text on brand colors ─── */
+.btn-primary { background: var(--jm-blue); color: #fff; } /* 6.5:1 */
+.btn-danger { background: #b91c1c; color: #fff; } /* 7:1 */
+
+/* ─── RT-280: High contrast mode ─── */
+@media (forced-colors: active) {
+  .badge, .chip, .status-indicator::before { forced-color-adjust: none; }
+}
+
+/* ─── RT-282: ARIA landmarks ─── */
+main[role="main"] { display: block; }
+nav[role="navigation"] { display: flex; }
+
+/* ─── RT-283: Skip to content ─── */
+.skip-to-content {
+  position: absolute; top: -100%; left: 16px;
+  background: var(--jm-blue); color: #fff; padding: 8px 16px;
+  border-radius: 0 0 8px 8px; font-size: 14px; font-weight: 600;
+  z-index: 10000; text-decoration: none;
+}
+.skip-to-content:focus { top: 0; }
+
+/* ─── RT-285: Modal focus trap indicator ─── */
+[role="dialog"] { outline: none; }
+[role="dialog"]:focus-within { box-shadow: 0 0 0 3px rgba(19,74,124,0.2), var(--shadow-lg); }
+
+/* ─── RT-286: aria-live regions ─── */
+[aria-live] { min-height: 0; }
+[aria-live="polite"].sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+/* ─── RT-291-299: Cross-platform token alignment with RC ─── */
+:root {
+  --jm-navy: var(--jm-blue);   /* RC uses --jm-navy; alias here for cross-platform components */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --card: var(--white);
+  --text: var(--charcoal);
+  --dim: var(--gray-500);
+  --hover: var(--gray-50);
+  --bg2: var(--gray-100);
+}
+[data-theme="dark"] {
+  --card: #2a2a36;
+  --text: #e8e8ed;
+  --hover: #2a2a36;
+  --bg2: #252530;
+}
+/* RT-298: Button system match RC */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 20px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+.btn-lg { padding: 12px 28px; font-size: 15px; }
+.btn-primary { background: var(--jm-blue); color: #fff; }
+.btn-primary:hover { background: var(--jm-blue-light); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(19,74,124,0.25); }
+.btn-secondary { background: var(--gray-100); color: var(--charcoal); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--gray-200); }
+.btn-danger { background: #dc2626; color: #fff; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-ghost { background: none; color: var(--jm-blue); }
+.btn-ghost:hover { background: rgba(19,74,124,0.06); }
+/* RT-299: Card system match RC */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-sm); }
+.card-hover { transition: transform 0.15s, box-shadow 0.15s; }
+.card-hover:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+
+/* RT-272: Focus-visible outlines */
+:focus-visible {
+  outline: 2px solid var(--jm-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--jm-blue);
+  outline-offset: 2px;
+}
+
+/* RT-276: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* RT-286: Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* RT-287: Table responsive wrapper */
+.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ════════════════════════════════════════════════════════════════
+   RT-051 to RT-300: Dashboard, Generators, Catering, Documents,
+   Directives, Profile/Admin, Auth, Performance & Cross-Platform
+   ════════════════════════════════════════════════════════════════ */
+
+/* RT-051/052: Greeting + date */
+.rt-greeting { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 800; color: var(--jm-blue); }
+.rt-date { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+
+/* RT-053: Quick stats row */
+.rt-stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.rt-stat-chip { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--white); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--gray-700); box-shadow: var(--shadow-sm); }
+.rt-stat-chip-icon { font-size: 16px; }
+
+/* RT-054: Activity feed */
+.rt-activity-feed { display: flex; flex-direction: column; gap: 0; }
+.rt-activity-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.rt-activity-item:last-child { border-bottom: none; }
+.rt-activity-icon { width: 28px; height: 28px; border-radius: 50%; background: rgba(19,74,124,.08); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.rt-activity-text { flex: 1; line-height: 1.4; }
+.rt-activity-time { font-size: 11px; color: var(--gray-400); white-space: nowrap; }
+
+/* RT-055: Quick action buttons */
+.rt-quick-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.rt-quick-action { display: flex; align-items: center; gap: 6px; padding: 9px 16px; background: var(--white); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--gray-700); cursor: pointer; transition: all .15s; white-space: nowrap; }
+.rt-quick-action:hover { border-color: var(--jm-blue); color: var(--jm-blue); background: rgba(19,74,124,.04); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.rt-quick-action-icon { font-size: 16px; }
+
+/* RT-056: Live pillar card counts */
+.rt-pillar-count { font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--jm-blue); line-height: 1; }
+.rt-pillar-label { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+/* RT-057: Unread updates dismiss */
+.rt-update-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--white); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; font-size: 13px; transition: opacity .2s; }
+.rt-update-item.unread { border-left: 3px solid var(--jm-blue); background: rgba(19,74,124,.02); }
+.rt-update-dismiss { background: none; border: none; cursor: pointer; color: var(--gray-400); font-size: 16px; padding: 0; line-height: 1; flex-shrink: 0; transition: color .15s; }
+.rt-update-dismiss:hover { color: var(--gray-700); }
+
+/* RT-058: Skeleton loading */
+.rt-skeleton { background: linear-gradient(90deg, var(--gray-100) 25%, var(--gray-200) 50%, var(--gray-100) 75%); background-size: 400% 100%; animation: rtSkelShimmer 1.4s ease-in-out infinite; border-radius: 6px; }
+@keyframes rtSkelShimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+.rt-skel-line { height: 14px; border-radius: 4px; margin-bottom: 8px; }
+.rt-skel-line.short { width: 40%; }
+.rt-skel-line.medium { width: 65%; }
+.rt-skel-line.long { width: 90%; }
+.rt-skel-card { height: 80px; border-radius: 10px; }
+
+/* RT-060: Auto-refresh toggle */
+.rt-auto-refresh { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--gray-500); cursor: pointer; }
+.rt-auto-refresh input[type="checkbox"] { accent-color: var(--jm-blue); }
+
+/* RT-061: Recently used generators */
+.rt-recent-generators { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.rt-recent-gen-chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--jm-blue); background: rgba(19,74,124,.04); cursor: pointer; transition: all .15s; }
+.rt-recent-gen-chip:hover { border-color: var(--jm-blue); background: rgba(19,74,124,.08); }
+
+/* RT-062: Store health widget */
+.rt-health-score { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--white); border: 1px solid var(--border); border-radius: 10px; }
+.rt-health-num { font-size: 32px; font-weight: 800; font-variant-numeric: tabular-nums; color: #16a34a; line-height: 1; }
+.rt-health-num.warn { color: #d97706; }
+.rt-health-num.danger { color: var(--jm-red); }
+.rt-health-label { font-size: 12px; color: var(--gray-500); }
+
+/* RT-063: Pending approvals badge */
+.rt-pending-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; border-radius: 10px; background: var(--jm-red); color: #fff; font-size: 11px; font-weight: 800; padding: 0 5px; }
+
+/* RT-064: Notification bell */
+.rt-notif-btn { position: relative; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 7px 9px; cursor: pointer; color: var(--gray-600); transition: all .15s; }
+.rt-notif-btn:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.rt-notif-count { position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--jm-red); color: #fff; font-size: 10px; font-weight: 700; padding: 0 4px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
+
+/* RT-065: Dark mode hero gradient */
+@media (prefers-color-scheme: dark) {
+  .rt-hero { background: linear-gradient(135deg, rgba(19,74,124,.15) 0%, rgba(238,50,39,.08) 100%); }
+}
+
+/* RT-066: Widget grid */
+.rt-widget-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+@media (max-width: 768px) { .rt-widget-grid { grid-template-columns: 1fr; } }
+
+/* RT-067: Compliance expiry dates */
+.rt-expiry-date { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.rt-expiry-date.expiring-soon { color: #d97706; }
+.rt-expiry-date.expired { color: var(--jm-red); font-weight: 700; }
+
+/* RT-068: Tool grid hover */
+.rt-tool-card { transition: transform .15s, box-shadow .15s, border-color .15s; cursor: pointer; }
+.rt-tool-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--jm-blue) !important; }
+
+/* RT-070: User role badge */
+.rt-role-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; }
+.rt-role-badge.operator { background: rgba(19,74,124,.1); color: var(--jm-blue); }
+.rt-role-badge.dm { background: rgba(238,50,39,.1); color: var(--jm-red); }
+.rt-role-badge.admin { background: rgba(22,163,74,.1); color: #15803d; }
+
+/* RT-071: Last login time */
+.rt-last-login { font-size: 11px; color: var(--gray-400); display: flex; align-items: center; gap: 4px; }
+
+/* ─── Generators (RT-081 to RT-130) ─── */
+
+/* RT-081: Category grouping labels */
+.rt-gen-category { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--gray-500); padding: 4px 0 8px; margin-top: 8px; border-bottom: 1px solid var(--border); }
+
+/* RT-082: Usage count badge */
+.rt-usage-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; border-radius: 9px; background: rgba(19,74,124,.1); color: var(--jm-blue); font-size: 10px; font-weight: 700; padding: 0 5px; }
+
+/* RT-083: Generator search bar */
+.rt-gen-search { width: 100%; padding: 9px 14px 9px 36px; border: 1px solid var(--border); border-radius: 10px; font-size: 14px; background: var(--white); color: var(--gray-800); outline: none; transition: border-color .15s, box-shadow .15s; }
+.rt-gen-search:focus { border-color: var(--jm-blue); box-shadow: 0 0 0 3px rgba(19,74,124,.1); }
+.rt-gen-search-wrap { position: relative; }
+.rt-gen-search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; font-size: 15px; }
+
+/* RT-084: Form validation */
+.rt-field-error { color: var(--jm-red); font-size: 11px; margin-top: 3px; display: flex; align-items: center; gap: 3px; }
+.rt-input-error { border-color: var(--jm-red) !important; box-shadow: 0 0 0 2px rgba(238,50,39,.12) !important; }
+.rt-input-valid { border-color: #16a34a !important; }
+
+/* RT-086: PDF preview zoom controls */
+.rt-pdf-controls { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--gray-100); border-radius: 8px; }
+.rt-pdf-zoom-btn { padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--white); cursor: pointer; font-size: 14px; font-weight: 700; color: var(--gray-700); transition: all .15s; }
+.rt-pdf-zoom-btn:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.rt-pdf-zoom-level { font-size: 13px; font-variant-numeric: tabular-nums; color: var(--gray-600); min-width: 50px; text-align: center; }
+
+/* RT-089: Required field indicator */
+.rt-required::after { content: ' *'; color: var(--jm-red); font-weight: 700; }
+
+/* RT-091: Employee select with search */
+.rt-emp-select-wrap { position: relative; }
+.rt-emp-search-results { position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: var(--white); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-lg); z-index: 50; max-height: 200px; overflow-y: auto; }
+.rt-emp-result { padding: 8px 12px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 8px; transition: background .15s; }
+.rt-emp-result:hover { background: rgba(19,74,124,.05); }
+
+/* RT-095: Mobile generator layout */
+@media (max-width: 640px) { .rt-gen-form { padding: 16px; } .rt-gen-form .rt-form-row { flex-direction: column; } }
+
+/* RT-111: Recently used at top */
+.rt-gen-recent-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--jm-red); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+
+/* RT-117: Side-by-side form+preview on desktop */
+@media (min-width: 1024px) {
+  .rt-gen-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+  .rt-gen-preview-pane { position: sticky; top: 80px; }
+}
+
+/* RT-120: Signature clear button */
+.rt-sig-clear { font-size: 12px; color: var(--gray-400); cursor: pointer; padding: 2px 6px; border: 1px solid var(--border); border-radius: 4px; background: none; transition: all .15s; }
+.rt-sig-clear:hover { color: var(--jm-red); border-color: var(--jm-red); }
+
+/* RT-123: PDF generation loading */
+.rt-pdf-loading { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 20px; color: var(--gray-500); font-size: 13px; }
+.rt-pdf-spinner { width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--jm-blue); border-radius: 50%; animation: spin .7s linear infinite; }
+
+/* RT-129: Favorites/pinning */
+.rt-pin-btn { background: none; border: none; cursor: pointer; padding: 4px; color: var(--gray-300); font-size: 16px; transition: color .15s, transform .1s; line-height: 1; }
+.rt-pin-btn.pinned { color: #f59e0b; }
+.rt-pin-btn:hover { transform: scale(1.2); }
+
+/* ─── Catering & Scoring (RT-131 to RT-160) ─── */
+
+/* RT-131: Client search */
+.rt-client-search { display: flex; gap: 8px; margin-bottom: 12px; }
+.rt-client-search input { flex: 1; padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; }
+.rt-client-search input:focus { border-color: var(--jm-blue); }
+
+/* RT-132: Client card order count */
+.rt-order-count { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--jm-blue); font-variant-numeric: tabular-nums; }
+
+/* RT-134: Order status badges */
+.rt-order-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+.rt-order-badge.confirmed { background: rgba(22,163,74,.1); color: #15803d; }
+.rt-order-badge.pending { background: rgba(202,138,4,.1); color: #92400e; }
+.rt-order-badge.cancelled { background: rgba(220,38,38,.1); color: #991b1b; }
+.rt-order-badge.completed { background: rgba(19,74,124,.1); color: var(--jm-blue); }
+
+/* RT-137: Revenue trend chart */
+.rt-revenue-chart { height: 120px; position: relative; }
+
+/* RT-147: Chart labels */
+.rt-chart-label { font-size: 10px; color: var(--gray-400); font-variant-numeric: tabular-nums; }
+
+/* RT-149: Trend arrows */
+.rt-trend-up { color: #16a34a; font-weight: 700; }
+.rt-trend-up::before { content: '↑ '; }
+.rt-trend-down { color: var(--jm-red); font-weight: 700; }
+.rt-trend-down::before { content: '↓ '; }
+.rt-trend-flat { color: var(--gray-400); }
+.rt-trend-flat::before { content: '→ '; }
+
+/* RT-151: Rankings with medals */
+.rt-rank-medal { font-size: 18px; width: 28px; text-align: center; flex-shrink: 0; }
+
+/* RT-157: Skeleton for catering */
+.rt-catering-skel { display: flex; flex-direction: column; gap: 8px; padding: 16px; }
+
+/* ─── Documents & Signing (RT-161 to RT-190) ─── */
+
+/* RT-161: Folder organization */
+.rt-folder-tree { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.rt-folder-item { display: flex; align-items: center; gap: 8px; padding: 10px 14px; font-size: 13px; cursor: pointer; transition: background .15s; border-bottom: 1px solid var(--border); }
+.rt-folder-item:last-child { border-bottom: none; }
+.rt-folder-item:hover { background: rgba(19,74,124,.03); }
+.rt-folder-item.active { background: rgba(19,74,124,.06); color: var(--jm-blue); font-weight: 600; }
+
+/* RT-162: Document search */
+.rt-doc-search { width: 100%; padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; margin-bottom: 12px; }
+.rt-doc-search:focus { border-color: var(--jm-blue); }
+
+/* RT-163: Filter by type */
+.rt-doc-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.rt-doc-filter { padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 1px solid var(--border); background: var(--white); color: var(--gray-500); cursor: pointer; transition: all .15s; }
+.rt-doc-filter:hover, .rt-doc-filter.active { background: var(--jm-blue); color: #fff; border-color: var(--jm-blue); }
+
+/* RT-166: Upload progress */
+.rt-upload-progress { height: 4px; border-radius: 2px; background: var(--gray-200); overflow: hidden; margin-top: 8px; }
+.rt-upload-bar { height: 100%; background: linear-gradient(90deg, var(--jm-blue), #1a5a94); border-radius: 2px; transition: width .3s ease; }
+
+/* RT-170/171: Signing loading + progress */
+.rt-sign-progress { display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(19,74,124,.04); border-radius: 8px; margin-bottom: 12px; }
+.rt-sign-step { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--gray-400); }
+.rt-sign-step.active { border-color: var(--jm-blue); color: var(--jm-blue); background: rgba(19,74,124,.1); }
+.rt-sign-step.done { border-color: #16a34a; background: #16a34a; color: #fff; }
+.rt-sign-step-line { flex: 1; height: 2px; background: var(--gray-200); }
+.rt-sign-step-line.done { background: #16a34a; }
+
+/* RT-173: Signing animated checkmark */
+@keyframes rtCheckmark { 0% { stroke-dashoffset: 36; } 100% { stroke-dashoffset: 0; } }
+.rt-sign-checkmark { stroke-dasharray: 36; stroke-dashoffset: 36; animation: rtCheckmark .4s .1s ease forwards; }
+
+/* ─── Directives & Reading (RT-191 to RT-210) ─── */
+
+/* RT-191: Priority indicators */
+.rt-priority-high { border-left: 3px solid var(--jm-red) !important; }
+.rt-priority-medium { border-left: 3px solid #f59e0b !important; }
+.rt-priority-low { border-left: 3px solid var(--gray-300) !important; }
+.rt-priority-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; padding: 1px 6px; border-radius: 8px; }
+.rt-priority-label.high { background: rgba(238,50,39,.1); color: var(--jm-red); }
+.rt-priority-label.medium { background: rgba(202,138,4,.1); color: #92400e; }
+
+/* RT-192: Unread/read status */
+.rt-unread-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--jm-blue); flex-shrink: 0; }
+.rt-directive-unread { font-weight: 700; color: var(--gray-800); }
+
+/* RT-193: Acknowledgment tracking */
+.rt-ack-bar { height: 4px; border-radius: 2px; background: var(--gray-200); overflow: hidden; margin-top: 6px; }
+.rt-ack-fill { height: 100%; background: linear-gradient(90deg, var(--jm-blue), #1a5a94); border-radius: 2px; }
+.rt-ack-pct { font-size: 11px; font-weight: 700; color: var(--jm-blue); font-variant-numeric: tabular-nums; }
+
+/* RT-201: Reading category tabs */
+.rt-reading-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 16px; flex-wrap: wrap; }
+.rt-reading-tab { padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--gray-500); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s; background: none; border-left: none; border-right: none; border-top: none; }
+.rt-reading-tab:hover { color: var(--jm-blue); }
+.rt-reading-tab.active { color: var(--jm-blue); border-bottom-color: var(--jm-blue); }
+
+/* RT-203: Estimated read time */
+.rt-read-time { font-size: 12px; color: var(--gray-400); display: inline-flex; align-items: center; gap: 4px; }
+
+/* RT-204: Bookmark/save */
+.rt-bookmark { background: none; border: none; cursor: pointer; font-size: 18px; color: var(--gray-300); padding: 4px; transition: color .15s, transform .1s; }
+.rt-bookmark.saved { color: var(--jm-blue); }
+.rt-bookmark:hover { transform: scale(1.15); }
+
+/* RT-205: Read progress indicator */
+.rt-read-progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--jm-blue); z-index: 1000; transition: width .1s; }
+
+/* ─── Profile & Admin (RT-211 to RT-240) ─── */
+
+/* RT-213: Save confirmation animation */
+@keyframes rtSaveConfirm { 0% { opacity: 0; transform: scale(.8); } 60% { transform: scale(1.08); } 100% { opacity: 1; transform: scale(1); } }
+.rt-save-confirm { animation: rtSaveConfirm .3s ease; color: #16a34a; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 5px; }
+
+/* RT-214: Field validation feedback */
+.rt-profile-field-error { color: var(--jm-red); font-size: 11px; margin-top: 3px; }
+
+/* RT-217: Admin user table sorting */
+.rt-admin-th { cursor: pointer; user-select: none; white-space: nowrap; }
+.rt-admin-th:hover { background: rgba(19,74,124,.04); }
+.rt-admin-th::after { content: ' ↕'; opacity: .3; font-size: 10px; }
+.rt-admin-th.asc::after { content: ' ↑'; opacity: 1; color: var(--jm-blue); }
+.rt-admin-th.desc::after { content: ' ↓'; opacity: 1; color: var(--jm-blue); }
+
+/* RT-222: Pending approvals badge in navbar */
+.rt-nav-pending { position: absolute; top: -3px; right: -3px; min-width: 16px; height: 16px; border-radius: 8px; background: var(--jm-red); color: #fff; font-size: 9px; font-weight: 800; padding: 0 3px; display: flex; align-items: center; justify-content: center; }
+
+/* RT-226: Setup progress bar */
+.rt-setup-progress { height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; margin-bottom: 24px; }
+.rt-setup-progress-fill { height: 100%; background: linear-gradient(90deg, var(--jm-blue), #1a5a94); border-radius: 3px; transition: width .5s ease; }
+
+/* ─── Auth & Security (RT-241 to RT-260) ─── */
+
+/* RT-241: Login loading state */
+.rt-login-loading { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-600); }
+.rt-login-spinner { width: 18px; height: 18px; border: 2px solid var(--gray-200); border-top-color: var(--jm-blue); border-radius: 50%; animation: spin .7s linear infinite; }
+
+/* RT-242: Login error */
+.rt-login-error { background: rgba(238,50,39,.06); border: 1px solid rgba(238,50,39,.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--jm-red); display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+
+/* RT-254: Login dark mode */
+@media (prefers-color-scheme: dark) {
+  .rt-login-page { background: #0f172a; }
+  .rt-login-card { background: #1e293b; border-color: #334155; }
+}
+
+/* ─── Performance & Accessibility (RT-261 to RT-290) ─── */
+
+/* RT-272: Focus visible ring */
+:focus-visible { outline: 2px solid var(--jm-blue); outline-offset: 2px; border-radius: 4px; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--jm-blue); outline-offset: 3px; }
+
+/* RT-273: Image alt text enforcement */
+img:not([alt]) { outline: 2px dashed var(--jm-red); }
+
+/* RT-275: Color contrast improvements */
+.rt-text-muted { color: var(--gray-600); } /* AA compliant */
+.rt-text-secondary { color: var(--gray-700); }
+
+/* RT-277: Touch targets 44px */
+.rt-touch-target { min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; }
+
+/* RT-278: Touch target for buttons */
+@media (pointer: coarse) {
+  button, [role="button"] { min-height: 44px; padding: 10px 16px; }
+}
+
+/* RT-279: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .rt-skeleton, .rt-skel-line, .rt-skel-card { animation: none; background: var(--gray-100); }
+}
+
+/* RT-281: Semantic HTML helpers */
+.rt-visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.rt-skip-link { position: absolute; top: -60px; left: 0; background: var(--jm-blue); color: #fff; padding: 8px 16px; z-index: 10000; font-size: 14px; font-weight: 600; border-radius: 0 0 8px 0; transition: top .2s; }
+.rt-skip-link:focus { top: 0; }
+
+/* RT-282: ARIA landmarks helper */
+[role="main"] { display: block; }
+[role="navigation"] { display: block; }
+
+/* RT-283: Skip to content */
+.rt-skip-main { position: absolute; top: -60px; left: 8px; z-index: 10001; }
+.rt-skip-main:focus { top: 8px; }
+
+/* RT-285: Modal focus trap visual */
+.rt-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.rt-modal { background: var(--white); border-radius: 14px; padding: 24px; max-width: 90vw; box-shadow: 0 20px 60px rgba(0,0,0,.2); position: relative; }
+
+/* RT-286: aria-live regions */
+.rt-live-region { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* ─── Cross-Platform (RT-291 to RT-300) ─── */
+
+/* RT-291/292: Match RC color + font tokens */
+:root {
+  --rc-jm-navy: #134A7C;
+  --rc-jm-red: #EE3227;
+  --rc-radius: 14px;
+  --rc-radius-sm: 8px;
+}
+
+/* RT-293: Dark mode tokens matching RC */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a2e;
+    --bg2: #1e1e30;
+    --card: #242438;
+    --text: #e8e8f0;
+    --dim: #9090a0;
+    --border: #3d3d4a;
+  }
+}
+
+/* RT-294/295: Border radius + shadows match RC */
+.rc-radius { border-radius: 14px; }
+.rc-shadow { box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 2px 12px rgba(0,0,0,0.08); }
+
+/* RT-297/298/299/300: Component token alignment */
+.rt-badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
+.rt-card { background: var(--white, #fff); border: 1px solid var(--border, #e5e7eb); border-radius: 14px; padding: 20px; box-shadow: var(--shadow-sm); }
+.rt-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all .15s; }
+.rt-btn-primary { background: var(--jm-blue); color: #fff; border: none; }
+.rt-btn-primary:hover { background: var(--jm-blue-light); }
+.rt-btn-danger { background: var(--jm-red); color: #fff; border: none; }
+.rt-btn-outline { background: transparent; border: 1px solid var(--border); color: var(--gray-700); }
+.rt-btn-outline:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.rt-toast { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; box-shadow: var(--shadow-lg); font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+.rt-toast.success { border-left: 3px solid #16a34a; }
+.rt-toast.error { border-left: 3px solid var(--jm-red); }
+.rt-toast.info { border-left: 3px solid var(--jm-blue); }

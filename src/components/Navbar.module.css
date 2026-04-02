@@ -619,3 +619,11 @@
 :global([data-theme="dark"]) .profileName { color: #e8e8ed; }
 :global([data-theme="dark"]) .profileFullName { color: #e8e8ed; }
 :global([data-theme="dark"]) .dropdownDivider { background: #3d3d4a; }
+
+/* RT-070: Role badge */
+.roleBadge { display: none; }
+@media (min-width: 1100px) { .roleBadge { display: inline-block !important; } }
+
+/* RT-072: Responsive breakpoint tuning */
+@media (max-width: 900px) { .links { display: none; } }
+@media (max-width: 640px) { .logoText { display: none; } .nav { padding: 0 16px; } }
