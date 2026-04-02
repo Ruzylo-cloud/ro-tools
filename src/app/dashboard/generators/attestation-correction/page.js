@@ -129,10 +129,12 @@ export default function AttestationCorrectionPage() {
                   rows={3}
                 />
               ) : type === 'select' ? (
+                // RT-096: Use select class for proper width/styling
                 <select
-                  className={styles.input}
+                  className={styles.select || styles.input}
                   value={form[key] || ''}
                   onChange={(e) => handleChange(key, e.target.value)}
+                  style={{ width: '100%', boxSizing: 'border-box' }}
                 >
                   {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                 </select>

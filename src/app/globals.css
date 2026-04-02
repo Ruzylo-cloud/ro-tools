@@ -1339,3 +1339,67 @@ img:not([alt]) { outline: 2px dashed var(--jm-red); }
 .rt-toast.success { border-left: 3px solid #16a34a; }
 .rt-toast.error { border-left: 3px solid var(--jm-red); }
 .rt-toast.info { border-left: 3px solid var(--jm-blue); }
+
+/* ─── RT-072: Responsive breakpoint tuning ─── */
+@media (max-width: 1024px) {
+  .rt-card { padding: 16px; }
+}
+@media (max-width: 768px) {
+  .rt-card { padding: 14px; border-radius: 10px; }
+  .rt-btn { padding: 8px 14px; font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .rt-card { padding: 12px; border-radius: 8px; }
+}
+
+/* ─── RT-073: Hero title responsive scaling ─── */
+.rt-hero-title {
+  font-size: clamp(22px, 4vw, 36px);
+  font-family: 'Playfair Display', serif;
+  font-weight: 800;
+  color: var(--jm-blue);
+  line-height: 1.2;
+}
+
+/* ─── RT-078: Dark mode card borders ─── */
+[data-theme="dark"] .rt-card {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+}
+[data-theme="dark"] .rt-btn-outline {
+  border-color: #3d3d4a;
+  color: #c8c8d8;
+}
+[data-theme="dark"] .rt-btn-outline:hover {
+  border-color: #4a90d0;
+  color: #4a90d0;
+}
+
+/* ─── RT-092: Keyboard nav — focus ring on all interactive elements ─── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--jm-blue);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* RT-092: Skip navigation focus */
+.skip-nav:focus {
+  clip: auto;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 10000;
+  padding: 8px 16px;
+  background: var(--jm-blue);
+  color: #fff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}

@@ -212,3 +212,29 @@
   .preview { padding: 10px; }
   .previewContainer { padding: 10px; }
 }
+
+/* RT-099: Score slider */
+.scoreSlider {
+  -webkit-appearance: none;
+  width: 100px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gray-200);
+  outline: none;
+  cursor: pointer;
+}
+.scoreSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--jm-blue);
+  cursor: pointer;
+}
+.scoreValue {
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
+}
+:global([data-theme="dark"]) .scoreSlider { background: #3d3d4a; }

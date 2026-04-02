@@ -145,15 +145,23 @@ export default function DMWalkthroughsPage() {
               <div key={cat} style={{ marginBottom: '6px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
                   <label className={styles.label} style={{ marginBottom: 0 }}>{cat}</label>
-                  <select
-                    className={styles.select}
-                    value={form.scores[cat] || ''}
-                    onChange={(e) => setScore(cat, e.target.value)}
-                    style={{ width: '70px', padding: '4px 24px 4px 8px', fontSize: '13px', fontWeight: 700 }}
-                  >
-                    <option value="">—</option>
-                    {[1,2,3,4,5,6,7,8,9,10].map(n => <option key={n} value={n}>{n}</option>)}
-                  </select>
+                  {/* RT-099: Score slider */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <input
+                      type="range"
+                      min={1} max={10} step={1}
+                      value={form.scores[cat] || 5}
+                      onChange={(e) => setScore(cat, e.target.value)}
+                      className={styles.scoreSlider}
+                    />
+                    <span className={styles.scoreValue} style={{
+                      color: !form.scores[cat] ? 'var(--gray-400)' :
+                        parseInt(form.scores[cat]) >= 8 ? '#16a34a' :
+                        parseInt(form.scores[cat]) >= 5 ? '#d97706' : '#dc2626'
+                    }}>
+                      {form.scores[cat] || '—'}
+                    </span>
+                  </div>
                 </div>
                 <input
                   type="text"

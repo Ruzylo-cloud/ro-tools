@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { changelog } from '@/lib/changelog';
 import styles from './page.module.css';
@@ -50,6 +51,7 @@ const recentUpdates = changelog.slice(0, 3);
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [showAdminModal, setShowAdminModal] = useState(false);
   // RT-033: Recently generated documents
@@ -109,6 +111,18 @@ export default function DashboardPage() {
     const id = setInterval(loadRecentDocs, 60000);
     return () => clearInterval(id);
   }, [autoRefresh]);
+
+  // RT-074: ⌘K keyboard shortcut to jump to generators search
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        router.push('/dashboard/generators');
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [router]);
 
   const dismissAdminModal = async () => {
     setShowAdminModal(false);
@@ -474,6 +488,51 @@ export default function DashboardPage() {
           <span className={styles.techBadge}>Auto-Scaling</span>
         </div>
       </div>
+
+      {/* RT-072 to RT-090: Profile completion indicator + keyboard shortcut hint + store summary */}
+      {profile && (
+        <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 20px', marginBottom: 28 }}>
+          {/* RT-077: Profile completion */}
+          {(() => {
+            const fields = ['storeName', 'storeNumber', 'city', 'phone', 'managerName'];
+            const filled = fields.filter(f => profile[f]).length;
+            const pct = Math.round(filled / fields.length * 100);
+            const complete = pct === 100;
+            return (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#111' }}>Profile Completion</span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: complete ? '#16a34a' : '#134A7C' }}>{pct}%</span>
+                  </div>
+                  <div style={{ height: 6, background: '#f0f4f8', borderRadius: 3, overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${pct}%`, background: complete ? '#16a34a' : '#134A7C', borderRadius: 3, transition: 'width 0.5s ease' }} />
+                  </div>
+                  {!complete && (
+                    <Link href="/dashboard/profile" style={{ fontSize: 12, color: '#134A7C', fontWeight: 600, marginTop: 4, display: 'inline-block' }}>
+                      Complete your profile →
+                    </Link>
+                  )}
+                </div>
+                {/* RT-072: Store summary chip */}
+                {profile.storeName && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', background: 'rgba(19,74,124,0.05)', borderRadius: 8, border: '1px solid rgba(19,74,124,0.1)' }}>
+                    <span style={{ fontSize: 18 }}>🏪</span>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#134A7C' }}>{profile.storeName}{profile.storeNumber ? ` #${profile.storeNumber}` : ''}</div>
+                      {profile.city && <div style={{ fontSize: 11, color: '#9ca3af' }}>{profile.city}</div>}
+                    </div>
+                  </div>
+                )}
+                {/* RT-074: Keyboard shortcut hint */}
+                <div style={{ fontSize: 11, color: '#9ca3af', padding: '6px 10px', background: '#f9fafb', borderRadius: 6, border: '1px solid #e5e7eb' }}>
+                  <kbd style={{ fontFamily: 'monospace', fontSize: 11 }}>⌘K</kbd> to search
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
 
       {/* Recent Updates */}
       {recentUpdates.length > 0 && (

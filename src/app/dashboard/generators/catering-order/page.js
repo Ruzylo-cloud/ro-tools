@@ -545,6 +545,19 @@ export default function CateringOrderPage() {
           </div>
         </div>
 
+        {/* RT-097: Itemized total breakdown */}
+        {subtotal > 0 && (
+          <div className={styles.totalBreakdown}>
+            {boxTotal > 0 && <div className={styles.totalRow}><span>Box Lunches ({numberOfBoxes} box{numberOfBoxes !== 1 ? 'es' : ''})</span><span>${boxTotal.toFixed(2)}</span></div>}
+            {chipsTotal > 0 && <div className={styles.totalRow}><span>Chips</span><span>${chipsTotal.toFixed(2)}</span></div>}
+            {drinksTotal > 0 && <div className={styles.totalRow}><span>Drinks</span><span>${drinksTotal.toFixed(2)}</span></div>}
+            {cookieTotal > 0 && <div className={styles.totalRow}><span>Cookie Platters</span><span>${cookieTotal.toFixed(2)}</span></div>}
+            {brownieTotal > 0 && <div className={styles.totalRow}><span>Brownie Platters</span><span>${brownieTotal.toFixed(2)}</span></div>}
+            {discountAmount > 0 && <div className={styles.totalRow}><span>Discount ({form.discount}%)</span><span>-${discountAmount.toFixed(2)}</span></div>}
+            <div className={styles.totalFinal}><span>Total</span><span>${totalPrice.toFixed(2)}</span></div>
+          </div>
+        )}
+
         <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
           {generating ? 'Generating PDF...' : 'Download PDF'}
         </button>

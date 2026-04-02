@@ -133,13 +133,26 @@ export default function MealBreakWaiverPage() {
                   rows={3}
                 />
               ) : type === 'select' ? (
-                <select
-                  className={styles.input}
-                  value={form[key] || ''}
-                  onChange={(e) => handleChange(key, e.target.value)}
-                >
-                  {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                </select>
+                <>
+                  <select
+                    className={styles.select || styles.input}
+                    value={form[key] || ''}
+                    onChange={(e) => handleChange(key, e.target.value)}
+                    style={{ width: '100%', boxSizing: 'border-box' }}
+                  >
+                    {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                  </select>
+                  {/* RT-104: Waiver type context description */}
+                  {key === 'waiverType' && form.waiverType && (() => {
+                    const desc = {
+                      first: 'Mutual waiver for shifts between 6–12 hours where no off-duty meal period is required.',
+                      second: 'Waiver for shifts over 10 hours allowing the second meal period to be waived if the first was taken.',
+                      'on-duty': 'Employee remains on-duty during the meal period and is paid. Requires a written agreement revocable at any time.',
+                    }[form.waiverType];
+                    return <p style={{ fontSize: 11, color: '#6b7280', marginTop: 4, lineHeight: 1.5 }}>{desc}</p>;
+                  })()}
+                </>
+
               ) : key === 'employeeName' ? (
                 <EmployeeSelect
                   value={form.employeeName}

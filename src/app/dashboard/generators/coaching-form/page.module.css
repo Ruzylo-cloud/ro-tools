@@ -38,6 +38,7 @@
   border-bottom: none;
 }
 
+/* RT-098: Section headers with icons */
 .sectionTitle {
   font-size: 13px;
   font-weight: 700;
@@ -45,6 +46,14 @@
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.sectionIcon {
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 .fields {
@@ -212,4 +221,12 @@
   .sidebarTitle { font-size: 17px; }
   .preview { padding: 10px; }
   .previewContainer { padding: 10px; }
+}
+
+/* RT-112: Character count */
+.charCount {
+  text-align: right;
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 3px;
 }

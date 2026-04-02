@@ -91,6 +91,12 @@ export default function DocumentsPage() {
   const [storeInfo, setStoreInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [generateProgress, setGenerateProgress] = useState(0); // RT-172: progress indicator
+  const [showPreview, setShowPreview] = useState(true); // RT-165: toggle preview
+  // RT-164: Recently used templates
+  const [recentTemplates, setRecentTemplates] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('rt-recent-docs') || '[]'); } catch { return []; }
+  });
   const docRef = useRef(null);
 
   useEffect(() => {
@@ -116,11 +122,18 @@ export default function DocumentsPage() {
   const handleTemplateChange = (id) => {
     setSelected(id);
     setForm({});
+    // RT-164: Track recently used
+    setRecentTemplates(prev => {
+      const updated = [id, ...prev.filter(t => t !== id)].slice(0, 4);
+      try { localStorage.setItem('rt-recent-docs', JSON.stringify(updated)); } catch {}
+      return updated;
+    });
   };
 
   const handleDownload = async () => {
     if (!docRef.current) return;
     setGenerating(true);
+    setGenerateProgress(10); // RT-172
     try {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF } = await import('jspdf');
@@ -130,6 +143,7 @@ export default function DocumentsPage() {
 
       if (pages.length > 0) {
         for (let i = 0; i < pages.length; i++) {
+          setGenerateProgress(Math.round(20 + (i / pages.length) * 70)); // RT-172
           const canvas = await html2canvas(pages[i], {
             scale: 2,
             useCORS: true,
@@ -154,14 +168,38 @@ export default function DocumentsPage() {
       }
 
       const empName = (form.employeeName || 'document').replace(/\s+/g, '-').toLowerCase();
-      const fileName = `${FILE_NAMES[selected]}-${empName}.pdf`;
+      // RT-171: Include store name in filename
+      const storePart = storeInfo.storeNumber ? `-store${storeInfo.storeNumber}` : '';
+      const fileName = `${FILE_NAMES[selected]}-${empName}${storePart}.pdf`;
+      setGenerateProgress(95); // RT-172
       pdf.save(fileName);
+      setGenerateProgress(100);
       logActivity({ generatorType: selected === 'newhire' ? 'new-hire-checklist' : `training-${selected}`, action: 'download', formData: docData, filename: fileName });
     } catch (err) {
       console.error('PDF generation error:', err);
       alert('Failed to generate PDF. Please try again.');
     }
     setGenerating(false);
+    setTimeout(() => setGenerateProgress(0), 1500);
+  };
+
+  // RT-168: Copy share/deep-link
+  const handleCopyLink = () => {
+    const url = `${window.location.origin}/dashboard/documents?template=${selected}`;
+    navigator.clipboard.writeText(url).catch(() => {});
+  };
+
+  // RT-169: Print (open preview in print dialog)
+  const handlePrint = () => {
+    if (!docRef.current) return;
+    const w = window.open('', '_blank');
+    if (!w) return;
+    w.document.write('<html><head><title>Print</title><style>body{margin:0}@media print{body{margin:0}}</style></head><body>');
+    w.document.write(docRef.current.innerHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    w.focus();
+    setTimeout(() => { w.print(); }, 500);
   };
 
   const DocComponent = COMPONENT_MAP[selected];
@@ -184,6 +222,28 @@ export default function DocumentsPage() {
         <p className={styles.sidebarDesc}>
           Generate branded JMVG documents. Select a template, fill in the details, and download.
         </p>
+
+        {/* RT-164: Recently used templates */}
+        {recentTemplates.length > 0 && (
+          <div style={{ marginBottom: 14 }}>
+            <div className={styles.sectionLabel} style={{ marginBottom: 6 }}>Recent</div>
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {recentTemplates.map(id => {
+                const t = TEMPLATES.find(x => x.id === id);
+                if (!t) return null;
+                return (
+                  <button
+                    key={id}
+                    onClick={() => handleTemplateChange(id)}
+                    style={{ padding: '4px 10px', fontSize: 12, fontWeight: 600, background: selected === id ? '#134A7C' : '#f0f4f8', color: selected === id ? '#fff' : '#134A7C', border: '1px solid #d1d5db', borderRadius: 16, cursor: 'pointer' }}
+                  >
+                    {t.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Template Selector */}
         <div className={styles.sectionLabel}>Select Template</div>
@@ -234,13 +294,37 @@ export default function DocumentsPage() {
           ))}
         </div>
 
+        {/* RT-172: Progress bar */}
+        {generating && generateProgress > 0 && (
+          <div style={{ height: 4, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden', marginBottom: 10 }}>
+            <div style={{ height: '100%', background: '#134A7C', borderRadius: 2, width: `${generateProgress}%`, transition: 'width 0.3s ease' }} />
+          </div>
+        )}
+
         <button
           className={styles.downloadBtn}
           onClick={handleDownload}
           disabled={generating}
         >
-          {generating ? 'Generating PDF...' : 'Download PDF'}
+          {generating ? `Generating PDF… ${generateProgress}%` : 'Download PDF'}
         </button>
+
+        {/* RT-169: Print + RT-168: Copy Link */}
+        <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+          <button
+            onClick={handlePrint}
+            disabled={generating}
+            style={{ flex: 1, padding: '10px', background: '#fff', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#374151', cursor: 'pointer' }}
+          >
+            🖨️ Print
+          </button>
+          <button
+            onClick={handleCopyLink}
+            style={{ flex: 1, padding: '10px', background: '#fff', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#374151', cursor: 'pointer' }}
+          >
+            🔗 Copy Link
+          </button>
+        </div>
 
         <SaveToDrive
           getCanvasRef={() => docRef.current}
@@ -251,15 +335,29 @@ export default function DocumentsPage() {
         />
       </div>
 
-      {/* Preview */}
+      {/* RT-165: Preview panel with toggle */}
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <h2 className={styles.previewTitle}>Live Preview</h2>
+          <button
+            onClick={() => setShowPreview(p => !p)}
+            style={{ padding: '4px 12px', background: '#f0f4f8', border: '1px solid #d1d5db', borderRadius: 6, fontSize: 12, fontWeight: 600, color: '#374151', cursor: 'pointer' }}
+          >
+            {showPreview ? 'Hide' : 'Show'}
+          </button>
         </div>
-        <div className={styles.previewContainer}>
-          <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
-          <DocComponent ref={docRef} data={docData} />
-        </div>
+        {showPreview && (
+          <div className={styles.previewContainer}>
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet" />
+            <DocComponent ref={docRef} data={docData} />
+          </div>
+        )}
+        {/* Keep docRef accessible even when hidden */}
+        {!showPreview && (
+          <div style={{ display: 'none' }}>
+            <DocComponent ref={docRef} data={docData} />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -292,6 +292,13 @@ export default function SigningPage({ params }) {
             </p>
           )}
           <span className={styles.successBadge}>Signature Recorded</span>
+          {/* RT-176: Print after signing */}
+          <button
+            onClick={() => window.print()}
+            style={{ marginTop: 16, padding: '8px 20px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+          >
+            🖨️ Print Confirmation
+          </button>
         </div>
         <p className={styles.footer}>RO Tools &mdash; JM Valley Group</p>
       </div>

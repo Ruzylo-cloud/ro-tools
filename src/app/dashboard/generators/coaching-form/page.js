@@ -7,6 +7,7 @@ import CoachingFormPreview from '@/components/CoachingFormPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const COACHING_TYPES = [
@@ -18,6 +19,23 @@ const COACHING_TYPES = [
   { value: 'other', label: 'Other' },
 ];
 
+const INITIAL_FORM = {
+  employeeName: '',
+  position: '',
+  storeNumber: '',
+  storeName: '',
+  coachName: '',
+  coachingDate: '',
+  coachingType: '',
+  previousDates: '',
+  concern: '',
+  expectations: '',
+  actionItems: '',
+  followUpDate: '',
+  consequences: 'Continued failure to meet expectations may result in further disciplinary action, up to and including termination of employment.',
+  employeeComments: '',
+};
+
 export default function CoachingFormPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -26,22 +44,8 @@ export default function CoachingFormPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
-    employeeName: '',
-    position: '',
-    storeNumber: '',
-    storeName: '',
-    coachName: '',
-    coachingDate: '',
-    coachingType: '',
-    previousDates: '',
-    concern: '',
-    expectations: '',
-    actionItems: '',
-    followUpDate: '',
-    consequences: 'Continued failure to meet expectations may result in further disciplinary action, up to and including termination of employment.',
-    employeeComments: '',
-  });
+  // RT-085: Auto-save draft
+  const [form, setForm, clearDraft] = useFormDraft('coaching-form', INITIAL_FORM);
 
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
 
@@ -106,6 +110,7 @@ export default function CoachingFormPage() {
       }
 
       logActivity({ generatorType: 'coaching-form', action: 'download', formData: form, filename: fileName });
+      clearDraft();
       showToast('PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
@@ -182,28 +187,33 @@ export default function CoachingFormPage() {
           </div>
         </div>
 
+        {/* RT-098: Section headers with icons */}
         {/* Concern */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Description of Concern</h3>
+          <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>⚠️</span> Description of Concern</h3>
           <div className={styles.field}>
-            <textarea className={styles.textarea} rows={4} value={form.concern} onChange={(e) => handleChange('concern', e.target.value)} placeholder="Describe the specific behavior, incident, or performance issue. Include dates, times, and specific examples..." />
+            <textarea className={styles.textarea} rows={4} value={form.concern} onChange={(e) => handleChange('concern', e.target.value)} placeholder="Describe the specific behavior, incident, or performance issue. Include dates, times, and specific examples..." maxLength={1000} />
+            {/* RT-112: Char count */}
+            <div className={styles.charCount}>{(form.concern || '').length}/1000</div>
           </div>
         </div>
 
         {/* Expectations */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Expectations & Standards</h3>
+          <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>🎯</span> Expectations & Standards</h3>
           <div className={styles.field}>
-            <textarea className={styles.textarea} rows={3} value={form.expectations} onChange={(e) => handleChange('expectations', e.target.value)} placeholder="What is the expected standard? Reference specific policies or procedures..." />
+            <textarea className={styles.textarea} rows={3} value={form.expectations} onChange={(e) => handleChange('expectations', e.target.value)} placeholder="What is the expected standard? Reference specific policies or procedures..." maxLength={800} />
+            <div className={styles.charCount}>{(form.expectations || '').length}/800</div>
           </div>
         </div>
 
         {/* Action Items */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Action Items & Improvement Plan</h3>
+          <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>✅</span> Action Items & Improvement Plan</h3>
           <div className={styles.fields}>
             <div className={styles.field}>
-              <textarea className={styles.textarea} rows={3} value={form.actionItems} onChange={(e) => handleChange('actionItems', e.target.value)} placeholder="Specific steps the employee will take to improve..." />
+              <textarea className={styles.textarea} rows={3} value={form.actionItems} onChange={(e) => handleChange('actionItems', e.target.value)} placeholder="Specific steps the employee will take to improve..." maxLength={800} />
+              <div className={styles.charCount}>{(form.actionItems || '').length}/800</div>
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Follow-Up Date</label>
@@ -214,7 +224,7 @@ export default function CoachingFormPage() {
 
         {/* Consequences */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Consequences</h3>
+          <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>📋</span> Consequences</h3>
           <div className={styles.field}>
             <textarea className={styles.textarea} rows={2} value={form.consequences} onChange={(e) => handleChange('consequences', e.target.value)} />
           </div>
@@ -222,7 +232,7 @@ export default function CoachingFormPage() {
 
         {/* Employee Comments */}
         <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Employee Comments</h3>
+          <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>💬</span> Employee Comments</h3>
           <div className={styles.field}>
             <textarea className={styles.textarea} rows={2} value={form.employeeComments} onChange={(e) => handleChange('employeeComments', e.target.value)} placeholder="Employee's response or comments (optional)..." />
           </div>

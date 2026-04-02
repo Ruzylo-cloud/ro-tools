@@ -107,6 +107,10 @@ export default function CateringTrackerPage() {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('lastOrder');
   const [sortOrder, setSortOrder] = useState('desc');
+  // RT-140: Client status filter
+  const [statusFilter, setStatusFilter] = useState('all'); // all | active | overdue | approaching
+  // RT-152: Show/hide archived clients
+  const [showArchived, setShowArchived] = useState(false);
 
   // Modal state
   const [modal, setModal] = useState(null);
@@ -244,6 +248,14 @@ export default function CateringTrackerPage() {
 
   const handleSaveClient = async () => {
     if (!form.clientName.trim()) { showToast('Client name is required.', 'error'); return; }
+    // RT-135: Validate email format if provided
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      showToast('Please enter a valid email address.', 'error'); return;
+    }
+    // RT-135: Validate phone has at least 10 digits if provided
+    if (form.phone && form.phone.replace(/\D/g, '').length < 10) {
+      showToast('Please enter a valid phone number.', 'error'); return;
+    }
     setSaving(true);
     try {
       const isEdit = modal === 'edit' && selectedClient;
@@ -313,6 +325,20 @@ export default function CateringTrackerPage() {
     else { setSort(field); setSortOrder('desc'); }
   };
 
+  // RT-140/141: Filter clients by status
+  const filteredClients = clients.filter(c => {
+    if (!showArchived && c.archived) return false;
+    if (statusFilter === 'all') return true;
+    const status = getFollowUpStatus(c.lastOrderDate, c.reorderFrequency);
+    if (statusFilter === 'overdue') return status === 'overdue';
+    if (statusFilter === 'approaching') return status === 'approaching';
+    if (statusFilter === 'active') {
+      const thisMonth = new Date().toISOString().slice(0, 7);
+      return c.lastOrderDate && c.lastOrderDate.startsWith(thisMonth);
+    }
+    return true;
+  });
+
   // Computed data
   const top3 = [...clients].sort((a, b) => (b.totalRevenue || 0) - (a.totalRevenue || 0)).slice(0, 3).filter(c => c.totalRevenue > 0);
   const upcomingEvents = getUpcomingNotableDates(clients, 30);
@@ -325,6 +351,24 @@ export default function CateringTrackerPage() {
     return sum;
   }, 0);
   const needFollowUp = clients.filter(c => getFollowUpStatus(c.lastOrderDate, c.reorderFrequency) === 'overdue').length;
+  // RT-145: Average order size
+  const totalOrders = clients.reduce((sum, c) => sum + (c.orderCount || 0), 0);
+  const avgOrderSize = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+  // RT-147: Export clients to CSV
+  const exportCsv = () => {
+    const header = ['Client', 'Company', 'Phone', 'Email', 'Orders', 'Revenue', 'Last Order', 'Frequency'];
+    const rows = clients.map(c => [
+      c.clientName || '', c.companyName || '', c.phone || '', c.email || '',
+      c.orderCount || 0, c.totalRevenue || 0, c.lastOrderDate || '', c.reorderFrequency || '',
+    ].map(v => `"${String(v).replace(/"/g, '""')}"`));
+    const csv = [header, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `catering-clients-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click(); URL.revokeObjectURL(url);
+  };
 
   if (loading) return <div className={styles.container}><p style={{ color: '#6b7280' }}>Loading...</p></div>;
 
@@ -335,10 +379,16 @@ export default function CateringTrackerPage() {
           <h1 className={styles.title}>Catering Tracker</h1>
           <p className={styles.subtitle}>Manage catering clients, track orders, and follow up on repeat business.</p>
         </div>
-        <button className={styles.addBtn} onClick={openAdd}>+ Add Client</button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {/* RT-147: CSV export */}
+          <button onClick={exportCsv} style={{ padding: '8px 14px', background: '#fff', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#374151', cursor: 'pointer' }}>
+            ↓ Export
+          </button>
+          <button className={styles.addBtn} onClick={openAdd}>+ Add Client</button>
+        </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats — RT-145/146 added */}
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
           <div className={styles.statValue}>{totalClients}</div>
@@ -347,6 +397,11 @@ export default function CateringTrackerPage() {
         <div className={styles.statCard}>
           <div className={styles.statValue}>{formatCurrency(totalRevenue)}</div>
           <div className={styles.statLabel}>Total Revenue</div>
+        </div>
+        <div className={styles.statCard}>
+          {/* RT-146: Average order size */}
+          <div className={styles.statValue}>{formatCurrency(avgOrderSize)}</div>
+          <div className={styles.statLabel}>Avg Order Size</div>
         </div>
         <div className={styles.statCard}>
           <div className={styles.statValue}>{activeThisMonth}</div>
@@ -425,10 +480,40 @@ export default function CateringTrackerPage() {
         <button className={styles.searchBtn} onClick={fetchClients}>Search</button>
       </div>
 
+      {/* RT-140: Status filter pills */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+        {[
+          { key: 'all', label: 'All Clients' },
+          { key: 'active', label: '🟢 Active' },
+          { key: 'overdue', label: '🔴 Overdue' },
+          { key: 'approaching', label: '🟡 Due Soon' },
+        ].map(f => (
+          <button
+            key={f.key}
+            onClick={() => setStatusFilter(f.key)}
+            style={{
+              padding: '5px 14px', fontSize: 12, fontWeight: 600, borderRadius: 16, cursor: 'pointer', border: '1px solid',
+              background: statusFilter === f.key ? '#134A7C' : '#fff',
+              color: statusFilter === f.key ? '#fff' : '#374151',
+              borderColor: statusFilter === f.key ? '#134A7C' : '#d1d5db',
+            }}
+          >
+            {f.label}
+          </button>
+        ))}
+        {/* RT-152: Show archived toggle */}
+        <button
+          onClick={() => setShowArchived(p => !p)}
+          style={{ padding: '5px 14px', fontSize: 12, fontWeight: 600, borderRadius: 16, cursor: 'pointer', border: '1px solid #d1d5db', background: '#fff', color: '#9ca3af', marginLeft: 'auto' }}
+        >
+          {showArchived ? 'Hide Archived' : 'Show Archived'}
+        </button>
+      </div>
+
       {/* Client Table */}
-      {clients.length === 0 ? (
+      {filteredClients.length === 0 ? (
         <div className={styles.empty}>
-          {search ? 'No clients match your search.' : 'No catering clients yet. Add one or generate a catering order to get started.'}
+          {search ? 'No clients match your search.' : statusFilter !== 'all' ? 'No clients match this filter.' : 'No catering clients yet. Add one or generate a catering order to get started.'}
         </div>
       ) : (
         <div className={styles.tableWrap}>
@@ -449,7 +534,7 @@ export default function CateringTrackerPage() {
             <span className={styles.colStatus}>Status</span>
             <span className={styles.colActions}>Actions</span>
           </div>
-          {clients.map(c => {
+          {filteredClients.map(c => {
             const status = getFollowUpStatus(c.lastOrderDate, c.reorderFrequency);
             const nextDate = getNextExpectedDate(c.lastOrderDate, c.reorderFrequency);
             return (
@@ -598,7 +683,7 @@ export default function CateringTrackerPage() {
                   </div>
                 )}
 
-                {/* Order History */}
+                {/* RT-133: Order Timeline */}
                 <div className={styles.detailOrders}>
                   <h3 className={styles.detailOrdersTitle}>Order History</h3>
                   {detailLoading ? (
@@ -606,23 +691,36 @@ export default function CateringTrackerPage() {
                   ) : clientOrders.length === 0 ? (
                     <p className={styles.detailEmpty}>No orders yet.</p>
                   ) : (
-                    clientOrders.map(o => (
-                      <div key={o.id} className={styles.detailOrderRow}>
-                        <span className={styles.detailOrderDate}>{formatDate(o.orderDate)}</span>
-                        <span className={styles.detailOrderAmount}>{formatCurrency(o.totalAmount)}</span>
-                        {o.itemCount > 0 && <span className={styles.detailOrderMeta}>{o.itemCount} subs</span>}
-                        {o.autoGenerated && <span className={styles.detailOrderAuto}>Auto</span>}
-                        {o.formSnapshot && (
-                          <button
-                            className={styles.reorderBtn}
-                            onClick={() => { const c = selectedClient; closeModal(); reorderFromOrder(o, c); }}
-                            title="Reorder with same items"
-                          >
-                            Reorder
-                          </button>
-                        )}
-                      </div>
-                    ))
+                    <div style={{ position: 'relative', paddingLeft: 24, marginTop: 8 }}>
+                      {/* Vertical timeline line */}
+                      <div style={{ position: 'absolute', left: 7, top: 8, bottom: 8, width: 2, background: '#e5e7eb' }} />
+                      {clientOrders.map((o, idx) => (
+                        <div key={o.id} style={{ position: 'relative', marginBottom: 16 }}>
+                          {/* Timeline dot */}
+                          <div style={{ position: 'absolute', left: -21, top: 4, width: 10, height: 10, borderRadius: '50%', background: idx === 0 ? '#134A7C' : '#9ca3af', border: '2px solid #fff', boxShadow: '0 0 0 1px #e5e7eb' }} />
+                          <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8, padding: '10px 12px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                              <span style={{ fontSize: 13, fontWeight: 700, color: '#111' }}>{formatCurrency(o.totalAmount)}</span>
+                              <span style={{ fontSize: 11, color: '#9ca3af' }}>{formatDate(o.orderDate)}</span>
+                            </div>
+                            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                              {o.itemCount > 0 && <span style={{ fontSize: 11, color: '#6b7280' }}>{o.itemCount} subs</span>}
+                              {o.headCount > 0 && <span style={{ fontSize: 11, color: '#6b7280' }}>{o.headCount} people</span>}
+                              {o.autoGenerated && <span style={{ fontSize: 10, background: '#dbeafe', color: '#1d4ed8', padding: '1px 6px', borderRadius: 10, fontWeight: 600 }}>Auto</span>}
+                              {o.formSnapshot && (
+                                <button
+                                  style={{ fontSize: 11, color: '#134A7C', background: 'none', border: '1px solid #134A7C', borderRadius: 12, padding: '2px 8px', cursor: 'pointer', marginLeft: 'auto' }}
+                                  onClick={() => { const c = selectedClient; closeModal(); reorderFromOrder(o, c); }}
+                                >
+                                  Reorder
+                                </button>
+                              )}
+                            </div>
+                            {o.notes && <p style={{ fontSize: 11, color: '#6b7280', marginTop: 4, fontStyle: 'italic' }}>{o.notes}</p>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   )}
                 </div>
                 <div className={styles.modalActions}>

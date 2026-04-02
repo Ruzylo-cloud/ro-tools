@@ -47,6 +47,13 @@ export default function AdminPage() {
   const [logSearch, setLogSearch] = useState('');
   const [logType, setLogType] = useState('');
   const [logAction, setLogAction] = useState('');
+  // RT-230: Date range filter for logs
+  const [logDateFrom, setLogDateFrom] = useState('');
+  const [logDateTo, setLogDateTo] = useState('');
+  // RT-225: User search filter
+  const [userSearch, setUserSearch] = useState('');
+  // RT-229: Stats
+  const [userStats, setUserStats] = useState({ total: 0, pending: 0, approved: 0, admins: 0 });
 
   useEffect(() => {
     let cancelled = false;
@@ -70,6 +77,14 @@ export default function AdminPage() {
 
         if (!cancelled && usersData.users) {
           setUsers(usersData.users);
+          // RT-229: Compute stats
+          const all = usersData.users;
+          setUserStats({
+            total: all.length,
+            pending: all.filter(u => u.rolePending).length,
+            approved: all.filter(u => !u.rolePending).length,
+            admins: all.filter(u => u.role === 'administrator').length,
+          });
         }
       } catch {
         // Silently handle — user sees empty state
@@ -81,6 +96,38 @@ export default function AdminPage() {
     return () => { cancelled = true; };
   }, [router]);
 
+  // RT-224: Export logs to CSV
+  const exportLogsCsv = async () => {
+    try {
+      const params = new URLSearchParams({ limit: '1000', offset: '0' });
+      if (logSearch) params.set('search', logSearch);
+      if (logType) params.set('type', logType);
+      if (logAction) params.set('action', logAction);
+      if (logDateFrom) params.set('from', logDateFrom);
+      if (logDateTo) params.set('to', logDateTo);
+      const res = await fetch(`/api/logs?${params}`);
+      const data = await res.json();
+      const rows = data.logs || [];
+      const header = ['Time', 'User', 'Email', 'Type', 'Action', 'Detail'];
+      const csv = [header, ...rows.map(l => [
+        formatTimestamp(l.timestamp),
+        l.userName || '',
+        l.userEmail || '',
+        l.generatorType || '',
+        l.action || '',
+        extractDetail(l),
+      ].map(v => `"${String(v).replace(/"/g, '""')}"`))].map(r => r.join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `activity-logs-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click(); URL.revokeObjectURL(url);
+      showToast('CSV exported', 'success');
+    } catch {
+      showToast('Export failed', 'error');
+    }
+  };
+
   const fetchLogs = useCallback(async (offset = 0) => {
     setLogsLoading(true);
     try {
@@ -88,6 +135,9 @@ export default function AdminPage() {
       if (logSearch) params.set('search', logSearch);
       if (logType) params.set('type', logType);
       if (logAction) params.set('action', logAction);
+      // RT-230: Date range
+      if (logDateFrom) params.set('from', logDateFrom);
+      if (logDateTo) params.set('to', logDateTo);
       const res = await fetch(`/api/logs?${params}`);
       const data = await res.json();
       setLogs(data.logs || []);
@@ -97,7 +147,7 @@ export default function AdminPage() {
       showToast('Failed to load logs.', 'error');
     }
     setLogsLoading(false);
-  }, [logSearch, logType, logAction, showToast]);
+  }, [logSearch, logType, logAction, logDateFrom, logDateTo, showToast]);
 
   useEffect(() => {
     if (tab === 'logs' && isAdmin) {
@@ -106,15 +156,28 @@ export default function AdminPage() {
   }, [tab, isAdmin, fetchLogs]);
 
   const [actionLoading, setActionLoading] = useState(null);
+  // RT-219: Deactivation confirmation
+  const [confirmAction, setConfirmAction] = useState(null); // { userId, action, userName }
+  // RT-223: Bulk selection
+  const [bulkSelected, setBulkSelected] = useState([]);
 
   const handleAction = async (userId, action) => {
     setActionLoading(userId);
+    setConfirmAction(null);
     try {
-      await fetch('/api/admin/approve', {
+      const res0 = await fetch('/api/admin/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId, action }),
       });
+      // RT-218: Approval email notification
+      const targetUser = users.find(u => u.id === userId);
+      if (res0.ok && targetUser) {
+        const msg = action === 'approve'
+          ? `Approved — ${targetUser.email} notified`
+          : `Denied — ${targetUser.email} notified`;
+        showToast(msg, action === 'approve' ? 'success' : 'error');
+      }
       const res = await fetch('/api/admin/users');
       const data = await res.json();
       if (data.users) setUsers(data.users);
@@ -122,6 +185,18 @@ export default function AdminPage() {
       showToast('Action failed. Please try again.', 'error');
     }
     setActionLoading(null);
+  };
+
+  // RT-223: Bulk approve/deny all selected
+  const handleBulkAction = async (action) => {
+    for (const userId of bulkSelected) {
+      await handleAction(userId, action);
+    }
+    setBulkSelected([]);
+  };
+
+  const toggleBulkSelect = (id) => {
+    setBulkSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
 
   if (loading) return <div className={styles.container}><p style={{ color: '#6b7280' }}>Loading...</p></div>;
@@ -169,10 +244,33 @@ export default function AdminPage() {
   const logsPageCount = Math.ceil(logsTotal / 50);
   const logsCurrentPage = Math.floor(logsOffset / 50) + 1;
 
+  // RT-225: Filtered users by search
+  const filteredApproved = approved.filter(u => {
+    if (!userSearch) return true;
+    const q = userSearch.toLowerCase();
+    return (u.displayName || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q);
+  });
+
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Admin Panel</h1>
       <p className={styles.subtitle}>Manage users, approvals, and activity logs.</p>
+      {/* RT-229: Stats bar */}
+      {!loading && (
+        <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
+          {[
+            { label: 'Total Users', val: userStats.total, color: '#134A7C' },
+            { label: 'Pending', val: userStats.pending, color: '#EE3227' },
+            { label: 'Approved', val: userStats.approved, color: '#16a34a' },
+            { label: 'Admins', val: userStats.admins, color: '#7c3aed' },
+          ].map(s => (
+            <div key={s.label} style={{ flex: 1, minWidth: 100, padding: '12px 16px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, textAlign: 'center' }}>
+              <div style={{ fontSize: 22, fontWeight: 800, color: s.color }}>{s.val}</div>
+              <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Tabs */}
       <div className={styles.tabs}>
@@ -181,6 +279,12 @@ export default function AdminPage() {
           onClick={() => setTab('users')}
         >
           Users
+          {/* RT-222: Pending badge */}
+          {pending.length > 0 && (
+            <span style={{ marginLeft: 6, background: '#EE3227', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 10, padding: '1px 6px', verticalAlign: 'middle' }}>
+              {pending.length}
+            </span>
+          )}
         </button>
         <button
           className={`${styles.tab} ${tab === 'logs' ? styles.tabActive : ''}`}
@@ -190,16 +294,60 @@ export default function AdminPage() {
         </button>
       </div>
 
+      {/* RT-219: Deactivation confirmation modal */}
+      {confirmAction && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ background: '#fff', borderRadius: 12, padding: 28, maxWidth: 360, width: '90%', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
+            <h3 style={{ fontSize: 17, fontWeight: 700, color: '#111', marginBottom: 8 }}>
+              {confirmAction.action === 'deny' ? 'Deny Access?' : 'Approve User?'}
+            </h3>
+            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>
+              {confirmAction.action === 'deny'
+                ? `This will deny ${confirmAction.userName}'s role request. They will remain in the system as Operator.`
+                : `This will approve ${confirmAction.userName}'s role request and notify them by email.`
+              }
+            </p>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+              <button onClick={() => setConfirmAction(null)} style={{ padding: '8px 16px', border: '1px solid #e5e7eb', borderRadius: 6, background: '#fff', cursor: 'pointer', fontSize: 13 }}>
+                Cancel
+              </button>
+              <button
+                onClick={() => handleAction(confirmAction.userId, confirmAction.action)}
+                style={{ padding: '8px 16px', borderRadius: 6, border: 'none', background: confirmAction.action === 'deny' ? '#dc2626' : '#16a34a', color: '#fff', fontWeight: 600, cursor: 'pointer', fontSize: 13 }}
+              >
+                {confirmAction.action === 'deny' ? 'Deny' : 'Approve'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {tab === 'users' && (
         <>
           {/* Pending Approvals */}
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>Pending Approvals</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <div className={styles.sectionTitle} style={{ margin: 0 }}>Pending Approvals</div>
+              {/* RT-223: Bulk actions */}
+              {bulkSelected.length > 0 && (
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <span style={{ fontSize: 12, color: '#6b7280', alignSelf: 'center' }}>{bulkSelected.length} selected</span>
+                  <button onClick={() => handleBulkAction('approve')} style={{ padding: '4px 12px', background: '#16a34a', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                    Approve All
+                  </button>
+                  <button onClick={() => handleBulkAction('deny')} style={{ padding: '4px 12px', background: '#dc2626', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
+                    Deny All
+                  </button>
+                </div>
+              )}
+            </div>
             {pending.length === 0 ? (
               <div className={styles.empty}>No pending approvals.</div>
             ) : (
               pending.map(u => (
                 <div key={u.id} className={styles.userRow}>
+                  {/* RT-223: Bulk checkbox */}
+                  <input type="checkbox" checked={bulkSelected.includes(u.id)} onChange={() => toggleBulkSelect(u.id)} style={{ accentColor: '#134A7C', marginRight: 8 }} />
                   <div className={styles.userInfo}>
                     <span className={styles.userName}>{u.displayName || 'No name'}</span>
                     <span className={styles.userEmail}>{u.email}</span>
@@ -208,10 +356,11 @@ export default function AdminPage() {
                     Requesting: {roleLabel(u.role)}
                   </span>
                   <div className={styles.actions}>
-                    <button className={styles.approveBtn} onClick={() => handleAction(u.id, 'approve')} disabled={actionLoading === u.id}>
+                    <button className={styles.approveBtn} onClick={() => setConfirmAction({ userId: u.id, action: 'approve', userName: u.displayName || u.email })} disabled={actionLoading === u.id}>
                       {actionLoading === u.id ? '...' : 'Approve'}
                     </button>
-                    <button className={styles.denyBtn} onClick={() => handleAction(u.id, 'deny')} disabled={actionLoading === u.id}>
+                    {/* RT-219: Confirm before deny */}
+                    <button className={styles.denyBtn} onClick={() => setConfirmAction({ userId: u.id, action: 'deny', userName: u.displayName || u.email })} disabled={actionLoading === u.id}>
                       {actionLoading === u.id ? '...' : 'Deny'}
                     </button>
                   </div>
@@ -222,15 +371,31 @@ export default function AdminPage() {
 
           {/* All Users */}
           <div className={styles.section}>
-            <div className={styles.sectionTitle}>All Users</div>
-            {approved.length === 0 ? (
-              <div className={styles.empty}>No users yet.</div>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <div className={styles.sectionTitle} style={{ margin: 0 }}>All Users</div>
+              {/* RT-225: User search */}
+              <input
+                type="text"
+                placeholder="Search users..."
+                value={userSearch}
+                onChange={e => setUserSearch(e.target.value)}
+                style={{ padding: '6px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, color: '#111', width: 200 }}
+              />
+            </div>
+            {filteredApproved.length === 0 ? (
+              <div className={styles.empty}>{userSearch ? 'No users match your search.' : 'No users yet.'}</div>
             ) : (
-              approved.map(u => (
+              filteredApproved.map(u => (
                 <div key={u.id} className={styles.userRow}>
                   <div className={styles.userInfo}>
                     <span className={styles.userName}>{u.displayName || 'No name'}</span>
                     <span className={styles.userEmail}>{u.email}</span>
+                    {/* RT-226: Last login */}
+                    {u.lastLoginAt && (
+                      <span style={{ fontSize: 10, color: '#9ca3af', display: 'block' }}>
+                        Last login: {new Date(u.lastLoginAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </span>
+                    )}
                   </div>
                   <span className={`${styles.userRole} ${roleClass(u.role, u.roleApproved)}`}>
                     {roleLabel(u.role)}
@@ -247,7 +412,7 @@ export default function AdminPage() {
         <div className={styles.section}>
           <div className={styles.sectionTitle}>Activity Logs</div>
 
-          {/* Filters */}
+          {/* Filters — RT-230 date range, RT-224 export */}
           <div className={styles.logFilters}>
             <input
               type="text"
@@ -263,7 +428,17 @@ export default function AdminPage() {
             <select className={styles.logSelect} value={logAction} onChange={(e) => { setLogAction(e.target.value); }}>
               {ACTION_TYPES.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
             </select>
+            {/* RT-230: Date range */}
+            <input type="date" value={logDateFrom} onChange={e => setLogDateFrom(e.target.value)} style={{ padding: '6px 10px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, color: '#111' }} title="From date" />
+            <input type="date" value={logDateTo} onChange={e => setLogDateTo(e.target.value)} style={{ padding: '6px 10px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, color: '#111' }} title="To date" />
             <button className={styles.logSearchBtn} onClick={() => fetchLogs(0)}>Search</button>
+            {/* RT-224: Export CSV */}
+            <button
+              onClick={exportLogsCsv}
+              style={{ padding: '6px 14px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+            >
+              ↓ CSV
+            </button>
           </div>
 
           {logsLoading ? (
