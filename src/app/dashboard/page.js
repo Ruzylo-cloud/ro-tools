@@ -38,6 +38,19 @@ export default function DashboardPage() {
 
   const firstName = profile?.displayName?.split(' ')[0] || user?.name?.split(' ')[0] || '';
 
+  // RT-051: Time-of-day greeting
+  const getGreeting = () => {
+    const h = new Date().getHours();
+    if (h < 12) return 'Good morning';
+    if (h < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
+
+  // RT-052: Current date
+  const currentDate = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
   return (
     <div className={styles.container}>
       {/* Auto-Admin Granted Modal */}
@@ -61,7 +74,8 @@ export default function DashboardPage() {
 
       {/* Hero */}
       <div className={styles.hero}>
-        <h1 className={styles.heroTitle}>Welcome back{firstName ? `, ${firstName}` : ''}</h1>
+        <h1 className={styles.heroTitle}>{getGreeting()}{firstName ? `, ${firstName}` : ''}</h1>
+        <p className={styles.heroDate}>{currentDate}</p>
         <p className={styles.heroSubtitle}>
           RO Tools is the operational backbone for JM Valley Group franchise managers.
           Everything you need to run your store — branded, automated, and always up to date.

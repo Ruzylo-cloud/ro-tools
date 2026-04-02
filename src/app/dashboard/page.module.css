@@ -17,7 +17,14 @@
   font-size: 40px;
   font-weight: 800;
   color: var(--jm-blue);
+  margin-bottom: 4px;
+}
+
+.heroDate {
+  font-size: 13px;
+  color: var(--gray-400);
   margin-bottom: 16px;
+  font-weight: 400;
 }
 
 .heroSubtitle {
