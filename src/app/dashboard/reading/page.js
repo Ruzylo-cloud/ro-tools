@@ -591,10 +591,10 @@ export default function ReadingPage() {
       {!selectedBook ? (
         <>
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
-            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 36, fontWeight: 800, color: '#134A7C', marginBottom: 8 }}>
+            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 36, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 8 }}>
               Leadership Reading
             </h1>
-            <p style={{ fontSize: 16, color: '#6b7280', maxWidth: 600, margin: '0 auto' }}>
+            <p style={{ fontSize: 16, color: 'var(--gray-500)', maxWidth: 600, margin: '0 auto' }}>
               The books that shape how we lead at JM Valley Group. Each one has been read, discussed, and applied by our management team.
             </p>
           </div>
@@ -603,15 +603,15 @@ export default function ReadingPage() {
           {readBooks.length > 0 && (
             <div style={{ marginBottom: 20, padding: '12px 16px', background: 'rgba(19,74,124,0.05)', border: '1px solid rgba(19,74,124,0.12)', borderRadius: 10 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: '#134A7C', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reading Progress</span>
-                <span style={{ fontSize: 13, fontWeight: 800, color: readBooks.length === BOOKS.length ? '#16a34a' : '#134A7C' }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--jm-blue)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reading Progress</span>
+                <span style={{ fontSize: 13, fontWeight: 800, color: readBooks.length === BOOKS.length ? '#16a34a' : 'var(--jm-blue)' }}>
                   {Math.round((readBooks.length / BOOKS.length) * 100)}% complete
                 </span>
               </div>
-              <div style={{ height: 6, background: '#e5e7eb', borderRadius: 3, overflow: 'hidden' }}>
-                <div style={{ height: '100%', borderRadius: 3, background: readBooks.length === BOOKS.length ? '#16a34a' : '#134A7C', width: `${Math.round((readBooks.length / BOOKS.length) * 100)}%`, transition: 'width 0.4s' }} />
+              <div style={{ height: 6, background: 'var(--border)', borderRadius: 3, overflow: 'hidden' }}>
+                <div style={{ height: '100%', borderRadius: 3, background: readBooks.length === BOOKS.length ? '#16a34a' : 'var(--jm-blue)', width: `${Math.round((readBooks.length / BOOKS.length) * 100)}%`, transition: 'width 0.4s' }} />
               </div>
-              <div style={{ marginTop: 5, fontSize: 11, color: '#6b7280' }}>{readBooks.length} of {BOOKS.length} books marked read</div>
+              <div style={{ marginTop: 5, fontSize: 11, color: 'var(--gray-500)' }}>{readBooks.length} of {BOOKS.length} books marked read</div>
             </div>
           )}
 
@@ -623,7 +623,7 @@ export default function ReadingPage() {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               aria-label="Search books by title or author"
-              style={{ flex: 1, padding: '10px 14px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, outline: 'none', color: '#111' }}
+              style={{ flex: 1, padding: '10px 14px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, outline: 'none', color: 'var(--charcoal)' }}
             />
           </div>
 
@@ -634,7 +634,7 @@ export default function ReadingPage() {
                 key={b.id}
                 onClick={() => setSelectedBook(b.id)}
                 style={{
-                  background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '24px 20px',
+                  background: 'var(--white)', border: '1px solid #e5e7eb', borderRadius: 14, padding: '24px 20px',
                   cursor: 'pointer', transition: 'all 0.2s',
                   position: 'relative', overflow: 'hidden',
                 }}
@@ -650,19 +650,19 @@ export default function ReadingPage() {
                 </button>
                 {/* RT-209: Read badge */}
                 {readBooks.includes(b.id) && (
-                  <div style={{ position: 'absolute', top: 0, left: 0, background: '#134A7C', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: '14px 0 8px 0', letterSpacing: '0.05em' }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, background: 'var(--jm-blue)', color: '#fff', fontSize: 10, fontWeight: 700, padding: '3px 8px', borderRadius: '14px 0 8px 0', letterSpacing: '0.05em' }}>
                     READ
                   </div>
                 )}
                 <div style={{ fontSize: 36, marginBottom: 12 }}>📖</div>
-                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 4 }}>
+                <div style={{ fontFamily: 'Playfair Display, serif', fontSize: 18, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 4 }}>
                   {b.title}
                 </div>
-                <div style={{ fontSize: 14, color: '#6b7280', marginBottom: 12 }}>{b.author}</div>
+                <div style={{ fontSize: 14, color: 'var(--gray-500)', marginBottom: 12 }}>{b.author}</div>
                 {/* RT-209: Mark as read button */}
                 <button
                   onClick={e => toggleRead(e, b.id)}
-                  style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', border: `1px solid ${readBooks.includes(b.id) ? '#134A7C' : '#e5e7eb'}`, borderRadius: 20, background: readBooks.includes(b.id) ? '#134A7C' : 'transparent', color: readBooks.includes(b.id) ? '#fff' : '#6b7280', cursor: 'pointer' }}
+                  style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', border: `1px solid ${readBooks.includes(b.id) ? 'var(--jm-blue)' : 'var(--border)'}`, borderRadius: 20, background: readBooks.includes(b.id) ? 'var(--jm-blue)' : 'transparent', color: readBooks.includes(b.id) ? '#fff' : 'var(--gray-500)', cursor: 'pointer' }}
                 >
                   {readBooks.includes(b.id) ? '✓ Read' : 'Mark as Read'}
                 </button>
@@ -674,7 +674,7 @@ export default function ReadingPage() {
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
           <button
             onClick={() => setSelectedBook(null)}
-            style={{ background: 'none', border: 'none', color: '#134A7C', fontSize: 14, fontWeight: 600, cursor: 'pointer', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 6 }}
+            style={{ background: 'none', border: 'none', color: 'var(--jm-blue)', fontSize: 14, fontWeight: 600, cursor: 'pointer', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 6 }}
           >
             ← Back to Library
           </button>
@@ -682,10 +682,10 @@ export default function ReadingPage() {
           {/* Book Header */}
           <div style={{ textAlign: 'center', marginBottom: 40, paddingBottom: 32, borderBottom: '1px solid #e5e7eb' }}>
             <div style={{ fontSize: 48, marginBottom: 16 }}>📖</div>
-            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 36, fontWeight: 800, color: '#134A7C', marginBottom: 8 }}>
+            <h1 style={{ fontFamily: 'Playfair Display, serif', fontSize: 36, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 8 }}>
               {book.title}
             </h1>
-            <div style={{ fontSize: 18, color: '#6b7280', marginBottom: 8 }}>by {book.author}</div>
+            <div style={{ fontSize: 18, color: 'var(--gray-500)', marginBottom: 8 }}>by {book.author}</div>
             <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
               <button
                 onClick={(e) => toggleFavorite(e, book.id)}
@@ -707,15 +707,15 @@ export default function ReadingPage() {
           </div>
 
           {/* About the Author */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#134A7C', marginBottom: 12 }}>
+          <div style={{ background: 'var(--white)', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 12 }}>
               About the Author
             </h2>
             <p style={{ fontSize: 15, lineHeight: 1.8, color: '#374151' }}>{book.aboutAuthor}</p>
           </div>
 
           {/* Why This Book Matters */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderTop: '3px solid #EE3227', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+          <div style={{ background: 'var(--white)', border: '1px solid #e5e7eb', borderTop: '3px solid #EE3227', borderRadius: 14, padding: 28, marginBottom: 20 }}>
             <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#EE3227', marginBottom: 12 }}>
               Why This Book Matters for JM Valley
             </h2>
@@ -723,13 +723,13 @@ export default function ReadingPage() {
           </div>
 
           {/* Key Excerpts */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#134A7C', marginBottom: 16 }}>
+          <div style={{ background: 'var(--white)', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16 }}>
               Key Chapters & Excerpts
             </h2>
             {book.keyExcerpts.map((ex, i) => (
               <div key={i} style={{ marginBottom: 20, paddingBottom: 20, borderBottom: i < book.keyExcerpts.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#134A7C', marginBottom: 6 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--jm-blue)', marginBottom: 6 }}>
                   {ex.chapter}
                 </div>
                 <p style={{ fontSize: 15, lineHeight: 1.8, color: '#374151', fontStyle: 'italic', paddingLeft: 16, borderLeft: '3px solid #e5e7eb' }}>
@@ -741,8 +741,8 @@ export default function ReadingPage() {
 
           {/* Discussion Questions */}
           {book.discussionQuestions && book.discussionQuestions.length > 0 && (
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#134A7C', marginBottom: 16 }}>
+            <div style={{ background: 'var(--white)', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16 }}>
                 Discussion Questions for Book Club
               </h2>
               <ol style={{ paddingLeft: 24, fontSize: 15, lineHeight: 2, color: '#374151' }}>
@@ -772,9 +772,9 @@ export default function ReadingPage() {
 
           {/* RT-180: Quiz / Assessment */}
           {BOOK_QUIZZES[book?.id] && (
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+            <div style={{ background: 'var(--white)', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: quizActive ? 20 : 0 }}>
-                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#134A7C', margin: 0 }}>
+                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: 'var(--jm-blue)', margin: 0 }}>
                   📝 Comprehension Quiz
                 </h2>
                 {!quizActive && (
@@ -786,7 +786,7 @@ export default function ReadingPage() {
                     )}
                     <button
                       onClick={() => { setQuizActive(true); setQuizAnswers({}); setQuizSubmitted(false); }}
-                      style={{ padding: '8px 20px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
+                      style={{ padding: '8px 20px', background: 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
                     >
                       {quizScores[book.id] !== undefined ? 'Retake Quiz' : 'Take Quiz'}
                     </button>
@@ -814,7 +814,7 @@ export default function ReadingPage() {
                                 textAlign: 'left', padding: '10px 14px', borderRadius: 8, cursor: quizSubmitted ? 'default' : 'pointer', fontSize: 14, transition: 'all 0.15s',
                                 border: isCorrect ? '1.5px solid #16a34a' : isWrong ? '1.5px solid #dc2626' : isSelected ? '1.5px solid #134A7C' : '1px solid #e5e7eb',
                                 background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isSelected ? 'rgba(19,74,124,0.06)' : '#fff',
-                                color: isCorrect ? '#16a34a' : isWrong ? '#dc2626' : isSelected ? '#134A7C' : '#374151',
+                                color: isCorrect ? '#16a34a' : isWrong ? '#dc2626' : isSelected ? 'var(--jm-blue)' : '#374151',
                                 fontWeight: isSelected || isCorrect ? 600 : 400,
                               }}
                             >
@@ -838,7 +838,7 @@ export default function ReadingPage() {
                         });
                       }}
                       disabled={Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length}
-                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? '#e5e7eb' : '#134A7C', color: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? '#9ca3af' : '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'not-allowed' : 'pointer' }}
+                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'var(--border)' : 'var(--jm-blue)', color: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? '#9ca3af' : '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'not-allowed' : 'pointer' }}
                     >
                       Submit Quiz
                     </button>
@@ -862,7 +862,7 @@ export default function ReadingPage() {
 
           {/* Get the Book */}
           <div style={{ textAlign: 'center', padding: '32px 0', marginTop: 20 }}>
-            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, fontWeight: 800, color: '#134A7C', marginBottom: 16 }}>
+            <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16 }}>
               Get This Book
             </h3>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
@@ -870,7 +870,7 @@ export default function ReadingPage() {
                 href={book.amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: '#134A7C', color: '#fff', borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: 'var(--jm-blue)', color: '#fff', borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s' }}
               >
                 📦 Amazon
               </a>

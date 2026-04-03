@@ -155,6 +155,12 @@
 }
 .validationSummary { color: #ef4444; font-weight: 600; }
 
+/* ═══ Dark Theme ═══ */
+:global([data-theme="dark"]) .inputError {
+  background: rgba(239,68,68,0.08) !important;
+  border-color: #ef4444 !important;
+}
+
 /* RT-064: Character count */
 .charCount {
   font-size: 11px;
