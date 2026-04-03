@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useToast } from '@/components/Toast';
 import styles from '../page.module.css';
 
 const BOOKS = [
@@ -520,6 +521,7 @@ const BOOK_QUIZZES = {
 };
 
 export default function ReadingPage() {
+  const { showToast } = useToast();
   const [selectedBook, setSelectedBook] = useState(null);
   const [favorites, setFavorites] = useState(DEFAULT_FAVORITES);
   // RT-209: Mark as read tracking
@@ -695,7 +697,7 @@ export default function ReadingPage() {
               <button
                 onClick={() => {
                   const url = `${window.location.origin}/dashboard/reading?book=${book.id}`;
-                  navigator.clipboard.writeText(url).then(() => alert('Link copied!')).catch(() => {});
+                  navigator.clipboard.writeText(url).then(() => showToast('Link copied!', 'success')).catch(() => showToast('Failed to copy link', 'error'));
                 }}
                 style={{ background: 'none', border: '1px solid #e5e7eb', borderRadius: 20, padding: '4px 14px', cursor: 'pointer', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}
               >

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import { useToast } from '@/components/Toast';
 import Orientation from '@/components/documents/Orientation';
 import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
 import TrainingPacketLevel2 from '@/components/documents/TrainingPacketLevel2';
@@ -143,6 +144,7 @@ const FILE_NAMES = {
 
 export default function DocumentsPage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [selected, setSelected] = useState(() => {
     if (typeof window !== 'undefined') {
       const t = new URLSearchParams(window.location.search).get('template');
@@ -275,7 +277,7 @@ export default function DocumentsPage() {
       }
     } catch (err) {
       console.error('PDF generation error:', err);
-      alert('Failed to generate PDF. Please try again.');
+      showToast('Failed to generate PDF. Please try again.', 'error');
     }
     setGenerating(false);
     setTimeout(() => setGenerateProgress(0), 1500);
@@ -284,7 +286,7 @@ export default function DocumentsPage() {
   // RT-126/RT-165: Batch download — generates current template + opens each remaining in new tab
   const handleBatchDownload = () => {
     const empName = form.employeeName || '';
-    if (!empName) { alert('Enter an employee name first to batch download all packets.'); return; }
+    if (!empName) { showToast('Enter an employee name first to download all packets.', 'warning'); return; }
     // Download current doc immediately
     handleDownload();
     // Open remaining templates in new tabs with pre-filled name
