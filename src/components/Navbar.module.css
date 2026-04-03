@@ -199,9 +199,12 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
+  background: none;
+  border: none;
   color: var(--gray-600);
   text-decoration: none;
   transition: all 0.15s;
+  cursor: pointer;
 }
 
 .iconBtn:hover {
