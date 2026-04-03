@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Orientation from '@/components/documents/Orientation';
 import TrainingPacketLevel1 from '@/components/documents/TrainingPacketLevel1';
@@ -144,7 +143,6 @@ const FILE_NAMES = {
 
 export default function DocumentsPage() {
   const { user } = useAuth();
-  const searchParams = useSearchParams();
   const [selected, setSelected] = useState(() => {
     if (typeof window !== 'undefined') {
       const t = new URLSearchParams(window.location.search).get('template');
