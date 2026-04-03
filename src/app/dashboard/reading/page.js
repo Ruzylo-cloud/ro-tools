@@ -467,6 +467,58 @@ const BOOKS = [
 
 const DEFAULT_FAVORITES = ['atomic-habits', 'traction', 'multi-unit-leadership', 'unreasonable-hospitality', 'leaders-eat-last'];
 
+// RT-180: Quiz questions per book (4 per book, multiple choice with correct answer index)
+const BOOK_QUIZZES = {
+  'atomic-habits': [
+    { q: 'James Clear says you do not rise to your goals, you fall to the level of your ___.', opts: ['Habits', 'Systems', 'Motivation', 'Discipline'], a: 1 },
+    { q: 'The 1% improvement philosophy means a 1% daily gain compounds to roughly how much in a year?', opts: ['37x better', '10x better', '100x better', '3x better'], a: 0 },
+    { q: 'Which of the Four Laws is "Make It Easy"?', opts: ['1st Law', '2nd Law', '3rd Law', '4th Law'], a: 2 },
+    { q: 'Identity-based habits start with asking: who do I want to ___?', opts: ['Achieve', 'Become', 'Impress', 'Manage'], a: 1 },
+  ],
+  'high-performance-habits': [
+    { q: 'How many habits does Brendon Burchard identify for high performance?', opts: ['4', '5', '6', '7'], a: 2 },
+    { q: 'Which habit involves finding deeper meaning and urgency in your daily work?', opts: ['Seek Clarity', 'Generate Energy', 'Raise Necessity', 'Develop Influence'], a: 2 },
+    { q: 'High performers manage their time AND their ___.', opts: ['Money', 'Transitions', 'Team', 'Goals'], a: 1 },
+    { q: 'Demonstrating courage means taking action despite ___.', opts: ['Success', 'Praise', 'Fear', 'Resources'], a: 2 },
+  ],
+  'multi-unit-leadership': [
+    { q: 'Jim Sullivan says the biggest career leap in restaurants is going from single-unit to ___ management.', opts: ['Corporate', 'Franchise', 'Multi-unit', 'Regional'], a: 2 },
+    { q: 'Sullivan recommends investing 80% of development time on your ___.', opts: ['Weakest performers', 'Top performers', 'Middle performers', 'Newest hires'], a: 1 },
+    { q: 'What is the difference between delegation and abdication?', opts: ['Delegation is for big tasks', 'Delegation has clear expectations + deadline', 'Abdication is better for managers', 'They mean the same thing'], a: 1 },
+    { q: 'The 4th stage of multi-unit development is:', opts: ['Doer', 'Coach', 'Leader', 'Supervisor'], a: 2 },
+  ],
+  'traction': [
+    { q: 'EOS stands for:', opts: ['Employee Operations System', 'Entrepreneurial Operating System', 'Executive Outcomes Strategy', 'Essential Operations Standard'], a: 1 },
+    { q: 'In EOS, the "Visionary" role is best paired with a ___', opts: ['Technician', 'Integrator', 'Manager', 'Director'], a: 1 },
+    { q: 'EOS has how many key components?', opts: ['4', '5', '6', '8'], a: 2 },
+    { q: 'Rocks in EOS are your top ___ priorities for the quarter.', opts: ['2-3', '3-5', '5-7', '1-2'], a: 1 },
+  ],
+  'leaders-eat-last': [
+    { q: 'Sinek\'s "Circle of Safety" refers to:', opts: ['A product launch strategy', 'The physical store perimeter', 'A culture of belonging and trust', 'Military training protocol'], a: 2 },
+    { q: 'Which chemical does Sinek associate with the feeling of belonging?', opts: ['Dopamine', 'Cortisol', 'Serotonin', 'Oxytocin'], a: 3 },
+    { q: 'The title "Leaders Eat Last" comes from which organization\'s practice?', opts: ['Special Forces', 'US Marine Corps', 'Navy SEALs', 'Army Rangers'], a: 1 },
+    { q: 'What does Sinek say destroys trust in organizations?', opts: ['High standards', 'Self-interest over team', 'Direct feedback', 'Clear goals'], a: 1 },
+  ],
+  'unreasonable-hospitality': [
+    { q: 'Will Guidara describes hospitality as a ___, not a monologue.', opts: ['Performance', 'Dialogue', 'Transaction', 'Formula'], a: 1 },
+    { q: 'The book\'s title comes from Guidara\'s philosophy of being:', opts: ['Very strict', 'Creatively over-the-top in service', 'Cost-effective', 'Highly organized'], a: 1 },
+    { q: '"One size fits one" means:', opts: ['All guests get the same treatment', 'Treat each guest as an individual', 'Small portions for everyone', 'One server per table'], a: 1 },
+    { q: 'Guidara\'s restaurant Eleven Madison Park was ranked #1 in:', opts: ['2010', '2015', '2017', '2020'], a: 2 },
+  ],
+  'e-myth-revisited': [
+    { q: 'The "E-Myth" is the mistaken belief that technical skill means you understand a ___.', opts: ['Market', 'Business', 'System', 'Customer'], a: 1 },
+    { q: 'Gerber says most small businesses fail because which personality runs them?', opts: ['Entrepreneur', 'Manager', 'Technician', 'Visionary'], a: 2 },
+    { q: 'The franchise prototype concept means building a business that works ___.', opts: ['For large companies', 'Without you', 'With minimal staff', 'In any market'], a: 1 },
+    { q: 'The three-step Business Development Process is: Innovate, Quantify, and ___', opts: ['Systematize', 'Orchestrate', 'Delegate', 'Optimize'], a: 1 },
+  ],
+  'no-excuses': [
+    { q: 'Tracy says delaying gratification in the short term is the prerequisite for:', opts: ['Happiness', 'Success', 'Respect', 'Balance'], a: 1 },
+    { q: '"Leaders are made, not born" means leadership is the result of:', opts: ['Natural talent', 'Doing what leaders do repeatedly', 'Education', 'Connections'], a: 1 },
+    { q: 'Tracy says every minute spent planning saves how many in execution?', opts: ['5', '8', '10', '15'], a: 2 },
+    { q: 'Self-discipline is best described as the ability to:', opts: ['Work longer hours', 'Control your emotions always', 'Select the most important task and execute', 'Ignore distractions'], a: 2 },
+  ],
+};
+
 export default function ReadingPage() {
   const [selectedBook, setSelectedBook] = useState(null);
   const [favorites, setFavorites] = useState(DEFAULT_FAVORITES);
@@ -474,6 +526,11 @@ export default function ReadingPage() {
   const [readBooks, setReadBooks] = useState([]);
   // RT-202: Search/filter
   const [searchQuery, setSearchQuery] = useState('');
+  // RT-180: Quiz state
+  const [quizActive, setQuizActive] = useState(false);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScores, setQuizScores] = useState({});
   const book = BOOKS.find(b => b.id === selectedBook);
 
   useEffect(() => {
@@ -485,7 +542,19 @@ export default function ReadingPage() {
       const savedRead = localStorage.getItem('rt-reading-read');
       if (savedRead) setReadBooks(JSON.parse(savedRead));
     } catch(e) {}
+    // RT-180: Load quiz scores
+    try {
+      const savedScores = localStorage.getItem('rt-reading-quiz-scores');
+      if (savedScores) setQuizScores(JSON.parse(savedScores));
+    } catch(e) {}
   }, []);
+
+  // RT-180: Reset quiz when book changes
+  useEffect(() => {
+    setQuizActive(false);
+    setQuizAnswers({});
+    setQuizSubmitted(false);
+  }, [selectedBook]);
 
   const toggleFavorite = (e, id) => {
     e.stopPropagation();
@@ -696,6 +765,96 @@ export default function ReadingPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* RT-180: Quiz / Assessment */}
+          {BOOK_QUIZZES[book?.id] && (
+            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: quizActive ? 20 : 0 }}>
+                <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#134A7C', margin: 0 }}>
+                  📝 Comprehension Quiz
+                </h2>
+                {!quizActive && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    {quizScores[book.id] !== undefined && (
+                      <span style={{ fontSize: 13, fontWeight: 700, color: quizScores[book.id] >= 3 ? '#16a34a' : '#dc2626' }}>
+                        Last score: {quizScores[book.id]}/4
+                      </span>
+                    )}
+                    <button
+                      onClick={() => { setQuizActive(true); setQuizAnswers({}); setQuizSubmitted(false); }}
+                      style={{ padding: '8px 20px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer' }}
+                    >
+                      {quizScores[book.id] !== undefined ? 'Retake Quiz' : 'Take Quiz'}
+                    </button>
+                  </div>
+                )}
+              </div>
+              {quizActive && (
+                <div>
+                  {BOOK_QUIZZES[book.id].map((q, qi) => (
+                    <div key={qi} style={{ marginBottom: 24, padding: '16px 20px', background: '#f9fafb', borderRadius: 10, border: quizSubmitted ? (quizAnswers[qi] === q.a ? '1.5px solid #16a34a' : '1.5px solid #dc2626') : '1px solid #e5e7eb' }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: '#1f2937', marginBottom: 12 }}>
+                        {qi + 1}. {q.q}
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                        {q.opts.map((opt, oi) => {
+                          const isSelected = quizAnswers[qi] === oi;
+                          const isCorrect = quizSubmitted && oi === q.a;
+                          const isWrong = quizSubmitted && isSelected && oi !== q.a;
+                          return (
+                            <button
+                              key={oi}
+                              disabled={quizSubmitted}
+                              onClick={() => !quizSubmitted && setQuizAnswers(prev => ({ ...prev, [qi]: oi }))}
+                              style={{
+                                textAlign: 'left', padding: '10px 14px', borderRadius: 8, cursor: quizSubmitted ? 'default' : 'pointer', fontSize: 14, transition: 'all 0.15s',
+                                border: isCorrect ? '1.5px solid #16a34a' : isWrong ? '1.5px solid #dc2626' : isSelected ? '1.5px solid #134A7C' : '1px solid #e5e7eb',
+                                background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isSelected ? 'rgba(19,74,124,0.06)' : '#fff',
+                                color: isCorrect ? '#16a34a' : isWrong ? '#dc2626' : isSelected ? '#134A7C' : '#374151',
+                                fontWeight: isSelected || isCorrect ? 600 : 400,
+                              }}
+                            >
+                              {isCorrect && quizSubmitted ? '✓ ' : isWrong ? '✗ ' : ''}{opt}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                  {!quizSubmitted ? (
+                    <button
+                      onClick={() => {
+                        if (Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length) return;
+                        setQuizSubmitted(true);
+                        const score = BOOK_QUIZZES[book.id].filter((q, qi) => quizAnswers[qi] === q.a).length;
+                        setQuizScores(prev => {
+                          const next = { ...prev, [book.id]: score };
+                          localStorage.setItem('rt-reading-quiz-scores', JSON.stringify(next));
+                          return next;
+                        });
+                      }}
+                      disabled={Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length}
+                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? '#e5e7eb' : '#134A7C', color: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? '#9ca3af' : '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'not-allowed' : 'pointer' }}
+                    >
+                      Submit Quiz
+                    </button>
+                  ) : (
+                    <div style={{ textAlign: 'center', padding: '16px 0' }}>
+                      <div style={{ fontSize: 36, fontWeight: 800, color: quizScores[book.id] >= 3 ? '#16a34a' : '#dc2626', marginBottom: 8 }}>
+                        {quizScores[book.id]}/4
+                      </div>
+                      <div style={{ fontSize: 15, color: '#374151', marginBottom: 16 }}>
+                        {quizScores[book.id] === 4 ? '🎉 Perfect score! You know this book well.' : quizScores[book.id] >= 3 ? '✅ Great job! You absorbed the key concepts.' : '📖 Good effort — review the excerpts and try again.'}
+                      </div>
+                      <button onClick={() => { setQuizActive(false); setQuizSubmitted(false); setQuizAnswers({}); }} style={{ padding: '8px 20px', background: 'transparent', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151' }}>
+                        Close Quiz
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 

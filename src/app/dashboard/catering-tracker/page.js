@@ -661,9 +661,28 @@ export default function CateringTrackerPage() {
                     <h2 className={styles.modalTitle}>{selectedClient.clientName}</h2>
                     {selectedClient.companyName && <p className={styles.detailCompany}>{selectedClient.companyName}</p>}
                   </div>
-                  <button className={styles.generateBtn} onClick={() => { const c = selectedClient; closeModal(); generateOrderForClient(c); }}>
-                    + New Order
-                  </button>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <button className={styles.generateBtn} onClick={() => { const c = selectedClient; closeModal(); generateOrderForClient(c); }}>
+                      + New Order
+                    </button>
+                    {/* RT-142: Notify client button */}
+                    {(selectedClient.email || selectedClient.phone) && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const msg = `Hi${selectedClient.clientName ? ' ' + selectedClient.clientName.split(' ')[0] : ''}! Just a reminder about your upcoming catering order from Jersey Mike's. Reply or call us to confirm. Thanks!`;
+                          if (selectedClient.email) {
+                            window.open(`mailto:${selectedClient.email}?subject=Your Upcoming Catering Order&body=${encodeURIComponent(msg)}`);
+                          } else {
+                            window.open(`sms:${selectedClient.phone}?body=${encodeURIComponent(msg)}`);
+                          }
+                        }}
+                        style={{ padding: '7px 14px', background: '#16a34a', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+                      >
+                        📬 Notify
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className={styles.detailGrid}>
                   {selectedClient.phone && <div><span className={styles.detailLabel}>Phone</span><span>{selectedClient.phone}</span></div>}

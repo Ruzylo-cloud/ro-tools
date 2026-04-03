@@ -276,6 +276,17 @@ export default function ProfilePage() {
             page and remove RO Tools. You&apos;ll be prompted to reconnect when using Drive features.
           </p>
         )}
+
+        {/* RT-250: 2FA option (UI shell — TOTP coming soon) */}
+        <div className={styles.serviceCard}>
+          <div className={styles.serviceInfo}>
+            <div className={styles.serviceName}>Two-Factor Authentication</div>
+            <div className={styles.serviceDesc}>Add an extra layer of security to your account with an authenticator app. Coming soon — currently secured via Google OAuth.</div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#92400e', padding: '3px 10px', borderRadius: 6 }}>Coming Soon</span>
+          </div>
+        </div>
       </div>
     </div>
   );
