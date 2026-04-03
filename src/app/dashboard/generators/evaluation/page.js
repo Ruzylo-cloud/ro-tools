@@ -148,7 +148,7 @@ export default function EvaluationPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p>
       </div>
     );
   }
@@ -238,8 +238,8 @@ export default function EvaluationPage() {
             const pct = (avg / 5) * 100;
             const color = avg >= 4 ? '#16a34a' : avg >= 3 ? '#2563eb' : avg >= 2 ? '#ca8a04' : '#dc2626';
             return (
-              <div style={{ marginBottom: 12, padding: '10px 12px', background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: 8 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 6 }}>
+              <div style={{ marginBottom: 12, padding: '10px 12px', background: 'var(--gray-50)', border: '1px solid var(--border)', borderRadius: 8 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 6 }}>
                   <span>Overall Score</span>
                   <span style={{ color }}>{avg.toFixed(1)} / 5.0 ({rated.length}/{RATING_CATEGORIES.length} rated)</span>
                 </div>

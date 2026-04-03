@@ -110,7 +110,7 @@ export default function ManagerLogPage() {
   }, [form, showToast]);
 
   if (loading) {
-    return <div className={styles.container}><p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p></div>;
+    return <div className={styles.container}><p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p></div>;
   }
 
   const BOARD_COLORS = { general: '#134A7C', injuries: '#DC2626', maintenance: '#EA580C', cleaning: '#16A34A' };
@@ -184,11 +184,11 @@ export default function ManagerLogPage() {
               {form.boards[activeBoard].entries.map((entry, i) => (
                 <div key={i} style={{
                   padding: '6px 8px', borderLeft: `3px solid ${BOARD_COLORS[form.boards[activeBoard].key]}`,
-                  marginBottom: '6px', background: '#f9fafb', borderRadius: '0 4px 4px 0',
+                  marginBottom: '6px', background: 'var(--gray-50)', borderRadius: '0 4px 4px 0',
                   display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px',
                 }}>
                   <div>
-                    <div style={{ fontSize: '12px', color: '#2D2D2D', lineHeight: 1.4 }}>{entry.content}</div>
+                    <div style={{ fontSize: '12px', color: 'var(--text)', lineHeight: 1.4 }}>{entry.content}</div>
                     <div style={{ fontSize: '10px', color: '#9ca3af', marginTop: '2px' }}>{entry.time}</div>
                   </div>
                   <button

@@ -323,7 +323,7 @@ export default function DocumentsPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: '#6b7280', padding: '48px' }}>Loading...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading...</p>
       </div>
     );
   }
@@ -449,14 +449,14 @@ export default function DocumentsPage() {
               <button
                 onClick={() => idx > 0 && handleTemplateChange(TEMPLATES[idx - 1].id)}
                 disabled={idx <= 0}
-                style={{ flex: 1, padding: '8px', background: '#f0f4f8', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx <= 0 ? '#9ca3af' : '#374151', cursor: idx <= 0 ? 'not-allowed' : 'pointer' }}
+                style={{ flex: 1, padding: '8px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx <= 0 ? '#9ca3af' : '#374151', cursor: idx <= 0 ? 'not-allowed' : 'pointer' }}
               >
                 ← {idx > 0 ? TEMPLATES[idx - 1].name : 'Previous'}
               </button>
               <button
                 onClick={() => idx < TEMPLATES.length - 1 && handleTemplateChange(TEMPLATES[idx + 1].id)}
                 disabled={idx >= TEMPLATES.length - 1}
-                style={{ flex: 1, padding: '8px', background: '#f0f4f8', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx >= TEMPLATES.length - 1 ? '#9ca3af' : '#374151', cursor: idx >= TEMPLATES.length - 1 ? 'not-allowed' : 'pointer' }}
+                style={{ flex: 1, padding: '8px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx >= TEMPLATES.length - 1 ? '#9ca3af' : '#374151', cursor: idx >= TEMPLATES.length - 1 ? 'not-allowed' : 'pointer' }}
               >
                 {idx < TEMPLATES.length - 1 ? TEMPLATES[idx + 1].name : 'Next'} →
               </button>
@@ -469,7 +469,7 @@ export default function DocumentsPage() {
           <button
             onClick={handleBatchDownload}
             disabled={generating}
-            style={{ width: '100%', marginTop: 8, padding: '10px', background: '#fff', border: '1px solid #134A7C', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#134A7C', cursor: 'pointer' }}
+            style={{ width: '100%', marginTop: 8, padding: '10px', background: 'var(--white)', border: '1px solid #134A7C', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#134A7C', cursor: 'pointer' }}
           >
             📦 Download All Packets
           </button>
@@ -480,13 +480,13 @@ export default function DocumentsPage() {
           <button
             onClick={handlePrint}
             disabled={generating}
-            style={{ flex: 1, padding: '10px', background: '#fff', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#374151', cursor: 'pointer' }}
+            style={{ flex: 1, padding: '10px', background: 'var(--white)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: 'var(--text)', cursor: 'pointer' }}
           >
             🖨️ Print
           </button>
           <button
             onClick={handleCopyLink}
-            style={{ flex: 1, padding: '10px', background: '#fff', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#374151', cursor: 'pointer' }}
+            style={{ flex: 1, padding: '10px', background: 'var(--white)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13, fontWeight: 600, color: 'var(--text)', cursor: 'pointer' }}
           >
             🔗 Copy Link
           </button>
@@ -570,7 +570,7 @@ export default function DocumentsPage() {
           <h2 className={styles.previewTitle}>Live Preview</h2>
           <button
             onClick={() => setShowPreview(p => !p)}
-            style={{ padding: '4px 12px', background: '#f0f4f8', border: '1px solid #d1d5db', borderRadius: 6, fontSize: 12, fontWeight: 600, color: '#374151', cursor: 'pointer' }}
+            style={{ padding: '4px 12px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 6, fontSize: 12, fontWeight: 600, color: 'var(--text)', cursor: 'pointer' }}
           >
             {showPreview ? 'Hide' : 'Show'}
           </button>
@@ -612,14 +612,14 @@ export default function DocumentsPage() {
         const passed = pct >= 80;
         return (
           <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => !quizSubmitted && setShowQuiz(false)}>
-            <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 580, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
-              <div style={{ padding: '20px 24px 0', borderBottom: '1px solid #e5e7eb' }}>
+            <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 580, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
+              <div style={{ padding: '20px 24px 0', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                   <div style={{ fontSize: 18, fontWeight: 700, color: '#134A7C' }}>{quiz.title}</div>
-                  <button onClick={() => setShowQuiz(false)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#6b7280', lineHeight: 1 }}>&times;</button>
+                  <button onClick={() => setShowQuiz(false)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--gray-500)', lineHeight: 1 }}>&times;</button>
                 </div>
                 {!quizSubmitted && (
-                  <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16 }}>
+                  <p style={{ fontSize: 13, color: 'var(--gray-500)', marginBottom: 16 }}>
                     Answer all {quiz.questions.length} questions. Score 80% or higher to pass.
                     {form.employeeName && <strong style={{ color: '#134A7C' }}> — {form.employeeName}</strong>}
                   </p>
@@ -642,7 +642,7 @@ export default function DocumentsPage() {
                         return (
                           <div key={i} style={{ padding: '8px 12px', marginBottom: 6, borderRadius: 8, background: correct ? 'rgba(22,163,74,0.06)' : 'rgba(220,38,38,0.06)', border: `1px solid ${correct ? 'rgba(22,163,74,0.2)' : 'rgba(220,38,38,0.2)'}` }}>
                             <div style={{ fontSize: 12, fontWeight: 600, color: correct ? '#15803d' : '#dc2626' }}>{correct ? '✓' : '✗'} {q.q}</div>
-                            {!correct && <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>Correct: {q.options[q.answer]}</div>}
+                            {!correct && <div style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 2 }}>Correct: {q.options[q.answer]}</div>}
                           </div>
                         );
                       })}
@@ -662,10 +662,10 @@ export default function DocumentsPage() {
                   <>
                     {quiz.questions.map((q, i) => (
                       <div key={i} style={{ marginBottom: 20 }}>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: '#1f2937', marginBottom: 8 }}>{i + 1}. {q.q}</div>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 8 }}>{i + 1}. {q.q}</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                           {q.options.map((opt, j) => (
-                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? '#134A7C' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : '#fff', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: '#374151', transition: 'all 0.15s' }}>
+                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? '#134A7C' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : '#fff', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: 'var(--text)', transition: 'all 0.15s' }}>
                               <input type="radio" name={`q${i}`} value={j} checked={quizAnswers[i] === j} onChange={() => setQuizAnswers(prev => ({ ...prev, [i]: j }))} style={{ accentColor: '#134A7C' }} />
                               {opt}
                             </label>

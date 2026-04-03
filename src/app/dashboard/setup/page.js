@@ -312,7 +312,7 @@ export default function SetupPage() {
               {storeSearchIdx === idx && suggestions.length > 0 && (
                 <div style={{
                   position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 10,
-                  background: '#fff', border: '1px solid #e5e7eb', borderRadius: '0 0 8px 8px',
+                  background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '0 0 8px 8px',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.1)', maxHeight: 200, overflowY: 'auto',
                 }}>
                   {suggestions.map(s => (
@@ -323,12 +323,12 @@ export default function SetupPage() {
                       style={{
                         display: 'block', width: '100%', padding: '8px 12px', border: 'none',
                         background: 'transparent', textAlign: 'left', cursor: 'pointer',
-                        fontFamily: 'inherit', fontSize: 13, color: '#2D2D2D',
+                        fontFamily: 'inherit', fontSize: 13, color: 'var(--text)',
                         borderBottom: '1px solid #f3f4f6',
                       }}
                     >
                       <span style={{ fontWeight: 700, color: '#134A7C' }}>{s.id}</span>
-                      <span style={{ color: '#6b7280' }}> — {s.name}</span>
+                      <span style={{ color: 'var(--gray-500)' }}> — {s.name}</span>
                     </button>
                   ))}
                 </div>

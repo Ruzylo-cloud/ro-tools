@@ -130,7 +130,7 @@ export default function FlyerPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p>
       </div>
     );
   }
@@ -146,7 +146,7 @@ export default function FlyerPage() {
 
         {/* RT-141: Template selector */}
         <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Template</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Template</div>
           <div style={{ display: 'flex', gap: 6 }}>
             {FLYER_TEMPLATES.map(t => (
               <button
@@ -188,9 +188,9 @@ export default function FlyerPage() {
             onClick={() => setShowMenuEditor(v => !v)}
             style={{
               width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              padding: '9px 12px', background: '#f9fafb', border: '1px solid #e5e7eb',
+              padding: '9px 12px', background: 'var(--gray-50)', border: '1px solid var(--border)',
               borderRadius: showMenuEditor ? '8px 8px 0 0' : 8, cursor: 'pointer',
-              fontSize: 13, fontWeight: 600, color: '#374151',
+              fontSize: 13, fontWeight: 600, color: 'var(--text)',
             }}
           >
             <span>Customize Menu</span>
@@ -198,8 +198,8 @@ export default function FlyerPage() {
           </button>
           {showMenuEditor && (
             <div style={{
-              border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 8px 8px',
-              padding: '10px 12px', background: '#fff', maxHeight: 320, overflowY: 'auto',
+              border: '1px solid var(--border)', borderTop: 'none', borderRadius: '0 0 8px 8px',
+              padding: '10px 12px', background: 'var(--white)', maxHeight: 320, overflowY: 'auto',
             }}>
               {ALL_MENU_ITEMS.map(item => {
                 const override = menuOverrides[item.key] || {};
@@ -207,7 +207,7 @@ export default function FlyerPage() {
                 const currentDesc = override.desc !== undefined ? override.desc : item.defaultDesc;
                 return (
                   <div key={item.key} style={{ marginBottom: 10, paddingBottom: 10, borderBottom: '1px solid #f3f4f6' }}>
-                    <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', marginBottom: 4 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4 }}>
                       {item.num ? `${item.num} ` : ''}{item.key}
                     </div>
                     <input
@@ -216,7 +216,7 @@ export default function FlyerPage() {
                       onChange={e => handleMenuOverride(item.key, 'name', e.target.value)}
                       placeholder="Name"
                       style={{
-                        width: '100%', padding: '4px 8px', fontSize: 12, border: '1px solid #e5e7eb',
+                        width: '100%', padding: '4px 8px', fontSize: 12, border: '1px solid var(--border)',
                         borderRadius: 6, marginBottom: 4, boxSizing: 'border-box',
                       }}
                     />
@@ -226,8 +226,8 @@ export default function FlyerPage() {
                       onChange={e => handleMenuOverride(item.key, 'desc', e.target.value)}
                       placeholder="Description"
                       style={{
-                        width: '100%', padding: '4px 8px', fontSize: 11, border: '1px solid #e5e7eb',
-                        borderRadius: 6, color: '#6b7280', boxSizing: 'border-box',
+                        width: '100%', padding: '4px 8px', fontSize: 11, border: '1px solid var(--border)',
+                        borderRadius: 6, color: 'var(--gray-500)', boxSizing: 'border-box',
                       }}
                     />
                   </div>

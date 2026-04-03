@@ -291,8 +291,8 @@ export default function ScoreboardPage() {
                 { label: 'COGs Variance', target: '-1% to -2.5%', color: '#2563eb' },
                 { label: 'Labor', target: 'Below store target', color: '#b45309' },
               ].map(t => (
-                <div key={t.label} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 6, background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: '#374151' }}>
-                  <span style={{ color: '#6b7280', fontWeight: 500 }}>{t.label}: </span>
+                <div key={t.label} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', borderRadius: 6, background: 'rgba(0,0,0,0.04)', border: '1px solid var(--border)', color: 'var(--text)' }}>
+                  <span style={{ color: 'var(--gray-500)', fontWeight: 500 }}>{t.label}: </span>
                   <span style={{ color: t.color }}>{t.target}</span>
                 </div>
               ))}
@@ -513,12 +513,12 @@ export default function ScoreboardPage() {
       {tab === 'entry' && (
         <div>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 6 }}>Enter Weekly Scoreboard Data</h2>
-          <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 20 }}>Enter Week {selectedWeek} data for a store. Saved entries are stored locally for this session.</p>
+          <p style={{ fontSize: 13, color: 'var(--gray-500)', marginBottom: 20 }}>Enter Week {selectedWeek} data for a store. Saved entries are stored locally for this session.</p>
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '24px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14, marginBottom: 20 }}>
               {/* Store selector */}
               <div style={{ gridColumn: '1 / -1' }}>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 5 }}>Store *</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 5 }}>Store *</label>
                 <select value={entryForm.storeId} onChange={e => setEntryForm(f => ({ ...f, storeId: e.target.value }))} style={{ width: '100%', maxWidth: 340, padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', background: 'var(--white)' }}>
                   <option value="">Select a store...</option>
                   {STORE_DIRECTORY.filter(s => s.ro).map(s => <option key={s.id} value={s.id}>{s.name !== s.id ? s.name : s.id} — #{s.id}</option>)}
@@ -534,7 +534,7 @@ export default function ScoreboardPage() {
                 { key: 'laborTarget', label: 'Labor Target (%)', placeholder: '20.0' },
               ].map(f => (
                 <div key={f.key}>
-                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 5 }}>{f.label}</label>
+                  <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 5 }}>{f.label}</label>
                   <input
                     type="number"
                     value={entryForm[f.key]}
@@ -571,7 +571,7 @@ export default function ScoreboardPage() {
             if (weekEntries.length === 0) return null;
             return (
               <div style={{ marginTop: 20 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Saved Week {selectedWeek} Entries</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Saved Week {selectedWeek} Entries</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {weekEntries.map((e, i) => (
                     <div key={i} style={{ padding: '10px 14px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, display: 'flex', gap: 16, flexWrap: 'wrap' }}>

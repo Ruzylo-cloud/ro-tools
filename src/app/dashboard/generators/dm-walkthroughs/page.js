@@ -111,7 +111,7 @@ export default function DMWalkthroughsPage() {
   const filledCount = CATEGORIES.filter(c => form.scores[c]).length;
 
   if (loading) {
-    return <div className={styles.container}><p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p></div>;
+    return <div className={styles.container}><p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p></div>;
   }
 
   return (
@@ -202,9 +202,9 @@ export default function DMWalkthroughsPage() {
                 padding: '6px 8px', background: '#fef2f2', borderLeft: '3px solid #EE3227',
                 borderRadius: '0 4px 4px 0', display: 'flex', justifyContent: 'space-between', gap: '8px',
               }}>
-                <div style={{ fontSize: '12px', color: '#2D2D2D' }}>
+                <div style={{ fontSize: '12px', color: 'var(--text)' }}>
                   <strong>{i + 1}.</strong> {item.description}
-                  {item.assignedTo && <span style={{ color: '#6b7280' }}> ({item.assignedTo})</span>}
+                  {item.assignedTo && <span style={{ color: 'var(--gray-500)' }}> ({item.assignedTo})</span>}
                 </div>
                 <button type="button" onClick={() => removeAction(i)} style={{
                   background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', fontSize: '14px',

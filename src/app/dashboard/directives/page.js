@@ -454,9 +454,9 @@ export default function DirectivesPage() {
       )}
 
       {/* Tab Bar */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 32, borderBottom: '1px solid #e5e7eb', paddingBottom: 12, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 32, borderBottom: '1px solid var(--border)', paddingBottom: 12, flexWrap: 'wrap' }}>
         {['overview', 'directives', 'outreach', 'scorecard', 'calendar', 'history'].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : '#6b7280', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>
+          <button key={t} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : 'var(--gray-500)', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>
             {t}
             {/* RT-197: Badge on Directives tab */}
             {t === 'directives' && newDirectiveCount > 0 && (
@@ -471,42 +471,42 @@ export default function DirectivesPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
             {/* Active Directives card */}
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Active Directives</div>
+            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Active Directives</div>
               <div style={{ fontSize: 42, fontWeight: 800, color: '#134A7C', lineHeight: 1, marginBottom: 6 }}>{activeCount}</div>
-              <div style={{ fontSize: 13, color: '#6b7280' }}>directives currently active</div>
+              <div style={{ fontSize: 13, color: 'var(--gray-500)' }}>directives currently active</div>
             </div>
 
             {/* Current Focus card */}
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Current Focus</div>
+            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Current Focus</div>
               <div style={{ fontSize: 18, fontWeight: 800, color: '#134A7C', lineHeight: 1.25, marginBottom: 6 }}>{currentFocus}</div>
-              <div style={{ fontSize: 13, color: '#6b7280' }}>{currentMonthName} marketing focus</div>
+              <div style={{ fontSize: 13, color: 'var(--gray-500)' }}>{currentMonthName} marketing focus</div>
             </div>
 
             {/* Next Key Date card */}
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Next Key Date</div>
+            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Next Key Date</div>
               {nextKeyDate ? (
                 <>
                   <div style={{ fontSize: 18, fontWeight: 800, color: '#134A7C', lineHeight: 1.25, marginBottom: 6 }}>{formatShortDate(nextKeyDate.date)}</div>
-                  <div style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.4 }}>{nextKeyDate.label}</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.4 }}>{nextKeyDate.label}</div>
                 </>
               ) : (
-                <div style={{ fontSize: 14, color: '#6b7280' }}>No upcoming dates</div>
+                <div style={{ fontSize: 14, color: 'var(--gray-500)' }}>No upcoming dates</div>
               )}
             </div>
           </div>
 
           {/* Quick summary of active directives */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
             <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Active Directives</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {DIRECTIVES.filter(d => d.status === 'active').map(d => (
-                <div key={d.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 14px', background: '#f9fafb', borderRadius: 10, borderLeft: '3px solid #134A7C' }}>
+                <div key={d.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 14px', background: 'var(--gray-50)', borderRadius: 10, borderLeft: '3px solid #134A7C' }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: '#2D2D2D', marginBottom: 2 }}>{d.title}</div>
-                    <div style={{ fontSize: 12, color: '#6b7280' }}>{d.description}</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{d.title}</div>
+                    <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{d.description}</div>
                   </div>
                   <div style={{ fontSize: 11, color: '#9ca3af', whiteSpace: 'nowrap', marginTop: 2 }}>Updated {formatDate(d.updatedDate)}</div>
                 </div>
@@ -522,19 +522,19 @@ export default function DirectivesPage() {
           {/* RT-196: Rich text editor modal */}
           {showCreateDirective && (
             <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => setShowCreateDirective(false)}>
-              <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 660, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
-                <div style={{ padding: '18px 24px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 660, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
+                <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ fontSize: 17, fontWeight: 700, color: '#134A7C' }}>Create Directive</div>
-                  <button onClick={() => setShowCreateDirective(false)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#6b7280' }}>&times;</button>
+                  <button onClick={() => setShowCreateDirective(false)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: 'var(--gray-500)' }}>&times;</button>
                 </div>
                 <div style={{ padding: '20px 24px' }}>
                   <div style={{ marginBottom: 14 }}>
-                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</label>
-                    <input value={draftDirective.title} onChange={e => setDraftDirective(d => ({ ...d, title: e.target.value }))} placeholder="Directive title..." style={{ width: '100%', padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</label>
+                    <input value={draftDirective.title} onChange={e => setDraftDirective(d => ({ ...d, title: e.target.value }))} placeholder="Directive title..." style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
                   </div>
                   <div style={{ marginBottom: 14 }}>
-                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Category</label>
-                    <select value={draftDirective.category} onChange={e => setDraftDirective(d => ({ ...d, category: e.target.value }))} style={{ padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: '#fff', cursor: 'pointer' }}>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Category</label>
+                    <select value={draftDirective.category} onChange={e => setDraftDirective(d => ({ ...d, category: e.target.value }))} style={{ padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: 'var(--white)', cursor: 'pointer' }}>
                       <option value="operations">Operations</option>
                       <option value="marketing">Marketing</option>
                       <option value="calendar">Calendar</option>
@@ -542,35 +542,35 @@ export default function DirectivesPage() {
                     </select>
                   </div>
                   {/* RT-196: Rich text toolbar */}
-                  <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Body</label>
-                  <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
-                    <div style={{ display: 'flex', gap: 2, padding: '6px 8px', background: '#f9fafb', borderBottom: '1px solid #e5e7eb', flexWrap: 'wrap' }}>
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Body</label>
+                  <div style={{ border: '1px solid var(--border)', borderRadius: 8, overflow: 'hidden' }}>
+                    <div style={{ display: 'flex', gap: 2, padding: '6px 8px', background: 'var(--gray-50)', borderBottom: '1px solid var(--border)', flexWrap: 'wrap' }}>
                       {[
                         { cmd: 'bold', label: '<b>B</b>', title: 'Bold' },
                         { cmd: 'italic', label: '<i>I</i>', title: 'Italic' },
                         { cmd: 'underline', label: '<u>U</u>', title: 'Underline' },
                         { cmd: 'strikeThrough', label: '<s>S</s>', title: 'Strikethrough' },
                       ].map(({ cmd, label, title }) => (
-                        <button key={cmd} title={title} onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid #e5e7eb', borderRadius: 4, background: '#fff', cursor: 'pointer', fontSize: 13, lineHeight: 1.4 }} dangerouslySetInnerHTML={{ __html: label }} />
+                        <button key={cmd} title={title} onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid var(--border)', borderRadius: 4, background: 'var(--white)', cursor: 'pointer', fontSize: 13, lineHeight: 1.4 }} dangerouslySetInnerHTML={{ __html: label }} />
                       ))}
-                      <div style={{ width: 1, background: '#e5e7eb', margin: '2px 4px' }} />
+                      <div style={{ width: 1, background: 'var(--border)', margin: '2px 4px' }} />
                       {[
                         { cmd: 'insertUnorderedList', label: '• List', title: 'Bullet list' },
                         { cmd: 'insertOrderedList', label: '1. List', title: 'Numbered list' },
                         { cmd: 'formatBlock', arg: 'H3', label: 'H3', title: 'Heading' },
                         { cmd: 'formatBlock', arg: 'P', label: 'P', title: 'Paragraph' },
                       ].map(({ cmd, arg, label, title }) => (
-                        <button key={label} title={title} onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false, arg); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid #e5e7eb', borderRadius: 4, background: '#fff', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>{label}</button>
+                        <button key={label} title={title} onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false, arg); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid var(--border)', borderRadius: 4, background: 'var(--white)', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>{label}</button>
                       ))}
-                      <div style={{ width: 1, background: '#e5e7eb', margin: '2px 4px' }} />
-                      <button title="Clear formatting" onMouseDown={e => { e.preventDefault(); document.execCommand('removeFormat', false); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid #e5e7eb', borderRadius: 4, background: '#fff', cursor: 'pointer', fontSize: 11, color: '#6b7280' }}>Clear</button>
+                      <div style={{ width: 1, background: 'var(--border)', margin: '2px 4px' }} />
+                      <button title="Clear formatting" onMouseDown={e => { e.preventDefault(); document.execCommand('removeFormat', false); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid var(--border)', borderRadius: 4, background: 'var(--white)', cursor: 'pointer', fontSize: 11, color: 'var(--gray-500)' }}>Clear</button>
                     </div>
                     <div
                       ref={richEditorRef}
                       contentEditable
                       suppressContentEditableWarning
                       onInput={e => setDraftDirective(d => ({ ...d, body: e.currentTarget.innerHTML }))}
-                      style={{ minHeight: 180, padding: '12px 14px', fontSize: 14, lineHeight: 1.6, outline: 'none', color: '#1f2937', fontFamily: 'inherit' }}
+                      style={{ minHeight: 180, padding: '12px 14px', fontSize: 14, lineHeight: 1.6, outline: 'none', color: 'var(--text)', fontFamily: 'inherit' }}
                       data-placeholder="Write the directive content here..."
                     />
                   </div>
@@ -588,12 +588,12 @@ export default function DirectivesPage() {
                     </button>
                   </div>
                   {savedDrafts.length > 0 && (
-                    <div style={{ marginTop: 20, borderTop: '1px solid #e5e7eb', paddingTop: 16 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Saved Drafts</div>
+                    <div style={{ marginTop: 20, borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Saved Drafts</div>
                       {savedDrafts.map(d => (
-                        <div key={d.id} style={{ padding: '8px 12px', background: '#f9fafb', borderRadius: 8, marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div key={d.id} style={{ padding: '8px 12px', background: 'var(--gray-50)', borderRadius: 8, marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <div>
-                            <div style={{ fontSize: 13, fontWeight: 600, color: '#1f2937' }}>{d.title}</div>
+                            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{d.title}</div>
                             <div style={{ fontSize: 11, color: '#9ca3af' }}>{d.category} · {d.savedAt}</div>
                           </div>
                           <button onClick={() => setSavedDrafts(prev => { const u = prev.filter(x => x.id !== d.id); try { localStorage.setItem('directive-drafts', JSON.stringify(u)); } catch {} return u; })} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>&times;</button>
@@ -741,43 +741,43 @@ export default function DirectivesPage() {
       {tab === 'outreach' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           {/* Form */}
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
             <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Log Business Visit</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Business Name *</label>
-                <input value={outreachForm.business} onChange={e => setOutreachForm(f => ({ ...f, business: e.target.value }))} placeholder="e.g. Kaiser Permanente" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Business Name *</label>
+                <input value={outreachForm.business} onChange={e => setOutreachForm(f => ({ ...f, business: e.target.value }))} placeholder="e.g. Kaiser Permanente" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Contact Name</label>
-                <input value={outreachForm.contact} onChange={e => setOutreachForm(f => ({ ...f, contact: e.target.value }))} placeholder="e.g. Jane Smith" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Contact Name</label>
+                <input value={outreachForm.contact} onChange={e => setOutreachForm(f => ({ ...f, contact: e.target.value }))} placeholder="e.g. Jane Smith" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Position</label>
-                <input value={outreachForm.position} onChange={e => setOutreachForm(f => ({ ...f, position: e.target.value }))} placeholder="e.g. Department Manager" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Position</label>
+                <input value={outreachForm.position} onChange={e => setOutreachForm(f => ({ ...f, position: e.target.value }))} placeholder="e.g. Department Manager" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Phone / Email</label>
-                <input value={outreachForm.phone} onChange={e => setOutreachForm(f => ({ ...f, phone: e.target.value }))} placeholder="e.g. (805) 555-0100" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Phone / Email</label>
+                <input value={outreachForm.phone} onChange={e => setOutreachForm(f => ({ ...f, phone: e.target.value }))} placeholder="e.g. (805) 555-0100" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Materials Handed Out</label>
-                <input value={outreachForm.materials} onChange={e => setOutreachForm(f => ({ ...f, materials: e.target.value }))} placeholder="e.g. FSC & Menu" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Materials Handed Out</label>
+                <input value={outreachForm.materials} onChange={e => setOutreachForm(f => ({ ...f, materials: e.target.value }))} placeholder="e.g. FSC & Menu" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Quantity</label>
-                <input value={outreachForm.qty} onChange={e => setOutreachForm(f => ({ ...f, qty: e.target.value }))} placeholder="3" style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Quantity</label>
+                <input value={outreachForm.qty} onChange={e => setOutreachForm(f => ({ ...f, qty: e.target.value }))} placeholder="3" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Order Placed?</label>
-                <select value={outreachForm.order} onChange={e => setOutreachForm(f => ({ ...f, order: e.target.value }))} style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: '#fff', boxSizing: 'border-box' }}>
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Order Placed?</label>
+                <select value={outreachForm.order} onChange={e => setOutreachForm(f => ({ ...f, order: e.target.value }))} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: 'var(--white)', boxSizing: 'border-box' }}>
                   <option value="N">No</option>
                   <option value="Y">Yes</option>
                 </select>
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Follow-Up Date</label>
-                <input type="date" value={outreachForm.followUp} onChange={e => setOutreachForm(f => ({ ...f, followUp: e.target.value }))} style={{ width: '100%', padding: '9px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Follow-Up Date</label>
+                <input type="date" value={outreachForm.followUp} onChange={e => setOutreachForm(f => ({ ...f, followUp: e.target.value }))} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -788,21 +788,21 @@ export default function DirectivesPage() {
 
           {/* Table */}
           {outreachEntries.length > 0 && (
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
               <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Outreach Log ({outreachEntries.length} entries)</div>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, minWidth: 640 }}>
                   <thead>
-                    <tr style={{ background: '#f9fafb' }}>
+                    <tr style={{ background: 'var(--gray-50)' }}>
                       {['Business', 'Contact', 'Position', 'Phone/Email', 'Materials', 'Qty', 'Order?', 'Follow-Up', ''].map((h, i) => (
-                        <th key={i} style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.3px', fontSize: 10, borderBottom: '2px solid #e5e7eb', whiteSpace: 'nowrap' }}>{h}</th>
+                        <th key={i} style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.3px', fontSize: 10, borderBottom: '2px solid #e5e7eb', whiteSpace: 'nowrap' }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {outreachEntries.map((e) => (
                       <tr key={e.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                        <td style={{ padding: '8px 10px', color: '#2D2D2D', fontWeight: 600 }}>{e.business}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--text)', fontWeight: 600 }}>{e.business}</td>
                         <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.contact || '—'}</td>
                         <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.position || '—'}</td>
                         <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.phone || '—'}</td>
@@ -832,13 +832,13 @@ export default function DirectivesPage() {
       {/* ─── SCORECARD TAB ─── */}
       {tab === 'scorecard' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
             <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Monthly Revenue Scorecard</div>
 
             {/* Month selector */}
             <div style={{ marginBottom: 20 }}>
-              <label style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 6 }}>Month</label>
-              <select value={scorecardMonth} onChange={e => setScorecardMonth(e.target.value)} style={{ padding: '9px 14px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', background: '#fff', fontWeight: 600, color: '#134A7C' }}>
+              <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 6 }}>Month</label>
+              <select value={scorecardMonth} onChange={e => setScorecardMonth(e.target.value)} style={{ padding: '9px 14px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', background: 'var(--white)', fontWeight: 600, color: '#134A7C' }}>
                 {SCORECARD_MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
             </div>
@@ -863,8 +863,8 @@ export default function DirectivesPage() {
                 return (
                   <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : '#f9fafb', borderRadius: 10, borderLeft: `3px solid ${highlightColor || '#134A7C'}` }}>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#2D2D2D', marginBottom: 2 }}>{field.label}</div>
-                      <div style={{ fontSize: 12, color: '#6b7280' }}>{field.desc}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{field.label}</div>
+                      <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{field.desc}</div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                       {field.prefix === '$' && <span style={{ fontSize: 16, fontWeight: 700, color: '#9ca3af' }}>$</span>}
@@ -873,7 +873,7 @@ export default function DirectivesPage() {
                         value={val || (field.key === 'growthTarget' ? (val === '' ? '' : val) : '')}
                         placeholder={field.key === 'growthTarget' ? '5' : '0'}
                         onChange={e => updateScorecardField(field.key, e.target.value)}
-                        style={{ width: 90, padding: '8px 10px', border: `1px solid ${highlightColor || '#e5e7eb'}`, borderRadius: 8, fontSize: 14, fontWeight: 700, textAlign: 'right', color: highlightColor || '#2D2D2D', outline: 'none', fontFamily: 'inherit', background: '#fff' }}
+                        style={{ width: 90, padding: '8px 10px', border: `1px solid ${highlightColor || '#e5e7eb'}`, borderRadius: 8, fontSize: 14, fontWeight: 700, textAlign: 'right', color: highlightColor || '#2D2D2D', outline: 'none', fontFamily: 'inherit', background: 'var(--white)' }}
                       />
                       {field.prefix === '%' && <span style={{ fontSize: 14, fontWeight: 700, color: '#9ca3af' }}>%</span>}
                     </div>
@@ -890,7 +890,7 @@ export default function DirectivesPage() {
 
           {/* Saved months summary */}
           {Object.keys(scorecard).length > 0 && (
-            <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
               <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Saved Months</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {Object.entries(scorecard).filter(([, v]) => v && Object.keys(v).some(k => v[k] !== '' && v[k] !== undefined)).map(([month, data]) => {
@@ -899,7 +899,7 @@ export default function DirectivesPage() {
                   const hasGrowth = !isNaN(actual);
                   const met = hasGrowth && actual >= target;
                   return (
-                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: '#f9fafb', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : '#EE3227') : '#134A7C'}` }}>
+                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: 'var(--gray-50)', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : '#EE3227') : '#134A7C'}` }}>
                       <div style={{ fontWeight: 700, color: '#134A7C', fontSize: 14, minWidth: 120 }}>{month}</div>
                       <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', flex: 1 }}>
                         {data.upselling && <span style={{ fontSize: 12, color: '#4b5563' }}>Upselling: <strong>${data.upselling}</strong></span>}
@@ -919,7 +919,7 @@ export default function DirectivesPage() {
       {/* ─── CALENDAR TAB ─── */}
       {tab === 'calendar' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 14, padding: '28px 22px' }}>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
             <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 20, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>2026 Key Dates Timeline</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {allDates.map((item, i) => {
@@ -964,22 +964,22 @@ export default function DirectivesPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {/* Read directives */}
               {DIRECTIVES.filter(d => readIds.has(d.id)).map(d => (
-                <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #16a34a', borderRadius: 8 }}>
+                <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderLeft: '4px solid #16a34a', borderRadius: 8 }}>
                   <span style={{ fontSize: 18 }}>✓</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#2D2D2D' }}>{d.title}</div>
-                    <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>Directive acknowledged</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{d.title}</div>
+                    <div style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 2 }}>Directive acknowledged</div>
                   </div>
                   <span style={{ fontSize: 11, background: 'rgba(22,163,74,0.1)', color: '#166534', padding: '3px 8px', borderRadius: 6, fontWeight: 600 }}>Read</span>
                 </div>
               ))}
               {/* Outreach visits */}
               {outreachEntries.slice().reverse().map(e => (
-                <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: '#fff', border: '1px solid #e5e7eb', borderLeft: '4px solid #134A7C', borderRadius: 8 }}>
+                <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderLeft: '4px solid #134A7C', borderRadius: 8 }}>
                   <span style={{ fontSize: 18 }}>🏢</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#2D2D2D' }}>{e.business}</div>
-                    <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{e.business}</div>
+                    <div style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 2 }}>
                       {e.contact && `${e.contact} · `}{e.materials} · {e.qty} qty
                     </div>
                   </div>

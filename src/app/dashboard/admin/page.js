@@ -266,7 +266,7 @@ export default function AdminPage() {
             { label: 'Approved', val: userStats.approved, color: '#16a34a' },
             { label: 'Admins', val: userStats.admins, color: '#7c3aed' },
           ].map(s => (
-            <div key={s.label} style={{ flex: 1, minWidth: 100, padding: '12px 16px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, textAlign: 'center' }}>
+            <div key={s.label} style={{ flex: 1, minWidth: 100, padding: '12px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 10, textAlign: 'center' }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: s.color }}>{s.val}</div>
               <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{s.label}</div>
             </div>
@@ -311,7 +311,7 @@ export default function AdminPage() {
       {/* RT-219: Deactivation confirmation modal */}
       {confirmAction && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ background: '#fff', borderRadius: 12, padding: 28, maxWidth: 360, width: '90%', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
+          <div style={{ background: 'var(--white)', borderRadius: 12, padding: 28, maxWidth: 360, width: '90%', boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
             <h3 style={{ fontSize: 17, fontWeight: 700, color: '#111', marginBottom: 8 }}>
               {confirmAction.action === 'deny' ? 'Deny Access?' : 'Approve User?'}
             </h3>
@@ -322,7 +322,7 @@ export default function AdminPage() {
               }
             </p>
             <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
-              <button onClick={() => setConfirmAction(null)} style={{ padding: '8px 16px', border: '1px solid #e5e7eb', borderRadius: 6, background: '#fff', cursor: 'pointer', fontSize: 13 }}>
+              <button onClick={() => setConfirmAction(null)} style={{ padding: '8px 16px', border: '1px solid var(--border)', borderRadius: 6, background: 'var(--white)', cursor: 'pointer', fontSize: 13 }}>
                 Cancel
               </button>
               <button
@@ -393,7 +393,7 @@ export default function AdminPage() {
                 placeholder="Search users..."
                 value={userSearch}
                 onChange={e => setUserSearch(e.target.value)}
-                style={{ padding: '6px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, color: '#111', width: 200 }}
+                style={{ padding: '6px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, color: '#111', width: 200 }}
               />
             </div>
             {filteredApproved.length === 0 ? (
@@ -443,8 +443,8 @@ export default function AdminPage() {
               {ACTION_TYPES.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
             </select>
             {/* RT-230: Date range */}
-            <input type="date" value={logDateFrom} onChange={e => setLogDateFrom(e.target.value)} style={{ padding: '6px 10px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, color: '#111' }} title="From date" />
-            <input type="date" value={logDateTo} onChange={e => setLogDateTo(e.target.value)} style={{ padding: '6px 10px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, color: '#111' }} title="To date" />
+            <input type="date" value={logDateFrom} onChange={e => setLogDateFrom(e.target.value)} style={{ padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, color: '#111' }} title="From date" />
+            <input type="date" value={logDateTo} onChange={e => setLogDateTo(e.target.value)} style={{ padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, color: '#111' }} title="To date" />
             <button className={styles.logSearchBtn} onClick={() => fetchLogs(0)}>Search</button>
             {/* RT-224: Export CSV */}
             <button
@@ -531,7 +531,7 @@ export default function AdminPage() {
                   { label: 'Active Users (7d)', val: analytics.activeUsers7, color: '#b45309' },
                   { label: 'Active Users (30d)', val: analytics.activeUsers30, color: '#0891b2' },
                 ].map(s => (
-                  <div key={s.label} style={{ padding: '14px 16px', background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, textAlign: 'center' }}>
+                  <div key={s.label} style={{ padding: '14px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 10, textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 800, color: s.color }}>{s.val}</div>
                     <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 2 }}>{s.label}</div>
                   </div>
@@ -539,7 +539,7 @@ export default function AdminPage() {
               </div>
 
               {/* Top generators */}
-              <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '20px 20px 16px' }}>
+              <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '20px 20px 16px' }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: '#134A7C', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Top Generators</div>
                 {analytics.topGenerators.length === 0 ? (
                   <div style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', padding: '20px 0' }}>No data yet</div>
