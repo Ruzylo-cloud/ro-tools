@@ -124,7 +124,8 @@ export default function LandingPage() {
       {/* NAV */}
       <nav id="mainNav" className={styles.nav}>
         <a href="#" className={styles.navLogo}>
-          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={84} height={42} style={{ borderRadius: '4px' }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/jmvg-logo.png" alt="JM Valley Group" width={84} height={42} style={{ borderRadius: '4px', objectFit: 'contain' }} />
           <div className={styles.navLogoText}>RO <span>Tools</span></div>
         </a>
         <div className={styles.navLinks}>
@@ -317,7 +318,8 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer className={styles.footer}>
         <div className={styles.footerLeft}>
-          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={56} height={28} style={{ borderRadius: '3px' }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/jmvg-logo.png" alt="JM Valley Group" width={56} height={28} style={{ borderRadius: '3px', objectFit: 'contain' }} />
           <div className={styles.footerText}>RO <span>Tools</span></div>
         </div>
         <div className={styles.footerRight}>
