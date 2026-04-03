@@ -112,7 +112,7 @@ export default function ProfilePage() {
   };
 
   if (loading) {
-    return <div className={styles.container}><p style={{ color: '#6b7280' }}>Loading profile...</p></div>;
+    return <div className={styles.container}><p style={{ color: 'var(--gray-500)' }}>Loading profile...</p></div>;
   }
 
   const stores = profile?.stores || [];
@@ -142,11 +142,11 @@ export default function ProfilePage() {
           <input className={styles.input} value={profile?.districtManager || ''} onChange={e => updateField('districtManager', e.target.value)} placeholder="Mike Johnson" />
         </div>
 
-        <hr style={{ border: 'none', borderTop: '1px solid #e5e7eb', margin: '24px 0' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '24px 0' }} />
 
         {/* Stores */}
         {stores.map((store, idx) => (
-          <div key={idx} style={{ border: '1px solid #e5e7eb', borderRadius: 12, padding: 20, marginBottom: 16, background: '#fafbfc' }}>
+          <div key={idx} style={{ border: '1px solid var(--border)', borderRadius: 12, padding: 20, marginBottom: 16, background: '#fafbfc' }}>
             {isMultiStore && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <strong style={{ color: '#134A7C' }}>Store {idx + 1}</strong>
@@ -167,7 +167,7 @@ export default function ProfilePage() {
             {/* RT-216: Map preview */}
             {(store.street && store.city) && (
               <div style={{ marginTop: 12 }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>Location Preview</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>Location Preview</div>
                 <iframe
                   title={`Map for ${store.storeName || 'store'}`}
                   width="100%"
@@ -185,7 +185,7 @@ export default function ProfilePage() {
         {isMultiStore && (
           <button type="button" onClick={addStore} style={{
             width: '100%', padding: 12, background: 'transparent', border: '2px dashed #d1d5db',
-            borderRadius: 10, fontSize: 14, fontWeight: 600, color: '#6b7280', cursor: 'pointer',
+            borderRadius: 10, fontSize: 14, fontWeight: 600, color: 'var(--gray-500)', cursor: 'pointer',
             fontFamily: 'inherit', marginBottom: 20,
           }}>
             + Add Another Store
@@ -193,7 +193,7 @@ export default function ProfilePage() {
         )}
 
         {/* RT-215: Store hours */}
-        <hr style={{ border: 'none', borderTop: '1px solid #e5e7eb', margin: '24px 0' }} />
+        <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '24px 0' }} />
         <div style={{ marginBottom: '20px' }}>
           <h3 style={{ fontFamily: '\'Playfair Display\', serif', fontSize: '18px', fontWeight: 800, color: 'var(--jm-blue)', marginBottom: '4px' }}>Store Hours</h3>
           <p style={{ fontSize: '13px', color: 'var(--gray-500)', marginBottom: '16px' }}>Auto-fills into catering flyers and order forms.</p>

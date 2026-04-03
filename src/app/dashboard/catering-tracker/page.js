@@ -518,8 +518,8 @@ export default function CateringTrackerPage() {
             onClick={() => setStatusFilter(f.key)}
             style={{
               padding: '5px 14px', fontSize: 12, fontWeight: 600, borderRadius: 16, cursor: 'pointer', border: '1px solid',
-              background: statusFilter === f.key ? '#134A7C' : '#fff',
-              color: statusFilter === f.key ? '#fff' : '#374151',
+              background: statusFilter === f.key ? '#134A7C' : 'var(--white)',
+              color: statusFilter === f.key ? '#fff' : 'var(--text)',
               borderColor: statusFilter === f.key ? '#134A7C' : '#d1d5db',
             }}
           >
@@ -737,7 +737,7 @@ export default function CateringTrackerPage() {
                   ) : (
                     <div style={{ position: 'relative', paddingLeft: 24, marginTop: 8 }}>
                       {/* Vertical timeline line */}
-                      <div style={{ position: 'absolute', left: 7, top: 8, bottom: 8, width: 2, background: '#e5e7eb' }} />
+                      <div style={{ position: 'absolute', left: 7, top: 8, bottom: 8, width: 2, background: 'var(--border)' }} />
                       {clientOrders.map((o, idx) => (
                         <div key={o.id} style={{ position: 'relative', marginBottom: 16 }}>
                           {/* Timeline dot */}

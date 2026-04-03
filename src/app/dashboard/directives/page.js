@@ -795,7 +795,7 @@ export default function DirectivesPage() {
                   <thead>
                     <tr style={{ background: 'var(--gray-50)' }}>
                       {['Business', 'Contact', 'Position', 'Phone/Email', 'Materials', 'Qty', 'Order?', 'Follow-Up', ''].map((h, i) => (
-                        <th key={i} style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.3px', fontSize: 10, borderBottom: '2px solid #e5e7eb', whiteSpace: 'nowrap' }}>{h}</th>
+                        <th key={i} style={{ padding: '8px 10px', textAlign: 'left', fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.3px', fontSize: 10, borderBottom: '2px solid var(--border)', whiteSpace: 'nowrap' }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -861,7 +861,7 @@ export default function DirectivesPage() {
                   highlightColor = actualVal >= targetVal ? '#16a34a' : '#EE3227';
                 }
                 return (
-                  <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : '#f9fafb', borderRadius: 10, borderLeft: `3px solid ${highlightColor || '#134A7C'}` }}>
+                  <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : 'var(--gray-50)', borderRadius: 10, borderLeft: `3px solid ${highlightColor || '#134A7C'}` }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{field.label}</div>
                       <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{field.desc}</div>
@@ -931,7 +931,7 @@ export default function DirectivesPage() {
                     {/* Timeline line */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 32, flexShrink: 0 }}>
                       <div style={{ width: 10, height: 10, borderRadius: '50%', background: current ? '#16a34a' : past ? '#d1d5db' : '#134A7C', border: `2px solid ${current ? '#16a34a' : past ? '#d1d5db' : '#134A7C'}`, marginTop: 14, flexShrink: 0, zIndex: 1 }} />
-                      {i < allDates.length - 1 && <div style={{ width: 2, flex: 1, background: '#e5e7eb', minHeight: 8 }} />}
+                      {i < allDates.length - 1 && <div style={{ width: 2, flex: 1, background: 'var(--border)', minHeight: 8 }} />}
                     </div>
                     {/* Content */}
                     <div style={{ flex: 1, padding: '10px 0 10px 10px', opacity: past ? 0.45 : 1 }}>

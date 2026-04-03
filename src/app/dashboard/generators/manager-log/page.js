@@ -143,9 +143,9 @@ export default function ManagerLogPage() {
                 onClick={() => setActiveBoard(i)}
                 style={{
                   padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600,
-                  border: activeBoard === i ? `2px solid ${BOARD_COLORS[board.key]}` : '1px solid #e5e7eb',
-                  background: activeBoard === i ? `${BOARD_COLORS[board.key]}10` : '#fff',
-                  color: activeBoard === i ? BOARD_COLORS[board.key] : '#6b7280',
+                  border: activeBoard === i ? `2px solid ${BOARD_COLORS[board.key]}` : '1px solid var(--border)',
+                  background: activeBoard === i ? `${BOARD_COLORS[board.key]}10` : 'var(--white)',
+                  color: activeBoard === i ? BOARD_COLORS[board.key] : 'var(--gray-500)',
                   cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >

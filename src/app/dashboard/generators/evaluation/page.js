@@ -243,7 +243,7 @@ export default function EvaluationPage() {
                   <span>Overall Score</span>
                   <span style={{ color }}>{avg.toFixed(1)} / 5.0 ({rated.length}/{RATING_CATEGORIES.length} rated)</span>
                 </div>
-                <div style={{ height: 6, background: '#e5e7eb', borderRadius: 3 }}>
+                <div style={{ height: 6, background: 'var(--border)', borderRadius: 3 }}>
                   <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: 3, transition: 'width 0.3s' }} />
                 </div>
               </div>

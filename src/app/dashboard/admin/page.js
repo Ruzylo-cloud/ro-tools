@@ -201,7 +201,7 @@ export default function AdminPage() {
     setBulkSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
   };
 
-  if (loading) return <div className={styles.container}><p style={{ color: '#6b7280' }}>Loading...</p></div>;
+  if (loading) return <div className={styles.container}><p style={{ color: 'var(--gray-500)' }}>Loading...</p></div>;
   if (!isAdmin) return null;
 
   const pending = users.filter(u => u.rolePending);
@@ -231,7 +231,7 @@ export default function AdminPage() {
     if (action === 'download') return { background: 'rgba(19,74,124,0.1)', color: '#134A7C' };
     if (action === 'drive-save') return { background: 'rgba(22,163,74,0.1)', color: '#16a34a' };
     if (action === 'email-send') return { background: 'rgba(238,50,39,0.1)', color: '#EE3227' };
-    return { background: '#f3f4f6', color: '#6b7280' };
+    return { background: '#f3f4f6', color: 'var(--gray-500)' };
   };
 
   const extractDetail = (log) => {
@@ -315,7 +315,7 @@ export default function AdminPage() {
             <h3 style={{ fontSize: 17, fontWeight: 700, color: '#111', marginBottom: 8 }}>
               {confirmAction.action === 'deny' ? 'Deny Access?' : 'Approve User?'}
             </h3>
-            <p style={{ fontSize: 14, color: '#6b7280', marginBottom: 20 }}>
+            <p style={{ fontSize: 14, color: 'var(--gray-500)', marginBottom: 20 }}>
               {confirmAction.action === 'deny'
                 ? `This will deny ${confirmAction.userName}'s role request. They will remain in the system as Operator.`
                 : `This will approve ${confirmAction.userName}'s role request and notify them by email.`
@@ -345,7 +345,7 @@ export default function AdminPage() {
               {/* RT-223: Bulk actions */}
               {bulkSelected.length > 0 && (
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <span style={{ fontSize: 12, color: '#6b7280', alignSelf: 'center' }}>{bulkSelected.length} selected</span>
+                  <span style={{ fontSize: 12, color: 'var(--gray-500)', alignSelf: 'center' }}>{bulkSelected.length} selected</span>
                   <button onClick={() => handleBulkAction('approve')} style={{ padding: '4px 12px', background: '#16a34a', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
                     Approve All
                   </button>
@@ -553,7 +553,7 @@ export default function AdminPage() {
                           <div style={{ width: 20, fontSize: 11, fontWeight: 700, color: '#9ca3af', textAlign: 'right', flexShrink: 0 }}>{i + 1}</div>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                              <span style={{ fontSize: 12, fontWeight: 600, color: '#374151', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.label}</span>
+                              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-700)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.label}</span>
                               <span style={{ fontSize: 12, fontWeight: 700, color: '#134A7C', flexShrink: 0, marginLeft: 8 }}>{g.count}</span>
                             </div>
                             <div style={{ height: 4, background: '#f3f4f6', borderRadius: 2, overflow: 'hidden' }}>

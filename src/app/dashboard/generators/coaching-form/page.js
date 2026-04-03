@@ -122,7 +122,7 @@ export default function CoachingFormPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p>
       </div>
     );
   }

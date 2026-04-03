@@ -428,7 +428,7 @@ export default function DocumentsPage() {
 
         {/* RT-172: Progress bar */}
         {generating && generateProgress > 0 && (
-          <div style={{ height: 4, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden', marginBottom: 10 }}>
+          <div style={{ height: 4, background: 'var(--border)', borderRadius: 2, overflow: 'hidden', marginBottom: 10 }}>
             <div style={{ height: '100%', background: '#134A7C', borderRadius: 2, width: `${generateProgress}%`, transition: 'width 0.3s ease' }} />
           </div>
         )}
@@ -665,7 +665,7 @@ export default function DocumentsPage() {
                         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 8 }}>{i + 1}. {q.q}</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                           {q.options.map((opt, j) => (
-                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? '#134A7C' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : '#fff', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: 'var(--text)', transition: 'all 0.15s' }}>
+                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? '#134A7C' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : 'var(--white)', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: 'var(--text)', transition: 'all 0.15s' }}>
                               <input type="radio" name={`q${i}`} value={j} checked={quizAnswers[i] === j} onChange={() => setQuizAnswers(prev => ({ ...prev, [i]: j }))} style={{ accentColor: '#134A7C' }} />
                               {opt}
                             </label>

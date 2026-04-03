@@ -119,7 +119,7 @@ export default function DashboardLayout({ children }) {
   if (loading || !setupChecked) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <p style={{ color: '#6b7280', fontSize: '16px' }}>Loading...</p>
+        <p style={{ color: 'var(--gray-500)', fontSize: '16px' }}>Loading...</p>
       </div>
     );
   }

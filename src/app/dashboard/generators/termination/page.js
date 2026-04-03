@@ -29,7 +29,7 @@ function TerminationChecklist() {
         PRE-TERMINATION CHECKLIST {allDone ? '✓' : `${checked.length}/${TERM_CHECKLIST.length}`}
       </div>
       {TERM_CHECKLIST.map(item => (
-        <label key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#374151', cursor: 'pointer', padding: '3px 0' }}>
+        <label key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--gray-700)', cursor: 'pointer', padding: '3px 0' }}>
           <input type="checkbox" checked={checked.includes(item)} onChange={() => toggle(item)} style={{ accentColor: '#134A7C' }} />
           <span style={{ textDecoration: checked.includes(item) ? 'line-through' : 'none', color: checked.includes(item) ? '#9ca3af' : '#374151' }}>{item}</span>
         </label>
@@ -187,7 +187,7 @@ export default function TerminationPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p>
       </div>
     );
   }

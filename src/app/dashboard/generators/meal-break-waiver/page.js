@@ -113,7 +113,7 @@ export default function MealBreakWaiverPage() {
   }, [form, showToast]);
 
   if (loading) {
-    return <div className={styles.container}><p style={{ color: '#6b7280', padding: '48px' }}>Loading...</p></div>;
+    return <div className={styles.container}><p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading...</p></div>;
   }
 
   return (
@@ -149,7 +149,7 @@ export default function MealBreakWaiverPage() {
                       second: 'Waiver for shifts over 10 hours allowing the second meal period to be waived if the first was taken.',
                       'on-duty': 'Employee remains on-duty during the meal period and is paid. Requires a written agreement revocable at any time.',
                     }[form.waiverType];
-                    return <p style={{ fontSize: 11, color: '#6b7280', marginTop: 4, lineHeight: 1.5 }}>{desc}</p>;
+                    return <p style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 4, lineHeight: 1.5 }}>{desc}</p>;
                   })()}
                 </>
 

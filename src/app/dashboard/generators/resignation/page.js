@@ -173,7 +173,7 @@ export default function ResignationPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: '#6b7280', padding: '48px' }}>Loading store info...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p>
       </div>
     );
   }
@@ -290,7 +290,7 @@ export default function ResignationPage() {
             </select>
             {/* RT-106: Auto-calc hint */}
             {form.lastDay && (
-              <p style={{ fontSize: 11, color: '#6b7280', marginTop: 4 }}>
+              <p style={{ fontSize: 11, color: 'var(--gray-500)', marginTop: 4 }}>
                 Last day auto-set to {new Date(form.lastDay + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </p>
             )}

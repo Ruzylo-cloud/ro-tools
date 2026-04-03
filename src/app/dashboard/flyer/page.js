@@ -155,8 +155,8 @@ export default function FlyerPage() {
                 onClick={() => setFlyerTemplate(t.id)}
                 style={{
                   flex: 1, padding: '7px 4px', borderRadius: 8,
-                  border: flyerTemplate === t.id ? '2px solid #134A7C' : '1px solid #e5e7eb',
-                  background: flyerTemplate === t.id ? 'rgba(19,74,124,0.06)' : '#fff',
+                  border: flyerTemplate === t.id ? '2px solid #134A7C' : '1px solid var(--border)',
+                  background: flyerTemplate === t.id ? 'rgba(19,74,124,0.06)' : 'var(--white)',
                   cursor: 'pointer', textAlign: 'center',
                 }}
               >
