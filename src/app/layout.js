@@ -32,6 +32,15 @@ export default function RootLayout({ children }) {
       <body>
         {/* RT-283: Skip to content link */}
         <a href="#main-content" className="skip-to-content">Skip to content</a>
+        {/* RT-DM-INIT: Initialize dark mode from localStorage before first paint — prevents flash */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var t = localStorage.getItem('ro-tools-theme') || 'light';
+              document.documentElement.setAttribute('data-theme', t);
+            } catch(e) {}
+          })();
+        `}} />
         {/* RT-270: Service worker registration */}
         <script dangerouslySetInnerHTML={{ __html: `
           if ('serviceWorker' in navigator) {

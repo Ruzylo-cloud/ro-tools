@@ -107,7 +107,7 @@ button:disabled {
 }
 
 [data-theme="dark"] html {
-  background: #EE3227;
+  background: #1e1e24;
 }
 
 [data-theme="dark"] ::selection {

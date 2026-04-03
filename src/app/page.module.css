@@ -545,3 +545,55 @@
   .footer { padding: 16px 12px; }
   .stepNumber { width: 48px; height: 48px; font-size: 20px; }
 }
+
+/* ═══ Dark Theme — Landing Page ═══ */
+:global([data-theme="dark"]) .nav {
+  background: rgba(37, 37, 48, 0.92);
+  border-bottom-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .navLogoText { color: #4a90d0; }
+:global([data-theme="dark"]) .navLinks a { color: #a0a0b0; }
+:global([data-theme="dark"]) .navLinks a:hover { color: #4a90d0; }
+:global([data-theme="dark"]) .navCta {
+  background: #4a90d0 !important;
+  box-shadow: 0 2px 12px rgba(74,144,208,0.25) !important;
+}
+:global([data-theme="dark"]) .navCta:hover {
+  background: #5b9cf5 !important;
+  box-shadow: 0 4px 20px rgba(74,144,208,0.35) !important;
+}
+:global([data-theme="dark"]) .heroCard {
+  background: #252530;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
+}
+:global([data-theme="dark"]) .heroCardTitle { color: #4a90d0; }
+:global([data-theme="dark"]) .heroCardPreview {
+  background: #1e1e24;
+  border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .previewMini {
+  background: #2a2a36;
+  border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .previewMiniLines > div { background: #3d3d4a; }
+:global([data-theme="dark"]) .toolCard {
+  background: #252530;
+  border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .toolCard:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+  border-color: rgba(74,144,208,0.25);
+}
+:global([data-theme="dark"]) .toolName { color: #e8e8ed; }
+:global([data-theme="dark"]) .toolDesc { color: #a0a0b0; }
+:global([data-theme="dark"]) .toolStat { background: rgba(74,144,208,0.12); color: #4a90d0; }
+:global([data-theme="dark"]) .toolIcon { background: #1e1e24; }
+:global([data-theme="dark"]) .how { background: #1a1a22; }
+:global([data-theme="dark"]) .footer {
+  background: #1e1e24;
+  border-top-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .footerText { color: #4a90d0; }
+:global([data-theme="dark"]) .footerLinks a { color: #4a90d0; }
+:global([data-theme="dark"]) .heroBadge { background: #252530; }
+:global([data-theme="dark"]) .heroBadgeText { color: #a0a0b0; }
