@@ -119,6 +119,8 @@ export default function CateringTrackerPage() {
   const [clientRevenue, setClientRevenue] = useState(0);
   const [saving, setSaving] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
+  // RT-142: Green checkmark animation on Log Order button
+  const [orderSaved, setOrderSaved] = useState(false);
 
   // Form state for add/edit
   const [form, setForm] = useState({
@@ -295,7 +297,9 @@ export default function CateringTrackerPage() {
         body: JSON.stringify({ clientId: selectedClient.id, ...orderForm, totalAmount: parseFloat(orderForm.totalAmount) }),
       });
       if (!res.ok) throw new Error();
-      showToast('Order logged.', 'success');
+      showToast(`Order logged for ${selectedClient?.clientName}: $${parseFloat(orderForm.totalAmount).toFixed(2)}`, 'success');
+      setOrderSaved(true);
+      setTimeout(() => setOrderSaved(false), 2000);
       closeModal();
       fetchClients();
     } catch {
@@ -803,8 +807,13 @@ export default function CateringTrackerPage() {
                 </div>
                 <div className={styles.modalActions}>
                   <button className={styles.modalCancel} onClick={closeModal}>Cancel</button>
-                  <button className={styles.modalSave} onClick={handleLogOrder} disabled={saving}>
-                    {saving ? 'Saving...' : 'Log Order'}
+                  <button
+                    className={styles.modalSave}
+                    onClick={handleLogOrder}
+                    disabled={saving}
+                    style={orderSaved ? { background: '#16a34a', transition: 'background 0.2s' } : {}}
+                  >
+                    {orderSaved ? '✓ Saved!' : saving ? 'Saving...' : 'Log Order'}
                   </button>
                 </div>
               </>
