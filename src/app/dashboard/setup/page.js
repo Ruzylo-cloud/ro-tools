@@ -7,8 +7,10 @@ import { searchStores, getStoresForDM, getStoreForRO } from '@/lib/store-directo
 import styles from './page.module.css';
 
 const DEFAULT_ADMIN_EMAILS = [
+  'chris@jmvalley.com',
   'david@jmvalley.com',
   'bethany@jmvalley.com',
+  'daniel@jmvalley.com',
   'brittany@jmvalley.com',
 ];
 

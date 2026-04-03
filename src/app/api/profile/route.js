@@ -21,9 +21,14 @@ export async function GET() {
 
   const isAdmin = isSuperAdmin(session.email) || isDefaultAdmin(session.email) || (profile?.role === 'administrator' && profile?.roleApproved === true);
 
+  // For super/default admins, ensure the response reflects admin role even if stored profile says otherwise
+  const effectiveProfile = profile && isAdmin && profile.role !== 'administrator'
+    ? { ...profile, role: 'administrator', roleApproved: true, rolePending: false }
+    : profile;
+
   // RT-267: Short client-side cache (30s private)
   return NextResponse.json({
-    profile,
+    profile: effectiveProfile,
     isAdmin,
     isSuperAdmin: isSuperAdmin(session.email),
   }, { headers: { 'Cache-Control': 'private, max-age=30, stale-while-revalidate=60' } });
