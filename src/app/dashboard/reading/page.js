@@ -1113,55 +1113,338 @@ const BOOKS = [
 
 const DEFAULT_FAVORITES = ['atomic-habits', 'traction', 'multi-unit-leadership', 'unreasonable-hospitality', 'leaders-eat-last'];
 
-// RT-180: Quiz questions per book (4 per book, multiple choice with correct answer index)
+// Quiz questions per book (20 per book, 90% = 18/20 to pass — all answers found in this page's content)
+const QUIZ_PASS_THRESHOLD = 0.9; // 90% — need 18/20 to pass
 const BOOK_QUIZZES = {
   'atomic-habits': [
     { q: 'James Clear says you do not rise to your goals, you fall to the level of your ___.', opts: ['Habits', 'Systems', 'Motivation', 'Discipline'], a: 1 },
-    { q: 'The 1% improvement philosophy means a 1% daily gain compounds to roughly how much in a year?', opts: ['37x better', '10x better', '100x better', '3x better'], a: 0 },
-    { q: 'Which of the Four Laws is "Make It Easy"?', opts: ['1st Law', '2nd Law', '3rd Law', '4th Law'], a: 2 },
+    { q: 'A 1% daily improvement compounds to roughly how much better after one year?', opts: ['37x better', '10x better', '100x better', '3x better'], a: 0 },
+    { q: 'Which of the Four Laws of behavior change is "Make It Easy"?', opts: ['1st Law', '2nd Law', '3rd Law', '4th Law'], a: 2 },
     { q: 'Identity-based habits start with asking: who do I want to ___?', opts: ['Achieve', 'Become', 'Impress', 'Manage'], a: 1 },
+    { q: 'Habit stacking format is: After I [current habit], I will ___.', opts: ['Rest', 'Perform a new habit', 'Reward myself', 'Review goals'], a: 1 },
+    { q: 'The Plateau of Latent Potential means habits appear to make no difference until you cross a ___.', opts: ['Goal line', 'Critical threshold', 'Comfort zone', 'Mindset shift'], a: 1 },
+    { q: 'Pointing-and-Calling raises habit awareness from ___ to conscious.', opts: ['Emotional', 'Nonconscious', 'Physical', 'Behavioral'], a: 1 },
+    { q: 'The Cardinal Rule of Behavior Change: what is immediately rewarded is ___.', opts: ['Forgotten', 'Repeated', 'Questioned', 'Improved'], a: 1 },
+    { q: 'Clear says the most effective way to change your habits is to focus on who you wish to ___.', opts: ['Achieve', 'Impress', 'Become', 'Manage'], a: 2 },
+    { q: 'The 1st Law of Behavior Change — Make It Obvious — starts with ___.', opts: ['Reward', 'Awareness', 'Action', 'Identity'], a: 1 },
+    { q: 'Clear says the 2nd Law (Make It Attractive) works because we adopt habits that are ___ by our culture.', opts: ['Required', 'Praised and approved', 'Tracked', 'Scheduled'], a: 1 },
+    { q: 'Habit formation is the process by which a behavior becomes more ___ through repetition.', opts: ['Creative', 'Automatic', 'Social', 'Scheduled'], a: 1 },
+    { q: 'Every action you take is a ___ for the type of person you wish to become.', opts: ['Statement', 'Vote', 'Promise', 'Goal'], a: 1 },
+    { q: 'Clear\'s systems-over-goals insight means: systems are about the ___ that lead to results.', opts: ['Habits', 'Processes', 'Goals', 'Metrics'], a: 1 },
+    { q: 'Which law says: "What is immediately rewarded is repeated; what is immediately punished is avoided"?', opts: ['1st Law', '2nd Law', '3rd Law', '4th Law'], a: 3 },
+    { q: 'The Habit Scorecard in practice involves writing down daily habits and ___ them each day.', opts: ['Skipping', 'Checking off', 'Measuring in detail', 'Emailing to your boss'], a: 1 },
+    { q: 'To make good habits obvious, Clear recommends putting cues ___ in your environment.', opts: ['Hidden away', 'Prominently visible', 'On your phone', 'In your head'], a: 1 },
+    { q: 'Clear says: "Goals are about the results you want to achieve. Systems are about the ___ that lead to those results."', opts: ['Resources', 'Processes', 'People', 'Schedules'], a: 1 },
+    { q: 'Removing friction from desired behaviors is a key strategy under which law?', opts: ['Make It Obvious', 'Make It Attractive', 'Make It Easy', 'Make It Satisfying'], a: 2 },
+    { q: 'The Plateau of Latent Potential is also described as the ___ where habits compound before becoming visible.', opts: ['Learning curve', 'Valley of disappointment', 'Growth phase', 'Habit loop'], a: 1 },
   ],
   'high-performance-habits': [
     { q: 'How many habits does Brendon Burchard identify for high performance?', opts: ['4', '5', '6', '7'], a: 2 },
-    { q: 'Which habit involves finding deeper meaning and urgency in your daily work?', opts: ['Seek Clarity', 'Generate Energy', 'Raise Necessity', 'Develop Influence'], a: 2 },
+    { q: 'Which habit involves finding deeper meaning and urgency in daily work?', opts: ['Seek Clarity', 'Generate Energy', 'Raise Necessity', 'Develop Influence'], a: 2 },
     { q: 'High performers manage their time AND their ___.', opts: ['Money', 'Transitions', 'Team', 'Goals'], a: 1 },
     { q: 'Demonstrating courage means taking action despite ___.', opts: ['Success', 'Praise', 'Fear', 'Resources'], a: 2 },
+    { q: 'High performers are clear on what will bring them the greatest ___.', opts: ['Salary', 'Fame', 'Meaning', 'Control'], a: 2 },
+    { q: 'Developing Influence means challenging people to grow and giving them ___.', opts: ['Orders', 'Confidence', 'Warnings', 'Deadlines'], a: 1 },
+    { q: 'The secret to productivity for high performers is identifying the ___ that matter.', opts: ['People', 'Outputs', 'Systems', 'Meetings'], a: 1 },
+    { q: 'High performers don\'t stumble into greatness — they ___ these six habits daily.', opts: ['Avoid', 'Practice', 'Teach', 'Measure'], a: 1 },
+    { q: 'Generating Energy includes managing your ___, emotional states, and physical wellbeing.', opts: ['Calendar', 'Transitions', 'Budget', 'Team size'], a: 1 },
+    { q: 'Burchard says high performers share their ideas, stand up for others — they demonstrate ___.', opts: ['Intelligence', 'Courage', 'Authority', 'Patience'], a: 1 },
+    { q: 'Raising Necessity means associating a deeper level of ___ with daily activities.', opts: ['Stress', 'Meaning and urgency', 'Competition', 'Recognition'], a: 1 },
+    { q: 'The six habits are described as ___ habits — not natural traits.', opts: ['Inherited', 'Deliberate', 'Effortless', 'Automatic'], a: 1 },
+    { q: 'High performers shape how others think about ___ and their abilities.', opts: ['The company', 'Themselves', 'The competition', 'The future'], a: 1 },
+    { q: 'Seek Clarity means being clear on who you want to be AND how you want to ___.', opts: ['Earn more', 'Interact with others', 'Be remembered', 'Lead meetings'], a: 1 },
+    { q: 'Burchard\'s research found that the six habits were consistently practiced by ___ across all fields.', opts: ['Beginners', 'Top performers', 'Executives only', 'Young leaders'], a: 1 },
+    { q: 'High performers focus on producing quality work in the output areas that ___.', opts: ['Are easiest', 'Matter most', 'Others ignore', 'Take least time'], a: 1 },
+    { q: 'Increase Productivity is about focusing obsessively on outputs, not on being ___.', opts: ['Strategic', 'Busy', 'Visible', 'Liked'], a: 1 },
+    { q: 'To generate energy when needed, high performers have mastered the art of managing their ___.', opts: ['Schedule blocks', 'Emotional and physical state', 'Staff assignments', 'Meeting agendas'], a: 1 },
+    { q: 'Burchard says if you feel that what you\'re doing truly matters, you perform at a ___ level.', opts: ['More comfortable', 'Higher', 'Steadier', 'Different'], a: 1 },
+    { q: 'The sixth habit — demonstrating courage — includes doing the right thing even when it\'s ___.', opts: ['Efficient', 'Convenient', 'Hard', 'Profitable'], a: 2 },
   ],
   'multi-unit-leadership': [
     { q: 'Jim Sullivan says the biggest career leap in restaurants is going from single-unit to ___ management.', opts: ['Corporate', 'Franchise', 'Multi-unit', 'Regional'], a: 2 },
     { q: 'Sullivan recommends investing 80% of development time on your ___.', opts: ['Weakest performers', 'Top performers', 'Middle performers', 'Newest hires'], a: 1 },
-    { q: 'What is the difference between delegation and abdication?', opts: ['Delegation is for big tasks', 'Delegation has clear expectations + deadline', 'Abdication is better for managers', 'They mean the same thing'], a: 1 },
+    { q: 'Delegation includes clear expectations, resources, and a deadline. Abdication is ___.', opts: ['Better for complex tasks', 'Dumping a task and hoping for the best', 'The same as delegation', 'Preferred by MULs'], a: 1 },
     { q: 'The 4th stage of multi-unit development is:', opts: ['Doer', 'Coach', 'Leader', 'Supervisor'], a: 2 },
+    { q: 'Multi-unit leaders manage the ___ who manage the restaurant.', opts: ['Systems', 'People', 'Budget', 'Schedule'], a: 1 },
+    { q: 'Every store visit should have a purpose, a plan, and a ___.', opts: ['Scorecard', 'Follow-up', 'Celebration', 'Critique'], a: 1 },
+    { q: 'Consistency is described as the ___ of multi-unit leadership.', opts: ['Foundation', 'Goal', 'Currency', 'Challenge'], a: 2 },
+    { q: 'Your success as a MUL is determined by the quality of your ___.', opts: ['Menu', 'General managers', 'Marketing', 'Store design'], a: 1 },
+    { q: 'The best MULs don\'t just inspect stores — they inspect AND ___ simultaneously.', opts: ['Report', 'Develop', 'Audit', 'Score'], a: 1 },
+    { q: 'Stage 1 of multi-unit development (Doer) means the leader says "I ___ it."', opts: ['Delegate', 'Watch you do', 'Do', 'Coach you to do'], a: 2 },
+    { q: 'Stage 2 of multi-unit development (Supervisor) means "I ___ you do it."', opts: ['Teach', 'Watch', 'Replace', 'Grade'], a: 1 },
+    { q: 'Sullivan says: customers don\'t care which location they visit — they expect the same ___ every time.', opts: ['Price', 'Quality, speed, and experience', 'Layout', 'Promotions'], a: 1 },
+    { q: 'What should a standardized store visit checklist include beyond inspection items?', opts: ['A closing time', 'A development conversation', 'A sales pitch', 'A social media post'], a: 1 },
+    { q: 'Sullivan recommends monthly ___ development sessions with your top ROs or SLs.', opts: ['Performance review', '1-on-1', 'Group training', 'Scorecard meeting'], a: 1 },
+    { q: 'Your "playbook" should document the ___ things that must happen the same way every day.', opts: ['5', '10', '20', '50'], a: 2 },
+    { q: 'Stage 3 of multi-unit development (Coach) means "I ___ you to do it."', opts: ['Observe', 'Grade', 'Develop', 'Watch'], a: 2 },
+    { q: 'Stage 4 of multi-unit development (Leader) means "I develop ___ who develop others."', opts: ['Systems', 'Leaders', 'Processes', 'Teams'], a: 1 },
+    { q: 'Sullivan says the delegation framework should include: what needs to be done, why it matters, what "done well" looks like, when it\'s due, and what ___ they need.', opts: ['Pay they get', 'Support', 'Approval', 'Recognition'], a: 1 },
+    { q: 'The multi-unit leader\'s primary job is not managing operations — it\'s managing ___.', opts: ['Schedules', 'People who manage operations', 'Customers', 'Inventory'], a: 1 },
+    { q: 'Sullivan says top multi-unit leaders develop their ___ performers most, not their bottom ones.', opts: ['Average', 'Newest', 'Top', 'Weakest'], a: 2 },
   ],
   'traction': [
     { q: 'EOS stands for:', opts: ['Employee Operations System', 'Entrepreneurial Operating System', 'Executive Outcomes Strategy', 'Essential Operations Standard'], a: 1 },
-    { q: 'In EOS, the "Visionary" role is best paired with a ___', opts: ['Technician', 'Integrator', 'Manager', 'Director'], a: 1 },
+    { q: 'The Level 10 Meeting agenda begins with which item?', opts: ['Rock review', 'Scorecard', 'Segue', 'IDS'], a: 2 },
     { q: 'EOS has how many key components?', opts: ['4', '5', '6', '8'], a: 2 },
-    { q: 'Rocks in EOS are your top ___ priorities for the quarter.', opts: ['2-3', '3-5', '5-7', '1-2'], a: 1 },
+    { q: 'Rocks in EOS are your top priorities for the ___.', opts: ['Day', 'Week', 'Quarter', 'Year'], a: 2 },
+    { q: 'IDS stands for Identify, Discuss, and ___.', opts: ['Share', 'Schedule', 'Solve', 'Summarize'], a: 2 },
+    { q: 'A scorecard in EOS should have ___ weekly numbers.', opts: ['1–3', '5–15', '20–30', '50+'], a: 1 },
+    { q: 'The Accountability Chart ensures every seat is filled by the right person in the right ___.', opts: ['Building', 'Seat', 'Time', 'Role'], a: 1 },
+    { q: 'Wickman says if you can\'t measure it, you can\'t ___ it.', opts: ['Grow', 'Manage', 'Scale', 'Improve'], a: 1 },
+    { q: 'The six EOS components include Vision, People, Data, Issues, Process, and ___.', opts: ['Goals', 'Traction', 'Systems', 'Revenue'], a: 1 },
+    { q: 'IDS forces a solution to issues in ___ rather than hours of circular discussion.', opts: ['Seconds', 'Minutes', 'Days', 'Weeks'], a: 1 },
+    { q: 'Rocks should be the ___ most important things that must get done this quarter.', opts: ['1 to 2', '3 to 7', '10 to 15', '20+'], a: 1 },
+    { q: 'A scorecard gives you an absolute ___ on your business each week.', opts: ['Report', 'Pulse', 'Summary', 'Analysis'], a: 1 },
+    { q: 'An A-player in EOS is someone who shares your ___ values and has the skill and desire for the role.', opts: ['Financial', 'Core', 'Personal', 'Operational'], a: 1 },
+    { q: 'The Level 10 Meeting is described as a ___ pulse check that keeps the leadership team aligned.', opts: ['Daily', 'Monthly', 'Weekly', 'Quarterly'], a: 2 },
+    { q: 'L10 stands for Level ___ Meeting in EOS.', opts: ['5', '8', '10', '15'], a: 2 },
+    { q: 'Wickman says most business problems come down to six key ___.', opts: ['People', 'Components', 'Processes', 'Issues'], a: 1 },
+    { q: 'When everyone knows their Rocks, the whole organization moves in the same ___.', opts: ['Speed', 'Direction', 'Style', 'Budget'], a: 1 },
+    { q: 'The L10 agenda item "to-do list" reviews action items from the ___ meeting.', opts: ['Last week\'s', 'Last month\'s', 'Last quarter\'s', 'Today\'s'], a: 0 },
+    { q: 'Wickman says "strengthen all six components and you build an ___ organization."', opts: ['Efficient', 'Unstoppable', 'Scalable', 'Profitable'], a: 1 },
+    { q: 'The EOS scorecard metrics suggested for a store include sales, labor %, food cost %, and ___.', opts: ['Revenue growth', 'Customer complaints', 'Investor returns', 'Market share'], a: 1 },
   ],
   'leaders-eat-last': [
-    { q: 'Sinek\'s "Circle of Safety" refers to:', opts: ['A product launch strategy', 'The physical store perimeter', 'A culture of belonging and trust', 'Military training protocol'], a: 2 },
-    { q: 'Which chemical does Sinek associate with the feeling of belonging?', opts: ['Dopamine', 'Cortisol', 'Serotonin', 'Oxytocin'], a: 3 },
+    { q: 'Sinek\'s "Circle of Safety" creates a culture of ___ and trust.', opts: ['Competition', 'Belonging', 'Accountability', 'Recognition'], a: 1 },
+    { q: 'Which chemical does Sinek associate with the feeling of belonging and trust?', opts: ['Dopamine', 'Cortisol', 'Serotonin', 'Oxytocin'], a: 3 },
     { q: 'The title "Leaders Eat Last" comes from which organization\'s practice?', opts: ['Special Forces', 'US Marine Corps', 'Navy SEALs', 'Army Rangers'], a: 1 },
-    { q: 'What does Sinek say destroys trust in organizations?', opts: ['High standards', 'Self-interest over team', 'Direct feedback', 'Clear goals'], a: 1 },
+    { q: 'Sinek says self-interest over team is what destroys ___ in organizations.', opts: ['Revenue', 'Trust', 'Culture', 'Morale'], a: 1 },
+    { q: 'When people feel safe inside the organization, they face external dangers ___.', opts: ['Reluctantly', 'More effectively', 'Alone', 'With anxiety'], a: 1 },
+    { q: 'Leadership is not about being in charge — it\'s about taking care of those ___.', opts: ['You manage', 'In your charge', 'Who perform best', 'Who follow rules'], a: 1 },
+    { q: 'When the team feels threatened, which chemical floods their system making them self-protective?', opts: ['Dopamine', 'Serotonin', 'Cortisol', 'Oxytocin'], a: 2 },
+    { q: 'The true price of leadership is placing the needs of ___ above your own.', opts: ['Shareholders', 'Others', 'Your boss', 'Customers'], a: 1 },
+    { q: 'When leaders create safety, teams produce ___ and trust.', opts: ['Dopamine', 'Serotonin', 'Cortisol', 'Oxytocin'], a: 3 },
+    { q: 'Sinek says great leaders truly ___ about those they are privileged to lead.', opts: ['Know everything', 'Care', 'Monitor', 'Challenge'], a: 1 },
+    { q: 'When people have to manage dangers from ___ the organization, they become less able to face outside challenges.', opts: ['Outside', 'Above', 'Inside', 'Below'], a: 2 },
+    { q: 'The biology of trust chapter links the Circle of Safety to which chemical response?', opts: ['Adrenaline for performance', 'Oxytocin for trust and cooperation', 'Dopamine for reward', 'Cortisol for focus'], a: 1 },
+    { q: 'Sinek says some stores thrive while others churn through employees because of how leaders create ___.', opts: ['Profit', 'Safety', 'Schedules', 'Rules'], a: 1 },
+    { q: 'Taking the worst shift once a month demonstrates which leadership principle?', opts: ['Authority', 'Leaders eat last', 'Safety protocols', 'Accountability'], a: 1 },
+    { q: 'Responding to a mistake with "What happened?" instead of "Why did you do that?" reinforces ___.', opts: ['Authority', 'Accountability', 'Safety before accountability', 'Policy compliance'], a: 2 },
+    { q: 'When the Circle of Safety expands, the team naturally combines ___ and strengths.', opts: ['Goals and values', 'Talents and strengths', 'Skills and metrics', 'Ideas and systems'], a: 1 },
+    { q: 'Sinek says how you treat people on their ___ day defines your leadership.', opts: ['Best', 'Busiest', 'Worst', 'First'], a: 2 },
+    { q: 'Protection from above means leaders shield their teams from ___ within the organization.', opts: ['Customers', 'Competition', 'Dangers', 'Auditors'], a: 2 },
+    { q: 'Leaders who create a Circle of Safety allow teams to focus on threats ___ rather than internal politics.', opts: ['From customers', 'From competition and outside', 'From regulators', 'From schedules'], a: 1 },
+    { q: 'Sinek says the best store leaders serve their ___ before themselves.', opts: ['Customers', 'Investors', 'Team', 'Community'], a: 2 },
   ],
   'unreasonable-hospitality': [
     { q: 'Will Guidara describes hospitality as a ___, not a monologue.', opts: ['Performance', 'Dialogue', 'Transaction', 'Formula'], a: 1 },
-    { q: 'The book\'s title comes from Guidara\'s philosophy of being:', opts: ['Very strict', 'Creatively over-the-top in service', 'Cost-effective', 'Highly organized'], a: 1 },
-    { q: '"One size fits one" means:', opts: ['All guests get the same treatment', 'Treat each guest as an individual', 'Small portions for everyone', 'One server per table'], a: 1 },
-    { q: 'Guidara\'s restaurant Eleven Madison Park was ranked #1 in:', opts: ['2010', '2015', '2017', '2020'], a: 2 },
+    { q: 'The book\'s title reflects Guidara\'s philosophy of being creatively ___ in service.', opts: ['Efficient', 'Strict', 'Over-the-top', 'Consistent'], a: 2 },
+    { q: '"One size fits one" means treating each guest as ___.', opts: ['Part of a segment', 'An individual', 'A VIP', 'A regular'], a: 1 },
+    { q: 'Eleven Madison Park was ranked #1 restaurant in the world in ___.', opts: ['2010', '2015', '2017', '2020'], a: 2 },
+    { q: 'Guidara says the biggest opportunities to blow people\'s minds came not from the food but from the way you made them ___.', opts: ['Spend more', 'Feel', 'Come back', 'Wait'], a: 1 },
+    { q: 'A "legend" is a moment of extraordinary hospitality that guests ___.', opts: ['Complained about', 'Told stories about for years', 'Posted on Yelp', 'Forgot quickly'], a: 1 },
+    { q: 'True hospitality is treating everyone as ___ — not treating everyone the same.', opts: ['A transaction', 'An individual', 'A repeat customer', 'Part of a system'], a: 1 },
+    { q: 'Guidara says every rule has an exception. The best hospitality comes from knowing when to ___ the rules for the guest.', opts: ['Enforce', 'Break', 'Explain', 'Review'], a: 1 },
+    { q: 'Hospitality is a ___, which means it requires listening and responding to what people need.', opts: ['Script', 'Dialogue', 'System', 'Transaction'], a: 1 },
+    { q: 'The "hot dog story" demonstrates breaking every rule of fine dining to give someone ___.', opts: ['A discount', 'Exactly what they didn\'t know they wanted', 'A longer wait', 'Extra courses'], a: 1 },
+    { q: 'Legends at Guidara\'s restaurant didn\'t cost much, but they were priceless in their ___.', opts: ['Cost efficiency', 'Impact', 'Frequency', 'Media coverage'], a: 1 },
+    { q: 'Guidara says "one size fits one" means the best experiences feel ___ crafted.', opts: ['Efficiently', 'Systematically', 'Personally', 'Quickly'], a: 2 },
+    { q: 'At Jersey Mike\'s, applying unreasonable hospitality could look like remembering a customer\'s ___ and usual order.', opts: ['Account number', 'Name', 'Birthday', 'Address'], a: 1 },
+    { q: 'Guidara says a complaint is actually an ___ for a legendary recovery.', opts: ['Obstacle', 'Opportunity', 'Exception', 'Interruption'], a: 1 },
+    { q: 'Guidara\'s philosophy says the "Black Sheep" chapter is about knowing when to break the rules ___.', opts: ['For efficiency', 'In service of the guest', 'For cost savings', 'For consistency'], a: 1 },
+    { q: 'Training crew to ask one question beyond the order — "First time here?" — creates ___ connection.', opts: ['Transactional', 'Genuine', 'Scripted', 'Required'], a: 1 },
+    { q: 'Guidara says listening to what people need and responding in a way that makes them feel ___ is the core of hospitality.', opts: ['Impressed', 'Seen and valued', 'Surprised', 'Rewarded'], a: 1 },
+    { q: 'The hospitality approach described as "unreasonable" is one that is ___ the normal standard.', opts: ['Below', 'At', 'Slightly above', 'Creatively and dramatically above'], a: 3 },
+    { q: '"Setting the Table" chapter argues hospitality requires understanding what people ___ before responding.', opts: ['Order', 'Need', 'Expect', 'Complain about'], a: 1 },
+    { q: 'Guidara says doing something unexpected — even breaking rules of fine dining — can create a ___ moment.', opts: ['Compliance', 'Legendary hospitality', 'Safety issue', 'Refund'], a: 1 },
   ],
   'e-myth-revisited': [
-    { q: 'The "E-Myth" is the mistaken belief that technical skill means you understand a ___.', opts: ['Market', 'Business', 'System', 'Customer'], a: 1 },
+    { q: 'The "E-Myth" is the mistaken belief that technical skill in a job means you understand the ___ built around that job.', opts: ['Market', 'Business', 'System', 'Customer'], a: 1 },
     { q: 'Gerber says most small businesses fail because which personality runs them?', opts: ['Entrepreneur', 'Manager', 'Technician', 'Visionary'], a: 2 },
-    { q: 'The franchise prototype concept means building a business that works ___.', opts: ['For large companies', 'Without you', 'With minimal staff', 'In any market'], a: 1 },
-    { q: 'The three-step Business Development Process is: Innovate, Quantify, and ___', opts: ['Systematize', 'Orchestrate', 'Delegate', 'Optimize'], a: 1 },
+    { q: 'The franchise prototype concept means building a business that works without ___.', opts: ['Investment', 'You', 'Staff', 'Marketing'], a: 1 },
+    { q: 'The three-step Business Development Process is: Innovate, Quantify, and ___.', opts: ['Systematize', 'Orchestrate', 'Delegate', 'Optimize'], a: 1 },
+    { q: 'Gerber says if you have to be there for it to work, you don\'t own a business — you own a ___.', opts: ['Franchise', 'Job', 'System', 'Brand'], a: 1 },
+    { q: 'Every business owner contains three personalities. Which is the organizer and planner?', opts: ['Entrepreneur', 'Manager', 'Technician', 'Visionary'], a: 1 },
+    { q: 'The Technician personality creates a business that cannot ___.', opts: ['Make money', 'Scale or survive the owner\'s absence', 'Hire well', 'Serve customers'], a: 1 },
+    { q: 'Gerber says your business should exist to serve your ___, not the other way around.', opts: ['Investors', 'Life', 'Brand', 'Goals'], a: 1 },
+    { q: 'The Entrepreneur personality is the ___, the creator, the visionary.', opts: ['Manager', 'Dreamer', 'Executor', 'Planner'], a: 1 },
+    { q: 'Gerber says the fatal assumption is: if you understand the ___ of a business, you understand a business.', opts: ['Customer', 'Market', 'Technical work', 'Finances'], a: 2 },
+    { q: 'The franchise model forces you to build a business that works by documenting every ___.', opts: ['Employee review', 'Process and system', 'Sales figure', 'Customer complaint'], a: 1 },
+    { q: 'Innovate, then Quantify the results, then ___ so anyone can replicate it.', opts: ['Delegate', 'Orchestrate', 'Document', 'Automate'], a: 1 },
+    { q: 'Gerber calls a business that requires your constant presence "the worst ___ in the world."', opts: ['Investment', 'Job', 'System', 'Partnership'], a: 1 },
+    { q: 'The test of a great business system is that your ___ employee can execute it correctly from documentation alone.', opts: ['Best', 'Most experienced', 'Newest', 'Brightest'], a: 2 },
+    { q: 'Working ON the business means spending time ___, not making subs or solving daily problems.', opts: ['Recruiting', 'Improving systems', 'Doing marketing', 'Checking sales'], a: 1 },
+    { q: 'The "Turn-Key Revolution" means the business runs because of ___, not because of heroic individuals.', opts: ['Revenue', 'Systems', 'Leadership', 'Customers'], a: 1 },
+    { q: 'Gerber\'s "Primary Aim" chapter challenges operators to ask: what do you want your ___ to look like?', opts: ['Balance sheet', 'Life', 'Store', 'Team'], a: 1 },
+    { q: 'A store that depends on the manager\'s memory and hustle ___ scale.', opts: ['Can quickly', 'Cannot', 'Will slowly', 'Should always'], a: 1 },
+    { q: 'Documenting a process so clearly that anyone can follow it is the foundation of ___.', opts: ['The franchise prototype', 'The E-Myth', 'Abdication', 'The technician trap'], a: 0 },
+    { q: 'Gerber says in a healthy business, which three personalities are present in ___.', opts: ['Sequence', 'Balance', 'Competition', 'Isolation'], a: 1 },
   ],
   'no-excuses': [
     { q: 'Tracy says delaying gratification in the short term is the prerequisite for:', opts: ['Happiness', 'Success', 'Respect', 'Balance'], a: 1 },
     { q: '"Leaders are made, not born" means leadership is the result of:', opts: ['Natural talent', 'Doing what leaders do repeatedly', 'Education', 'Connections'], a: 1 },
-    { q: 'Tracy says every minute spent planning saves how many in execution?', opts: ['5', '8', '10', '15'], a: 2 },
-    { q: 'Self-discipline is best described as the ability to:', opts: ['Work longer hours', 'Control your emotions always', 'Select the most important task and execute', 'Ignore distractions'], a: 2 },
+    { q: 'Tracy says every minute spent planning saves how many minutes in execution?', opts: ['5', '8', '10', '15'], a: 2 },
+    { q: 'Self-discipline is the ability to select the most important task and ___ it quickly and well.', opts: ['Delegate', 'Execute', 'Delay', 'Simplify'], a: 1 },
+    { q: 'Tracy says your ability to select your most important task will have more impact than any other ___ you can develop.', opts: ['Resource', 'Quality or skill', 'Connection', 'Strategy'], a: 1 },
+    { q: 'The habit of saving and investing before spending is the foundation of ___.', opts: ['Discipline', 'Financial success', 'Time management', 'Team building'], a: 1 },
+    { q: 'Tracy\'s definition of self-discipline includes delaying short-term gratification for ___ rewards.', opts: ['Peer approval', 'Greater long-term', 'Recognition', 'Comfort'], a: 1 },
+    { q: 'According to Tracy, time management is really ___ management.', opts: ['Project', 'Life', 'Stress', 'Energy'], a: 1 },
+    { q: 'Tracy says: "The ability to discipline yourself to delay gratification is the ___ prerequisite for success."', opts: ['Optional', 'Indispensable', 'Sufficient', 'Initial'], a: 1 },
+    { q: 'No Excuses means eliminating "I can\'t because..." and replacing it with ___.', opts: ['"It\'s too hard"', '"How can I..."', '"Someone else should"', '"Let me think about it"'], a: 1 },
+    { q: 'Self-discipline and leadership means doing what ___ do, over and over, until it\'s natural.', opts: ['Followers', 'Leaders', 'Managers', 'Mentors'], a: 1 },
+    { q: 'Tracy says the self-discipline to complete a major task on time has more impact on your career than ___.', opts: ['Your title', 'Almost anything else', 'Your network', 'Your education'], a: 1 },
+    { q: 'For store operators, self-discipline means consistently completing ___ within 30 minutes of closing.', opts: ['The opening checklist', 'The closeout paperwork', 'The inventory', 'The staff review'], a: 1 },
+    { q: 'Tracy says holding yourself to the same standards as your team is an example of self-discipline applied to ___.', opts: ['Finance', 'Leadership', 'Operations', 'Hiring'], a: 1 },
+    { q: 'The chapter on self-discipline and work focuses on selecting the most important task at each ___.', opts: ['Month', 'Week', 'Moment', 'Shift'], a: 2 },
+    { q: 'Tracy says self-discipline is the foundation of ___ in every area of life and work.', opts: ['Wealth', 'Everything', 'Relationships', 'Health'], a: 1 },
+    { q: 'Starting each day by identifying your most important task and doing it first is called the ___ principle.', opts: ['Prioritization', '"Eat the Frog"', 'Self-discipline loop', 'Productivity habit'], a: 1 },
+    { q: 'Tracy says remove the phrase "I can\'t because..." for one ___ to break the excuse habit.', opts: ['Hour', 'Day', 'Week', 'Month'], a: 2 },
+    { q: 'Self-discipline and money includes paying ___ first, then your bills.', opts: ['Your team', 'Yourself', 'Your investors', 'Your taxes'], a: 1 },
+    { q: 'Tracy says great leaders are made by doing what leaders do, not by ___.', opts: ['Working hard', 'Natural talent or birth', 'Being liked', 'Getting promoted'], a: 1 },
+  ],
+  '21-laws-of-leadership': [
+    { q: 'The Law of the Lid states that your leadership ability determines your level of ___.', opts: ['Income', 'Effectiveness', 'Popularity', 'Knowledge'], a: 1 },
+    { q: 'The true measure of leadership is ___ — nothing more, nothing less.', opts: ['Authority', 'Influence', 'Title', 'Experience'], a: 1 },
+    { q: 'The Law of Process says leadership develops ___, not in a day.', opts: ['Naturally', 'Daily', 'Slowly', 'Randomly'], a: 1 },
+    { q: 'The Law of Buy-In says people buy into the ___ before the vision.', opts: ['System', 'Leader', 'Plan', 'Results'], a: 1 },
+    { q: 'The Law of Addition says leaders add value by ___ others.', opts: ['Challenging', 'Serving', 'Managing', 'Promoting'], a: 1 },
+    { q: 'The Law of Solid Ground states that ___ is the foundation of leadership.', opts: ['Results', 'Trust', 'Knowledge', 'Vision'], a: 1 },
+    { q: 'The Law of Navigation says leaders chart the course because they see ___ than others see.', opts: ['Less', 'More, farther, and before', 'Differently', 'Faster'], a: 1 },
+    { q: 'A leader\'s lasting value is measured by ___, according to the Law of Legacy.', opts: ['Revenue', 'Succession', 'Fame', 'Tenure'], a: 1 },
+    { q: 'The Law of Legacy says a life isn\'t significant except for its ___ on other lives.', opts: ['Demands', 'Impact', 'Length', 'Achievements'], a: 1 },
+    { q: 'The Law of the Lid means: the ___ the leadership, the greater the effectiveness.', opts: ['Stricter', 'Higher', 'Older', 'Calmer'], a: 1 },
+    { q: 'Maxwell says leadership develops ___ — what matters is what you do day after day.', opts: ['Instantly', 'Overnight', 'Daily over time', 'Through reading'], a: 2 },
+    { q: 'The Law of Influence: if you don\'t have influence, you will never be able to ___ others.', opts: ['Like', 'Lead', 'Manage', 'Train'], a: 1 },
+    { q: 'Trust is made possible by ___, and trust makes leadership possible.', opts: ['Authority', 'Character', 'Experience', 'Titles'], a: 1 },
+    { q: 'Maxwell says leaders see more, see farther, and see ___ before others see.', opts: ['Clearly', 'Better', 'Before / earlier', 'From above'], a: 2 },
+    { q: 'The Law of Buy-In means you earn credibility not by telling your vision but by showing your ___.', opts: ['Results', 'Character', 'Plan', 'Authority'], a: 1 },
+    { q: 'The Law of Addition says the bottom line in leadership isn\'t how far you advance ___ but others.', opts: ['The company', 'Yourself', 'The mission', 'Your team'], a: 1 },
+    { q: 'Maxwell says every leader has a "lid" — the ceiling on their store\'s potential set by their own ___.', opts: ['Budget', 'Leadership level', 'Experience', 'Team size'], a: 1 },
+    { q: 'Which law applies when a team member doesn\'t follow your direction because they don\'t trust you yet?', opts: ['Law of Legacy', 'Law of Solid Ground', 'Law of Navigation', 'Law of the Lid'], a: 1 },
+    { q: 'The Law of Process: what matters most is what you do ___, over the long haul.', opts: ['Once', 'Day after day', 'When inspired', 'Under pressure'], a: 1 },
+    { q: 'Maxwell says picking one law per week to focus on and evaluating yourself at the end is an example of ___.', opts: ['Law of Legacy', 'Deliberate leadership development', 'Law of Buy-In', 'Servant leadership'], a: 1 },
+  ],
+  'first-time-manager': [
+    { q: 'The skills that made you great as an individual contributor are ___ the skills that make you a great manager.', opts: ['The same as', 'Not the same as', 'More important than', 'Less relevant than'], a: 1 },
+    { q: 'As a new manager, you earn trust through consistency, transparency, and ___.', opts: ['Authority', 'Following through on commitments', 'Years of experience', 'Being liked'], a: 1 },
+    { q: 'McCormick says the conversation you\'re avoiding is usually the conversation you most ___.', opts: ['Should document', 'Need to have', 'Can postpone', 'Should escalate'], a: 1 },
+    { q: 'Your first 90 days set the tone. McCormick says to ___ more than you talk.', opts: ['Document', 'Listen', 'Challenge', 'Teach'], a: 1 },
+    { q: 'Delegating frees you to focus on ___ responsibilities.', opts: ['Easier', 'Lower-level', 'Higher-level', 'Fewer'], a: 2 },
+    { q: 'When promoted over former peers, be fair, consistent, and clear about your ___.', opts: ['Goals', 'New role', 'Timeline', 'Authority level'], a: 1 },
+    { q: 'McCormick says observe before you ___ in your first 90 days.', opts: ['Listen', 'Change', 'Report', 'Hire'], a: 1 },
+    { q: 'Delegating is about developing team capabilities while freeing yourself — not about ___ work.', opts: ['Hard', 'Dumping', 'Splitting', 'Reducing'], a: 1 },
+    { q: 'A new manager must learn to achieve results ___, not by doing everything themselves.', opts: ['Quickly', 'Through others', 'Alone', 'Systematically'], a: 1 },
+    { q: 'The difficult conversation framework involves: describe the behavior, explain the ___, ask for perspective, agree on next steps.', opts: ['Solution', 'Impact', 'Policy', 'Consequence'], a: 1 },
+    { q: 'During your first 90 days, McCormick says: ___ before you change.', opts: ['Report', 'Plan', 'Observe', 'Train'], a: 2 },
+    { q: 'McCormick says build ___ before you enforce rules in your first 90 days.', opts: ['Systems', 'Relationships', 'Authority', 'Metrics'], a: 1 },
+    { q: 'Address issues ___, directly, and with compassion.', opts: ['Once', 'Early', 'Gently', 'Formally'], a: 1 },
+    { q: 'Managing former peers requires redefining the relationship without ___ it.', opts: ['Improving', 'Destroying', 'Formalizing', 'Expanding'], a: 1 },
+    { q: 'A "New Manager Checklist" for your store should cover things every new shift lead needs to know in their first ___ days.', opts: ['7', '14', '30', '60'], a: 2 },
+    { q: 'A weekly ___ with your newest manager asking "What\'s your biggest challenge?" builds trust and growth.', opts: ['Performance review', '15-minute check-in', 'Email update', 'Group meeting'], a: 1 },
+    { q: 'The road to management chapter warns that technical excellence and ___ management are completely different skills.', opts: ['Team', 'Business', 'Time', 'Project'], a: 1 },
+    { q: 'Trust as a new manager is earned through ___ in your behavior day after day.', opts: ['Excellence', 'Consistency', 'Authority', 'Proximity'], a: 1 },
+    { q: 'McCormick says first-time managers often fail because they try to ___ too quickly before building relationships.', opts: ['Train', 'Delegate', 'Change things', 'Hire'], a: 2 },
+    { q: 'When something goes wrong, the best approach for a new manager is to give a ___ assignment and coach the person through it.', opts: ['Standard', 'Stretch', 'Familiar', 'Solo'], a: 1 },
+  ],
+  'the-one-truth': [
+    { q: 'Gordon\'s One Truth is that everything comes down to your ___.', opts: ['Habits', 'State of mind', 'Network', 'Work ethic'], a: 1 },
+    { q: 'Oneness is the feeling of ___ to your team, purpose, and something larger than yourself.', opts: ['Superiority', 'Connection', 'Independence', 'Control'], a: 1 },
+    { q: 'Gordon says fear ___, while love unites.', opts: ['Motivates', 'Divides', 'Protects', 'Strengthens'], a: 1 },
+    { q: 'Your energy as a leader is ___ — it spreads to your entire team.', opts: ['Private', 'Contagious', 'Irrelevant', 'Fixed'], a: 1 },
+    { q: 'When you lead from love and connection, people give their best because they ___.', opts: ['Have to', 'Want to', 'Are paid to', 'Are told to'], a: 1 },
+    { q: 'Gordon says connected teams measurably ___ disconnected ones on every metric.', opts: ['Match', 'Outperform', 'Mirror', 'Follow'], a: 1 },
+    { q: 'Gordon says the leader\'s state IS the ___ state.', opts: ['Customer\'s', 'Store\'s', 'Company\'s', 'Team\'s'], a: 1 },
+    { q: 'Separateness in the workplace shows up as politics, selfishness, disengagement, and ___.', opts: ['Growth', 'Blame', 'Turnover', 'Learning'], a: 1 },
+    { q: 'Gordon says the One Truth is not wishful thinking — it is ___.', opts: ['Spirituality', 'Neuroscience', 'Management theory', 'Philosophy'], a: 1 },
+    { q: 'The pre-shift ritual Gordon recommends involves shifting your ___ before you walk in the door.', opts: ['Schedule', 'State', 'Phone', 'Priorities'], a: 1 },
+    { q: 'Responding to a problem from fear uses ___, while love-based leadership produces discretionary effort.', opts: ['Growth mindset', 'Compliance', 'Culture', 'Connection'], a: 1 },
+    { q: 'Creating a "team wins" board where one positive thing is written each day is an example of building ___.', opts: ['Documentation', 'Oneness and gratitude', 'Accountability', 'Compliance'], a: 1 },
+    { q: 'Gordon\'s "Fear vs. Love" chapter argues fear-based management produces ___ but kills discretionary effort.', opts: ['Growth', 'Compliance', 'Loyalty', 'Excellence'], a: 1 },
+    { q: 'The Oneness vs. Separateness framework: Oneness produces ___ within the team.', opts: ['Competition', 'Belonging and shared purpose', 'Individual recognition', 'Formal processes'], a: 1 },
+    { q: 'Gordon says "State Changes Everything" — which practical technique can shift your state before a shift?', opts: ['Reviewing the schedule', 'Breath, gratitude, reframing', 'Checking sales numbers', 'Writing to-do lists'], a: 1 },
+    { q: 'When a crew member is rude to a customer, approaching the situation from love means addressing ___ first.', opts: ['The customer complaint', 'The crew member\'s value and dignity', 'The policy violation', 'The discipline process'], a: 1 },
+    { q: 'Gordon says "what changed, but this week has been different" — this shows the ___ effect of the leader\'s energy.', opts: ['Financial', 'Ripple / contagious', 'Random', 'Motivational'], a: 1 },
+    { q: 'Gordon says gratitude and connection are not soft activities — they are the ___ of a winning culture.', opts: ['Bonus', 'Infrastructure', 'Exception', 'Ideal'], a: 1 },
+    { q: 'The One Truth principle is that your ___ colors everything you see and determines how you respond.', opts: ['Paycheck', 'State of mind', 'Title', 'Experience'], a: 1 },
+    { q: 'Gordon says connection is not a luxury for store operators — it is a ___ variable.', opts: ['Soft', 'Performance', 'Optional', 'Emotional'], a: 1 },
+  ],
+  'eat-that-frog': [
+    { q: 'Your "frog" is the task that is most ___ and most likely to be avoided.', opts: ['Simple', 'Impactful', 'Enjoyable', 'Routine'], a: 1 },
+    { q: 'Tracy says 20% of your activities account for ___% of your results.', opts: ['50', '60', '80', '90'], a: 2 },
+    { q: 'In the ABCDE method, "D" tasks are ones you should ___.', opts: ['Do first', 'Delete', 'Delegate', 'Delay'], a: 2 },
+    { q: 'Single-handling means completing one task from start to finish without ___.', opts: ['Help', 'Diversion or distraction', 'A plan', 'Deadlines'], a: 1 },
+    { q: 'The Law of Three says ___ tasks produce 90% of the value you contribute.', opts: ['One', 'Two', 'Three', 'Five'], a: 2 },
+    { q: 'Creative procrastination means deliberately choosing to procrastinate on ___ activities.', opts: ['Important', 'Low-value', 'Team', 'Urgent'], a: 1 },
+    { q: 'Tracy says preparing thoroughly before starting a task helps you complete it ___.', opts: ['Perfectly', 'Faster', 'Alone', 'Correctly'], a: 1 },
+    { q: 'Key Result Areas are the 4–6 areas where you absolutely must perform well to ___.', opts: ['Get promoted', 'Succeed', 'Stay employed', 'Be respected'], a: 1 },
+    { q: 'The "E" in the ABCDE method stands for ___.', opts: ['Execute', 'Eliminate', 'Escalate', 'Evaluate'], a: 1 },
+    { q: 'Tracy says "A" tasks in the ABCDE method are ones you ___ do.', opts: ['Sometimes', 'Must', 'Should', 'Could'], a: 1 },
+    { q: 'The 80/20 rule applied to your team means the top ___ employees produce 80% of your best results.', opts: ['1', '2-3', '5-6', '10'], a: 1 },
+    { q: 'Tracy says block ___ minutes of uninterrupted time each day for your most important task.', opts: ['10', '20', '30', '60'], a: 2 },
+    { q: 'Identifying the one constraint most limiting your store\'s performance makes it your next ___.', opts: ['Problem', 'Rock / priority', 'Hire', 'Meeting topic'], a: 1 },
+    { q: 'Tracy says technology should be used to ___ your quality of life, not the other way around.', opts: ['Replace', 'Improve', 'Track', 'Document'], a: 1 },
+    { q: 'The daily "frog ritual" means writing your top ___ frogs on a sticky note before the store opens.', opts: ['1', '3', '5', '10'], a: 1 },
+    { q: 'The "C" in ABCDE stands for tasks that are ___ to do.', opts: ['Critical', 'Nice', 'Creative', 'Complex'], a: 1 },
+    { q: 'Apply 80/20 to your to-do list: how many items are really "E" — tasks you should ___.', opts: ['Delegate', 'Eliminate', 'Delay', 'Document'], a: 1 },
+    { q: 'Tracy says continuous learning means the manager who keeps ___ outperforms the one who stopped.', opts: ['Working', 'Learning', 'Delegating', 'Planning'], a: 1 },
+    { q: 'Tracy\'s key insight about "setting the table" is that ___ is the most important concept in personal productivity.', opts: ['Speed', 'Clarity', 'Energy', 'Focus'], a: 1 },
+    { q: 'A pre-shift preparation ritual of ___ minutes before the door opens sets priorities and confirms coverage.', opts: ['2', '5', '10', '30'], a: 2 },
+  ],
+  'radical-candor': [
+    { q: 'Radical Candor means caring ___ while challenging ___.', opts: ['Less / more', 'Personally / directly', 'Indirectly / gently', 'Sometimes / always'], a: 1 },
+    { q: 'Most management mistakes happen in the ___ quadrant.', opts: ['Radical Candor', 'Obnoxious Aggression', 'Ruinous Empathy', 'Manipulative Insincerity'], a: 2 },
+    { q: 'Ruinous Empathy means you care personally but fail to ___.', opts: ['Listen', 'Challenge directly', 'Set goals', 'Be available'], a: 1 },
+    { q: 'Obnoxious Aggression is challenging directly without ___.', opts: ['Authority', 'Caring personally', 'Evidence', 'A plan'], a: 1 },
+    { q: 'The worst quadrant — neither care nor challenge — is ___.', opts: ['Ruinous Empathy', 'Radical Candor', 'Manipulative Insincerity', 'Obnoxious Aggression'], a: 2 },
+    { q: 'Scott says start getting feedback before ___ it — model the behavior you want.', opts: ['Documenting', 'Giving', 'Requesting', 'Writing'], a: 1 },
+    { q: 'Praise should be specific and sincere. Criticism should be kind, clear, and ___.', opts: ['Private', 'Immediate', 'Written', 'Formal'], a: 1 },
+    { q: 'When you show vulnerability, feedback flows in ___ directions.', opts: ['One', 'Two', 'Three', 'All'], a: 3 },
+    { q: 'Radical Candor is NOT about being harsh — it\'s about caring enough to tell people the ___.', opts: ['Rules', 'Truth', 'Plan', 'Expectations'], a: 1 },
+    { q: 'Ruinous Empathy is seeing a problem and saying nothing because you don\'t want to hurt someone\'s ___.', opts: ['Performance', 'Feelings', 'Career', 'Status'], a: 1 },
+    { q: 'Manipulative Insincerity involves backstabbing, passive-aggressive behavior, and political ___.', opts: ['Awareness', 'Maneuvering', 'Sensitivity', 'Intelligence'], a: 1 },
+    { q: 'Using the Radical Candor framework, "I care about you AND the standard is..." addresses both dimensions of ___.', opts: ['Compliance', 'Care and challenge', 'Performance review', 'Discipline'], a: 1 },
+    { q: 'Scott says: both praise and criticism should be aimed at making the person ___, not making you feel powerful.', opts: ['Comfortable', 'Better', 'Compliant', 'Accountable'], a: 1 },
+    { q: 'The Obnoxious Aggression quadrant is sometimes called "just being honest" but it lacks ___.', opts: ['Evidence', 'Caring personally', 'Directness', 'Clarity'], a: 1 },
+    { q: 'Posting the Radical Candor 2x2 matrix in the office and referencing it in coaching conversations is an example of ___.', opts: ['Compliance training', 'Building a feedback culture', 'Performance documentation', 'HR protocol'], a: 1 },
+    { q: 'Scott recommends asking your shift leads: "What\'s one thing I could do ___ as your manager?"', opts: ['Faster', 'Better', 'More', 'Less'], a: 1 },
+    { q: 'Radical Candor lives in the quadrant where you ___ personally AND ___ directly.', opts: ['Punish / reward', 'Care / challenge', 'Listen / teach', 'Plan / execute'], a: 1 },
+    { q: 'Criticism in Radical Candor is immediately rewarded by a culture where people ___ grow.', opts: ['Fear to', 'Want to', 'Are required to', 'Schedule to'], a: 1 },
+    { q: 'Kim Scott\'s experience at companies like Google and Apple shows that Radical Candor is applicable at ___.', opts: ['Only tech companies', 'Any level of any organization', 'Executive level only', 'HR teams only'], a: 1 },
+    { q: 'Practicing Radical Candor means giving one piece of specific ___ and one piece of kind criticism each week.', opts: ['Report', 'Praise', 'Warning', 'Update'], a: 1 },
+  ],
+  '5-levels-of-leadership': [
+    { q: 'At Level 1 (Position), people follow you because they ___.', opts: ['Trust you', 'Have to', 'Want to', 'Respect you'], a: 1 },
+    { q: 'At Level 2 (Permission), people follow you because they ___.', opts: ['Have to', 'Are paid to', 'Want to', 'Are required to'], a: 2 },
+    { q: 'Level 3 (Production) gives you credibility through ___.', opts: ['Relationships', 'Results', 'Title', 'Experience'], a: 1 },
+    { q: 'Level 4 (People Development): people follow because of what you\'ve done for ___.', opts: ['The company', 'Them personally', 'The community', 'The bottom line'], a: 1 },
+    { q: 'Level 5 (Pinnacle) is reserved for leaders who spent a lifetime growing and developing ___.', opts: ['Systems', 'Others', 'Profits', 'Processes'], a: 1 },
+    { q: 'Maxwell says you can be at different levels with ___ people simultaneously.', opts: ['Only senior', 'Different', 'Your best', 'Entry-level'], a: 1 },
+    { q: 'Level 4\'s upside is ___ through people development.', opts: ['Authority', 'Multiplication', 'Income', 'Recognition'], a: 1 },
+    { q: 'To reach Level 3, produce ___ that your team can see.', opts: ['Plans', 'Results', 'Relationships', 'Ideas'], a: 1 },
+    { q: 'The only influence you have at Level 1 comes from your ___.', opts: ['Relationships', 'Results', 'Title', 'Character'], a: 2 },
+    { q: 'Maxwell says: don\'t stay at Level ___. Grow beyond it.', opts: ['3', '4', '1', '2'], a: 2 },
+    { q: 'Level 2 gives you ___ to lead beyond your title.', opts: ['Results', 'Money', 'Permission', 'Authority'], a: 2 },
+    { q: 'Maxwell\'s roadmap for reaching Level 4: first commit to developing one person this ___.', opts: ['Year', 'Month', 'Day', 'Quarter'], a: 3 },
+    { q: 'An honest assessment of your leadership level with each direct report requires writing it ___ and creating a plan.', opts: ['In a review', 'Down', 'On a whiteboard', 'In an email'], a: 1 },
+    { q: 'Level 3 (Production) creates ___ for the leader because results are visible.', opts: ['Followers', 'Credibility', 'Income', 'Authority'], a: 1 },
+    { q: 'If you\'re stuck at Level 1 with someone, Maxwell says invest in the ___ before trying to get results.', opts: ['System', 'Relationship', 'Training', 'Performance plan'], a: 1 },
+    { q: 'Maxwell says the greatest leaders invest their time developing other ___, not just followers.', opts: ['Systems', 'Metrics', 'Leaders', 'Customers'], a: 2 },
+    { q: 'Level 5 leaders have spent a lifetime growing and developing others and are followed because of ___.', opts: ['Their title', 'Who they are and what they represent', 'Their results', 'Their experience'], a: 1 },
+    { q: 'To move from Level 2 to Level 3, focus on one measurable ___ you can achieve in 30 days.', opts: ['Relationship', 'Result', 'Plan', 'Hire'], a: 1 },
+    { q: 'Maxwell says you can be at Level 4 with one person and Level ___ with another simultaneously.', opts: ['1', '2', '3', '5'], a: 1 },
+    { q: 'Level 4 gives you multiplication because you\'re developing people who then develop ___.', opts: ['Metrics', 'Systems', 'Others', 'Processes'], a: 2 },
+  ],
+  'million-dollar-habits': [
+    { q: 'Tracy says successful people are simply those with ___ habits.', opts: ['Productive', 'Successful', 'Positive', 'Consistent'], a: 1 },
+    { q: 'Your habits determine roughly ___% of everything you think, feel, do, and achieve.', opts: ['50', '75', '95', '100'], a: 2 },
+    { q: 'Top businesspeople ask before every task: What is the most ___ use of my time right now?', opts: ['Efficient', 'Valuable', 'Urgent', 'Creative'], a: 1 },
+    { q: 'Only ___% of adults have written goals — and they earn more than all others combined.', opts: ['1', '3', '10', '25'], a: 1 },
+    { q: 'The habit of saving involves reinvesting in your own ___ and knowledge.', opts: ['Brand', 'Skills', 'Network', 'Comfort'], a: 1 },
+    { q: 'Tracking one key metric daily for 30 days creates the habit of ___.', opts: ['Comparing', 'Improving', 'Reporting', 'Planning'], a: 1 },
+    { q: 'Self-made millionaires save income ___.', opts: ['After all expenses', 'Before spending', 'When they can', 'Annually'], a: 1 },
+    { q: 'Writing down your goals is the ___ most powerful thing you can do for your future.', opts: ['Least', 'Second', 'Single most', 'Third'], a: 2 },
+    { q: 'Tracy says 95% of what we do is ___ — habits run our stores on autopilot.', opts: ['Scheduled', 'Habitual', 'Intentional', 'Reactive'], a: 1 },
+    { q: 'The habit of goal setting means reviewing your written goals ___ before your shift.', opts: ['Weekly', 'Monthly', 'Every morning', 'Quarterly'], a: 2 },
+    { q: 'A "habit audit" for your store asks: what happens ___, and what falls through the cracks?', opts: ['Automatically', 'Rarely', 'Manually', 'By luck'], a: 0 },
+    { q: 'Tracy says top businesspeople think about ___ before they start any task.', opts: ['Their team', 'Results', 'Resources', 'Their schedule'], a: 1 },
+    { q: 'Investing 30 minutes per day in your own learning is described as investing in your ___.', opts: ['Free time', 'Skills and knowledge', 'Career brand', 'Personal life'], a: 1 },
+    { q: 'A 90-day goal review cycle means writing your top ___ goals for the next 90 days.', opts: ['1', '2', '3', '5'], a: 2 },
+    { q: 'Tracy says your habits are running your store whether you designed them or ___.', opts: ['Intended them to', 'Not', 'Hired for them', 'Measured them'], a: 1 },
+    { q: 'The most successful business operators have the habit of thinking about ___ before starting any task.', opts: ['Their team', 'Results', 'Resources', 'Their boss'], a: 1 },
+    { q: 'Tracy says the habit of tracking daily creates the habit of ___.', opts: ['Measuring', 'Improving', 'Comparing', 'Reporting'], a: 1 },
+    { q: 'Tracy says million-dollar habits apply to operators managing ___ in annual revenue.', opts: ['Thousands', 'Hundreds of thousands', 'Millions', 'Any amount'], a: 2 },
+    { q: 'The book connects daily habits directly to ___ outcomes for store operators.', opts: ['Customer', 'Financial', 'Social', 'Marketing'], a: 1 },
+    { q: 'Tracy\'s power of habit thesis: your habits don\'t just affect your behavior — they affect ___ you think, feel, do, and achieve.', opts: ['Some of', 'Most of', '95% of everything', 'Half of'], a: 2 },
   ],
 };
 
@@ -1245,6 +1528,15 @@ export default function ReadingPage() {
   // Reading Journey helpers
   const nextUpBook = RECOMMENDED_ORDER.find(id => !readBooks.includes(id));
   const nextUpBookData = BOOKS.find(b => b.id === nextUpBook);
+  const quizBookIds = Object.keys(BOOK_QUIZZES);
+  const quizzesTaken = quizBookIds.filter(id => quizScores[id] !== undefined);
+  const quizzesNotTaken = RECOMMENDED_ORDER.filter(id => BOOK_QUIZZES[id] && quizScores[id] === undefined);
+  const nextQuizBookId = quizzesNotTaken[0];
+  const nextQuizBook = BOOKS.find(b => b.id === nextQuizBookId);
+  const passingScore = (id) => {
+    const total = BOOK_QUIZZES[id]?.length || 20;
+    return Math.round(total * QUIZ_PASS_THRESHOLD);
+  };
   const allComplete = readBooks.length >= BOOKS.length;
 
   return (
@@ -1327,21 +1619,93 @@ export default function ReadingPage() {
             )}
           </div>
 
-          {/* Progress bar (existing) */}
-          {readBooks.length > 0 && (
-            <div style={{ marginBottom: 20, padding: '12px 16px', background: 'rgba(19,74,124,0.05)', border: '1px solid rgba(19,74,124,0.12)', borderRadius: 10 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--jm-blue)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Reading Progress</span>
-                <span style={{ fontSize: 13, fontWeight: 800, color: readBooks.length === BOOKS.length ? '#16a34a' : 'var(--jm-blue)' }}>
-                  {Math.round((readBooks.length / BOOKS.length) * 100)}% complete
-                </span>
-              </div>
-              <div style={{ height: 6, background: 'var(--border)', borderRadius: 3, overflow: 'hidden' }}>
-                <div style={{ height: '100%', borderRadius: 3, background: readBooks.length === BOOKS.length ? '#16a34a' : 'var(--jm-blue)', width: `${Math.round((readBooks.length / BOOKS.length) * 100)}%`, transition: 'width 0.4s' }} />
-              </div>
-              <div style={{ marginTop: 5, fontSize: 11, color: 'var(--gray-500)' }}>{readBooks.length} of {BOOKS.length} books marked read</div>
+          {/* Quiz Progress Tracker */}
+          <div style={{ marginBottom: 24, background: 'var(--white)', border: '1px solid #e5e7eb', borderRadius: 14, padding: '20px 24px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 20, fontWeight: 800, color: 'var(--jm-blue)', margin: 0 }}>
+                📝 Quiz Progress
+              </h2>
+              <span style={{ fontSize: 13, fontWeight: 700, color: quizzesTaken.length === quizBookIds.length ? '#16a34a' : 'var(--jm-blue)' }}>
+                {quizzesTaken.length} / {quizBookIds.length} quizzes taken
+              </span>
             </div>
-          )}
+
+            {quizzesTaken.length === quizBookIds.length ? (
+              <div style={{ background: 'linear-gradient(135deg, #16a34a 0%, #15803d 100%)', borderRadius: 10, padding: '14px 20px', color: '#fff', textAlign: 'center' }}>
+                <div style={{ fontSize: 22, marginBottom: 4 }}>🏆</div>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>All quizzes completed!</div>
+                <div style={{ fontSize: 13, opacity: 0.9, marginTop: 4 }}>Outstanding knowledge — you know this library.</div>
+              </div>
+            ) : (
+              <>
+                {/* Progress bar */}
+                <div style={{ height: 5, background: '#f0f4f8', borderRadius: 3, overflow: 'hidden', marginBottom: 14 }}>
+                  <div style={{ height: '100%', borderRadius: 3, background: '#EE3227', width: `${Math.round((quizzesTaken.length / quizBookIds.length) * 100)}%`, transition: 'width 0.4s' }} />
+                </div>
+
+                {/* Tests Taken */}
+                {quizzesTaken.length > 0 && (
+                  <div style={{ marginBottom: 14 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Tests Taken</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {quizzesTaken.map(id => {
+                        const b = BOOKS.find(x => x.id === id);
+                        if (!b) return null;
+                        const score = quizScores[id];
+                        const total = BOOK_QUIZZES[id].length;
+                        const pct = Math.round((score / total) * 100);
+                        const passed = score >= passingScore(id);
+                        return (
+                          <div key={id} onClick={() => setSelectedBook(id)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', background: passed ? 'rgba(22,163,74,0.06)' : 'rgba(220,38,38,0.05)', border: `1px solid ${passed ? 'rgba(22,163,74,0.2)' : 'rgba(220,38,38,0.2)'}`, borderRadius: 8, cursor: 'pointer' }}>
+                            <span style={{ fontSize: 16 }}>{passed ? '✅' : '❌'}</span>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)' }}>{b.title}</div>
+                              <div style={{ fontSize: 11, color: 'var(--gray-500)' }}>{b.author}</div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              <div style={{ fontSize: 14, fontWeight: 800, color: passed ? '#16a34a' : '#dc2626' }}>{score}/{total}</div>
+                              <div style={{ fontSize: 11, fontWeight: 600, color: passed ? '#16a34a' : '#dc2626' }}>{pct}% — {passed ? 'PASSED' : 'RETRY'}</div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Next Test Up */}
+                {nextQuizBook && (
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Next Test Up</div>
+                    <div style={{ background: 'rgba(238,50,39,0.05)', border: '1px solid rgba(238,50,39,0.15)', borderRadius: 10, padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+                      <div>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--jm-blue)' }}>{nextQuizBook.title}</div>
+                        <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>by {nextQuizBook.author} · 20 questions · need 18/20 to pass</div>
+                      </div>
+                      <button onClick={() => setSelectedBook(nextQuizBook.id)} style={{ padding: '8px 18px', background: '#EE3227', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                        Take Test →
+                      </button>
+                    </div>
+                    {quizzesNotTaken.length > 1 && (
+                      <div style={{ marginTop: 8 }}>
+                        <div style={{ fontSize: 11, color: 'var(--gray-500)', marginBottom: 6 }}>Also upcoming:</div>
+                        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                          {quizzesNotTaken.slice(1, 5).map(id => {
+                            const b = BOOKS.find(x => x.id === id);
+                            return b ? (
+                              <div key={id} onClick={() => setSelectedBook(id)} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 20, cursor: 'pointer', color: '#374151' }}>
+                                {b.title}
+                              </div>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
 
           {/* Search filter */}
           <div style={{ display: 'flex', gap: 12, marginBottom: 24, alignItems: 'center' }}>
