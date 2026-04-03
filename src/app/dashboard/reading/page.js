@@ -1953,8 +1953,8 @@ export default function ReadingPage() {
                 {!quizActive && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     {quizScores[book.id] !== undefined && (
-                      <span style={{ fontSize: 13, fontWeight: 700, color: quizScores[book.id] >= 3 ? '#16a34a' : '#dc2626' }}>
-                        Last score: {quizScores[book.id]}/4
+                      <span style={{ fontSize: 13, fontWeight: 700, color: quizScores[book.id] >= passingScore(book.id) ? '#16a34a' : '#dc2626' }}>
+                        Last score: {quizScores[book.id]}/{BOOK_QUIZZES[book.id]?.length || 20} {quizScores[book.id] >= passingScore(book.id) ? '✅ PASSED' : '❌ RETRY'}
                       </span>
                     )}
                     <button
@@ -1968,6 +1968,12 @@ export default function ReadingPage() {
               </div>
               {quizActive && (
                 <div>
+                  {!quizSubmitted && (
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: '#eff6ff', borderRadius: 8, border: '1px solid #bfdbfe', marginBottom: 20, fontSize: 13, color: '#1e40af', fontWeight: 600 }}>
+                      <span>📋 {BOOK_QUIZZES[book.id]?.length || 20} questions</span>
+                      <span>Need {passingScore(book.id)}/{BOOK_QUIZZES[book.id]?.length || 20} to pass (90%)</span>
+                    </div>
+                  )}
                   {BOOK_QUIZZES[book.id].map((q, qi) => (
                     <div key={qi} style={{ marginBottom: 24, padding: '16px 20px', background: '#f9fafb', borderRadius: 10, border: quizSubmitted ? (quizAnswers[qi] === q.a ? '1.5px solid #16a34a' : '1.5px solid #dc2626') : '1px solid #e5e7eb' }}>
                       <div style={{ fontSize: 15, fontWeight: 700, color: '#1f2937', marginBottom: 12 }}>
@@ -2017,11 +2023,14 @@ export default function ReadingPage() {
                     </button>
                   ) : (
                     <div style={{ textAlign: 'center', padding: '16px 0' }}>
-                      <div style={{ fontSize: 36, fontWeight: 800, color: quizScores[book.id] >= 3 ? '#16a34a' : '#dc2626', marginBottom: 8 }}>
-                        {quizScores[book.id]}/4
+                      <div style={{ fontSize: 36, fontWeight: 800, color: quizScores[book.id] >= passingScore(book.id) ? '#16a34a' : '#dc2626', marginBottom: 8 }}>
+                        {quizScores[book.id]}/{BOOK_QUIZZES[book.id]?.length || 20}
+                      </div>
+                      <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 6 }}>
+                        Need {passingScore(book.id)}/{BOOK_QUIZZES[book.id]?.length || 20} to pass (90%)
                       </div>
                       <div style={{ fontSize: 15, color: '#374151', marginBottom: 16 }}>
-                        {quizScores[book.id] === 4 ? '🎉 Perfect score! You know this book well.' : quizScores[book.id] >= 3 ? '✅ Great job! You absorbed the key concepts.' : '📖 Good effort — review the excerpts and try again.'}
+                        {quizScores[book.id] === (BOOK_QUIZZES[book.id]?.length || 20) ? '🎉 Perfect score! You know this book cold.' : quizScores[book.id] >= passingScore(book.id) ? '✅ PASSED — great job! You absorbed the key concepts.' : '📖 Not quite — review the excerpts and key takeaways, then retry.'}
                       </div>
                       <button onClick={() => { setQuizActive(false); setQuizSubmitted(false); setQuizAnswers({}); }} style={{ padding: '8px 20px', background: 'transparent', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', color: '#374151' }}>
                         Close Quiz
