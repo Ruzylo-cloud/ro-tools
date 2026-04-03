@@ -388,6 +388,27 @@ export default function CateringTrackerPage() {
         </div>
       </div>
 
+      {/* RT-142: Order notification banner — overdue clients needing follow-up */}
+      {needFollowUp > 0 && (
+        <div style={{ background: 'rgba(238,50,39,0.06)', border: '1px solid rgba(238,50,39,0.25)', borderRadius: 10, padding: '10px 16px', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 18 }}>🔔</span>
+          <div style={{ flex: 1 }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#dc2626' }}>
+              {needFollowUp} client{needFollowUp > 1 ? 's are' : ' is'} overdue for follow-up
+            </span>
+            <span style={{ fontSize: 12, color: '#6b7280', marginLeft: 8 }}>
+              Their reorder window has passed — reach out to keep the business.
+            </span>
+          </div>
+          <button
+            onClick={() => setStatusFilter('overdue')}
+            style={{ fontSize: 12, fontWeight: 600, padding: '4px 12px', background: '#dc2626', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer', flexShrink: 0 }}
+          >
+            View
+          </button>
+        </div>
+      )}
+
       {/* Stats — RT-145/146 added */}
       <div className={styles.statsRow}>
         <div className={styles.statCard}>

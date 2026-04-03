@@ -15,6 +15,60 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
+// RT-180: Knowledge check quizzes per training level
+const QUIZ_DATA = {
+  level1: {
+    title: 'Level 1 Knowledge Check',
+    questions: [
+      { q: 'What is the correct bread-to-meat ratio for a standard 7.5" sub?', options: ['4 oz meat, 1/2 bread', '3 oz meat, full bread', 'Depends on the sub number', '2 oz meat per side'], answer: 2 },
+      { q: 'Which sub uses provolone, ham, and cappacuolo?', options: ['#3 Ham & Provolone', '#2 Jersey Shore\'s Favorite', '#5 The Super Sub', '#4 The Number Four'], answer: 1 },
+      { q: 'What does "Mike\'s Way" include?', options: ['Lettuce, tomato, mustard', 'Onions, lettuce, tomatoes, vinegar, oil, oregano & salt', 'Mayo, lettuce, tomato', 'Oil, vinegar, pickles'], answer: 1 },
+      { q: 'What temperature should the cold prep area be kept at?', options: ['32°F', '38°F or below', '45°F', '50°F'], answer: 1 },
+      { q: 'How often should gloves be changed when switching tasks?', options: ['Every 2 hours', 'Only if visibly dirty', 'Between every different food task', 'Once per shift'], answer: 2 },
+    ],
+  },
+  level2: {
+    title: 'Level 2 Knowledge Check',
+    questions: [
+      { q: 'What is the correct procedure when a register shows a discrepancy?', options: ['Ignore if under $1', 'Alert manager immediately', 'Correct it yourself', 'Close the drawer'], answer: 1 },
+      { q: 'Which payment method requires a signature for amounts over $25?', options: ['Cash', 'Credit card', 'Debit card', 'None — all cards are tap-to-pay'], answer: 3 },
+      { q: 'When should a manager\'s override be used?', options: ['For any void', 'Only for refunds over $10', 'When a customer complains', 'For all price adjustments and refunds'], answer: 3 },
+      { q: 'The correct way to greet a customer at the counter is:', options: ['Hi, what do you want?', '"Welcome to Jersey Mike\'s, what can I get for you?"', 'Wave and wait for them to speak', 'Start making food immediately'], answer: 1 },
+      { q: 'What is the maximum time a sub can sit before being discarded?', options: ['30 minutes', '1 hour', '2 hours', '4 hours'], answer: 2 },
+    ],
+  },
+  level3: {
+    title: 'Level 3 Knowledge Check',
+    questions: [
+      { q: 'What internal temperature must hot subs reach before serving?', options: ['145°F', '155°F', '165°F', '180°F'], answer: 2 },
+      { q: 'Which hot sub is made with grilled chicken, peppers, and onions?', options: ['Chicken Philly', 'Big Kahuna', 'Chipotle Chicken Cheese', 'Chicken Caesar'], answer: 1 },
+      { q: 'How long can a hot sub be held in the warming unit?', options: ['10 minutes', '15 minutes', '30 minutes', '1 hour'], answer: 1 },
+      { q: 'What type of bread is required for the Philly Cheese Steak?', options: ['White', 'Wheat', 'Rosemary Parm', 'Any bread'], answer: 2 },
+      { q: 'Proper hand washing after handling raw proteins requires:', options: ['5 seconds with soap', 'Hand sanitizer only', '20 seconds with soap and warm water', 'Glove change only'], answer: 2 },
+    ],
+  },
+  orientation: {
+    title: 'Orientation Knowledge Check',
+    questions: [
+      { q: 'Jersey Mike\'s was founded in what year?', options: ['1956', '1971', '1987', '2000'], answer: 0 },
+      { q: 'What does JMVG stand for?', options: ['Jersey Mike\'s Valley Group', 'Jersey Mike\'s Ventura Group', 'Jersey Mike\'s Valley Gold', 'Jersey Mike\'s Venture Group'], answer: 0 },
+      { q: 'Break policy: How long is a paid break for a 5-hour shift?', options: ['No paid break', '10 minutes', '15 minutes', '30 minutes'], answer: 2 },
+      { q: 'Uniform policy requires:', options: ['Any clean shirt', 'Jersey Mike\'s branded shirt, cap required, non-slip shoes', 'Khaki pants only', 'Branded shirt, jeans OK'], answer: 1 },
+      { q: 'Who should you contact first if you cannot make your shift?', options: ['Corporate HR', 'Your direct manager', 'A co-worker to cover', 'Call the store during closing'], answer: 1 },
+    ],
+  },
+  slicer: {
+    title: 'Slicer Certification Check',
+    questions: [
+      { q: 'Before using the slicer, you must:', options: ['Just put on gloves', 'Inspect blade, ensure guard is in place, put on cut-resistant gloves', 'Ask a manager to start it', 'Clean it first with water'], answer: 1 },
+      { q: 'What is the OSHA-required minimum PPE when operating a meat slicer?', options: ['Standard food service gloves', 'Cut-resistant gloves only', 'Cut-resistant gloves + chain-mail apron', 'No specific requirement'], answer: 2 },
+      { q: 'Slicer blades must be cleaned and sanitized:', options: ['At end of day only', 'Every 4 hours and when switching proteins', 'When visibly dirty', 'Once a week'], answer: 1 },
+      { q: 'What is the correct slice thickness for roast beef (setting)?', options: ['1', '2-3', '5-6', '8-10'], answer: 1 },
+      { q: 'After cleaning the slicer blade, you should:', options: ['Air dry', 'Re-sanitize with food-safe sanitizer then air dry', 'Towel dry immediately', 'Apply oil'], answer: 1 },
+    ],
+  },
+};
+
 // RT-185: Thumbnails — each template has an emoji + accent color for visual thumbnail
 // RT-183: addedDate tracks when templates were added/updated for "New" notification
 // RT-127: version field for template versioning
@@ -120,6 +174,11 @@ export default function DocumentsPage() {
   });
   // RT-179: Show certificate option after successful download
   const [lastDownload, setLastDownload] = useState(null);
+  // RT-180: End quiz/assessment
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [quizSubmitted, setQuizSubmitted] = useState(false);
+  const [quizScore, setQuizScore] = useState(null);
   const docRef = useRef(null);
 
   useEffect(() => {
@@ -208,6 +267,13 @@ export default function DocumentsPage() {
       // RT-179: Track last download for certificate offer
       if (form.employeeName && selected !== 'newhire') {
         setLastDownload({ employeeName: form.employeeName, template: selected, date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) });
+      }
+      // RT-180: Offer knowledge check quiz after training download
+      if (QUIZ_DATA[selected] && form.employeeName) {
+        setQuizAnswers({});
+        setQuizSubmitted(false);
+        setQuizScore(null);
+        setTimeout(() => setShowQuiz(true), 1200);
       }
     } catch (err) {
       console.error('PDF generation error:', err);
@@ -522,6 +588,105 @@ export default function DocumentsPage() {
           </div>
         )}
       </div>
+
+      {/* RT-180: Knowledge check quiz modal */}
+      {showQuiz && QUIZ_DATA[selected] && (() => {
+        const quiz = QUIZ_DATA[selected];
+        const submitQuiz = () => {
+          let score = 0;
+          quiz.questions.forEach((q, i) => { if (quizAnswers[i] === q.answer) score++; });
+          setQuizScore(score);
+          setQuizSubmitted(true);
+          // Save result to training progress
+          const pct = Math.round((score / quiz.questions.length) * 100);
+          const key = (form.employeeName || '').trim().toLowerCase();
+          if (key && pct >= 80) {
+            setTrainingProgress(prev => {
+              const updated = { ...prev, [key]: [...new Set([...(prev[key] || []), selected + '-quiz'])] };
+              try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch {}
+              return updated;
+            });
+          }
+        };
+        const pct = quizScore !== null ? Math.round((quizScore / quiz.questions.length) * 100) : 0;
+        const passed = pct >= 80;
+        return (
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => !quizSubmitted && setShowQuiz(false)}>
+            <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 580, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
+              <div style={{ padding: '20px 24px 0', borderBottom: '1px solid #e5e7eb' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: '#134A7C' }}>{quiz.title}</div>
+                  <button onClick={() => setShowQuiz(false)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: '#6b7280', lineHeight: 1 }}>&times;</button>
+                </div>
+                {!quizSubmitted && (
+                  <p style={{ fontSize: 13, color: '#6b7280', marginBottom: 16 }}>
+                    Answer all {quiz.questions.length} questions. Score 80% or higher to pass.
+                    {form.employeeName && <strong style={{ color: '#134A7C' }}> — {form.employeeName}</strong>}
+                  </p>
+                )}
+              </div>
+              <div style={{ padding: '20px 24px' }}>
+                {quizSubmitted ? (
+                  <div style={{ textAlign: 'center', padding: '12px 0' }}>
+                    <div style={{ fontSize: 56, marginBottom: 8 }}>{passed ? '🎉' : '📝'}</div>
+                    <div style={{ fontSize: 28, fontWeight: 800, color: passed ? '#16a34a' : '#dc2626', marginBottom: 4 }}>
+                      {quizScore}/{quiz.questions.length} &mdash; {pct}%
+                    </div>
+                    <div style={{ fontSize: 16, fontWeight: 600, color: passed ? '#15803d' : '#b91c1c', marginBottom: 16 }}>
+                      {passed ? 'Passed! Great job.' : 'Not quite — review the training material and try again.'}
+                    </div>
+                    {/* Show correct/incorrect breakdown */}
+                    <div style={{ textAlign: 'left', marginBottom: 20 }}>
+                      {quiz.questions.map((q, i) => {
+                        const correct = quizAnswers[i] === q.answer;
+                        return (
+                          <div key={i} style={{ padding: '8px 12px', marginBottom: 6, borderRadius: 8, background: correct ? 'rgba(22,163,74,0.06)' : 'rgba(220,38,38,0.06)', border: `1px solid ${correct ? 'rgba(22,163,74,0.2)' : 'rgba(220,38,38,0.2)'}` }}>
+                            <div style={{ fontSize: 12, fontWeight: 600, color: correct ? '#15803d' : '#dc2626' }}>{correct ? '✓' : '✗'} {q.q}</div>
+                            {!correct && <div style={{ fontSize: 11, color: '#6b7280', marginTop: 2 }}>Correct: {q.options[q.answer]}</div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+                      {!passed && (
+                        <button onClick={() => { setQuizAnswers({}); setQuizSubmitted(false); setQuizScore(null); }} style={{ padding: '10px 24px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                          Retake Quiz
+                        </button>
+                      )}
+                      <button onClick={() => setShowQuiz(false)} style={{ padding: '10px 24px', background: passed ? '#16a34a' : '#f3f4f6', color: passed ? '#fff' : '#374151', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                        {passed ? 'Done' : 'Close'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {quiz.questions.map((q, i) => (
+                      <div key={i} style={{ marginBottom: 20 }}>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: '#1f2937', marginBottom: 8 }}>{i + 1}. {q.q}</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                          {q.options.map((opt, j) => (
+                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? '#134A7C' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : '#fff', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: '#374151', transition: 'all 0.15s' }}>
+                              <input type="radio" name={`q${i}`} value={j} checked={quizAnswers[i] === j} onChange={() => setQuizAnswers(prev => ({ ...prev, [i]: j }))} style={{ accentColor: '#134A7C' }} />
+                              {opt}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                    <button
+                      onClick={submitQuiz}
+                      disabled={Object.keys(quizAnswers).length < quiz.questions.length}
+                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < quiz.questions.length ? '#9ca3af' : '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < quiz.questions.length ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
+                    >
+                      Submit Quiz ({Object.keys(quizAnswers).length}/{quiz.questions.length} answered)
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

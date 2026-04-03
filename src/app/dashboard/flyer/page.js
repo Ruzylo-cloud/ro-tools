@@ -20,12 +20,44 @@ const EDITABLE_FIELDS = [
   { key: 'assistantPhone', label: 'Assistant Phone' },
 ];
 
+// RT-141: Flyer template options
+const FLYER_TEMPLATES = [
+  { id: 'classic', label: 'Classic Blue', desc: 'Blue + Red' },
+  { id: 'bold', label: 'Bold Red', desc: 'Red header, blue accents' },
+  { id: 'dark', label: 'Dark Pro', desc: 'Charcoal + Gold' },
+];
+
+// RT-140: All 16 menu items for the override editor
+const ALL_MENU_ITEMS = [
+  { key: 'BLT', num: '#1', defaultDesc: 'Bacon, lettuce, tomato & mayo' },
+  { key: "Jersey Shore's Favorite", num: '#2', defaultDesc: 'Provolone, ham & cappacuolo' },
+  { key: 'Ham & Provolone', num: '#3', defaultDesc: 'Provolone & ham' },
+  { key: 'The Number Four', num: '#4', defaultDesc: 'Provolone, prosciuttini & cappacuolo' },
+  { key: 'The Super Sub', num: '#5', defaultDesc: 'Provolone, ham, prosciuttini & cappacuolo' },
+  { key: 'Roast Beef & Provolone', num: '#6', defaultDesc: 'Provolone & oven-roasted top rounds' },
+  { key: 'Turkey & Provolone', num: '#7', defaultDesc: 'Provolone & 99% fat-free turkey' },
+  { key: 'Club Sub', num: '#8', defaultDesc: 'Provolone, turkey, ham, bacon & mayo' },
+  { key: 'Club Supreme', num: '#9', defaultDesc: 'Swiss, roast beef, turkey, bacon & mayo' },
+  { key: 'Tuna Fish', num: '#10', defaultDesc: 'Made fresh in-store daily' },
+  { key: 'Stickball Special', num: '#11', defaultDesc: 'Provolone, ham & salami' },
+  { key: 'Cancro Special', num: '#12', defaultDesc: 'Provolone, roast beef & pepperoni' },
+  { key: 'The Original Italian', num: '#13', defaultDesc: 'Provolone, ham, prosciuttini, cappacuolo, salami & pepperoni' },
+  { key: 'The Veggie', num: '#14', defaultDesc: 'Swiss, provolone & green bell peppers' },
+  { key: 'California Club', num: '', defaultDesc: 'Provolone, turkey, bacon & avocado' },
+  { key: 'Turkey Club', num: '', defaultDesc: 'Provolone, turkey, bacon & mayo' },
+];
+
 export default function FlyerPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  // RT-141: template selector
+  const [flyerTemplate, setFlyerTemplate] = useState('classic');
+  // RT-140: menu overrides { [itemName]: { name, desc } }
+  const [menuOverrides, setMenuOverrides] = useState({});
+  const [showMenuEditor, setShowMenuEditor] = useState(false);
   const flyerRef = useRef(null);
 
   useEffect(() => {
@@ -41,6 +73,21 @@ export default function FlyerPage() {
 
   const handleChange = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
+  };
+
+  const handleMenuOverride = (itemKey, field, value) => {
+    setMenuOverrides(prev => {
+      const current = prev[itemKey] || {};
+      const item = ALL_MENU_ITEMS.find(i => i.key === itemKey);
+      return {
+        ...prev,
+        [itemKey]: {
+          name: current.name !== undefined ? current.name : itemKey,
+          desc: current.desc !== undefined ? current.desc : (item?.defaultDesc ?? ''),
+          [field]: value,
+        },
+      };
+    });
   };
 
   const mountedRef = useRef(true);
@@ -96,6 +143,30 @@ export default function FlyerPage() {
         <p className={styles.sidebarDesc}>
           Pre-filled from your store profile. Edit here for one-off changes.
         </p>
+
+        {/* RT-141: Template selector */}
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Template</div>
+          <div style={{ display: 'flex', gap: 6 }}>
+            {FLYER_TEMPLATES.map(t => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setFlyerTemplate(t.id)}
+                style={{
+                  flex: 1, padding: '7px 4px', borderRadius: 8,
+                  border: flyerTemplate === t.id ? '2px solid #134A7C' : '1px solid #e5e7eb',
+                  background: flyerTemplate === t.id ? 'rgba(19,74,124,0.06)' : '#fff',
+                  cursor: 'pointer', textAlign: 'center',
+                }}
+              >
+                <div style={{ fontSize: 11, fontWeight: 700, color: flyerTemplate === t.id ? '#134A7C' : '#374151' }}>{t.label}</div>
+                <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 2 }}>{t.desc}</div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className={styles.fields}>
           {EDITABLE_FIELDS.map(({ key, label }) => (
             <div key={key} className={styles.field}>
@@ -109,6 +180,63 @@ export default function FlyerPage() {
             </div>
           ))}
         </div>
+
+        {/* RT-140: Collapsible menu item editor */}
+        <div style={{ marginBottom: 16 }}>
+          <button
+            type="button"
+            onClick={() => setShowMenuEditor(v => !v)}
+            style={{
+              width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              padding: '9px 12px', background: '#f9fafb', border: '1px solid #e5e7eb',
+              borderRadius: showMenuEditor ? '8px 8px 0 0' : 8, cursor: 'pointer',
+              fontSize: 13, fontWeight: 600, color: '#374151',
+            }}
+          >
+            <span>Customize Menu</span>
+            <span style={{ fontSize: 11, color: '#9ca3af' }}>{showMenuEditor ? '▲' : '▼'}</span>
+          </button>
+          {showMenuEditor && (
+            <div style={{
+              border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 8px 8px',
+              padding: '10px 12px', background: '#fff', maxHeight: 320, overflowY: 'auto',
+            }}>
+              {ALL_MENU_ITEMS.map(item => {
+                const override = menuOverrides[item.key] || {};
+                const currentName = override.name !== undefined ? override.name : item.key;
+                const currentDesc = override.desc !== undefined ? override.desc : item.defaultDesc;
+                return (
+                  <div key={item.key} style={{ marginBottom: 10, paddingBottom: 10, borderBottom: '1px solid #f3f4f6' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', marginBottom: 4 }}>
+                      {item.num ? `${item.num} ` : ''}{item.key}
+                    </div>
+                    <input
+                      type="text"
+                      value={currentName}
+                      onChange={e => handleMenuOverride(item.key, 'name', e.target.value)}
+                      placeholder="Name"
+                      style={{
+                        width: '100%', padding: '4px 8px', fontSize: 12, border: '1px solid #e5e7eb',
+                        borderRadius: 6, marginBottom: 4, boxSizing: 'border-box',
+                      }}
+                    />
+                    <input
+                      type="text"
+                      value={currentDesc}
+                      onChange={e => handleMenuOverride(item.key, 'desc', e.target.value)}
+                      placeholder="Description"
+                      style={{
+                        width: '100%', padding: '4px 8px', fontSize: 11, border: '1px solid #e5e7eb',
+                        borderRadius: 6, color: '#6b7280', boxSizing: 'border-box',
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         <button
           className={styles.downloadBtn}
           onClick={handleDownload}
@@ -132,7 +260,12 @@ export default function FlyerPage() {
           <h2 className={styles.previewTitle}>Live Preview</h2>
         </div>
         <div className={styles.previewContainer}>
-          <FlyerPreview ref={flyerRef} data={form} />
+          <FlyerPreview
+            ref={flyerRef}
+            data={form}
+            template={flyerTemplate}
+            menuOverrides={menuOverrides}
+          />
         </div>
       </div>
     </div>

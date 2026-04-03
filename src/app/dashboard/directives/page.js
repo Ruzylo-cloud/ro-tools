@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './page.module.css';
 
 const DIRECTIVES = [
@@ -219,6 +219,11 @@ export default function DirectivesPage() {
   const [scorecard, setScorecard] = useState({});
   const [scorecardMonth, setScorecardMonth] = useState('April 2026');
   const [scorecardSaved, setScorecardSaved] = useState(false);
+  // RT-196: Rich text directive editor
+  const [showCreateDirective, setShowCreateDirective] = useState(false);
+  const [draftDirective, setDraftDirective] = useState({ title: '', category: 'operations', body: '' });
+  const [savedDrafts, setSavedDrafts] = useState(() => { try { return JSON.parse(localStorage.getItem('directive-drafts') || '[]'); } catch { return []; } });
+  const richEditorRef = useRef(null);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -514,6 +519,92 @@ export default function DirectivesPage() {
       {/* ─── DIRECTIVES TAB ─── */}
       {tab === 'directives' && (
         <div className={styles.directivesList}>
+          {/* RT-196: Rich text editor modal */}
+          {showCreateDirective && (
+            <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => setShowCreateDirective(false)}>
+              <div style={{ background: '#fff', borderRadius: 16, width: '100%', maxWidth: 660, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
+                <div style={{ padding: '18px 24px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: '#134A7C' }}>Create Directive</div>
+                  <button onClick={() => setShowCreateDirective(false)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: '#6b7280' }}>&times;</button>
+                </div>
+                <div style={{ padding: '20px 24px' }}>
+                  <div style={{ marginBottom: 14 }}>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</label>
+                    <input value={draftDirective.title} onChange={e => setDraftDirective(d => ({ ...d, title: e.target.value }))} placeholder="Directive title..." style={{ width: '100%', padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                  </div>
+                  <div style={{ marginBottom: 14 }}>
+                    <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Category</label>
+                    <select value={draftDirective.category} onChange={e => setDraftDirective(d => ({ ...d, category: e.target.value }))} style={{ padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', background: '#fff', cursor: 'pointer' }}>
+                      <option value="operations">Operations</option>
+                      <option value="marketing">Marketing</option>
+                      <option value="calendar">Calendar</option>
+                      <option value="compliance">Compliance</option>
+                    </select>
+                  </div>
+                  {/* RT-196: Rich text toolbar */}
+                  <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Body</label>
+                  <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
+                    <div style={{ display: 'flex', gap: 2, padding: '6px 8px', background: '#f9fafb', borderBottom: '1px solid #e5e7eb', flexWrap: 'wrap' }}>
+                      {[
+                        { cmd: 'bold', label: '<b>B</b>', title: 'Bold' },
+                        { cmd: 'italic', label: '<i>I</i>', title: 'Italic' },
+                        { cmd: 'underline', label: '<u>U</u>', title: 'Underline' },
+                        { cmd: 'strikeThrough', label: '<s>S</s>', title: 'Strikethrough' },
+                      ].map(({ cmd, label, title }) => (
+                        <button key={cmd} title={title} onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid #e5e7eb', borderRadius: 4, background: '#fff', cursor: 'pointer', fontSize: 13, lineHeight: 1.4 }} dangerouslySetInnerHTML={{ __html: label }} />
+                      ))}
+                      <div style={{ width: 1, background: '#e5e7eb', margin: '2px 4px' }} />
+                      {[
+                        { cmd: 'insertUnorderedList', label: '• List', title: 'Bullet list' },
+                        { cmd: 'insertOrderedList', label: '1. List', title: 'Numbered list' },
+                        { cmd: 'formatBlock', arg: 'H3', label: 'H3', title: 'Heading' },
+                        { cmd: 'formatBlock', arg: 'P', label: 'P', title: 'Paragraph' },
+                      ].map(({ cmd, arg, label, title }) => (
+                        <button key={label} title={title} onMouseDown={e => { e.preventDefault(); document.execCommand(cmd, false, arg); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid #e5e7eb', borderRadius: 4, background: '#fff', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>{label}</button>
+                      ))}
+                      <div style={{ width: 1, background: '#e5e7eb', margin: '2px 4px' }} />
+                      <button title="Clear formatting" onMouseDown={e => { e.preventDefault(); document.execCommand('removeFormat', false); richEditorRef.current?.focus(); }} style={{ padding: '3px 8px', border: '1px solid #e5e7eb', borderRadius: 4, background: '#fff', cursor: 'pointer', fontSize: 11, color: '#6b7280' }}>Clear</button>
+                    </div>
+                    <div
+                      ref={richEditorRef}
+                      contentEditable
+                      suppressContentEditableWarning
+                      onInput={e => setDraftDirective(d => ({ ...d, body: e.currentTarget.innerHTML }))}
+                      style={{ minHeight: 180, padding: '12px 14px', fontSize: 14, lineHeight: 1.6, outline: 'none', color: '#1f2937', fontFamily: 'inherit' }}
+                      data-placeholder="Write the directive content here..."
+                    />
+                  </div>
+                  <div style={{ display: 'flex', gap: 10, marginTop: 18, justifyContent: 'flex-end' }}>
+                    <button onClick={() => {
+                      if (!draftDirective.title.trim()) return;
+                      const draft = { ...draftDirective, id: Date.now(), savedAt: new Date().toLocaleDateString() };
+                      const updated = [draft, ...savedDrafts];
+                      setSavedDrafts(updated);
+                      try { localStorage.setItem('directive-drafts', JSON.stringify(updated)); } catch {}
+                      setShowCreateDirective(false);
+                      setDraftDirective({ title: '', category: 'operations', body: '' });
+                    }} disabled={!draftDirective.title.trim()} style={{ padding: '10px 22px', background: draftDirective.title.trim() ? '#134A7C' : '#e5e7eb', color: draftDirective.title.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: draftDirective.title.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}>
+                      Save Draft
+                    </button>
+                  </div>
+                  {savedDrafts.length > 0 && (
+                    <div style={{ marginTop: 20, borderTop: '1px solid #e5e7eb', paddingTop: 16 }}>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Saved Drafts</div>
+                      {savedDrafts.map(d => (
+                        <div key={d.id} style={{ padding: '8px 12px', background: '#f9fafb', borderRadius: 8, marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          <div>
+                            <div style={{ fontSize: 13, fontWeight: 600, color: '#1f2937' }}>{d.title}</div>
+                            <div style={{ fontSize: 11, color: '#9ca3af' }}>{d.category} · {d.savedAt}</div>
+                          </div>
+                          <button onClick={() => setSavedDrafts(prev => { const u = prev.filter(x => x.id !== d.id); try { localStorage.setItem('directive-drafts', JSON.stringify(u)); } catch {} return u; })} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>&times;</button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
           {/* RT-194: Search, RT-195: Category filter, RT-198: Archive toggle */}
           <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
             <div className="search-bar" style={{ flex: '1', minWidth: '200px' }}>
@@ -551,6 +642,13 @@ export default function DirectivesPage() {
               style={{ padding: '8px 14px', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px', fontWeight: 600, background: 'none', cursor: 'pointer', color: 'var(--gray-600)' }}
             >
               🖨️ Print
+            </button>
+            {/* RT-196: Create directive with rich text editor */}
+            <button
+              onClick={() => { setDraftDirective({ title: '', category: 'operations', body: '' }); setShowCreateDirective(true); }}
+              style={{ padding: '8px 14px', border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 700, background: '#134A7C', color: '#fff', cursor: 'pointer' }}
+            >
+              + New Directive
             </button>
           </div>
           {(() => {
