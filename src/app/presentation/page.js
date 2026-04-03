@@ -11,7 +11,7 @@ const SLIDES = [
     type: 'title',
     title: 'RO Tools',
     subtitle: 'The Operational Platform for JM Valley Group',
-    meta: 'v2.6.0 — March 2026 — 29+ Stores',
+    meta: 'v3.0 — April 2026 — 30 Stores',
     bg: 'linear-gradient(135deg, #134A7C 0%, #1a5a94 50%, #0d3a5c 100%)',
     color: '#fff',
   },
@@ -54,12 +54,12 @@ const SLIDES = [
     label: 'THE SOLUTION',
     title: 'One platform. Every tool. Every store.',
     bullets: [
-      '12 document generators — PDF in seconds, not minutes',
+      '17 document generators + 8 training packets — PDF in seconds, not minutes',
       'Digital manager signatures + e-sign links sent to employees',
       'Auto-email to HR on injury reports — instant compliance',
-      'Store info auto-fills everywhere — enter it once',
+      'Store info auto-fills everywhere — enter it once, use everywhere',
       'Catering CRM — track clients, orders, revenue, and follow-ups',
-      'Live scoreboard — 12 weeks of performance data across all stores',
+      'Live scoreboard — 12 weeks of performance data, store comparison, export',
     ],
     bg: '#fff',
     color: '#1a1a2e',
@@ -70,9 +70,9 @@ const SLIDES = [
     type: 'stats',
     label: 'BY THE NUMBERS',
     stats: [
-      { value: '12', label: 'Document Generators' },
-      { value: '29+', label: 'JMVG Stores' },
-      { value: '12', label: 'Weeks of Scoreboard Data' },
+      { value: '17', label: 'Document Generators' },
+      { value: '30', label: 'JMVG Stores' },
+      { value: '8', label: 'Training Packet Templates' },
       { value: '$0', label: 'Monthly Cost' },
       { value: '85%', label: 'Faster Than Manual' },
       { value: '100%', label: 'California Compliant' },
@@ -84,7 +84,7 @@ const SLIDES = [
   {
     type: 'grid',
     label: 'DOCUMENT GENERATORS',
-    title: '12 Professional PDF Generators',
+    title: '17 Professional PDF Generators',
     items: [
       { icon: '📋', name: 'Catering Flyer', desc: 'Print-ready with full menu' },
       { icon: '📝', name: 'Catering Order', desc: 'Auto-calculated pricing' },
@@ -98,6 +98,11 @@ const SLIDES = [
       { icon: '⏰', name: 'Timesheet Correction', desc: 'Clock in/out fixes' },
       { icon: '📄', name: 'Attestation Correction', desc: 'Meal/rest break forms' },
       { icon: '📚', name: 'Training Packets', desc: '8 multi-page templates' },
+      { icon: '🏷️', name: 'Food Labels', desc: 'Prep/expiry date labels' },
+      { icon: '🔧', name: 'Work Orders', desc: 'Equipment maintenance' },
+      { icon: '📓', name: 'Manager Log', desc: 'Daily shift notes' },
+      { icon: '🏆', name: 'DM Walk-Through', desc: '14-category scoring + grade' },
+      { icon: '📦', name: 'Onboarding Packet', desc: 'New hire doc checklist' },
     ],
     bg: '#fff',
     color: '#1a1a2e',
@@ -236,12 +241,12 @@ const SLIDES = [
     title: 'RO Tools for iPhone & iPad',
     description: 'The full RO Tools platform — native on iOS. Every generator, every training packet, catering tracker, scoreboard, and admin tool. Built in SwiftUI with on-device PDF generation, offline support, and push notifications.',
     bullets: [
-      'All 12 document generators with on-device PDF rendering',
-      '54 pages of training packets — generate offline, sync when connected',
+      'All 17 document generators + 8 training packets with on-device PDF rendering',
+      '54 pages of training materials — generate offline, sync when connected',
       'Catering CRM with follow-up reminders via push notifications',
-      'Live scoreboard — 12 weeks of performance data across all stores',
+      'Live scoreboard — 12 weeks of performance data, store comparison',
       'Google OAuth — same @jmvalley.com login, Face ID for quick access',
-      'Available now on TestFlight — App Store listing coming soon',
+      'Available now on TestFlight — App Store submission pending approval',
     ],
     stat: { value: 'iOS', label: 'native app' },
     bg: '#fff',
@@ -259,7 +264,7 @@ const SLIDES = [
       'Live Scoreboard API — auto-import weekly data from Google Sheets',
       'Homebase Integration — live schedule and timecard sync across 30+ stores',
       'Multi-Language Support — Spanish forms for bilingual staff',
-      'RO Control iOS App — now on TestFlight, full store operations on mobile',
+      'RO Control iOS App — on TestFlight now, full store operations on mobile ✓',
     ],
     bg: '#fff',
     color: '#1a1a2e',
@@ -330,7 +335,7 @@ function SlideContent({ slide, visible }) {
       <div className={`slide ${animClass}`} style={{ background: slide.bg, color: slide.color, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '60px 80px' }}>
         <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#EE3227', marginBottom: 16 }}>{slide.label}</div>
         <h2 style={{ fontSize: 40, fontWeight: 800, fontFamily: "'Playfair Display', serif", letterSpacing: -1, marginBottom: 40, color: '#134A7C' }}>{slide.title}</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, maxWidth: 1000 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10, maxWidth: 1100 }}>
           {slide.items.map((item, i) => (
             <div key={i} style={{ background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 14px', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
               <span style={{ fontSize: 20 }}>{item.icon}</span>
