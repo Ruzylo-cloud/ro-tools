@@ -582,6 +582,61 @@
   border-color: var(--jm-red);
 }
 
+/* ─── Global Search ─── */
+.searchWrap { position: relative; }
+.searchIcon {
+  position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+  color: var(--gray-400); pointer-events: none; z-index: 1;
+  flex-shrink: 0;
+}
+.searchInput {
+  width: 200px; min-width: 120px;
+  padding: 7px 12px 7px 30px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-size: 13px; font-family: inherit;
+  background: var(--white); color: var(--charcoal);
+  transition: width 0.2s, border-color 0.2s, box-shadow 0.15s;
+  outline: none;
+}
+.searchInput:focus {
+  width: 280px;
+  border-color: var(--jm-blue);
+  box-shadow: 0 0 0 3px rgba(19,74,124,0.08);
+}
+.searchInput::placeholder { color: var(--gray-400); }
+.searchResults {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  width: 340px; max-height: 400px; overflow-y: auto;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: var(--shadow-lg);
+  z-index: 500; padding: 6px;
+}
+.searchItem {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 9px 12px; text-align: left;
+  background: none; border: none; border-radius: 8px;
+  font-size: 13px; color: var(--charcoal); cursor: pointer;
+  font-family: inherit; transition: background 0.1s;
+}
+.searchItem:hover { background: rgba(19,74,124,0.05); }
+.searchItemActive { background: rgba(19,74,124,0.08) !important; }
+.searchItemIcon { font-size: 16px; flex-shrink: 0; width: 24px; text-align: center; }
+.searchItemLabel { flex: 1; font-weight: 500; }
+.searchItemPath { font-size: 11px; color: var(--gray-400); white-space: nowrap; }
+
+:global([data-theme="dark"]) .searchInput {
+  background: #252530; border-color: #3d3d4a; color: #e8e8ed;
+}
+:global([data-theme="dark"]) .searchInput:focus {
+  border-color: #4a90d0; box-shadow: 0 0 0 3px rgba(74,144,208,0.12);
+}
+:global([data-theme="dark"]) .searchResults {
+  background: #2a2a36; border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .searchItem { color: #c8c8d8; }
+:global([data-theme="dark"]) .searchItem:hover { background: rgba(74,144,208,0.1); }
+:global([data-theme="dark"]) .searchItemActive { background: rgba(74,144,208,0.15) !important; }
+
 /* RT-029: Profile dropdown */
 .profileWrap { position: relative; }
 .profileBtn {

@@ -1,19 +1,65 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useAuth } from '@/components/AuthProvider';
 import styles from './Navbar.module.css';
 
+const SEARCH_ITEMS = [
+  { label: 'Dashboard Overview', path: '/dashboard', icon: '🏠', keywords: 'home overview dashboard' },
+  { label: 'All Generators', path: '/dashboard/generators', icon: '📄', keywords: 'forms generate documents all' },
+  { label: 'Catering Order', path: '/dashboard/generators/catering-order', icon: '📝', keywords: 'catering order customer client' },
+  { label: 'Written Warning', path: '/dashboard/generators/written-warning', icon: '⚠️', keywords: 'warning discipline write-up hr' },
+  { label: 'Employee Evaluation', path: '/dashboard/generators/evaluation', icon: '📋', keywords: 'evaluation review performance' },
+  { label: 'Coaching Form', path: '/dashboard/generators/coaching-form', icon: '🗣️', keywords: 'coaching counseling conversation' },
+  { label: 'Injury Report', path: '/dashboard/generators/injury-report', icon: '🩺', keywords: 'injury incident report accident' },
+  { label: 'Resignation Letter', path: '/dashboard/generators/resignation', icon: '✉️', keywords: 'resignation quit two week notice' },
+  { label: 'Termination Form', path: '/dashboard/generators/termination', icon: '📋', keywords: 'termination fire let go separation' },
+  { label: 'Meal Break Waiver', path: '/dashboard/generators/meal-break-waiver', icon: '🍽️', keywords: 'meal break waiver lunch california' },
+  { label: 'Timesheet Correction', path: '/dashboard/generators/timesheet-correction', icon: '⏰', keywords: 'timesheet time correction punch' },
+  { label: 'Attestation Correction', path: '/dashboard/generators/attestation-correction', icon: '✍️', keywords: 'attestation correction shift' },
+  { label: 'DM Walkthrough', path: '/dashboard/generators/dm-walkthroughs', icon: '🔍', keywords: 'dm district manager walkthrough inspection' },
+  { label: 'Manager Log', path: '/dashboard/generators/manager-log', icon: '📓', keywords: 'manager log daily notes' },
+  { label: 'Work Order', path: '/dashboard/generators/work-orders', icon: '🔧', keywords: 'work order repair maintenance' },
+  { label: 'Onboarding Packet', path: '/dashboard/generators/onboarding-packets', icon: '🆕', keywords: 'onboarding new hire orientation packet' },
+  { label: 'Food Labels', path: '/dashboard/generators/food-labels', icon: '🏷️', keywords: 'food label date prep labels' },
+  { label: 'Catering Flyer', path: '/dashboard/flyer', icon: '🖨️', keywords: 'flyer catering print menu' },
+  { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
+  { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
+  { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
+  { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
+  { label: 'Document History', path: '/dashboard/history', icon: '🕐', keywords: 'history past documents generated' },
+  { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
+  { label: 'Support & Feedback', path: '/dashboard/support', icon: '💬', keywords: 'support help feedback bug report' },
+  { label: 'Admin Panel', path: '/dashboard/admin', icon: '⚙️', keywords: 'admin users roles manage' },
+];
+
+function searchFilter(q) {
+  const lower = q.toLowerCase().trim();
+  if (!lower) return [];
+  return SEARCH_ITEMS.filter(item =>
+    item.label.toLowerCase().includes(lower) ||
+    item.keywords.toLowerCase().includes(lower)
+  ).slice(0, 8);
+}
+
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const router = useRouter();
   const [isAdmin, setIsAdmin] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navRef = useRef(null);
+  const searchRef = useRef(null);
   const pathname = usePathname();
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchSelected, setSearchSelected] = useState(-1);
 
   const isActive = (path) => {
     if (path === '/dashboard') return pathname === '/dashboard';
@@ -88,6 +134,67 @@ export default function Navbar() {
     localStorage.setItem('ro-tools-theme', next);
   }, [theme]);
 
+  // Search: Ctrl+K or / to focus
+  useEffect(() => {
+    function handleKey(e) {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchRef.current?.focus();
+      } else if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+        const tag = document.activeElement?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable) return;
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    }
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
+  const handleSearchChange = useCallback((e) => {
+    const q = e.target.value;
+    setSearchQuery(q);
+    setSearchSelected(-1);
+    const results = searchFilter(q);
+    setSearchResults(results);
+    setSearchOpen(results.length > 0);
+  }, []);
+
+  const handleSearchKeyDown = useCallback((e) => {
+    if (!searchOpen) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setSearchSelected(prev => Math.min(prev + 1, searchResults.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setSearchSelected(prev => Math.max(prev - 1, -1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const idx = searchSelected >= 0 ? searchSelected : 0;
+      if (searchResults[idx]) {
+        router.push(searchResults[idx].path);
+        setSearchQuery('');
+        setSearchOpen(false);
+        setSearchResults([]);
+        searchRef.current?.blur();
+      }
+    } else if (e.key === 'Escape') {
+      setSearchOpen(false);
+      searchRef.current?.blur();
+    }
+  }, [searchOpen, searchResults, searchSelected, router]);
+
+  const handleSearchBlur = useCallback(() => {
+    setTimeout(() => setSearchOpen(false), 150);
+  }, []);
+
+  const handleSearchItemClick = useCallback((path) => {
+    router.push(path);
+    setSearchQuery('');
+    setSearchOpen(false);
+    setSearchResults([]);
+  }, [router]);
+
   return (
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.left}>
@@ -159,7 +266,45 @@ export default function Navbar() {
       </div>
 
       <div className={styles.right}>
-        {/* RT-064: Notification bell */}
+        {/* Global search */}
+        <div className={styles.searchWrap} ref={searchRef}>
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+            <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input
+              type="search"
+              className={styles.searchInput}
+              placeholder="Search… (Ctrl+K)"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onKeyDown={handleSearchKeyDown}
+              onBlur={handleSearchBlur}
+              onFocus={() => searchQuery && setSearchOpen(searchResults.length > 0)}
+              aria-label="Global search"
+              autoComplete="off"
+            />
+            {searchOpen && searchResults.length > 0 && (
+              <div className={styles.searchResults} role="listbox">
+                {searchResults.map((item, i) => (
+                  <button
+                    key={item.path}
+                    className={`${styles.searchItem} ${i === searchSelected ? styles.searchItemActive : ''}`}
+                    onMouseDown={() => handleSearchItemClick(item.path)}
+                    role="option"
+                    aria-selected={i === searchSelected}
+                  >
+                    <span className={styles.searchItemIcon}>{item.icon}</span>
+                    <span className={styles.searchItemLabel}>{item.label}</span>
+                    <span className={styles.searchItemPath}>{item.path.replace('/dashboard', '')}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Notification bell */}
         <Link
           href="/dashboard/updates"
           className={styles.iconBtn}
@@ -186,23 +331,6 @@ export default function Navbar() {
         <button className={styles.iconBtn} onClick={toggleTheme} aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'} title={theme === 'light' ? 'Dark mode' : 'Light mode'} style={{ fontSize: '18px' }}>
           {theme === 'light' ? '\u{1F319}' : '\u{2600}\u{FE0F}'}
         </button>
-        {/* Support icon */}
-        <Link href="/dashboard/support" className={styles.iconBtn} onClick={closeDropdown} aria-label="Support and feedback" title="Support">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-            <line x1="12" y1="17" x2="12.01" y2="17" />
-          </svg>
-        </Link>
-        {/* Admin gear icon — conditional */}
-        {isAdmin && (
-          <Link href="/dashboard/admin" className={styles.iconBtn} onClick={closeDropdown} aria-label="Admin Panel" title="Admin Panel">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
-          </Link>
-        )}
         {/* RT-029: Profile dropdown */}
         {user && (
           <div className={styles.profileWrap}>
@@ -247,6 +375,12 @@ export default function Navbar() {
                   <span className={styles.dropdownIcon}>💬</span>
                   <div><div className={styles.dropdownLabel}>Support</div></div>
                 </Link>
+                {isAdmin && (
+                  <Link href="/dashboard/admin" className={styles.dropdownItem} onClick={closeDropdown}>
+                    <span className={styles.dropdownIcon}>⚙️</span>
+                    <div><div className={styles.dropdownLabel}>Admin Panel</div></div>
+                  </Link>
+                )}
                 <div className={styles.dropdownDivider} />
                 <button className={`${styles.dropdownItem} ${styles.signOutItem}`} onClick={() => { closeDropdown(); logout(); }}>
                   <span className={styles.dropdownIcon}>🚪</span>
