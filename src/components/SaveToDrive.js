@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useToast } from '@/components/Toast';
 import { logActivity } from '@/lib/log-activity';
 
 /**
@@ -13,6 +14,7 @@ import { logActivity } from '@/lib/log-activity';
  *  - formData: object, form data for audit logging
  */
 export default function SaveToDrive({ getCanvasRef, fileName, disabled, generatorType, formData }) {
+  const { showToast } = useToast();
   const [saving, setSaving] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [folders, setFolders] = useState([]);
@@ -165,7 +167,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
         loadFolders(currentFolderId);
       }
     } catch {
-      alert('Failed to create folder');
+      showToast('Failed to create folder', 'error');
     }
   };
 
