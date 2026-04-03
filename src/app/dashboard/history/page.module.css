@@ -86,6 +86,46 @@
 }
 .badgeDownload { background: var(--gray-100); color: var(--gray-600); }
 .badgeDrive { background: rgba(19, 74, 124, 0.1); color: #134A7C; }
+
+/* ═══ Dark Theme ═══ */
+:global([data-theme="dark"]) .tableWrap {
+  background: var(--gray-100);
+  border-color: var(--border);
+}
+:global([data-theme="dark"]) .table th {
+  background: #252530;
+  color: var(--gray-500);
+  border-bottom-color: var(--border);
+}
+:global([data-theme="dark"]) .table tr:hover td { background: rgba(74,144,208,0.04); }
+:global([data-theme="dark"]) .badgeDrive {
+  background: rgba(74,144,208,0.12);
+  color: var(--jm-blue);
+}
+:global([data-theme="dark"]) .badgeDownload {
+  background: var(--gray-200);
+  color: var(--gray-500);
+}
+:global([data-theme="dark"]) .pageBtn {
+  background: var(--gray-100);
+  color: var(--jm-blue);
+  border-color: var(--border);
+}
+:global([data-theme="dark"]) .pageBtn:hover:not(:disabled) {
+  background: #252530;
+  border-color: var(--jm-blue);
+}
+:global([data-theme="dark"]) .searchInput,
+:global([data-theme="dark"]) .filterSelect,
+:global([data-theme="dark"]) .dateInput {
+  background: var(--gray-100);
+  color: var(--charcoal);
+  border-color: var(--border);
+}
+:global([data-theme="dark"]) .spinner {
+  border-color: var(--gray-200);
+  border-top-color: var(--jm-blue);
+}
 .badgeEmail { background: rgba(22, 163, 74, 0.1); color: #16a34a; }
 
 /* ─── Re-generate Link ─── */

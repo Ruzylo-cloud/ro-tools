@@ -352,6 +352,10 @@
 }
 
 /* ─── RT-207: Dark mode article styling ─── */
+:global([data-theme="dark"]) .directive {
+  background: #1e1e24;
+  border-color: #3d3d4a;
+}
 :global([data-theme="dark"]) .directiveBody {
   background: #1e1e2a;
   color: #e0e0ed;
@@ -360,11 +364,19 @@
   background: #252535;
   border-color: #3d3d4a;
 }
+:global([data-theme="dark"]) .directiveHeader:hover {
+  background: rgba(74,144,208,0.05);
+}
 :global([data-theme="dark"]) .directiveTitle {
   color: #c8d8e8;
 }
 :global([data-theme="dark"]) .item {
+  background: #252530;
   border-color: #3d3d4a;
+}
+:global([data-theme="dark"]) .highlightBlock {
+  background: rgba(74,144,208,0.08);
+  border-color: rgba(74,144,208,0.2);
 }
 :global([data-theme="dark"]) .container {
   background: #16161e;
