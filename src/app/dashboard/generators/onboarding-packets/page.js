@@ -176,11 +176,13 @@ export default function OnboardingPacketsPage() {
                 onChange={(name, emp) => {
                   handleChange('employeeName', name);
                   if (emp && emp.id) handleChange('_employeeId', emp.id);
+                  if (errors.employeeName) setErrors(p => ({ ...p, employeeName: null }));
                 }}
                 onPositionFill={(pos) => handleChange('position', pos)}
                 storeNumber={form.storeNumber}
                 placeholder="Search employees..."
               />
+              {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.field}>

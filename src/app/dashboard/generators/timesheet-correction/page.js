@@ -173,16 +173,20 @@ export default function TimesheetCorrectionPage() {
                   <div className={styles.charCount}>{(form[key] || '').length}/500</div>
                 </>
               ) : key === 'employeeName' ? (
-                <EmployeeSelect
-                  value={form.employeeName}
-                  onChange={(name, emp) => {
-                    handleChange('employeeName', name);
-                    if (emp && emp.id) handleChange('_employeeId', emp.id);
-                  }}
-                  onPositionFill={(pos) => handleChange('employeePosition', pos)}
-                  storeNumber={form.storeNumber}
-                  placeholder="Search employees..."
-                />
+                <>
+                  <EmployeeSelect
+                    value={form.employeeName}
+                    onChange={(name, emp) => {
+                      handleChange('employeeName', name);
+                      if (emp && emp.id) handleChange('_employeeId', emp.id);
+                      if (errors.employeeName) setErrors(p => ({ ...p, employeeName: null }));
+                    }}
+                    onPositionFill={(pos) => handleChange('employeePosition', pos)}
+                    storeNumber={form.storeNumber}
+                    placeholder="Search employees..."
+                  />
+                  {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
+                </>
               ) : (
                 <input
                   type={type}
