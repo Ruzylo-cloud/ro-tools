@@ -38,6 +38,7 @@ export default function InjuryReportPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [previewZoom, setPreviewZoom] = useState(100);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const previewRef = useRef(null);
@@ -422,9 +423,17 @@ export default function InjuryReportPage() {
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <h2 className={styles.previewTitle}>Live Preview</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--gray-500)' }}>
+            <button onClick={() => setPreviewZoom(z => Math.max(50, z - 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+            <span style={{ minWidth: '36px', textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>{previewZoom}%</span>
+            <button onClick={() => setPreviewZoom(z => Math.min(150, z + 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+            <button onClick={() => setPreviewZoom(100)} style={{ padding: '2px 8px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '11px' }}>Reset</button>
+          </div>
         </div>
-        <div className={styles.previewContainer}>
-          <InjuryReportPreview ref={previewRef} data={form} />
+        <div className={styles.previewContainer} style={{ overflow: 'auto' }}>
+          <div style={{ transform: `scale(${previewZoom / 100})`, transformOrigin: 'top left', width: `${10000 / previewZoom}%` }}>
+            <InjuryReportPreview ref={previewRef} data={form} />
+          </div>
         </div>
       </div>
     </div>

@@ -59,6 +59,7 @@ export default function ResignationPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
 
   useEffect(() => {
@@ -398,9 +399,17 @@ export default function ResignationPage() {
       <div className={styles.preview}>
         <div className={styles.previewHeader}>
           <h2 className={styles.previewTitle}>Live Preview</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--gray-500)' }}>
+            <button onClick={() => setPreviewZoom(z => Math.max(50, z - 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+            <span style={{ minWidth: '36px', textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>{previewZoom}%</span>
+            <button onClick={() => setPreviewZoom(z => Math.min(150, z + 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+            <button onClick={() => setPreviewZoom(100)} style={{ padding: '2px 8px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '11px' }}>Reset</button>
+          </div>
         </div>
-        <div className={styles.previewContainer}>
-          <ResignationPreview ref={previewRef} data={form} />
+        <div className={styles.previewContainer} style={{ overflow: 'auto' }}>
+          <div style={{ transform: `scale(${previewZoom / 100})`, transformOrigin: 'top left', width: `${10000 / previewZoom}%` }}>
+            <ResignationPreview ref={previewRef} data={form} />
+          </div>
         </div>
       </div>
     </div>
