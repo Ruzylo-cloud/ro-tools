@@ -21,7 +21,9 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(value || '');
+  const [highlightIdx, setHighlightIdx] = useState(-1);
   const ref = useRef(null);
+  const listRef = useRef(null);
 
   useEffect(() => {
     const url = storeNumber ? `/api/employees?store=${storeNumber}` : '/api/employees';
@@ -58,9 +60,12 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
     grouped[key].push(e);
   });
 
+  const flatFiltered = Object.values(grouped).flat();
+
   const selectEmployee = (emp) => {
     setSearch(emp.name);
     setOpen(false);
+    setHighlightIdx(-1);
     if (onChange) onChange(emp.name, emp);
     if (onPositionFill && emp.position) onPositionFill(emp.position);
   };
@@ -68,7 +73,28 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
   const handleInputChange = (val) => {
     setSearch(val);
     setOpen(true);
+    setHighlightIdx(-1);
     if (onChange) onChange(val, null);
+  };
+
+  const handleKeyDown = (e) => {
+    if (!open || flatFiltered.length === 0) {
+      if (e.key === 'ArrowDown') { setOpen(true); setHighlightIdx(0); e.preventDefault(); }
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightIdx(i => Math.min(i + 1, flatFiltered.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightIdx(i => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter' && highlightIdx >= 0) {
+      e.preventDefault();
+      selectEmployee(flatFiltered[highlightIdx]);
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+      setHighlightIdx(-1);
+    }
   };
 
   // If no employees loaded, just show a text input
@@ -103,6 +129,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
         value={search}
         onChange={e => handleInputChange(e.target.value)}
         onFocus={() => setOpen(true)}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder || 'Search employees...'}
         autoComplete="off"
         style={{
@@ -153,29 +180,34 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
                     {store}
                   </div>
                 )}
-                {emps.map(emp => (
-                  <div
-                    key={emp.id}
-                    onClick={() => selectEmployee(emp)}
-                    style={{
-                      padding: '8px 12px',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      transition: 'all 0.15s',
-                      fontSize: '13px',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.background = 'rgba(19,74,124,0.06)'; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                  >
-                    <span style={{ fontWeight: 500, color: 'var(--charcoal, #1a1a2e)' }}>{emp.name}</span>
-                    {emp.position && (
-                      <span style={{ fontSize: '11px', color: 'var(--gray-400, #9ca3af)' }}>{emp.position}</span>
-                    )}
-                  </div>
-                ))}
+                {emps.map(emp => {
+                  const flatIdx = flatFiltered.indexOf(emp);
+                  const isHighlighted = flatIdx === highlightIdx;
+                  return (
+                    <div
+                      key={emp.id}
+                      onClick={() => selectEmployee(emp)}
+                      style={{
+                        padding: '8px 12px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        transition: 'background 0.1s',
+                        fontSize: '13px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        background: isHighlighted ? 'rgba(19,74,124,0.1)' : 'transparent',
+                      }}
+                      onMouseEnter={() => setHighlightIdx(flatIdx)}
+                      onMouseLeave={() => setHighlightIdx(-1)}
+                    >
+                      <span style={{ fontWeight: 500, color: 'var(--charcoal, #1a1a2e)' }}>{emp.name}</span>
+                      {emp.position && (
+                        <span style={{ fontSize: '11px', color: 'var(--gray-400, #9ca3af)' }}>{emp.position}</span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ))
           )}
