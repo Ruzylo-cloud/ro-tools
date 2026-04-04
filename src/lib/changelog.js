@@ -8,6 +8,42 @@
  */
 
 export const changelog = [
+  // ── v2.9.0 — April 3, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.0',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'History Page Action Filter Now Uses Server-Side Filtering',
+    description: 'The action filter (Download / Drive Save / Email) in Document History was filtering only the current page of results, making totals and pagination wrong. Now filters server-side so counts and pages are accurate.',
+  },
+  {
+    version: 'v2.9.0',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Dashboard Recent Activity — Correct Links for Flyer & Training Docs',
+    description: 'Clicking "Open →" on a Catering Flyer or Training Document in the Recent Activity feed was 404ing. Fixed: flyer links to /dashboard/flyer and all training types link to /dashboard/documents.',
+  },
+  {
+    version: 'v2.9.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Catering Flyer Added to Navbar Catering Dropdown',
+    description: 'The Catering Flyer generator was buried in the Generators page and not accessible from the main nav. Added it to the Catering dropdown on both desktop and mobile.',
+  },
+  {
+    version: 'v2.9.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Updates Page Clears Notification Bell on Visit',
+    description: 'Visiting the Updates & Changelog page now marks updates as read, clearing the red dot from the notification bell in the Navbar.',
+  },
+  {
+    version: 'v2.9.0',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Store Number Now Editable in Store Profile',
+    description: 'Store number was set during initial setup but could not be changed from the Store Profile page. Added as an editable field.',
+  },
   // ── v2.8.0 — April 3, 2026 ───────────────────────────────────────
   {
     version: 'v2.8.0',
