@@ -36,6 +36,7 @@ export default function EvaluationPage() {
     employeeName: '',
     employeePosition: '',
     storeName: '',
+    storeNumber: '',
     evaluatorName: '',
     evaluationDate: getTodayString(),
     evaluationPeriod: '',
@@ -63,6 +64,7 @@ export default function EvaluationPage() {
           setForm(prev => ({
             ...prev,
             storeName: data.profile.storeName || '',
+            storeNumber: data.profile.storeNumber || '',
             userEmail: data.profile.email || '',
             evaluatorName: data.profile.operatorName || '',
           }));

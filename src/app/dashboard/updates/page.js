@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { changelog } from '@/lib/changelog';
 import styles from './page.module.css';
 
@@ -16,6 +17,16 @@ function formatDate(dateStr) {
 }
 
 export default function UpdatesPage() {
+  // RT-129: Mark updates as read when this page is visited
+  useEffect(() => {
+    fetch('/api/updates?limit=1')
+      .then(r => r.json())
+      .then(d => {
+        const latest = d.updates?.[0]?.id || '';
+        if (latest) localStorage.setItem('rt-last-update', latest);
+      })
+      .catch(() => {});
+  }, []);
   // Group entries by version, then sort groups by date (newest first)
   const grouped = [];
   const seen = new Set();
