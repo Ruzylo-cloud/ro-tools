@@ -8,6 +8,28 @@
  */
 
 export const changelog = [
+  // ── v2.9.3 — April 3, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.3',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Fix Broken Re-Generate Links for Flyer and Training Documents',
+    description: 'The History page "Re-generate" button linked to /dashboard/generators/training-level1 and similar paths that do not exist. Flyer re-generates now go to /dashboard/flyer and all training types go to /dashboard/documents with the correct template pre-selected.',
+  },
+  {
+    version: 'v2.9.3',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Fix Stale Closure in Flyer and Documents Ctrl+Enter Handlers',
+    description: 'The Catering Flyer and Documents pages registered their keyboard handlers with outdated references to handleDownload. Ctrl+Enter would use stale form data if fields were changed after mount. Both pages now correctly track the latest handler.',
+  },
+  {
+    version: 'v2.9.3',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Store Count Updated to 30+',
+    description: 'The dashboard home page showed "29+ locations" in two places but JMVG has 30 stores. Updated to 30+.',
+  },
   // ── v2.9.2 — April 4, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.2',
