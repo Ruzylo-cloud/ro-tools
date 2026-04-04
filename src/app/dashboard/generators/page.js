@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import styles from './page.module.css';
 
@@ -156,7 +157,8 @@ function getRecentlyUsed() {
 }
 
 export default function GeneratorsPage() {
-  const [search, setSearch] = useState('');
+  const searchParams = useSearchParams();
+  const [search, setSearch] = useState(() => searchParams?.get('q') || '');
   // RT-082: Usage counts
   const [usageMap, setUsageMap] = useState({});
   // RT-111: Recently used
