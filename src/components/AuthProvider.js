@@ -14,10 +14,10 @@ export function AuthProvider({ children }) {
       const now = Date.now();
       const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days
       for (const key of Object.keys(localStorage)) {
-        if (key.startsWith('rt-draft-')) {
+        if (key.startsWith('ro-tools-draft-')) {
           try {
             const val = JSON.parse(localStorage.getItem(key));
-            if (val && val._savedAt && now - val._savedAt > maxAge) {
+            if (val && val.ts && now - val.ts > maxAge) {
               localStorage.removeItem(key);
             }
           } catch { localStorage.removeItem(key); }
