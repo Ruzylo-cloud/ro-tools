@@ -7,7 +7,7 @@
  * Returns sorted by store_number, then name.
  */
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { getSession } from '@/lib/session';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,8 +16,7 @@ const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f
 
 export async function GET(request) {
   try {
-    const cookieStore = await cookies();
-    const session = cookieStore.get('ro_session');
+    const session = getSession(); // RT-150: was checking cookie existence only, never verifying token
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
