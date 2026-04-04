@@ -20,7 +20,7 @@ const TOUR_STEPS = [
   {
     icon: '📄',
     title: 'Document Generators',
-    desc: '12 professional PDF generators \u2014 written warnings, evaluations, injury reports, and more. Auto-filled with your store info.',
+    desc: '15 professional PDF generators \u2014 written warnings, evaluations, injury reports, catering orders, work orders, and more. Auto-filled with your store info.',
     path: '/dashboard/generators',
   },
   {
