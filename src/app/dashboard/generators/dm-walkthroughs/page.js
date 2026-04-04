@@ -109,6 +109,11 @@ export default function DMWalkthroughsPage() {
     if (mountedRef.current) setGenerating(false);
   }, [form, showToast]);
 
+  // RT-139: Keyboard shortcut Ctrl+Enter to download
+  const handleKeyDown = useCallback((e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); }
+  }, [handleDownload]);
+
   const totalScore = CATEGORIES.reduce((sum, c) => sum + (parseInt(form.scores[c]) || 0), 0);
   const maxScore = CATEGORIES.length * 10;
   const pct = maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0;
@@ -119,7 +124,7 @@ export default function DMWalkthroughsPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={handleKeyDown}>
       <div className={styles.sidebar}>
         <h2 className={styles.sidebarTitle}>DM Walk-Through</h2>
         <p className={styles.sidebarDesc}>

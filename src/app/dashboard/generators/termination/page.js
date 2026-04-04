@@ -193,6 +193,11 @@ export default function TerminationPage() {
     if (mountedRef.current) setGenerating(false);
   }, [form, showToast]);
 
+  // RT-139: Keyboard shortcut Ctrl+Enter to download
+  const handleKeyDown = useCallback((e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); }
+  }, [handleDownload]);
+
   if (loading) {
     return (
       <div className={styles.container}>
@@ -202,7 +207,7 @@ export default function TerminationPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={handleKeyDown}>
       {/* Sidebar */}
       <div className={styles.sidebar}>
         <h2 className={styles.sidebarTitle}>Employee Termination</h2>

@@ -261,6 +261,11 @@ export default function CateringOrderPage() {
     if (mountedRef.current) setGenerating(false);
   }, [form, totalPrice, totalSubs, showToast]);
 
+  // RT-139: Keyboard shortcut Ctrl+Enter to download
+  const handleKeyDown = useCallback((e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); }
+  }, [handleDownload]);
+
   const previewData = {
     ...form,
     numberOfBoxes,
@@ -284,7 +289,7 @@ export default function CateringOrderPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={handleKeyDown}>
       {/* Sidebar */}
       <div className={styles.sidebar}>
         <h2 className={styles.sidebarTitle}>Catering Order Form</h2>

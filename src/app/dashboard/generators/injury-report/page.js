@@ -216,6 +216,11 @@ export default function InjuryReportPage() {
     if (mountedRef.current) setSending(false);
   }, [form, user, showToast]);
 
+  // RT-139: Keyboard shortcut Ctrl+Enter to download
+  const handleKeyDown = useCallback((e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); }
+  }, [handleDownload]);
+
   if (loading) {
     return (
       <div className={styles.container}>
@@ -225,7 +230,7 @@ export default function InjuryReportPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={handleKeyDown}>
       <div className={styles.sidebar}>
         <h2 className={styles.sidebarTitle}>Injury Report</h2>
         <p className={styles.sidebarDesc}>

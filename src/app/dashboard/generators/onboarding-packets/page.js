@@ -150,6 +150,11 @@ export default function OnboardingPacketsPage() {
     if (mountedRef.current) setGenerating(false);
   }, [form, showToast]);
 
+  // RT-139: Keyboard shortcut Ctrl+Enter to download
+  const handleKeyDown = useCallback((e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); }
+  }, [handleDownload]);
+
   const allDocs = [...form.documents, ...form.customDocs.filter(d => d.name)];
   const completedCount = form.completedDocs.length;
   const totalCount = allDocs.length;
@@ -159,7 +164,7 @@ export default function OnboardingPacketsPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={handleKeyDown}>
       <div className={styles.sidebar}>
         <h2 className={styles.sidebarTitle}>Onboarding Packet</h2>
         <p className={styles.sidebarDesc}>

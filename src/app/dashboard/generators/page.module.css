@@ -368,6 +368,18 @@
 }
 @keyframes genPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
+/* ─── Loading overlay dark mode ─── */
+:global([data-theme="dark"]) .genLoadingCard {
+  background: #2a2a36;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+:global([data-theme="dark"]) .genLoadingSpinner {
+  border-color: #3d3d4a;
+  border-top-color: #ee3227;
+}
+:global([data-theme="dark"]) .genLoadingTitle { color: #e8e8ed; }
+:global([data-theme="dark"]) .genLoadingSub { color: #8888a0; }
+
 /* ─── RT-049: Responsive grid improvements ─── */
 @media (max-width: 1400px) {
   .grid { grid-template-columns: repeat(3, 1fr); }
