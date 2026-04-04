@@ -51,6 +51,8 @@ export default function DashboardLayout({ children }) {
   const [isDemoMode, setIsDemoMode] = useState(false);
   // RT-026: Session timeout warning
   const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
+  // RT-073: Keyboard shortcut help
+  const [showShortcutHelp, setShowShortcutHelp] = useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -89,6 +91,19 @@ export default function DashboardLayout({ children }) {
     const title = PAGE_TITLES[pathname] || 'RO Tools';
     document.title = title;
   }, [pathname]);
+
+  // RT-073: Global ? to show keyboard shortcut help
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === '?' && !e.ctrlKey && !e.metaKey && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+        e.preventDefault();
+        setShowShortcutHelp(v => !v);
+      }
+      if (e.key === 'Escape') setShowShortcutHelp(false);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   // RT-120: Global Ctrl+Enter to trigger Download PDF on generator pages
   useEffect(() => {
@@ -179,6 +194,29 @@ export default function DashboardLayout({ children }) {
             <div>Your session will expire in 5 minutes. Save your work.</div>
           </div>
           <button onClick={() => setShowTimeoutWarning(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#92400e', fontSize: 16, flexShrink: 0, padding: '0 2px', marginLeft: 4 }}>×</button>
+        </div>
+      )}
+      {/* RT-073: Keyboard shortcut help overlay */}
+      {showShortcutHelp && (
+        <div onClick={() => setShowShortcutHelp(false)} style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '16px', padding: '28px 32px', width: '360px', maxWidth: '90vw', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+              <h2 style={{ fontSize: '17px', fontWeight: 800, color: 'var(--jm-blue)', margin: 0 }}>Keyboard Shortcuts</h2>
+              <button onClick={() => setShowShortcutHelp(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: 'var(--gray-400)', lineHeight: 1 }}>×</button>
+            </div>
+            {[
+              ['⌘K / Ctrl+K', 'Open generator search'],
+              ['⌘↵ / Ctrl+Enter', 'Download PDF (on generator pages)'],
+              ['?', 'Show this help'],
+              ['Esc', 'Close this dialog'],
+            ].map(([key, desc]) => (
+              <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '9px 0', borderBottom: '1px solid var(--gray-100)' }}>
+                <span style={{ fontSize: '13px', color: 'var(--gray-600)' }}>{desc}</span>
+                <kbd style={{ fontSize: '11px', fontFamily: 'monospace', background: 'var(--gray-100)', border: '1px solid var(--border)', borderRadius: '5px', padding: '2px 8px', color: 'var(--gray-700)', whiteSpace: 'nowrap' }}>{key}</kbd>
+              </div>
+            ))}
+            <p style={{ marginTop: 14, fontSize: '11px', color: 'var(--gray-400)', textAlign: 'center', marginBottom: 0 }}>Press <kbd style={{ fontSize: '10px', background: 'var(--gray-100)', border: '1px solid var(--border)', borderRadius: '4px', padding: '1px 5px' }}>?</kbd> anytime to toggle</p>
+          </div>
         </div>
       )}
       {/* Demo Mode Badge */}
