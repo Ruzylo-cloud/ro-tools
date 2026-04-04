@@ -7,6 +7,7 @@ import WorkOrderPreview from '@/components/WorkOrderPreview';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -32,6 +33,7 @@ export default function WorkOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -82,6 +84,9 @@ export default function WorkOrdersPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'description', label: 'Issue Description' }]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -149,8 +154,9 @@ export default function WorkOrdersPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Description</label>
-              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => handleChange('description', e.target.value)} placeholder="Describe the issue, when it started, and any troubleshooting already tried..." maxLength={800} />
+              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => { handleChange('description', e.target.value); if (errors.description) setErrors(p => ({ ...p, description: null })); }} placeholder="Describe the issue, when it started, and any troubleshooting already tried..." maxLength={800} />
               <div className={styles.charCount}>{(form.description || '').length}/800</div>
+              {errors.description && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.description}</div>}
             </div>
           </div>
         </div>
