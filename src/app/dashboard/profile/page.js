@@ -11,6 +11,7 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 const DEFAULT_HOURS = { open: '10:00', close: '21:00', closed: false };
 
 const STORE_FIELDS = [
+  { key: 'storeNumber', label: 'Store Number', placeholder: '12345' },
   { key: 'storeName', label: 'Store Name', placeholder: "Jersey Mike's #12345" },
   { key: 'street', label: 'Street Address', placeholder: '199 S Turnpike Rd' },
   { key: 'city', label: 'City', placeholder: 'Santa Barbara' },
