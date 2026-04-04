@@ -4,7 +4,7 @@
  * GET: lists documents for an employee
  */
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { getSession } from '@/lib/session';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -21,8 +21,7 @@ async function ensureDir(dir) {
 
 export async function POST(request) {
   try {
-    const cookieStore = await cookies();
-    const session = cookieStore.get('ro_session');
+    const session = getSession(); // RT-150: was checking cookie existence only, never verifying token
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
@@ -99,8 +98,7 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
-    const cookieStore = await cookies();
-    const session = cookieStore.get('ro_session');
+    const session = getSession(); // RT-150: proper token verification
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
