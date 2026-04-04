@@ -35,6 +35,9 @@ export async function POST(request) {
     }
   }
 
+  // RT-158: Sanitize subject to prevent header injection (strip newlines)
+  const safeSubject = String(subject).replace(/[\r\n]/g, ' ').slice(0, 500);
+
   try {
     const gmail = getGmail(auth.client);
     const from = session.email;
@@ -44,7 +47,7 @@ export async function POST(request) {
     const messageParts = [
       `From: ${session.name} <${from}>`,
       `To: ${toStr}`,
-      `Subject: ${subject}`,
+      `Subject: ${safeSubject}`,
       'MIME-Version: 1.0',
       'Content-Type: text/html; charset=utf-8',
       '',
