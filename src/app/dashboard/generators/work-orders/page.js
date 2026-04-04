@@ -31,6 +31,7 @@ export default function WorkOrdersPage() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
@@ -95,7 +96,7 @@ export default function WorkOrdersPage() {
       const fileName = `work-order-${slug}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'work-orders', action: 'download', formData: form, filename: fileName });
-      showToast('Work order PDF downloaded!', 'success'); clearDraft();
+      showToast('Work order PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -202,9 +203,10 @@ export default function WorkOrdersPage() {
           </div>
         </div>
 
-        <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
-          {generating ? 'Generating...' : 'Download Work Order PDF'}
+        <button className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`} onClick={handleDownload} disabled={generating} title="Ctrl+Enter to download">
+          {generating ? <><span className="gen-btn-spinner" />Generating...</> : showSuccess ? '✓ Downloaded!' : 'Download Work Order PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
       </div>
 
       <div className={styles.preview}>

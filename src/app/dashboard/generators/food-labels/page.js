@@ -32,6 +32,7 @@ export default function FoodLabelsPage() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
@@ -99,7 +100,7 @@ export default function FoodLabelsPage() {
       const fileName = `food-labels-${name}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'food-labels', action: 'download', formData: form, filename: fileName });
-      showToast('Food labels PDF downloaded!', 'success'); clearDraft();
+      showToast('Food labels PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -205,9 +206,10 @@ export default function FoodLabelsPage() {
           </div>
         </div>
 
-        <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
-          {generating ? 'Generating...' : 'Print Labels (PDF)'}
+        <button className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`} onClick={handleDownload} disabled={generating} title="Ctrl+Enter to download">
+          {generating ? <><span className="gen-btn-spinner" />Generating...</> : showSuccess ? '✓ Downloaded!' : 'Print Labels (PDF)'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
       </div>
 
       <div className={styles.preview}>

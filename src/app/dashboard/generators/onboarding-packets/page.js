@@ -32,6 +32,7 @@ export default function OnboardingPacketsPage() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
@@ -135,7 +136,7 @@ export default function OnboardingPacketsPage() {
       }
 
       logActivity({ generatorType: 'onboarding-packets', action: 'download', formData: { ...form, completedDocs: form.completedDocs }, filename: fileName });
-      showToast('Onboarding packet PDF downloaded!', 'success'); clearDraft();
+      showToast('Onboarding packet PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -252,9 +253,10 @@ export default function OnboardingPacketsPage() {
           </div>
         </div>
 
-        <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
-          {generating ? 'Generating...' : 'Download Onboarding PDF'}
+        <button className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`} onClick={handleDownload} disabled={generating} title="Ctrl+Enter to download">
+          {generating ? <><span className="gen-btn-spinner" />Generating...</> : showSuccess ? '✓ Downloaded!' : 'Download Onboarding PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
       </div>
 
       <div className={styles.preview}>

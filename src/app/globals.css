@@ -1762,3 +1762,17 @@ mark.rt-match { background: rgba(238,50,39,0.15); color: inherit; border-radius:
 
 /* ─── RT-268: CSS containment for isolated panels ─── */
 .rt-isolated { contain: layout style; }
+
+/* ─── RT-117/118: Generator download button states (global, used across all generators) ─── */
+@keyframes gen-spin { to { transform: rotate(360deg); } }
+.gen-btn-spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff;
+  border-radius: 50%; animation: gen-spin 0.7s linear infinite; flex-shrink: 0;
+  vertical-align: middle; margin-right: 6px;
+}
+.gen-download-success { background: #16a34a !important; border-color: #16a34a !important; }
+.gen-keyboard-hint {
+  font-size: 11px; color: var(--gray-400); text-align: center;
+  margin-top: 6px; margin-bottom: 0;
+}

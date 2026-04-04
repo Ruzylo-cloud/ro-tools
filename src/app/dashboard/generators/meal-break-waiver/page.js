@@ -36,6 +36,7 @@ export default function MealBreakWaiverPage() {
   });
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
@@ -106,7 +107,7 @@ export default function MealBreakWaiverPage() {
       }
 
       logActivity({ generatorType: 'meal-break-waiver', action: 'download', formData: form, filename });
-      if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); }
+      if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -177,9 +178,10 @@ export default function MealBreakWaiverPage() {
             </div>
           ))}
         </div>
-        <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
-          {generating ? 'Generating PDF...' : 'Download PDF'}
+        <button className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`} onClick={handleDownload} disabled={generating} title="Ctrl+Enter to download">
+          {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
           fileName={getFileName()}

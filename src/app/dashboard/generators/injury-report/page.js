@@ -37,6 +37,7 @@ export default function InjuryReportPage() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
   const previewRef = useRef(null);
@@ -130,7 +131,7 @@ export default function InjuryReportPage() {
       }
 
       logActivity({ generatorType: 'injury-report', action: 'download', formData: form, filename: fileName });
-      showToast('PDF downloaded successfully!', 'success'); clearDraft();
+      showToast('PDF downloaded successfully!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
@@ -394,9 +395,10 @@ export default function InjuryReportPage() {
           </div>
         </div>
 
-        <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
-          {generating ? 'Generating PDF...' : 'Download PDF'}
+        <button className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`} onClick={handleDownload} disabled={generating} title="Ctrl+Enter to download">
+          {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
 
         {sent ? (
           <div className={styles.sentBadge}>

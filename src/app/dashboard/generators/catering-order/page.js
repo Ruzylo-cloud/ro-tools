@@ -23,6 +23,7 @@ export default function CateringOrderPage() {
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
   const prefillApplied = useRef(false);
@@ -246,7 +247,7 @@ export default function CateringOrderPage() {
           }),
         }).catch(() => {});
       }
-      showToast('PDF downloaded successfully!', 'success'); clearDraft();
+      showToast('PDF downloaded successfully!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
@@ -559,9 +560,10 @@ export default function CateringOrderPage() {
           </div>
         )}
 
-        <button className={styles.downloadBtn} onClick={handleDownload} disabled={generating}>
-          {generating ? 'Generating PDF...' : 'Download PDF'}
+        <button className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`} onClick={handleDownload} disabled={generating} title="Ctrl+Enter to download">
+          {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
           fileName="catering-order.pdf"

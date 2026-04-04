@@ -49,6 +49,7 @@ export default function EvaluationPage() {
   });
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [errors, setErrors] = useState({}); // RT-135
   const previewRef = useRef(null);
 
@@ -140,7 +141,7 @@ export default function EvaluationPage() {
 
       logActivity({ generatorType: 'evaluation', action: 'download', formData: form, filename: fileName });
       // RT-118: Success feedback
-      if (mountedRef.current) { showToast('✓ PDF downloaded! Evaluation saved to employee record.', 'success'); clearDraft(); }
+      if (mountedRef.current) { showToast('✓ PDF downloaded! Evaluation saved to employee record.', 'success'); clearDraft(); setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
@@ -345,12 +346,14 @@ export default function EvaluationPage() {
         </div>
 
         <button
-          className={styles.downloadBtn}
+          className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`}
           onClick={handleDownload}
           disabled={generating}
+          title="Ctrl+Enter to download"
         >
-          {generating ? 'Generating PDF...' : 'Download PDF'}
+          {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
           fileName="performance-evaluation.pdf"
