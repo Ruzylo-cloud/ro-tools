@@ -38,7 +38,7 @@ const TOUR_STEPS = [
   {
     icon: '🏆',
     title: 'Scoreboard',
-    desc: '12 weeks of performance data across all 29+ stores. Grand Slams, Trifectas, and growth rankings.',
+    desc: '12 weeks of performance data across all 30+ stores. Grand Slams, Trifectas, and growth rankings.',
     path: '/dashboard/scoreboard',
   },
   // L10 removed from RO Tools — now on RO Control only

@@ -239,7 +239,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className={`${styles.heroFloatBadge} ${styles.float1}`}>&#x2728; PDF Ready</div>
-              <div className={`${styles.heroFloatBadge} ${styles.float2}`}>&#x1F680; 29 Stores</div>
+              <div className={`${styles.heroFloatBadge} ${styles.float2}`}>&#x1F680; 30+ Stores</div>
             </div>
           </div>
         </div>
@@ -254,7 +254,7 @@ export default function LandingPage() {
           </div>
           <div className={styles.statDivider}></div>
           <div className={styles.statItem}>
-            <div className={styles.statNumber}>29+</div>
+            <div className={styles.statNumber}>30+</div>
             <div className={styles.statLabel}>JMVG Stores</div>
           </div>
           <div className={styles.statDivider}></div>

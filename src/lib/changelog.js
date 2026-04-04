@@ -12,6 +12,13 @@ export const changelog = [
   {
     version: 'v2.9.3',
     date: '2026-04-03',
+    category: 'improvement',
+    title: 'Update Store Count to 30+ Across Landing Page and Tour',
+    description: 'The landing page hero badge, stats bar, and Quick Tour steps still referenced "29 stores." All instances now consistently show "30+" to reflect the current JMVG footprint.',
+  },
+  {
+    version: 'v2.9.3',
+    date: '2026-04-03',
     category: 'bug_fix',
     title: 'Fix Update Notification Bell Missing New Entries',
     description: 'The "Updates" notification dot compared a version+index ID against the last-seen ID. Adding new entries at the top of an existing version reused the same "v2.9.3-0" ID — so the bell never fired for the new content. IDs now use version+title-slug and are stable when entries are added.',
