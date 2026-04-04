@@ -42,6 +42,17 @@ const ACTION_LABELS = {
 
 const LIMIT = 50;
 
+// RT-147: Map generator type to correct route (some aren't under /generators/)
+function getRegenUrl(type) {
+  if (type === 'flyer') return '/dashboard/flyer';
+  if (type === 'new-hire-checklist') return '/dashboard/documents?template=newhire';
+  if (type?.startsWith('training-')) {
+    const tpl = type.replace('training-', '');
+    return `/dashboard/documents?template=${tpl}`;
+  }
+  return `/dashboard/generators/${type}`;
+}
+
 function getKeyDetail(log) {
   const fd = log.formData || {};
   if (log.generatorType === 'flyer') return fd.storeName || '';
@@ -267,7 +278,7 @@ export default function HistoryPage() {
                     <td className={styles.detailCell}>{getKeyDetail(log)}</td>
                     <td>
                       <Link
-                        href={`/dashboard/generators/${log.generatorType}?prefill=1`}
+                        href={getRegenUrl(log.generatorType)}
                         className={styles.regenLink}
                       >
                         Re-generate
