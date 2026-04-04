@@ -159,7 +159,7 @@ export default function ProfilePage() {
 
         {/* Stores */}
         {stores.map((store, idx) => (
-          <div key={idx} style={{ border: '1px solid var(--border)', borderRadius: 12, padding: 20, marginBottom: 16, background: '#fafbfc' }}>
+          <div key={idx} style={{ border: '1px solid var(--border)', borderRadius: 12, padding: 20, marginBottom: 16, background: 'var(--gray-50)' }}>
             {isMultiStore && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <strong style={{ color: '#134A7C' }}>Store {idx + 1}</strong>

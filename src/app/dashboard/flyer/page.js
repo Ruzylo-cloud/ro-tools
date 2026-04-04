@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import FlyerPreview from '@/components/FlyerPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const EDITABLE_FIELDS = [
@@ -53,11 +54,13 @@ export default function FlyerPage() {
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
-  // RT-141: template selector
-  const [flyerTemplate, setFlyerTemplate] = useState('classic');
-  // RT-140: menu overrides { [itemName]: { name, desc } }
-  const [menuOverrides, setMenuOverrides] = useState({});
+  const [showSuccess, setShowSuccess] = useState(false);
+  // RT-141: template selector — persisted in draft
+  const [flyerDraft, setFlyerDraft, clearFlyerDraft] = useFormDraft('flyer', { template: 'classic', overrides: {} });
+  const flyerTemplate = flyerDraft.template || 'classic';
+  const menuOverrides = flyerDraft.overrides || {};
   const [showMenuEditor, setShowMenuEditor] = useState(false);
+  const [previewZoom, setPreviewZoom] = useState(100);
   const flyerRef = useRef(null);
 
   useEffect(() => {
@@ -75,16 +78,22 @@ export default function FlyerPage() {
     setForm(prev => ({ ...prev, [key]: value }));
   };
 
+  const setFlyerTemplate = (t) => setFlyerDraft(prev => ({ ...prev, template: t }));
+
   const handleMenuOverride = (itemKey, field, value) => {
-    setMenuOverrides(prev => {
-      const current = prev[itemKey] || {};
+    setFlyerDraft(prev => {
+      const prevOverrides = prev.overrides || {};
+      const current = prevOverrides[itemKey] || {};
       const item = ALL_MENU_ITEMS.find(i => i.key === itemKey);
       return {
         ...prev,
-        [itemKey]: {
-          name: current.name !== undefined ? current.name : itemKey,
-          desc: current.desc !== undefined ? current.desc : (item?.defaultDesc ?? ''),
-          [field]: value,
+        overrides: {
+          ...prevOverrides,
+          [itemKey]: {
+            name: current.name !== undefined ? current.name : itemKey,
+            desc: current.desc !== undefined ? current.desc : (item?.defaultDesc ?? ''),
+            [field]: value,
+          },
         },
       };
     });
@@ -92,6 +101,18 @@ export default function FlyerPage() {
 
   const mountedRef = useRef(true);
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
+
+  // Keyboard shortcut: Ctrl+Enter to download
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !generating) {
+        e.preventDefault();
+        handleDownload();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [generating]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDownload = useCallback(async () => {
     if (!flyerRef.current) return;
@@ -120,12 +141,16 @@ export default function FlyerPage() {
       pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
       pdf.save('catering-flyer.pdf');
       logActivity({ generatorType: 'flyer', action: 'download', formData: form, filename: 'catering-flyer.pdf' });
+      if (mountedRef.current) {
+        setShowSuccess(true);
+        setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000);
+      }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
     }
     if (mountedRef.current) setGenerating(false);
-  }, [showToast]);
+  }, [showToast, form]);
 
   if (loading) {
     return (
@@ -238,11 +263,20 @@ export default function FlyerPage() {
         </div>
 
         <button
-          className={styles.downloadBtn}
+          className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`}
           onClick={handleDownload}
           disabled={generating}
+          title="Ctrl+Enter to download"
         >
-          {generating ? 'Generating PDF...' : 'Download PDF'}
+          {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
+        </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
+        <button
+          type="button"
+          onClick={() => { if (confirm('Clear all customizations and start over?')) { clearFlyerDraft(); window.location.reload(); } }}
+          style={{ width: '100%', marginTop: '6px', padding: '6px', background: 'none', border: 'none', fontSize: '12px', color: 'var(--gray-400)', cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          ↺ Start over
         </button>
 
         <SaveToDrive
@@ -256,16 +290,24 @@ export default function FlyerPage() {
 
       {/* Preview */}
       <div className={styles.preview}>
-        <div className={styles.previewHeader}>
+        <div className={styles.previewHeader} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '16px' }}>
           <h2 className={styles.previewTitle}>Live Preview</h2>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--gray-500)' }}>
+            <button onClick={() => setPreviewZoom(z => Math.max(50, z - 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+            <span style={{ minWidth: '36px', textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>{previewZoom}%</span>
+            <button onClick={() => setPreviewZoom(z => Math.min(150, z + 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+            <button onClick={() => setPreviewZoom(100)} style={{ padding: '2px 8px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '11px' }}>Reset</button>
+          </div>
         </div>
-        <div className={styles.previewContainer}>
+        <div className={styles.previewContainer} style={{ overflow: 'auto' }}>
+          <div style={{ transform: `scale(${previewZoom / 100})`, transformOrigin: 'top left', width: `${10000 / previewZoom}%` }}>
           <FlyerPreview
             ref={flyerRef}
             data={form}
             template={flyerTemplate}
             menuOverrides={menuOverrides}
           />
+          </div>
         </div>
       </div>
     </div>

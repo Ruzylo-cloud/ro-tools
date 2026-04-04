@@ -13,6 +13,13 @@ export const changelog = [
     version: 'v2.7.0',
     date: '2026-04-03',
     category: 'improvement',
+    title: 'Character Counts + Start Over on All Generators',
+    description: 'All generator text areas now show live character counts with limits (400–800 chars depending on field). Added a "↺ Start over" button to all 15 generators that clears the auto-saved draft and resets the form. History page now recognizes all 15 generator types and gained a one-click "Clear filters" button.',
+  },
+  {
+    version: 'v2.7.0',
+    date: '2026-04-03',
+    category: 'improvement',
     title: 'Generator Auto-Save Drafts',
     description: 'All 15 document generators now auto-save your work to browser storage. If you navigate away or close the tab, your draft is restored when you return. Drafts expire after 7 days. Generator cards show a "draft" badge when a saved draft is available.',
   },

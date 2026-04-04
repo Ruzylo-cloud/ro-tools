@@ -106,7 +106,7 @@ button:disabled {
   color: #e8e8ed;
 }
 
-[data-theme="dark"] html {
+html[data-theme="dark"] {
   background: #1e1e24;
 }
 
