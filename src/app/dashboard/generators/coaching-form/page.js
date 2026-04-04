@@ -245,6 +245,13 @@ export default function CoachingFormPage() {
           {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
         <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
+        <button
+          type="button"
+          onClick={() => { if (confirm('Clear all fields and start over?')) { clearDraft(); window.location.reload(); } }}
+          style={{ width: '100%', marginTop: '6px', padding: '6px', background: 'none', border: 'none', fontSize: '12px', color: 'var(--gray-400)', cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          ↺ Start over
+        </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
           fileName={`coaching-form-${(form.employeeName || 'employee').replace(/\s+/g, '-').toLowerCase()}`}

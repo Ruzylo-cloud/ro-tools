@@ -15,6 +15,14 @@ const TYPE_LABELS = {
   'injury-report': 'Injury Report',
   'coaching-form': 'Employee Coaching',
   'new-hire-checklist': 'New Hire Checklist',
+  'termination': 'Employee Termination',
+  'resignation': 'Employee Resignation',
+  'meal-break-waiver': 'Meal Break Waiver',
+  'food-labels': 'Food Labels',
+  'work-orders': 'Work Orders',
+  'manager-log': 'Manager Log',
+  'dm-walkthroughs': 'DM Walk-Through',
+  'onboarding-packets': 'Onboarding Packet',
 };
 
 const ALL_TYPES = Object.keys(TYPE_LABELS);
@@ -197,6 +205,14 @@ export default function HistoryPage() {
           onChange={e => setDateTo(e.target.value)}
           title="To date"
         />
+        {(search || typeFilter || actionFilter || dateFrom || dateTo) && (
+          <button
+            onClick={() => { setSearch(''); setTypeFilter(''); setActionFilter(''); setDateFrom(''); setDateTo(''); }}
+            style={{ padding: '6px 12px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px', fontWeight: 600, color: 'var(--gray-500)', cursor: 'pointer', whiteSpace: 'nowrap' }}
+          >
+            Clear filters
+          </button>
+        )}
       </div>
 
       {/* Loading */}

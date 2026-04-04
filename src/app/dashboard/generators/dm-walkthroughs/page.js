@@ -223,6 +223,13 @@ export default function DMWalkthroughsPage() {
           {generating ? <><span className="gen-btn-spinner" />Generating...</> : showSuccess ? '✓ Downloaded!' : 'Download Evaluation PDF'}
         </button>
         <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
+        <button
+          type="button"
+          onClick={() => { if (confirm('Clear all fields and start over?')) { clearDraft(); window.location.reload(); } }}
+          style={{ width: '100%', marginTop: '6px', padding: '6px', background: 'none', border: 'none', fontSize: '12px', color: 'var(--gray-400)', cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          ↺ Start over
+        </button>
       </div>
 
       <div className={styles.preview}>
