@@ -187,6 +187,8 @@ export default function DocumentsPage() {
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizScore, setQuizScore] = useState(null);
   const docRef = useRef(null);
+  // RT-148: Use a ref so the keyboard handler always calls the latest handleDownload (avoids stale closure)
+  const handleDownloadRef = useRef(null);
 
   useEffect(() => {
     if (!user) return;
@@ -207,7 +209,7 @@ export default function DocumentsPage() {
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
 
   useEffect(() => {
-    const handler = (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); } };
+    const handler = (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownloadRef.current?.(); } };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
   }, []);
@@ -300,6 +302,8 @@ export default function DocumentsPage() {
     setGenerating(false);
     setTimeout(() => setGenerateProgress(0), 1500);
   };
+  // RT-148: Keep ref current so the keyboard handler always invokes the latest handleDownload
+  handleDownloadRef.current = handleDownload;
 
   // RT-126/RT-165: Batch download — generates current template + opens each remaining in new tab
   const handleBatchDownload = () => {
