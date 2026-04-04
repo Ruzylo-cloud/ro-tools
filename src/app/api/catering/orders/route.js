@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
+import { DEMO_CATERING_ORDERS, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +24,16 @@ async function getStoreNumber(session) {
 export async function GET(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    const { searchParams } = new URL(request.url);
+    const clientId = searchParams.get('clientId');
+    const limit = Math.min(Math.max(parseInt(searchParams.get('limit')) || 50, 1), 200);
+    const offset = Math.max(parseInt(searchParams.get('offset')) || 0, 0);
+    let orders = [...DEMO_CATERING_ORDERS].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+    if (clientId) orders = orders.filter(o => o.clientId === clientId);
+    return NextResponse.json({ orders: orders.slice(offset, offset + limit), total: orders.length });
+  }
 
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
@@ -57,6 +68,10 @@ export async function POST(request) {
 
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    return NextResponse.json({ success: true, demo: true });
+  }
 
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });

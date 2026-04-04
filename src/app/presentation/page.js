@@ -36,7 +36,7 @@ const SLIDES = [
   {
     type: 'text',
     label: 'THE PROBLEM',
-    title: 'Inconsistent paperwork across 29+ stores',
+    title: 'Inconsistent paperwork across 30+ stores',
     bullets: [
       'Every store uses different Word templates for the same forms',
       'Manual data entry — wrong store numbers, addresses, phone numbers',
@@ -167,7 +167,7 @@ const SLIDES = [
     type: 'feature',
     label: 'PERFORMANCE',
     title: 'JMVG Scoreboard',
-    description: '12 weeks of real performance data across all 29+ stores. Grand Slams, Trifectas, and growth rankings drive healthy competition. New week added automatically.',
+    description: '12 weeks of real performance data across all 30+ stores. Grand Slams, Trifectas, and growth rankings drive healthy competition. New week added automatically.',
     bullets: [
       '4 targets: Labor, COGs Variance, COGs Actual, PY Growth',
       'Color-coded: Royal Blue (Grand Slam) → Orange (1 target)',

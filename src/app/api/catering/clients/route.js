@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
+import { DEMO_CATERING_CLIENTS, DEMO_CATERING_ORDERS, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +30,40 @@ function safeNotableDates(arr) {
 export async function GET(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    const { searchParams } = new URL(request.url);
+    const search = searchParams.get('search')?.toLowerCase();
+    const sort = searchParams.get('sort') || 'lastOrder';
+    const sortOrder = searchParams.get('order') || 'desc';
+
+    let enriched = DEMO_CATERING_CLIENTS.map(c => {
+      const clientOrders = DEMO_CATERING_ORDERS.filter(o => o.clientId === c.id);
+      const totalRevenue = clientOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+      const orderCount = clientOrders.length;
+      const sorted = [...clientOrders].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+      const lastOrder = sorted[0] || null;
+      return { ...c, totalRevenue, orderCount, lastOrderDate: lastOrder?.orderDate || null, lastOrderAmount: lastOrder?.totalAmount || null };
+    });
+
+    if (search) {
+      enriched = enriched.filter(c => {
+        const fields = [c.clientName, c.companyName, c.phone, c.email].filter(Boolean);
+        return fields.some(f => f.toLowerCase().includes(search));
+      });
+    }
+
+    enriched.sort((a, b) => {
+      let cmp = 0;
+      if (sort === 'name') cmp = (a.clientName || '').localeCompare(b.clientName || '');
+      else if (sort === 'revenue') cmp = (a.totalRevenue || 0) - (b.totalRevenue || 0);
+      else if (sort === 'orders') cmp = (a.orderCount || 0) - (b.orderCount || 0);
+      else cmp = new Date(a.lastOrderDate || 0) - new Date(b.lastOrderDate || 0);
+      return sortOrder === 'desc' ? -cmp : cmp;
+    });
+
+    return NextResponse.json({ clients: enriched, storeNumber: '20360' });
+  }
 
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
@@ -89,6 +124,10 @@ export async function POST(request) {
 
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    return NextResponse.json({ success: true, demo: true });
+  }
 
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });

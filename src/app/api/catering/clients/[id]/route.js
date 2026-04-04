@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
+import { DEMO_CATERING_CLIENTS, DEMO_CATERING_ORDERS, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,10 +29,20 @@ export async function GET(request, { params }) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
+  const { id } = params;
+
+  if (isDemo(session)) {
+    const client = DEMO_CATERING_CLIENTS.find(c => c.id === id);
+    if (!client) return NextResponse.json({ error: 'Client not found' }, { status: 404 });
+    const clientOrders = DEMO_CATERING_ORDERS
+      .filter(o => o.clientId === id)
+      .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+    const totalRevenue = clientOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+    return NextResponse.json({ client, orders: clientOrders, totalRevenue });
+  }
+
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
-
-  const { id } = params;
   const data = await loadJsonFileAsync(`catering-${storeNumber}.json`);
   const clients = Array.isArray(data.clients) ? data.clients : [];
   const orders = Array.isArray(data.orders) ? data.orders : [];
@@ -57,6 +68,10 @@ export async function PATCH(request, { params }) {
 
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    return NextResponse.json({ success: true, demo: true });
+  }
 
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
@@ -112,6 +127,10 @@ export async function DELETE(request, { params }) {
 
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+  if (isDemo(session)) {
+    return NextResponse.json({ success: true, demo: true });
+  }
 
   const storeNumber = await getStoreNumber(session);
   if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
