@@ -102,18 +102,6 @@ export default function FlyerPage() {
   const mountedRef = useRef(true);
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
 
-  // Keyboard shortcut: Ctrl+Enter to download
-  useEffect(() => {
-    const handler = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !generating) {
-        e.preventDefault();
-        handleDownload();
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [generating]); // eslint-disable-line react-hooks/exhaustive-deps
-
   const handleDownload = useCallback(async () => {
     if (!flyerRef.current) return;
     setGenerating(true);
@@ -152,6 +140,11 @@ export default function FlyerPage() {
     if (mountedRef.current) setGenerating(false);
   }, [showToast, form]);
 
+  // RT-149: Ctrl+Enter keyboard shortcut — consistent with all generators
+  const handleKeyDown = useCallback((e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); }
+  }, [handleDownload]);
+
   if (loading) {
     return (
       <div className={styles.container}>
@@ -161,7 +154,7 @@ export default function FlyerPage() {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onKeyDown={handleKeyDown}>
       {/* Sidebar */}
       <div className={styles.sidebar}>
         <h2 className={styles.sidebarTitle}>Flyer Details</h2>
