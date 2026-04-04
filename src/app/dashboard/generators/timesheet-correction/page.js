@@ -114,6 +114,7 @@ export default function TimesheetCorrectionPage() {
       }
 
       logActivity({ generatorType: 'timesheet-correction', action: 'download', formData: form, filename: 'timesheet-correction.pdf' });
+      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

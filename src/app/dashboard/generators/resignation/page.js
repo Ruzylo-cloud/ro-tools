@@ -163,6 +163,7 @@ export default function ResignationPage() {
       }
 
       logActivity({ generatorType: 'resignation', action: 'download', formData: form, filename: fileName });
+      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');

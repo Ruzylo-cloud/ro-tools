@@ -177,6 +177,7 @@ export default function TerminationPage() {
       }
 
       logActivity({ generatorType: 'termination', action: 'download', formData: form, filename: fileName });
+      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');

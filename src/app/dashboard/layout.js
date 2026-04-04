@@ -90,6 +90,21 @@ export default function DashboardLayout({ children }) {
     document.title = title;
   }, [pathname]);
 
+  // RT-120: Global Ctrl+Enter to trigger Download PDF on generator pages
+  useEffect(() => {
+    if (!pathname.startsWith('/dashboard/generators/')) return;
+    const handler = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        // Find the primary download button on the page (generators use .downloadBtn class)
+        const btn = document.querySelector('[class*="downloadBtn"]:not(:disabled)');
+        if (btn && !btn.disabled) btn.click();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [pathname]);
+
   const checkSetup = useCallback(() => {
     if (!user) return;
     fetch('/api/profile')

@@ -205,8 +205,8 @@
 - [ ] **Monthly EBITDA goals** — Check if growth goal sheets exist, add to L10 or Reports if found
 
 ## CSS Token Mismatches
-- [ ] **RC --text #ededf0** — should be #e8e8ed to match RT --charcoal
-- [ ] **RC .rc-nav-user hardcodes #ededf0** — should use var(--charcoal)
+- [x] **RC --text #ededf0** — FIXED: rc-nav-user now uses var(--charcoal)
+- [x] **RC .rc-nav-user hardcodes #ededf0** — FIXED: uses var(--charcoal)
 
 ## Data Verification
 - [ ] **hierarchy.md** — verify all 29+ stores, 5 DMs, all ROs correct

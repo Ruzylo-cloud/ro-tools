@@ -138,6 +138,8 @@ export default function EvaluationPage() {
       }
 
       logActivity({ generatorType: 'evaluation', action: 'download', formData: form, filename: fileName });
+      // RT-118: Success feedback
+      if (mountedRef.current) showToast('✓ PDF downloaded! Evaluation saved to employee record.', 'success');
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');

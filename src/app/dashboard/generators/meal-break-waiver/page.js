@@ -105,6 +105,7 @@ export default function MealBreakWaiverPage() {
       }
 
       logActivity({ generatorType: 'meal-break-waiver', action: 'download', formData: form, filename });
+      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

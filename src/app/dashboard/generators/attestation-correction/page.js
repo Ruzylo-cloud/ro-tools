@@ -101,6 +101,7 @@ export default function AttestationCorrectionPage() {
       }
 
       logActivity({ generatorType: 'attestation-correction', action: 'download', formData: form, filename: 'attestation-correction.pdf' });
+      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
