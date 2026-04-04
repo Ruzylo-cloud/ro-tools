@@ -12,6 +12,13 @@ export const changelog = [
   {
     version: 'v2.9.3',
     date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Fix Session Auth Bypass via Unsigned Legacy Cookie',
+    description: 'The session parser fell back to parsing any base64-encoded cookie value without HMAC verification if the signed format failed. This allowed an attacker to forge a session cookie by base64-encoding arbitrary user data. The legacy fallback has been removed — all sessions must now pass HMAC-SHA256 signature verification.',
+  },
+  {
+    version: 'v2.9.3',
+    date: '2026-04-03',
     category: 'improvement',
     title: 'Update Store Count to 30+ Across Landing Page and Tour',
     description: 'The landing page hero badge, stats bar, and Quick Tour steps still referenced "29 stores." All instances now consistently show "30+" to reflect the current JMVG footprint.',

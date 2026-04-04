@@ -43,17 +43,8 @@ export function getSession() {
   const session = cookieStore.get('ro_session') || cookieStore.get('ro_session_backup');
   if (!session?.value) return null;
 
-  // Try signed format first (new)
-  const verified = verify(session.value);
-  if (verified) return verified;
-
-  // Fallback: legacy base64 format (migrate on next login)
-  try {
-    return JSON.parse(Buffer.from(session.value, 'base64').toString());
-  } catch (e) {
-    console.error('Session parse error:', e?.message || e);
-    return null;
-  }
+  // RT-161: Verify HMAC-signed session — no legacy fallback (removes unsigned session bypass)
+  return verify(session.value);
 }
 
 /**
