@@ -8,6 +8,42 @@
  */
 
 export const changelog = [
+  // ── v2.9.2 — April 4, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.2',
+    date: '2026-04-04',
+    category: 'improvement',
+    title: 'Ctrl+Enter Keyboard Shortcut Now Works in All 15 Generators',
+    description: 'Every generator showed "Tip: Press Ctrl+Enter to generate" but only Written Warning actually had it wired up. The shortcut is now functional in all 15 generators. Also removed a redundant global handler in layout.js that would have double-triggered PDF generation.',
+  },
+  {
+    version: 'v2.9.2',
+    date: '2026-04-04',
+    category: 'improvement',
+    title: 'Save to Drive Added to 5 More Generators',
+    description: 'Food Labels, Manager Log, Onboarding Packets, Work Orders, and DM Walk-Through were the only generators missing the Save to Drive button. All five now have it.',
+  },
+  {
+    version: 'v2.9.2',
+    date: '2026-04-04',
+    category: 'bug_fix',
+    title: 'Directives Scorecard Default Month Is Now Dynamic',
+    description: 'The Monthly Scorecard on the Directives page defaulted to "April 2026" hardcoded. It now defaults to the current month so it automatically shows the right period.',
+  },
+  {
+    version: 'v2.9.2',
+    date: '2026-04-04',
+    category: 'bug_fix',
+    title: 'Scoreboard Disclaimer Updated to 12 Weeks',
+    description: 'The scoreboard data note said "Weeks 1-11 (Dec 29 - Mar 15)" but Week 12 data (Mar 16-22) has been loaded. Updated to reflect all 12 weeks.',
+  },
+  {
+    version: 'v2.9.2',
+    date: '2026-04-04',
+    category: 'bug_fix',
+    title: 'Fix Auth Bypass in Directives API',
+    description: 'The /api/directives and /api/directives/outreach routes defined a local async getSession() but called it without await. A Promise is always truthy so the auth check never rejected unauthenticated requests. Fixed.',
+  },
   // ── v2.9.1 — April 3, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.1',
