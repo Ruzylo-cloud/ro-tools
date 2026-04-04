@@ -21,6 +21,14 @@ const GENERATOR_TYPES = [
   { value: 'timesheet-correction', label: 'Timesheet Correction' },
   { value: 'catering-order', label: 'Catering Order' },
   { value: 'injury-report', label: 'Injury Report' },
+  { value: 'termination', label: 'Termination' },
+  { value: 'resignation', label: 'Resignation' },
+  { value: 'meal-break-waiver', label: 'Meal Break Waiver' },
+  { value: 'work-orders', label: 'Work Orders' },
+  { value: 'manager-log', label: 'Manager Log' },
+  { value: 'dm-walkthroughs', label: 'DM Walk-Through' },
+  { value: 'onboarding-packets', label: 'Onboarding Packet' },
+  { value: 'food-labels', label: 'Food Labels' },
   { value: 'flyer', label: 'Catering Flyer' },
 ];
 
