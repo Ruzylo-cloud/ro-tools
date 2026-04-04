@@ -188,7 +188,7 @@ export default function CoachingFormPage() {
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Date</label>
-                <input type="date" className={`${styles.input}${errors.coachingDate ? ' input-error' : ''}`} value={form.coachingDate} onChange={(e) => { handleChange('coachingDate', e.target.value); if (errors.coachingDate) setErrors(p => ({ ...p, coachingDate: null })); }} />
+                <input type="date" className={`${styles.input}${errors.coachingDate ? ' rt-input-error' : ''}`} value={form.coachingDate} onChange={(e) => { handleChange('coachingDate', e.target.value); if (errors.coachingDate) setErrors(p => ({ ...p, coachingDate: null })); }} />
                 {errors.coachingDate && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.coachingDate}</div>}
               </div>
             </div>

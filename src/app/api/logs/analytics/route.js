@@ -34,6 +34,10 @@ const GENERATOR_LABELS = {
   'training-level1': 'Training L1',
   'training-level2': 'Training L2',
   'training-level3': 'Training L3',
+  'training-slicer': 'Slicer Training', // RT-145: missing 4 training types
+  'training-opener': 'Opener Training',
+  'training-shiftlead': 'Shift Lead Training',
+  'training-orientation': 'Orientation Packet',
 };
 
 export async function GET() {

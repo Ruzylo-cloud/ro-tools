@@ -105,7 +105,7 @@ export default function DashboardPage() {
     ]).then(([auditRes, adminRes]) => {
       const generated = auditRes.status === 'fulfilled' ? (auditRes.value?.total || 0) : 0;
       const pendingApprovals = adminRes.status === 'fulfilled'
-        ? (Array.isArray(adminRes.value?.users) ? adminRes.value.users.filter(u => u.status === 'pending').length : 0)
+        ? (Array.isArray(adminRes.value?.users) ? adminRes.value.users.filter(u => u.rolePending).length : 0) // RT-145: was u.status === 'pending', should be u.rolePending
         : 0;
       setStats({ generated, pendingApprovals });
     });
