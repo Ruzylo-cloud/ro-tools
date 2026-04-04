@@ -71,6 +71,7 @@ export default function TimesheetCorrectionPage() {
           setForm(prev => ({
             ...prev,
             storeName: data.profile.storeName || '',
+            storeNumber: data.profile.storeNumber || '',
             userEmail: data.profile.email || '',
             supervisorName: data.profile.operatorName || '',
           }));
@@ -128,7 +129,7 @@ export default function TimesheetCorrectionPage() {
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
     }
     if (mountedRef.current) setGenerating(false);
-  }, [showToast]);
+  }, [form, showToast]);
 
   if (loading) {
     return <div className={styles.container}><p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading...</p></div>;
