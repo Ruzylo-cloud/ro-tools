@@ -8,6 +8,42 @@
  */
 
 export const changelog = [
+  // ── v2.9.1 — April 3, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.1',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Missing --text CSS Variable Now Defined',
+    description: 'The --text CSS variable was referenced in the Directives, Reading, Scoreboard, and Setup pages but was never defined in globals.css. Text in those sections was inheriting browser default color instead of the app charcoal. Fixed.',
+  },
+  {
+    version: 'v2.9.1',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Fix Stale Closure Bugs in 3 More Generators',
+    description: 'Coaching Form, Injury Report, and Performance Evaluation had [form.employeeName] as useCallback deps instead of [form], causing stale data to be included in PDFs when the form was updated after the callback was created.',
+  },
+  {
+    version: 'v2.9.1',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Scoreboard Stat on Landing Page Updated to 12 Weeks',
+    description: 'The landing page showed "11 Weeks" for the scoreboard feature card. Updated to reflect the actual 12 weeks of data available.',
+  },
+  {
+    version: 'v2.9.1',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Performance Evaluation Now Shows Store Number in PDF',
+    description: 'The evaluation PDF preview now shows store number alongside the store name (e.g., "Jersey Mike\'s #20360 (#20360)"). Previously, only the store name was shown.',
+  },
+  {
+    version: 'v2.9.1',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Quick Tour Generator Count Fixed (12 → 15)',
+    description: 'The Quick Tour shown to new users still said "12 professional PDF generators." Updated to 15.',
+  },
   // ── v2.9.0 — April 3, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.0',
