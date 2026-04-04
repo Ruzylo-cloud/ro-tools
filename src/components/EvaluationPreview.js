@@ -21,6 +21,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
     employeeName = '',
     employeePosition = '',
     storeName = '',
+    storeNumber = '',
     evaluatorName = '',
     evaluationDate = '',
     evaluationPeriod = '',
@@ -106,7 +107,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
         {[
           ['Employee', employeeName || '—'],
           ['Position', employeePosition || '—'],
-          ['Store', storeName || '—'],
+          ['Store', storeName ? (storeNumber ? `${storeName} (#${storeNumber})` : storeName) : '—'],
           ['Evaluator', evaluatorName || '—'],
           ['Date', formatDate(evaluationDate) || '—'],
           ['Period', evaluationPeriod || '—'],
