@@ -80,7 +80,7 @@ export default function DashboardPage() {
   // RT-053/063: Load stats + pending approvals
   useEffect(() => {
     Promise.allSettled([
-      fetch('/api/audit?limit=1').then(r => r.json()),
+      fetch('/api/logs?limit=1').then(r => r.json()),
       fetch('/api/admin/users').then(r => r.json()),
     ]).then(([auditRes, adminRes]) => {
       const generated = auditRes.status === 'fulfilled' ? (auditRes.value?.total || 0) : 0;
@@ -93,7 +93,7 @@ export default function DashboardPage() {
 
   // RT-033: Load recent activity
   const loadRecentDocs = () => {
-    fetch('/api/audit?limit=5')
+    fetch('/api/logs?limit=5')
       .then(res => res.json())
       .then(data => {
         setRecentDocs(Array.isArray(data.logs) ? data.logs.slice(0, 5) : []);
@@ -474,7 +474,7 @@ export default function DashboardPage() {
         <p className={styles.sectionText}>
           RO Tools was built from the ground up to solve the daily friction franchise managers face:
           inconsistent paperwork, manual data entry, chasing signatures, and time wasted on formatting instead of running the store.
-          12 generators, digital signatures, auto-email to HR, e-sign for employees, live scoreboard, catering CRM — every feature exists because a real operator needed it.
+          15 generators, digital signatures, auto-email to HR, e-sign for employees, live scoreboard, catering CRM — every feature exists because a real operator needed it.
         </p>
         <div className={styles.techRow}>
           <span className={styles.techBadge}>Next.js</span>
