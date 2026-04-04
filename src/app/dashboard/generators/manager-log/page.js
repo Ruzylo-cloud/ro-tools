@@ -167,7 +167,9 @@ export default function ManagerLogPage() {
               onChange={(e) => setNewEntry(e.target.value)}
               placeholder="Type a log entry..."
               onKeyDown={(e) => { if (e.key === 'Enter' && e.ctrlKey) addEntry(); }}
+              maxLength={500}
             />
+            <div className={styles.charCount}>{(newEntry || '').length}/500</div>
           </div>
           <button
             type="button"

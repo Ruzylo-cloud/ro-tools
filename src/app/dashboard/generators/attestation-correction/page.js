@@ -126,12 +126,16 @@ export default function AttestationCorrectionPage() {
             <div key={key} className={styles.field}>
               <label className={styles.label}>{label}</label>
               {type === 'textarea' ? (
-                <textarea
-                  className={styles.textarea}
-                  value={form[key] || ''}
-                  onChange={(e) => handleChange(key, e.target.value)}
-                  rows={3}
-                />
+                <>
+                  <textarea
+                    className={styles.textarea}
+                    value={form[key] || ''}
+                    onChange={(e) => handleChange(key, e.target.value)}
+                    rows={3}
+                    maxLength={500}
+                  />
+                  <div className={styles.charCount}>{(form[key] || '').length}/500</div>
+                </>
               ) : type === 'select' ? (
                 // RT-096: Use select class for proper width/styling
                 <select

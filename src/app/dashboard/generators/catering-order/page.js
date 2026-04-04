@@ -521,7 +521,8 @@ export default function CateringOrderPage() {
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Special Requests</h3>
           <div className={styles.field}>
-            <textarea className={styles.textarea} rows={3} value={form.specialRequests} onChange={(e) => handleChange('specialRequests', e.target.value)} placeholder="Any additional notes or requests..." />
+            <textarea className={styles.textarea} rows={3} value={form.specialRequests} onChange={(e) => handleChange('specialRequests', e.target.value)} placeholder="Any additional notes or requests..." maxLength={400} />
+            <div className={styles.charCount}>{(form.specialRequests || '').length}/400</div>
           </div>
         </div>
 

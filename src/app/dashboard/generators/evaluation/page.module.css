@@ -342,3 +342,10 @@
     height: 34px;
   }
 }
+
+.charCount {
+  font-size: 11px;
+  color: var(--gray-400);
+  text-align: right;
+  margin-top: 4px;
+}

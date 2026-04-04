@@ -295,7 +295,9 @@ export default function TerminationPage() {
               onChange={(e) => handleChange('previousDiscipline', e.target.value)}
               placeholder="List prior warnings, coaching, or disciplinary actions..."
               rows={3}
+              maxLength={600}
             />
+            <div className={styles.charCount}>{(form.previousDiscipline || '').length}/600</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Termination Reason</label>
@@ -305,7 +307,9 @@ export default function TerminationPage() {
               onChange={(e) => handleChange('terminationReason', e.target.value)}
               placeholder="Detailed reason for termination..."
               rows={3}
+              maxLength={800}
             />
+            <div className={styles.charCount}>{(form.terminationReason || '').length}/800</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Final Pay Date</label>
@@ -324,7 +328,9 @@ export default function TerminationPage() {
               onChange={(e) => handleChange('finalPayNotes', e.target.value)}
               placeholder="Notes about final pay, accrued PTO, etc..."
               rows={2}
+              maxLength={400}
             />
+            <div className={styles.charCount}>{(form.finalPayNotes || '').length}/400</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Company Property Returned</label>
@@ -348,7 +354,9 @@ export default function TerminationPage() {
               onChange={(e) => handleChange('benefitsInfo', e.target.value)}
               placeholder="COBRA eligibility, benefits continuation info..."
               rows={2}
+              maxLength={400}
             />
+            <div className={styles.charCount}>{(form.benefitsInfo || '').length}/400</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Supervisor Signature (Printed Name)</label>

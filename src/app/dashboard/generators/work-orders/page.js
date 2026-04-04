@@ -149,7 +149,8 @@ export default function WorkOrdersPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Description</label>
-              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => handleChange('description', e.target.value)} placeholder="Describe the issue, when it started, and any troubleshooting already tried..." />
+              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => handleChange('description', e.target.value)} placeholder="Describe the issue, when it started, and any troubleshooting already tried..." maxLength={800} />
+              <div className={styles.charCount}>{(form.description || '').length}/800</div>
             </div>
           </div>
         </div>

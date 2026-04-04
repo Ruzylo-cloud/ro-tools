@@ -318,7 +318,8 @@ export default function InjuryReportPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Description of Incident *</label>
-              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => handleChange('description', e.target.value)} placeholder="What happened? Be specific about the sequence of events..." />
+              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => handleChange('description', e.target.value)} placeholder="What happened? Be specific about the sequence of events..." maxLength={800} />
+              <div className={styles.charCount}>{(form.description || '').length}/800</div>
             </div>
           </div>
         </div>
@@ -387,11 +388,13 @@ export default function InjuryReportPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Actions Taken</label>
-              <textarea className={styles.textarea} rows={2} value={form.supervisorActions} onChange={(e) => handleChange('supervisorActions', e.target.value)} placeholder="What actions were taken immediately?" />
+              <textarea className={styles.textarea} rows={2} value={form.supervisorActions} onChange={(e) => handleChange('supervisorActions', e.target.value)} placeholder="What actions were taken immediately?" maxLength={400} />
+              <div className={styles.charCount}>{(form.supervisorActions || '').length}/400</div>
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Preventive Measures</label>
-              <textarea className={styles.textarea} rows={2} value={form.preventiveMeasures} onChange={(e) => handleChange('preventiveMeasures', e.target.value)} placeholder="Steps to prevent recurrence..." />
+              <textarea className={styles.textarea} rows={2} value={form.preventiveMeasures} onChange={(e) => handleChange('preventiveMeasures', e.target.value)} placeholder="Steps to prevent recurrence..." maxLength={400} />
+              <div className={styles.charCount}>{(form.preventiveMeasures || '').length}/400</div>
             </div>
           </div>
         </div>

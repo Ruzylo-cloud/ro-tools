@@ -279,7 +279,9 @@ export default function ResignationPage() {
               onChange={(e) => handleChange('reason', e.target.value)}
               placeholder="Reason for leaving..."
               rows={3}
+              maxLength={600}
             />
+            <div className={styles.charCount}>{(form.reason || '').length}/600</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Notice Given</label>
@@ -354,7 +356,9 @@ export default function ResignationPage() {
               onChange={(e) => handleChange('finalPayInfo', e.target.value)}
               placeholder="Notes about final paycheck, PTO payout, etc..."
               rows={2}
+              maxLength={400}
             />
+            <div className={styles.charCount}>{(form.finalPayInfo || '').length}/400</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Employee Signature (Printed Name)</label>

@@ -289,7 +289,9 @@ export default function EvaluationPage() {
               onChange={(e) => handleChange('strengths', e.target.value)}
               rows={3}
               placeholder="Key strengths and accomplishments..."
+              maxLength={600}
             />
+            <div className={styles.charCount}>{(form.strengths || '').length}/600</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Areas for Improvement</label>
@@ -299,7 +301,9 @@ export default function EvaluationPage() {
               onChange={(e) => handleChange('areasForImprovement', e.target.value)}
               rows={3}
               placeholder="Areas where improvement is needed..."
+              maxLength={600}
             />
+            <div className={styles.charCount}>{(form.areasForImprovement || '').length}/600</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Goals for Next Period</label>
@@ -309,7 +313,9 @@ export default function EvaluationPage() {
               onChange={(e) => handleChange('goals', e.target.value)}
               rows={3}
               placeholder="Goals and objectives for the next period..."
+              maxLength={600}
             />
+            <div className={styles.charCount}>{(form.goals || '').length}/600</div>
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Additional Comments</label>
@@ -319,7 +325,9 @@ export default function EvaluationPage() {
               onChange={(e) => handleChange('additionalComments', e.target.value)}
               rows={2}
               placeholder="Any other notes..."
+              maxLength={400}
             />
+            <div className={styles.charCount}>{(form.additionalComments || '').length}/400</div>
           </div>
 
           {/* Signatures */}
