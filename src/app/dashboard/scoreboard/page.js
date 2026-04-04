@@ -81,7 +81,7 @@ function TrendArrow({ current, previous, higherIsBetter = true, fmt }) {
 
 export default function ScoreboardPage() {
   const [tab, setTab] = useState('leaderboard');
-  const [selectedWeek, setSelectedWeek] = useState(11);
+  const [selectedWeek, setSelectedWeek] = useState(12);
   // RT-144: Metric category filter
   const [metricTab, setMetricTab] = useState('all');
   // RT-148: Store comparison
