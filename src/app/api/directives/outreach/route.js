@@ -21,7 +21,7 @@ async function getSession() {
 
 export async function GET(request) {
   try {
-    const session = getSession();
+    const session = await getSession(); // RT-144: async getSession requires await
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
     const { searchParams } = new URL(request.url);
@@ -39,7 +39,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const session = getSession();
+    const session = await getSession(); // RT-144: async getSession requires await
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
     const body = await request.json();
