@@ -112,7 +112,7 @@ export default function CoachingFormPage() {
             fileName: fileName,
             content: pdfBase64,
             metadata: {
-              createdBy: form.supervisorName || form.managerName || '',
+              createdBy: form.coachName || '',
               storeNumber: form.storeNumber || '',
             },
           }),

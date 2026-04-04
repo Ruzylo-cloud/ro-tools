@@ -135,7 +135,7 @@ export default function EvaluationPage() {
             fileName: fileName,
             content: pdfBase64,
             metadata: {
-              createdBy: form.supervisorName || form.managerName || '',
+              createdBy: form.evaluatorName || '',
               storeNumber: form.storeNumber || '',
             },
           }),
