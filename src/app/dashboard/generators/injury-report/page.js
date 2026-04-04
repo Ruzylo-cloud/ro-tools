@@ -143,7 +143,7 @@ export default function InjuryReportPage() {
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
     }
     if (mountedRef.current) setGenerating(false);
-  }, [form.employeeName, showToast]);
+  }, [form, showToast]);
 
   const handleSubmitToHR = useCallback(async () => {
     if (!form.employeeName || !form.description) {

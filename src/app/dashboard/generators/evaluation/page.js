@@ -150,7 +150,7 @@ export default function EvaluationPage() {
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');
     }
     if (mountedRef.current) setGenerating(false);
-  }, [form.employeeName, showToast]);
+  }, [form, showToast]);
 
   if (loading) {
     return (

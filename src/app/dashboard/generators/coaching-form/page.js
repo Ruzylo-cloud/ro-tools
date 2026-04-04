@@ -128,7 +128,7 @@ export default function CoachingFormPage() {
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
     }
     if (mountedRef.current) setGenerating(false);
-  }, [form.employeeName, showToast]);
+  }, [form, showToast]);
 
   if (loading) {
     return (
