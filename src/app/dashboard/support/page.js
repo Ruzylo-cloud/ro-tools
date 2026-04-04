@@ -96,7 +96,8 @@ export default function SupportPage() {
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Steps to reproduce</label>
-            <textarea className={styles.textarea} value={bugDesc} onChange={e => setBugDesc(e.target.value)} placeholder="Tell us what you were doing when it happened..." />
+            <textarea className={styles.textarea} value={bugDesc} onChange={e => setBugDesc(e.target.value)} placeholder="Tell us what you were doing when it happened..." maxLength={1000} />
+            <div style={{ fontSize: '11px', color: 'var(--gray-400)', textAlign: 'right', marginTop: '4px' }}>{bugDesc.length}/1000</div>
           </div>
           {/* RT-231: Optional screenshot upload */}
           <div className={styles.field}>
@@ -126,7 +127,8 @@ export default function SupportPage() {
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Tell us more</label>
-            <textarea className={styles.textarea} value={featureDesc} onChange={e => setFeatureDesc(e.target.value)} placeholder="Describe the tool or feature you'd like to see..." />
+            <textarea className={styles.textarea} value={featureDesc} onChange={e => setFeatureDesc(e.target.value)} placeholder="Describe the tool or feature you'd like to see..." maxLength={1000} />
+            <div style={{ fontSize: '11px', color: 'var(--gray-400)', textAlign: 'right', marginTop: '4px' }}>{featureDesc.length}/1000</div>
           </div>
           {/* RT-232: Priority + category selectors */}
           <div className={styles.fieldRow}>

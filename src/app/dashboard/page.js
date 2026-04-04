@@ -298,10 +298,10 @@ export default function DashboardPage() {
               <polyline points="10 9 9 9 8 9" />
             </svg>
           </div>
-          <h3 className={styles.pillarTitle}>12 Document Generators</h3>
+          <h3 className={styles.pillarTitle}>15 Document Generators</h3>
           <p className={styles.pillarDesc}>
             Written warnings, evaluations, coaching forms, injury reports, resignations, terminations, meal break waivers,
-            timesheet and attestation corrections, catering orders, flyers, and training packets — all as branded PDFs with digital signatures and e-sign capability.
+            timesheet and attestation corrections, catering orders, flyers, food labels, work orders, manager logs, DM walk-throughs, and onboarding packets — all as branded PDFs with auto-save drafts, e-sign, and Google Drive.
           </p>
         </div>
         <div className={styles.pillar}>
@@ -383,12 +383,17 @@ export default function DashboardPage() {
             { name: 'Catering Tracker', desc: 'Client CRM with follow-ups & reordering' },
             { name: 'Written Warning', desc: 'Corrective action documentation' },
             { name: 'Performance Eval', desc: 'Employee reviews with scoring' },
-            { name: 'Timesheet Correction', desc: 'Clock in/out adjustments' },
-            { name: 'Attestation Correction', desc: 'Meal & rest break forms' },
-            { name: 'Injury Report', desc: 'OSHA-compliant injury forms' },
             { name: 'Employee Coaching', desc: 'Verbal coaching & counseling docs' },
             { name: 'Employee Resignation', desc: 'Exit documentation & final pay' },
             { name: 'Employee Termination', desc: 'Termination with prior discipline' },
+            { name: 'Injury Report', desc: 'OSHA-compliant injury forms' },
+            { name: 'Work Orders', desc: 'Maintenance & equipment tracking' },
+            { name: 'Manager Log', desc: 'Daily log: General, Injuries, Maintenance, Cleaning' },
+            { name: 'DM Walk-Through', desc: 'Store inspection with 14 scored categories' },
+            { name: 'Onboarding Packet', desc: 'New hire document checklist & e-signatures' },
+            { name: 'Food Labels', desc: 'Printable prep labels with allergens & expiry' },
+            { name: 'Timesheet Correction', desc: 'Clock in/out adjustments' },
+            { name: 'Attestation Correction', desc: 'Meal & rest break forms' },
             { name: 'Meal Break Waiver', desc: 'CA Labor Code §512 compliance' },
             { name: 'Training Documents', desc: 'Level 1–3, Slicer, Opener, Shift Lead & New Hire' },
             { name: 'Scoreboard', desc: 'Weekly leaderboards across all 29+ stores' },
