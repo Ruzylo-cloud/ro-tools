@@ -8,6 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -37,6 +38,7 @@ export default function MealBreakWaiverPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -73,6 +75,9 @@ export default function MealBreakWaiverPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {

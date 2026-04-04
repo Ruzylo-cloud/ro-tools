@@ -8,6 +8,7 @@ import CateringOrderPreview, { MENU_ITEMS } from '@/components/CateringOrderPrev
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const PRICE_PER_BOX = 89.95;
@@ -24,6 +25,7 @@ export default function CateringOrderPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -202,6 +204,9 @@ export default function CateringOrderPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'customerName', label: 'Customer Name' }]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -293,7 +298,8 @@ export default function CateringOrderPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Customer Name</label>
-              <input type="text" className={styles.input} value={form.customerName} onChange={(e) => handleChange('customerName', e.target.value)} placeholder="John Smith" />
+              <input type="text" className={styles.input} value={form.customerName} onChange={(e) => { handleChange('customerName', e.target.value); if (errors.customerName) setErrors(p => ({ ...p, customerName: null })); }} placeholder="John Smith" />
+              {errors.customerName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.customerName}</div>}
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Phone</label>
