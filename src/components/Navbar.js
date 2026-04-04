@@ -216,7 +216,7 @@ export default function Navbar() {
           {/* 3. Catering (dropdown) */}
           <div className={styles.navItem}>
             <button
-              className={`${styles.navLink} ${openDropdown === 'catering' || isActive('/dashboard/catering') || isActive('/dashboard/generators/catering') ? styles.navLinkActive : ''}`}
+              className={`${styles.navLink} ${openDropdown === 'catering' || isActive('/dashboard/catering') || isActive('/dashboard/generators/catering') || pathname === '/dashboard/flyer' ? styles.navLinkActive : ''}`}
               onClick={() => toggleDropdown('catering')}
               aria-expanded={openDropdown === 'catering'}
               aria-haspopup="true"
@@ -225,6 +225,13 @@ export default function Navbar() {
             </button>
             {openDropdown === 'catering' && (
               <div className={styles.dropdown}>
+                <Link href="/dashboard/flyer" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x1F5A8;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>Catering Flyer</div>
+                    <div className={styles.dropdownHint}>Print-ready flyer with menu &amp; pricing</div>
+                  </div>
+                </Link>
                 <Link href="/dashboard/generators/catering-order" className={styles.dropdownItem} onClick={closeDropdown}>
                   <span className={styles.dropdownIcon}>&#x1F4DD;</span>
                   <div>
@@ -410,6 +417,9 @@ export default function Navbar() {
         </button>
         {openDropdown === 'm_catering' && (
           <div className={styles.mobileDropdownItems}>
+            <Link href="/dashboard/flyer" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F5A8;</span> Catering Flyer
+            </Link>
             <Link href="/dashboard/generators/catering-order" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
               <span>&#x1F4DD;</span> Catering Order
             </Link>
