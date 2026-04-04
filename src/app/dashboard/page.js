@@ -225,7 +225,7 @@ export default function DashboardPage() {
           <div className="stat-label">Docs Generated</div>
         </div>
         <div className="stat-card" style={{ flex: '1', minWidth: '120px' }}>
-          <div className="stat-value">29+</div>
+          <div className="stat-value">30+</div>
           <div className="stat-label">Stores</div>
         </div>
         <div className="stat-card" style={{ flex: '1', minWidth: '120px' }}>
@@ -416,7 +416,7 @@ export default function DashboardPage() {
             { name: 'Attestation Correction', desc: 'Meal & rest break forms' },
             { name: 'Meal Break Waiver', desc: 'CA Labor Code §512 compliance' },
             { name: 'Training Documents', desc: 'Level 1–3, Slicer, Opener, Shift Lead & New Hire' },
-            { name: 'Scoreboard', desc: 'Weekly leaderboards across all 29+ stores' },
+            { name: 'Scoreboard', desc: 'Weekly leaderboards across all 30+ stores' },
             { name: 'Marketing Directives', desc: 'Monthly directives, meeting recaps & calendar' },
           ].map(t => (
             <div key={t.name} className={styles.toolItem}>
@@ -475,7 +475,7 @@ export default function DashboardPage() {
           <p className={styles.pillarDesc}>faster than manual Word templates</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', fontWeight: 900, color: '#EE3227', fontFamily: "'Playfair Display', serif" }}>29+</div>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: '#EE3227', fontFamily: "'Playfair Display', serif" }}>30+</div>
           <p className={styles.pillarDesc}>stores across JM Valley Group</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
