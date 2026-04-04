@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
@@ -31,6 +31,19 @@ export default function ProfilePage() {
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [hasExtendedScopes, setHasExtendedScopes] = useState(false);
+  const formRef = useRef(null);
+
+  // RT-120: Ctrl+S to save profile
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        formRef.current?.requestSubmit();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
   const checkScopes = useCallback(async () => {
     try {
@@ -131,7 +144,7 @@ export default function ProfilePage() {
           View Generation History
         </Link>
       </div>
-      <form onSubmit={handleSave} className={styles.form}>
+      <form ref={formRef} onSubmit={handleSave} className={styles.form}>
         {/* Basic info */}
         <div className={styles.field}>
           <label className={styles.label}>Your Name</label>
@@ -221,9 +234,10 @@ export default function ProfilePage() {
         </div>
 
         <div className={styles.actions}>
-          <button type="submit" className={styles.saveBtn} disabled={saving}>
-            {saving ? 'Saving...' : saved ? '✓ Saved!' : 'Save Profile'}
+          <button type="submit" className={`${styles.saveBtn}${saved ? ' gen-download-success' : ''}`} disabled={saving} title="Ctrl+S to save">
+            {saving ? <><span className="gen-btn-spinner" />Saving...</> : saved ? '✓ Saved!' : 'Save Profile'}
           </button>
+          <p className="gen-keyboard-hint">Tip: Press Ctrl+S to save</p>
         </div>
       </form>
 
