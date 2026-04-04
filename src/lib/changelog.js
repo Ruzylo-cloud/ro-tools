@@ -13,6 +13,13 @@ export const changelog = [
     version: 'v2.9.3',
     date: '2026-04-03',
     category: 'bug_fix',
+    title: 'Fix Ctrl+K Search Shortcut Not Focusing Input',
+    description: 'The searchRef was attached to the wrapper div instead of the search input. Calling focus() on a non-focusable div is a no-op, so Ctrl+K and "/" shortcuts never focused the search box. The ref is now on the input element directly.',
+  },
+  {
+    version: 'v2.9.3',
+    date: '2026-04-03',
+    category: 'bug_fix',
     title: 'Fix Session Auth Bypass via Unsigned Legacy Cookie',
     description: 'The session parser fell back to parsing any base64-encoded cookie value without HMAC verification if the signed format failed. This allowed an attacker to forge a session cookie by base64-encoding arbitrary user data. The legacy fallback has been removed — all sessions must now pass HMAC-SHA256 signature verification.',
   },
