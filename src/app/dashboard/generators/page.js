@@ -100,7 +100,7 @@ const CATEGORIES = [
   },
 ];
 
-function ToolCard({ tool, usageCount = 0 }) {
+function ToolCard({ tool, usageCount = 0, hasDraft = false }) {
   const [tooltip, setTooltip] = useState(false);
   // RT-082: Track usage on click
   const handleClick = () => {
@@ -117,6 +117,8 @@ function ToolCard({ tool, usageCount = 0 }) {
     <div className={styles.cardWrap}>
       <Link href={tool.href} className={styles.card} onClick={handleClick}>
         {tool.isNew && <span className={styles.badgeNew}>New</span>}
+        {/* RT-061: Draft saved indicator */}
+        {hasDraft && <span style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '10px', fontWeight: 700, padding: '2px 7px', borderRadius: '10px', background: 'rgba(37,99,235,0.10)', color: '#2563eb', border: '1px solid rgba(37,99,235,0.18)' }}>draft</span>}
         {/* RT-082: Usage count badge */}
         {usageCount > 0 && <span style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', fontWeight: 700, padding: '2px 6px', borderRadius: '10px', background: 'rgba(19,74,124,0.08)', color: 'var(--jm-blue)' }}>{usageCount}×</span>}
         <div className={styles.cardIcon}><GenIcon emoji={tool.icon} size={28} /></div>
@@ -163,10 +165,27 @@ export default function GeneratorsPage() {
   const [viewMode, setViewMode] = useState('grid');
   // RT-055: Collapsed categories
   const [collapsed, setCollapsed] = useState({});
+  // RT-061: Draft detection
+  const [draftsSet, setDraftsSet] = useState(new Set());
 
   useEffect(() => {
     setUsageMap(getUsageMap());
     setRecentHrefs(getRecentlyUsed().slice(0, 4));
+    try {
+      const drafts = new Set();
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('ro-tools-draft-')) {
+          try {
+            const { ts } = JSON.parse(localStorage.getItem(k) || '{}');
+            if (ts && Date.now() - ts < 7 * 24 * 60 * 60 * 1000) {
+              drafts.add(k.replace('ro-tools-draft-', ''));
+            }
+          } catch {}
+        }
+      }
+      setDraftsSet(drafts);
+    } catch {}
   }, []);
 
   const filteredCategories = search.trim()
@@ -219,7 +238,7 @@ export default function GeneratorsPage() {
           </div>
           <div className={styles.grid}>
             {recentTools.map(t => (
-              <ToolCard key={`recent-${t.href}`} tool={t} usageCount={usageMap[t.href] || 0} />
+              <ToolCard key={`recent-${t.href}`} tool={t} usageCount={usageMap[t.href] || 0} hasDraft={draftsSet.has(t.href.split('/').pop())} />
             ))}
           </div>
         </div>
@@ -242,7 +261,7 @@ export default function GeneratorsPage() {
           {/* RT-116: list mode = single column */}
           <div className={`${viewMode === 'list' ? styles.list : styles.grid} ${collapsed[cat.id] ? styles.categoryCollapsed : ''}`}>
             {cat.tools.map(t => (
-              <ToolCard key={t.href} tool={t} usageCount={usageMap[t.href] || 0} />
+              <ToolCard key={t.href} tool={t} usageCount={usageMap[t.href] || 0} hasDraft={draftsSet.has(t.href.split('/').pop())} />
             ))}
           </div>
         </div>

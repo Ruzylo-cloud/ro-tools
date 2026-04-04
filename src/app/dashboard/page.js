@@ -209,7 +209,7 @@ export default function DashboardPage() {
           <div className="stat-label">Stores</div>
         </div>
         <div className="stat-card" style={{ flex: '1', minWidth: '120px' }}>
-          <div className="stat-value">12</div>
+          <div className="stat-value">15</div>
           <div className="stat-label">Generators</div>
         </div>
         {/* RT-063: Pending approvals for admins */}
