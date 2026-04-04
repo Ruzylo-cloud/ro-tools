@@ -8,7 +8,9 @@
  */
 export function validateRequired(form, requiredFields) {
   const errors = {};
-  for (const { key, label } of requiredFields) {
+  for (const field of requiredFields) {
+    const key = typeof field === 'string' ? field : field.key;
+    const label = typeof field === 'string' ? field.replace(/([A-Z])/g, ' $1').trim() : field.label;
     const val = form[key];
     if (!val || (typeof val === 'string' && !val.trim())) {
       errors[key] = `${label} is required`;
