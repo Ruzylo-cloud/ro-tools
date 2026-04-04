@@ -8,6 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const RESIGNATION_TYPES = [
@@ -59,6 +60,7 @@ export default function ResignationPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
 
@@ -112,6 +114,9 @@ export default function ResignationPage() {
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }, { key: 'reason', label: 'Reason for Resignation' }]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -198,11 +203,13 @@ export default function ResignationPage() {
               onChange={(name, emp) => {
                 handleChange('employeeName', name);
                 if (emp && emp.id) handleChange('_employeeId', emp.id);
+                if (errors.employeeName) setErrors(prev => ({ ...prev, employeeName: null }));
               }}
               onPositionFill={(pos) => handleChange('employeePosition', pos)}
               storeNumber={form.storeNumber}
               placeholder="Search employees..."
             />
+            {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Employee Position</label>
@@ -276,12 +283,13 @@ export default function ResignationPage() {
             <textarea
               className={styles.textarea}
               value={form.reason}
-              onChange={(e) => handleChange('reason', e.target.value)}
+              onChange={(e) => { handleChange('reason', e.target.value); if (errors.reason) setErrors(p => ({ ...p, reason: null })); }}
               placeholder="Reason for leaving..."
               rows={3}
               maxLength={600}
             />
             <div className={styles.charCount}>{(form.reason || '').length}/600</div>
+            {errors.reason && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.reason}</div>}
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Notice Given</label>

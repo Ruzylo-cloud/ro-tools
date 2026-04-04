@@ -8,6 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 // RT-107: Pre-termination checklist component
@@ -88,6 +89,7 @@ export default function TerminationPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
 
@@ -128,6 +130,9 @@ export default function TerminationPage() {
   useEffect(() => { return () => { mountedRef.current = false; }; }, []);
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }, { key: 'terminationReason', label: 'Termination Reason' }]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -214,11 +219,13 @@ export default function TerminationPage() {
               onChange={(name, emp) => {
                 handleChange('employeeName', name);
                 if (emp && emp.id) handleChange('_employeeId', emp.id);
+                if (errors.employeeName) setErrors(prev => ({ ...prev, employeeName: null }));
               }}
               onPositionFill={(pos) => handleChange('employeePosition', pos)}
               storeNumber={form.storeNumber}
               placeholder="Search employees..."
             />
+            {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Employee Position</label>
@@ -304,12 +311,13 @@ export default function TerminationPage() {
             <textarea
               className={styles.textarea}
               value={form.terminationReason}
-              onChange={(e) => handleChange('terminationReason', e.target.value)}
+              onChange={(e) => { handleChange('terminationReason', e.target.value); if (errors.terminationReason) setErrors(p => ({ ...p, terminationReason: null })); }}
               placeholder="Detailed reason for termination..."
               rows={3}
               maxLength={800}
             />
             <div className={styles.charCount}>{(form.terminationReason || '').length}/800</div>
+            {errors.terminationReason && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.terminationReason}</div>}
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Final Pay Date</label>

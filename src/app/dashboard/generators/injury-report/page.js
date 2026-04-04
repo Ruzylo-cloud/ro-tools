@@ -8,6 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const INJURY_TYPES = [
@@ -38,6 +39,7 @@ export default function InjuryReportPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
@@ -96,6 +98,9 @@ export default function InjuryReportPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }, { key: 'description', label: 'Incident Description' }]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -238,11 +243,13 @@ export default function InjuryReportPage() {
                 onChange={(name, emp) => {
                   handleChange('employeeName', name);
                   if (emp && emp.id) handleChange('_employeeId', emp.id);
+                  if (errors.employeeName) setErrors(prev => ({ ...prev, employeeName: null }));
                 }}
                 onPositionFill={(pos) => handleChange('position', pos)}
                 storeNumber={form.storeNumber}
                 placeholder="Search employees..."
               />
+              {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Position</label>
@@ -318,8 +325,9 @@ export default function InjuryReportPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Description of Incident *</label>
-              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => handleChange('description', e.target.value)} placeholder="What happened? Be specific about the sequence of events..." maxLength={800} />
+              <textarea className={styles.textarea} rows={4} value={form.description} onChange={(e) => { handleChange('description', e.target.value); if (errors.description) setErrors(p => ({ ...p, description: null })); }} placeholder="What happened? Be specific about the sequence of events..." maxLength={800} />
               <div className={styles.charCount}>{(form.description || '').length}/800</div>
+              {errors.description && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.description}</div>}
             </div>
           </div>
         </div>

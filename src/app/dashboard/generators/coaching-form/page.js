@@ -8,6 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const COACHING_TYPES = [
@@ -42,6 +43,7 @@ export default function CoachingFormPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -76,6 +78,12 @@ export default function CoachingFormPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [
+      { key: 'employeeName', label: 'Employee Name' },
+      { key: 'coachingDate', label: 'Coaching Date' },
+    ]);
+    if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
+    setErrors({});
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -149,11 +157,13 @@ export default function CoachingFormPage() {
                 onChange={(name, emp) => {
                   handleChange('employeeName', name);
                   if (emp && emp.id) handleChange('_employeeId', emp.id);
+                  if (errors.employeeName) setErrors(prev => ({ ...prev, employeeName: null }));
                 }}
                 onPositionFill={(pos) => handleChange('position', pos)}
                 storeNumber={form.storeNumber}
                 placeholder="Search employees..."
               />
+              {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Position</label>
@@ -173,7 +183,8 @@ export default function CoachingFormPage() {
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Date</label>
-                <input type="date" className={styles.input} value={form.coachingDate} onChange={(e) => handleChange('coachingDate', e.target.value)} />
+                <input type="date" className={`${styles.input}${errors.coachingDate ? ' input-error' : ''}`} value={form.coachingDate} onChange={(e) => { handleChange('coachingDate', e.target.value); if (errors.coachingDate) setErrors(p => ({ ...p, coachingDate: null })); }} />
+                {errors.coachingDate && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.coachingDate}</div>}
               </div>
             </div>
             <div className={styles.field}>
