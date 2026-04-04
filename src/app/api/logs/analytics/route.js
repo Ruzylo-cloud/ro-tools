@@ -31,6 +31,7 @@ const GENERATOR_LABELS = {
   'manager-log': 'Manager Log',
   'work-orders': 'Work Orders',
   'onboarding-packets': 'Onboarding Packet',
+  'new-hire-checklist': 'New Hire Checklist',
   'training-level1': 'Training L1',
   'training-level2': 'Training L2',
   'training-level3': 'Training L3',
