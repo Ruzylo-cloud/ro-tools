@@ -47,11 +47,12 @@ export default function DMWalkthroughsPage() {
       .then(data => {
         if (data.profile) {
           const p = data.profile;
+          const isDM = p.role === 'district_manager' || p.role === 'administrator';
           setForm(prev => ({
             ...prev,
             storeNumber: p.storeNumber || '',
             storeName: p.storeName || '',
-            inspectorName: p.operatorName || user?.name || '',
+            inspectorName: isDM ? (p.displayName || user?.name || p.operatorName || '') : (p.districtManager || p.operatorName || user?.name || ''),
             userEmail: p.email || '',
           }));
         }
