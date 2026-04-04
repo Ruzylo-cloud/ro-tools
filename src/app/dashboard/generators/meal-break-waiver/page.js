@@ -7,6 +7,7 @@ import MealBreakWaiverPreview from '@/components/MealBreakWaiverPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -29,7 +30,7 @@ const FIELDS = [
 export default function MealBreakWaiverPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('meal-break-waiver', {
     waiverDate: new Date().toISOString().split('T')[0],
     waiverType: 'first',
   });
@@ -105,7 +106,7 @@ export default function MealBreakWaiverPage() {
       }
 
       logActivity({ generatorType: 'meal-break-waiver', action: 'download', formData: form, filename });
-      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
+      if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); }
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

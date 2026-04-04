@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import ManagerLogPreview from '@/components/ManagerLogPreview';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const DEFAULT_BOARDS = [
@@ -22,7 +23,7 @@ export default function ManagerLogPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('manager-log', {
     logDate: new Date().toISOString().split('T')[0],
     storeNumber: '',
     storeName: '',
@@ -101,7 +102,7 @@ export default function ManagerLogPage() {
       const fileName = `manager-log-${form.logDate || 'today'}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'manager-log', action: 'download', formData: { ...form, boards: form.boards.map(b => ({ name: b.name, entryCount: b.entries.length })) }, filename: fileName });
-      showToast('Manager log PDF downloaded!', 'success');
+      showToast('Manager log PDF downloaded!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

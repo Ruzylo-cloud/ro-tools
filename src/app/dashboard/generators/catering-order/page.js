@@ -7,6 +7,7 @@ import { useToast } from '@/components/Toast';
 import CateringOrderPreview, { MENU_ITEMS } from '@/components/CateringOrderPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const PRICE_PER_BOX = 89.95;
@@ -26,7 +27,7 @@ export default function CateringOrderPage() {
   const mountedRef = useRef(true);
   const prefillApplied = useRef(false);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('catering-order', {
     customerName: '',
     customerPhone: '',
     customerEmail: '',
@@ -245,7 +246,7 @@ export default function CateringOrderPage() {
           }),
         }).catch(() => {});
       }
-      showToast('PDF downloaded successfully!', 'success');
+      showToast('PDF downloaded successfully!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');

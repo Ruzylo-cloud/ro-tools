@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import WorkOrderPreview from '@/components/WorkOrderPreview';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -33,7 +34,7 @@ export default function WorkOrdersPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('work-orders', {
     title: '',
     description: '',
     category: '',
@@ -94,7 +95,7 @@ export default function WorkOrdersPage() {
       const fileName = `work-order-${slug}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'work-orders', action: 'download', formData: form, filename: fileName });
-      showToast('Work order PDF downloaded!', 'success');
+      showToast('Work order PDF downloaded!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

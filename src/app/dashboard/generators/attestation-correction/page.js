@@ -7,6 +7,7 @@ import AttestationCorrectionPreview from '@/components/AttestationCorrectionPrev
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -33,7 +34,7 @@ const FIELDS = [
 export default function AttestationCorrectionPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('attestation-correction', {
     correctionDate: new Date().toISOString().split('T')[0],
     attestationType: 'meal',
   });
@@ -101,7 +102,7 @@ export default function AttestationCorrectionPage() {
       }
 
       logActivity({ generatorType: 'attestation-correction', action: 'download', formData: form, filename: 'attestation-correction.pdf' });
-      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
+      if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); }
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

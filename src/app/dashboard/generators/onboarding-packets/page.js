@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import OnboardingPacketPreview from '@/components/OnboardingPacketPreview';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const DEFAULT_DOCUMENTS = [
@@ -34,7 +35,7 @@ export default function OnboardingPacketsPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('onboarding-packets', {
     employeeName: '',
     position: '',
     startDate: '',
@@ -134,7 +135,7 @@ export default function OnboardingPacketsPage() {
       }
 
       logActivity({ generatorType: 'onboarding-packets', action: 'download', formData: { ...form, completedDocs: form.completedDocs }, filename: fileName });
-      showToast('Onboarding packet PDF downloaded!', 'success');
+      showToast('Onboarding packet PDF downloaded!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

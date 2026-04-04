@@ -7,6 +7,7 @@ import TerminationPreview from '@/components/TerminationPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 // RT-107: Pre-termination checklist component
@@ -65,7 +66,7 @@ function getTodayStr() {
 export default function TerminationPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('termination', {
     employeeName: '',
     employeePosition: '',
     storeName: '',
@@ -177,7 +178,7 @@ export default function TerminationPage() {
       }
 
       logActivity({ generatorType: 'termination', action: 'download', formData: form, filename: fileName });
-      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
+      if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); }
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');

@@ -7,6 +7,7 @@ import TimesheetCorrectionPreview from '@/components/TimesheetCorrectionPreview'
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 // RT-108: Pay period options (Homebase uses Sun-Sat weekly)
@@ -49,7 +50,7 @@ const FIELDS = [
 export default function TimesheetCorrectionPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [form, setForm] = useState({ correctionDate: new Date().toISOString().split('T')[0] });
+  const [form, setForm, clearDraft] = useFormDraft('timesheet-correction', { correctionDate: new Date().toISOString().split('T')[0] });
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const previewRef = useRef(null);
@@ -114,7 +115,7 @@ export default function TimesheetCorrectionPage() {
       }
 
       logActivity({ generatorType: 'timesheet-correction', action: 'download', formData: form, filename: 'timesheet-correction.pdf' });
-      if (mountedRef.current) showToast('✓ PDF downloaded successfully!', 'success');
+      if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); }
     } catch (err) {
       console.error('PDF error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

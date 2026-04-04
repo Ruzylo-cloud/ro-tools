@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import FoodLabelPreview from '@/components/FoodLabelPreview';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -34,7 +35,7 @@ export default function FoodLabelsPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('food-labels', {
     itemName: '',
     category: '',
     shelfLifeHours: '',
@@ -98,7 +99,7 @@ export default function FoodLabelsPage() {
       const fileName = `food-labels-${name}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'food-labels', action: 'download', formData: form, filename: fileName });
-      showToast('Food labels PDF downloaded!', 'success');
+      showToast('Food labels PDF downloaded!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

@@ -7,6 +7,7 @@ import InjuryReportPreview from '@/components/InjuryReportPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const INJURY_TYPES = [
@@ -41,7 +42,7 @@ export default function InjuryReportPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('injury-report', {
     employeeName: '',
     position: '',
     storeNumber: '',
@@ -129,7 +130,7 @@ export default function InjuryReportPage() {
       }
 
       logActivity({ generatorType: 'injury-report', action: 'download', formData: form, filename: fileName });
-      showToast('PDF downloaded successfully!', 'success');
+      showToast('PDF downloaded successfully!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');

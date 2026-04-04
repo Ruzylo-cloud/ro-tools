@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import DMWalkthroughPreview from '@/components/DMWalkthroughPreview';
 import { logActivity } from '@/lib/log-activity';
+import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -22,7 +23,7 @@ export default function DMWalkthroughsPage() {
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
 
-  const [form, setForm] = useState({
+  const [form, setForm, clearDraft] = useFormDraft('dm-walkthroughs', {
     storeNumber: '',
     storeName: '',
     inspectorName: '',
@@ -97,7 +98,7 @@ export default function DMWalkthroughsPage() {
       const fileName = `dm-walkthrough-${slug}-${form.inspectionDate || 'today'}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'dm-walkthroughs', action: 'download', formData: form, filename: fileName });
-      showToast('Walkthrough PDF downloaded!', 'success');
+      showToast('Walkthrough PDF downloaded!', 'success'); clearDraft();
     } catch (err) {
       console.error('PDF generation error:', err);
       if (mountedRef.current) showToast('Failed to generate PDF.', 'error');
