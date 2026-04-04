@@ -28,6 +28,7 @@ function checkAdmin(session) {
  *
  * Query params:
  *   type     — filter by generatorType
+ *   action   — filter by action (download | drive-save | email-send)
  *   userId   — filter by userId (admin only)
  *   from     — ISO date string, inclusive lower bound
  *   to       — ISO date string, inclusive upper bound
@@ -41,12 +42,15 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
+  const { searchParams } = new URL(request.url);
+  const action = searchParams.get('action');
+
   if (isDemo(session)) {
-    return NextResponse.json({ logs: DEMO_LOGS, total: DEMO_LOGS.length });
+    const demoFiltered = action ? DEMO_LOGS.filter(l => l.action === action) : DEMO_LOGS;
+    return NextResponse.json({ logs: demoFiltered, total: demoFiltered.length });
   }
 
   const isAdmin = checkAdmin(session);
-  const { searchParams } = new URL(request.url);
 
   const type = searchParams.get('type');
   const userId = searchParams.get('userId');
@@ -67,6 +71,9 @@ export async function GET(request) {
   // Apply filters
   if (type) {
     logs = logs.filter(l => l.generatorType === type);
+  }
+  if (action && VALID_ACTIONS.includes(action)) {
+    logs = logs.filter(l => l.action === action);
   }
   if (userId && isAdmin) {
     logs = logs.filter(l => l.userId === userId);

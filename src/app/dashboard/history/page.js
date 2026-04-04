@@ -143,10 +143,7 @@ export default function HistoryPage() {
     fetchLogs(offset);
   }, [offset]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Client-side action filter (since API may not support it)
-  const displayLogs = actionFilter
-    ? logs.filter(l => l.action === actionFilter)
-    : logs;
+  const displayLogs = logs;
 
   const totalPages = Math.ceil(total / LIMIT);
   const currentPage = Math.floor(offset / LIMIT) + 1;
