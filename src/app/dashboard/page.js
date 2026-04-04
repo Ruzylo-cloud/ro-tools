@@ -30,11 +30,31 @@ const DOC_TYPE_ICONS = {
   'attestation-correction': '📋',
   'meal-break-waiver': '🍽️',
   'catering-order': '📦',
-  'flyer': '📋',
+  'flyer': '🖨️',
   'food-labels': '🏷️',
   'work-orders': '🔧',
   'manager-log': '📓',
   'dm-walkthroughs': '🔍',
+  'onboarding-packets': '📋',
+  'training-level1': '📚',
+  'training-level2': '📚',
+  'training-level3': '📚',
+  'training-slicer': '📚',
+  'training-opener': '📚',
+  'training-shiftlead': '📚',
+  'training-orientation': '📚',
+};
+
+// Maps generator types to their actual page paths
+const DOC_TYPE_PATHS = {
+  'flyer': '/dashboard/flyer',
+  'training-level1': '/dashboard/documents',
+  'training-level2': '/dashboard/documents',
+  'training-level3': '/dashboard/documents',
+  'training-slicer': '/dashboard/documents',
+  'training-opener': '/dashboard/documents',
+  'training-shiftlead': '/dashboard/documents',
+  'training-orientation': '/dashboard/documents',
 };
 
 function formatRelativeTime(ts) {
@@ -267,7 +287,7 @@ export default function DashboardPage() {
                     <div className={styles.recentItemName}>{name}</div>
                     <div className={styles.recentItemMeta}>{type.replace(/-/g, ' ')} &middot; {formatRelativeTime(doc.timestamp || doc.createdAt)}</div>
                   </div>
-                  <Link href={`/dashboard/generators/${type}`} className={styles.recentItemAction}>Open &rarr;</Link>
+                  <Link href={DOC_TYPE_PATHS[type] || `/dashboard/generators/${type}`} className={styles.recentItemAction}>Open &rarr;</Link>
                 </div>
               );
             })
