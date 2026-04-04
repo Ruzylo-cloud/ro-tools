@@ -6,7 +6,7 @@
 
 ## Document Generation
 
-### Generators (12)
+### Generators (15)
 - **Written Warning** — 5-level progressive discipline, violation categories, improvement plans, at-will acknowledgment
 - **Performance Evaluation** — 10-category scoring with comments and overall rating
 - **Coaching Form** — Verbal coaching and counseling documentation
@@ -18,6 +18,11 @@
 - **Attestation Correction** — Meal and rest break documentation per §226.7
 - **Catering Order Form** — Dynamic box management, 16-sub menu, auto-calculated pricing, discount tiers
 - **Catering Flyer** — Print-ready with store info, full menu, pricing, Jersey Mike's branding
+- **Food Labels** — FSMC-compliant food safety labels with prep/expiry dates, customizable categories
+- **Work Orders** — Equipment repair/maintenance requests with priority levels and tracking
+- **Manager Log** — Daily manager notes with timestamped entries and shift details
+- **DM Walk-Throughs** — District Manager visit reports with store assessment and action items
+- **Onboarding Packet** — New hire documentation with progress tracking and e-signatures
 - **Training Documents** — 8 multi-page templates (see Training section)
 
 ### PDF Engine
