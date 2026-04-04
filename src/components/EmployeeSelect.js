@@ -16,7 +16,7 @@ import { useState, useEffect, useRef } from 'react';
  *   label: string
  *   style: object
  */
-export default function EmployeeSelect({ value, onChange, onPositionFill, storeNumber, placeholder, label, style }) {
+export default function EmployeeSelect({ value, onChange, onPositionFill, storeNumber, placeholder, label, style, hasError }) {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
@@ -97,6 +97,8 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
     }
   };
 
+  const errorStyle = hasError ? { borderColor: 'var(--jm-red, #EE3227)' } : {};
+
   // If no employees loaded, just show a text input
   if (loading) {
     return (
@@ -105,7 +107,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
         value={search}
         onChange={e => handleInputChange(e.target.value)}
         placeholder={placeholder || 'Loading employees...'}
-        style={style}
+        style={{ ...style, ...errorStyle }}
       />
     );
   }
@@ -117,7 +119,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
         value={search}
         onChange={e => handleInputChange(e.target.value)}
         placeholder={placeholder || 'Employee name'}
-        style={style}
+        style={{ ...style, ...errorStyle }}
       />
     );
   }
@@ -144,6 +146,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
           outline: 'none',
           transition: 'border-color 0.15s',
           boxSizing: 'border-box',
+          ...(hasError ? { borderColor: 'var(--jm-red, #EE3227)' } : {}),
         }}
       />
       {open && (
