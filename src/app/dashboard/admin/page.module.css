@@ -56,6 +56,13 @@
 .logPageBtn:disabled { opacity: 0.4; cursor: not-allowed; }
 .logPageInfo { font-size: 12px; color: var(--gray-500); }
 
+/* ─── Dark Mode ─── */
+:global([data-theme="dark"]) .section { background: #2a2a36; }
+:global([data-theme="dark"]) .logSearch,
+:global([data-theme="dark"]) .logSelect { background: #1e1e24; color: #e8e8ed; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .logPageBtn { background: #252530; color: #4a90d0; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .logPageBtn:hover:not(:disabled) { background: #2e2e3e; }
+
 /* ─── Responsive ─── */
 
 /* 810px — reduce padding */
