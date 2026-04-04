@@ -8,6 +8,29 @@
  */
 
 export const changelog = [
+  // ── v2.7.0 — April 3, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.7.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Generator Auto-Save Drafts',
+    description: 'All 15 document generators now auto-save your work to browser storage. If you navigate away or close the tab, your draft is restored when you return. Drafts expire after 7 days. Generator cards show a "draft" badge when a saved draft is available.',
+  },
+  {
+    version: 'v2.7.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Preview Zoom Controls on All Generators',
+    description: 'Added zoom in/out/reset controls to the Live Preview panel on all 15 generators, making it easier to inspect dense documents like termination forms, evaluations, and compliance waivers.',
+  },
+  {
+    version: 'v2.7.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Download Button Polish + Keyboard Shortcut Help',
+    description: 'Download buttons now show an animated spinner while generating and a green ✓ confirmation after success. Added "Ctrl+Enter to download" hint text on all generator pages. Press ? on any page to see a keyboard shortcut reference overlay.',
+  },
+
   // ── v2.6.0 — March 28, 2026 ──────────────────────────────────────
   {
     version: 'v2.6.0',
