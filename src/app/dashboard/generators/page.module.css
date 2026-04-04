@@ -291,3 +291,88 @@
 :global([data-theme="dark"]) .categoryLabel { color: #4a90d0; }
 :global([data-theme="dark"]) .tooltipBox { background: #0f1724; }
 :global([data-theme="dark"]) .tooltipBox::after { border-top-color: #0f1724; }
+
+/* ─── RT-057: E-sign indicator badge ─── */
+.eSignBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 100px;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(124,58,237,0.08);
+  color: #7c3aed;
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+}
+:global([data-theme="dark"]) .eSignBadge {
+  background: rgba(167,139,250,0.12);
+  color: #a78bfa;
+}
+
+/* ─── RT-055: Collapsible category section ─── */
+.categoryHeaderCollapse {
+  cursor: pointer;
+  user-select: none;
+}
+.categoryHeaderCollapse:hover .collapseChevron { opacity: 1; }
+.collapseChevron {
+  opacity: 0.4;
+  font-size: 12px;
+  transition: transform 0.2s, opacity 0.2s;
+  margin-left: auto;
+}
+.collapseChevron.open { transform: rotate(0deg); }
+.collapseChevron.closed { transform: rotate(-90deg); }
+.categoryCollapsed { display: none; }
+
+/* ─── RT-117/118: PDF Generation loading + success states ─── */
+.genLoadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.genLoadingCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 40px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.genLoadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f0f4f8;
+  border-top-color: #ee3227;
+  border-radius: 50%;
+  animation: genSpin 0.8s linear infinite;
+}
+@keyframes genSpin { to { transform: rotate(360deg); } }
+.genLoadingTitle { font-size: 16px; font-weight: 700; color: #1a1a2e; }
+.genLoadingSub { font-size: 13px; color: #6b7280; }
+.genSuccessCheck {
+  font-size: 36px;
+  animation: genPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes genPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* ─── RT-049: Responsive grid improvements ─── */
+@media (max-width: 1400px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+  .searchWrap { margin-bottom: 12px; }
+}

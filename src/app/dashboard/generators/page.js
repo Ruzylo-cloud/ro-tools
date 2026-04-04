@@ -39,6 +39,17 @@ function GenIcon({ emoji, size = 24, color = 'currentColor' }) {
   );
 }
 
+// RT-057: Generators that require e-sign
+const ESIGN_TOOLS = new Set([
+  '/dashboard/generators/written-warning',
+  '/dashboard/generators/evaluation',
+  '/dashboard/generators/resignation',
+  '/dashboard/generators/termination',
+  '/dashboard/generators/meal-break-waiver',
+  '/dashboard/generators/attestation-correction',
+  '/dashboard/generators/onboarding-packets',
+]);
+
 // RT-038: Grouped by category
 const CATEGORIES = [
   {
@@ -112,6 +123,10 @@ function ToolCard({ tool, usageCount = 0 }) {
         <h3 className={styles.cardTitle}>{tool.title}</h3>
         <p className={styles.cardDesc}>{tool.desc}</p>
         <div className={styles.cardAction}>Open Tool &rarr;</div>
+        {/* RT-057: E-sign indicator */}
+        {ESIGN_TOOLS.has(tool.href) && (
+          <span className={styles.eSignBadge}>✍ e-sign</span>
+        )}
       </Link>
       <button
         className={styles.tooltipBtn}
@@ -146,6 +161,8 @@ export default function GeneratorsPage() {
   const [recentHrefs, setRecentHrefs] = useState([]);
   // RT-116: Grid vs list view
   const [viewMode, setViewMode] = useState('grid');
+  // RT-055: Collapsed categories
+  const [collapsed, setCollapsed] = useState({});
 
   useEffect(() => {
     setUsageMap(getUsageMap());
@@ -210,13 +227,20 @@ export default function GeneratorsPage() {
 
       {filteredCategories.map(cat => (
         <div key={cat.id} className={styles.category} style={viewMode === 'list' ? { marginBottom: '16px' } : {}}>
-          <div className={styles.categoryHeader}>
+          {/* RT-055: Collapsible category header */}
+          <div
+            className={`${styles.categoryHeader} ${styles.categoryHeaderCollapse}`}
+            onClick={() => setCollapsed(prev => ({ ...prev, [cat.id]: !prev[cat.id] }))}
+            role="button"
+            aria-expanded={!collapsed[cat.id]}
+          >
             <span className={styles.categoryIcon}><GenIcon emoji={cat.icon} size={18} /></span>
             <h2 className={styles.categoryLabel}>{cat.label}</h2>
             <span className={styles.categoryCount}>{cat.tools.length}</span>
+            <span className={`${styles.collapseChevron} ${collapsed[cat.id] ? styles.closed : styles.open}`}>▾</span>
           </div>
           {/* RT-116: list mode = single column */}
-          <div className={viewMode === 'list' ? styles.list : styles.grid}>
+          <div className={`${viewMode === 'list' ? styles.list : styles.grid} ${collapsed[cat.id] ? styles.categoryCollapsed : ''}`}>
             {cat.tools.map(t => (
               <ToolCard key={t.href} tool={t} usageCount={usageMap[t.href] || 0} />
             ))}
