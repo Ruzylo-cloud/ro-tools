@@ -151,6 +151,27 @@
 .detailApproaching { color: #b45309; font-weight: 600; }
 .detailOrderDate { font-size: 12px; color: var(--gray-500); min-width: 90px; flex-shrink: 0; }
 
+/* ─── Dark Mode ─── */
+:global([data-theme="dark"]) .addBtn:hover,
+:global([data-theme="dark"]) .searchBtn:hover,
+:global([data-theme="dark"]) .modalSave:hover,
+:global([data-theme="dark"]) .eventAction:hover,
+:global([data-theme="dark"]) .generateBtn:hover { background: #5b9cf5; }
+:global([data-theme="dark"]) .reorderBtn:hover { background: rgba(74,144,208,0.1); }
+:global([data-theme="dark"]) .tableWrap,
+:global([data-theme="dark"]) .modal,
+:global([data-theme="dark"]) .empty,
+:global([data-theme="dark"]) .eventsSection { background: #2a2a36; }
+:global([data-theme="dark"]) .tableHeader { background: #252530; }
+:global([data-theme="dark"]) .eventRow { background: #252530; }
+:global([data-theme="dark"]) .tableRow:hover { background: rgba(74,144,208,0.04); }
+:global([data-theme="dark"]) .notableDateRow input[type="text"],
+:global([data-theme="dark"]) .notableDateRow input[type="date"] {
+  background: #1e1e24;
+  border-color: #3d3d4a;
+  color: #e8e8ed;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 810px) {
   .container { padding: 36px 20px; }

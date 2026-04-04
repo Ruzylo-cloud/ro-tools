@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import FoodLabelPreview from '@/components/FoodLabelPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
@@ -223,6 +224,13 @@ export default function FoodLabelsPage() {
         >
           ↺ Start over
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName={`food-labels-${(form.preparedBy || 'store').replace(/\s+/g, '-').toLowerCase()}`}
+          disabled={generating}
+          generatorType="food-labels"
+          formData={form}
+        />
       </div>
 
       <div className={styles.preview}>

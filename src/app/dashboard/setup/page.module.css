@@ -258,6 +258,16 @@
   margin-bottom: 16px;
 }
 
+/* ─── Dark Mode ─── */
+:global([data-theme="dark"]) .autoAdminNote {
+  background: rgba(74,144,208,0.1);
+  border-color: rgba(74,144,208,0.2);
+  color: #4a90d0;
+}
+:global([data-theme="dark"]) .roleCard.selected {
+  background: rgba(74,144,208,0.08);
+}
+
 /* ─── Responsive ─── */
 
 /* 950px — reduce max-width slightly */

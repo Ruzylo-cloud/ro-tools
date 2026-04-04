@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import WorkOrderPreview from '@/components/WorkOrderPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
@@ -227,6 +228,13 @@ export default function WorkOrdersPage() {
         >
           ↺ Start over
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName={`work-order-${(form.title || 'order').replace(/\s+/g, '-').toLowerCase().slice(0, 30)}`}
+          disabled={generating}
+          generatorType="work-orders"
+          formData={form}
+        />
       </div>
 
       <div className={styles.preview}>

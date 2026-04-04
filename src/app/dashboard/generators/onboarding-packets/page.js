@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import OnboardingPacketPreview from '@/components/OnboardingPacketPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
@@ -277,6 +278,13 @@ export default function OnboardingPacketsPage() {
         >
           ↺ Start over
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName={`onboarding-${(form.employeeName || 'employee').replace(/\s+/g, '-').toLowerCase()}`}
+          disabled={generating}
+          generatorType="onboarding-packets"
+          formData={form}
+        />
       </div>
 
       <div className={styles.preview}>

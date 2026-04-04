@@ -591,7 +591,7 @@ export default function ScoreboardPage() {
 
       {/* Data Note */}
       <div className={styles.disclaimer}>
-        Data spans Weeks 1-11 (Dec 29 - Mar 15, 2026). New stores (SD/Riverside) joined in Week 10-11. Leaderboard totals reflect each store&apos;s available weeks.
+        Data spans Weeks 1-12 (Dec 29 - Mar 22, 2026). New stores (SD/Riverside) joined in Week 10-11. Leaderboard totals reflect each store&apos;s available weeks.
       </div>
     </div>
   );

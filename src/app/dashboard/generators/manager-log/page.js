@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import ManagerLogPreview from '@/components/ManagerLogPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
@@ -228,6 +229,13 @@ export default function ManagerLogPage() {
         >
           ↺ Start over
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName={`manager-log-${form.logDate || 'today'}`}
+          disabled={generating}
+          generatorType="manager-log"
+          formData={form}
+        />
       </div>
 
       <div className={styles.preview}>

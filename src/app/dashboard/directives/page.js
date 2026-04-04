@@ -215,9 +215,12 @@ export default function DirectivesPage() {
   });
   const [outreachSaved, setOutreachSaved] = useState(false);
 
-  // Scorecard state
+  // Scorecard state — RT-140: Default to current month dynamically
   const [scorecard, setScorecard] = useState({});
-  const [scorecardMonth, setScorecardMonth] = useState('April 2026');
+  const [scorecardMonth, setScorecardMonth] = useState(() => {
+    const now = new Date();
+    return `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+  });
   const [scorecardSaved, setScorecardSaved] = useState(false);
   // RT-196: Rich text directive editor
   const [showCreateDirective, setShowCreateDirective] = useState(false);

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import DMWalkthroughPreview from '@/components/DMWalkthroughPreview';
+import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
@@ -236,6 +237,13 @@ export default function DMWalkthroughsPage() {
         >
           ↺ Start over
         </button>
+        <SaveToDrive
+          getCanvasRef={() => previewRef.current}
+          fileName={`dm-walkthrough-${(form.storeName || 'store').replace(/\s+/g, '-').toLowerCase()}-${form.inspectionDate || 'today'}`}
+          disabled={generating}
+          generatorType="dm-walkthroughs"
+          formData={form}
+        />
       </div>
 
       <div className={styles.preview}>
