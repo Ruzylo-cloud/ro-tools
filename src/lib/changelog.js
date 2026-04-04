@@ -8,6 +8,42 @@
  */
 
 export const changelog = [
+  // ── v2.8.0 — April 3, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.8.0',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Fix Dashboard Activity Feed (API Route Correction)',
+    description: 'The dashboard home was calling a non-existent /api/audit route, so "Recently Generated" always showed empty. Fixed to /api/logs. Feed now shows real data.',
+  },
+  {
+    version: 'v2.8.0',
+    date: '2026-04-03',
+    category: 'new_feature',
+    title: 'Notification Bell Now Works',
+    description: 'Created /api/updates which returns changelog entries. The Updates bell in the Navbar notification dot now correctly lights up when new updates are available.',
+  },
+  {
+    version: 'v2.8.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Documents Page — Draft Persistence + EmployeeSelect + Ctrl+Enter',
+    description: 'Training Documents page now auto-saves your selected template and employee name across page loads. Employee name field uses the searchable EmployeeSelect component. Added Ctrl+Enter shortcut and success state.',
+  },
+  {
+    version: 'v2.8.0',
+    date: '2026-04-03',
+    category: 'improvement',
+    title: 'Inline Validation Errors on 4 More Generators',
+    description: 'meal-break-waiver, attestation-correction, timesheet-correction, and onboarding-packets now show red error messages under the Employee Name field when empty, clearing automatically when filled.',
+  },
+  {
+    version: 'v2.8.0',
+    date: '2026-04-03',
+    category: 'bug_fix',
+    title: 'Generator Count Updated to 15 Across All Pages',
+    description: 'Landing page, dashboard overview, and Built for Operators section all showed stale "12 generators" count. Now corrected to 15. Training templates updated from 5 to 8.',
+  },
   // ── v2.7.0 — April 3, 2026 ───────────────────────────────────────
   {
     version: 'v2.7.0',
