@@ -23,6 +23,13 @@ const TYPE_LABELS = {
   'manager-log': 'Manager Log',
   'dm-walkthroughs': 'DM Walk-Through',
   'onboarding-packets': 'Onboarding Packet',
+  'training-level1': 'Level 1 Training',
+  'training-level2': 'Level 2 Training',
+  'training-level3': 'Level 3 Training',
+  'training-slicer': 'Slicer Training',
+  'training-opener': 'Opener Training',
+  'training-shiftlead': 'Shift Lead Training',
+  'training-orientation': 'Orientation Packet',
 };
 
 const ALL_TYPES = Object.keys(TYPE_LABELS);
