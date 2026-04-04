@@ -137,12 +137,6 @@ export default function LandingPage() {
 
       {/* HERO */}
       <section className={styles.hero}>
-        {/* JMVG logo splash — fills top half of screen */}
-        <div className={styles.heroLogoSection}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/jmvg-logo.png" alt="JM Valley Group" className={styles.heroLogoImg} />
-          <div className={styles.heroLogoTitle}>RO <span>Tools</span></div>
-        </div>
         <div className={styles.heroInner}>
           <div>
             <div className={styles.heroBadge}>

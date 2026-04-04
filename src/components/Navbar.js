@@ -93,6 +93,10 @@ export default function Navbar() {
       if (navRef.current && !navRef.current.contains(e.target)) {
         setOpenDropdown(null);
       }
+      // Close search dropdown if clicking outside searchWrap
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
@@ -136,17 +140,17 @@ export default function Navbar() {
     localStorage.setItem('ro-tools-theme', next);
   }, [theme]);
 
-  // Search: Ctrl+K or / to focus
+  // Search: Ctrl+K or / to open dropdown
   useEffect(() => {
     function handleKey(e) {
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
-        searchRef.current?.focus();
+        setSearchOpen(true);
       } else if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
         const tag = document.activeElement?.tagName;
         if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || document.activeElement?.isContentEditable) return;
         e.preventDefault();
-        searchRef.current?.focus();
+        setSearchOpen(true);
       }
     }
     document.addEventListener('keydown', handleKey);
@@ -159,7 +163,6 @@ export default function Navbar() {
     setSearchSelected(-1);
     const results = searchFilter(q);
     setSearchResults(results);
-    setSearchOpen(results.length > 0);
   }, []);
 
   const handleSearchKeyDown = useCallback((e) => {
@@ -178,11 +181,9 @@ export default function Navbar() {
         setSearchQuery('');
         setSearchOpen(false);
         setSearchResults([]);
-        searchRef.current?.blur();
       }
     } else if (e.key === 'Escape') {
       setSearchOpen(false);
-      searchRef.current?.blur();
     }
   }, [searchOpen, searchResults, searchSelected, router]);
 
@@ -193,15 +194,15 @@ export default function Navbar() {
   const handleSearchItemClick = useCallback((path) => {
     router.push(path);
     setSearchQuery('');
-    setSearchOpen(false);
     setSearchResults([]);
+    setSearchOpen(false);
   }, [router]);
 
   return (
     <nav className={styles.nav} ref={navRef}>
       <div className={styles.left}>
         <Link href="/dashboard" className={styles.logo} onClick={closeDropdown}>
-          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={72} height={36} style={{ borderRadius: '4px', objectFit: 'contain' }} />
+          <Image src="/jmvg-logo.png" alt="JM Valley Group" width={72} height={36} priority style={{ borderRadius: '4px', objectFit: 'contain' }} />
           <span className={styles.logoText}>RO <span>Tools</span></span>
         </Link>
         <div className={styles.links}>
@@ -275,43 +276,50 @@ export default function Navbar() {
       </div>
 
       <div className={styles.right}>
-        {/* Global search */}
-        <div className={styles.searchWrap}>
-          <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-            <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        {/* Global search: icon button → dropdown */}
+        <div className={styles.searchWrap} ref={searchRef}>
+          <button
+            className={styles.searchIconBtn}
+            onClick={() => setSearchOpen(prev => !prev)}
+            aria-label="Search (Ctrl+K)"
+            title="Search (Ctrl+K)"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
-            <input
-              ref={searchRef}
-              type="search"
-              className={styles.searchInput}
-              placeholder="Search… (Ctrl+K)"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              onKeyDown={handleSearchKeyDown}
-              onBlur={handleSearchBlur}
-              onFocus={() => searchQuery && setSearchOpen(searchResults.length > 0)}
-              aria-label="Global search"
-              autoComplete="off"
-            />
-            {searchOpen && searchResults.length > 0 && (
-              <div className={styles.searchResults} role="listbox">
-                {searchResults.map((item, i) => (
-                  <button
-                    key={item.path}
-                    className={`${styles.searchItem} ${i === searchSelected ? styles.searchItemActive : ''}`}
-                    onMouseDown={() => handleSearchItemClick(item.path)}
-                    role="option"
-                    aria-selected={i === searchSelected}
-                  >
-                    <span className={styles.searchItemIcon}>{item.icon}</span>
-                    <span className={styles.searchItemLabel}>{item.label}</span>
-                    <span className={styles.searchItemPath}>{item.path.replace('/dashboard', '')}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          </button>
+          {searchOpen && (
+            <div className={styles.searchDropdown}>
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onKeyDown={handleSearchKeyDown}
+                onBlur={handleSearchBlur}
+                placeholder="Search... (Ctrl+K)"
+                autoFocus
+                className={styles.searchInput}
+                autoComplete="off"
+              />
+              {searchResults.length > 0 && (
+                <div className={styles.searchResults}>
+                  {searchResults.map((r, i) => (
+                    <div
+                      key={r.path}
+                      className={`${styles.searchResultItem} ${i === searchSelected ? styles.searchResultActive : ''}`}
+                      onMouseDown={() => handleSearchItemClick(r.path)}
+                    >
+                      <span className={styles.searchResultIcon}>{r.icon || '→'}</span>
+                      <div>
+                        <div className={styles.searchResultTitle}>{r.label}</div>
+                        {r.desc && <div className={styles.searchResultDesc}>{r.desc}</div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Notification bell */}
