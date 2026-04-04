@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import Orientation from '@/components/documents/Orientation';
@@ -12,6 +12,8 @@ import TrainingPacketOpener from '@/components/documents/TrainingPacketOpener';
 import TrainingPacketShiftLead from '@/components/documents/TrainingPacketShiftLead';
 import NewHireChecklist from '@/components/documents/NewHireChecklist';
 import SaveToDrive from '@/components/SaveToDrive';
+import EmployeeSelect from '@/components/EmployeeSelect';
+import { useFormDraft } from '@/lib/useFormDraft';
 import { logActivity } from '@/lib/log-activity';
 import styles from './page.module.css';
 
@@ -145,20 +147,25 @@ const FILE_NAMES = {
 export default function DocumentsPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [selected, setSelected] = useState(() => {
+  const [docDraft, setDocDraft, clearDocDraft] = useFormDraft('documents', { selected: 'level1', employeeName: '', startDate: '', position: '', managerName: '' });
+
+  const selected = (() => {
     if (typeof window !== 'undefined') {
       const t = new URLSearchParams(window.location.search).get('template');
       if (t && COMPONENT_MAP[t]) return t;
     }
-    return 'level1';
-  });
+    return docDraft.selected || 'level1';
+  })();
+
   const [form, setForm] = useState(() => {
     if (typeof window !== 'undefined') {
       const n = new URLSearchParams(window.location.search).get('name');
       if (n) return { employeeName: n };
     }
-    return {};
+    return { employeeName: docDraft.employeeName || '', startDate: docDraft.startDate || '', position: docDraft.position || '', managerName: docDraft.managerName || '' };
   });
+  const [showSuccess, setShowSuccess] = useState(false);
+  const mountedRef = useRef(true);
   const [storeInfo, setStoreInfo] = useState({});
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -197,13 +204,22 @@ export default function DocumentsPage() {
       .catch(() => setLoading(false));
   }, [user]);
 
+  useEffect(() => { return () => { mountedRef.current = false; }; }, []);
+
+  useEffect(() => {
+    const handler = (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); handleDownload(); } };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
+
   const handleChange = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
+    setDocDraft(prev => ({ ...prev, [key]: value }));
   };
 
   const handleTemplateChange = (id) => {
-    setSelected(id);
-    setForm({});
+    setDocDraft(prev => ({ ...prev, selected: id }));
+    setForm(prev => ({ employeeName: prev.employeeName || '', startDate: prev.startDate || '', position: prev.position || '', managerName: prev.managerName || '' }));
     // RT-164: Track recently used
     setRecentTemplates(prev => {
       const updated = [id, ...prev.filter(t => t !== id)].slice(0, 4);
@@ -257,6 +273,8 @@ export default function DocumentsPage() {
       pdf.save(fileName);
       setGenerateProgress(100);
       logActivity({ generatorType: selected === 'newhire' ? 'new-hire-checklist' : `training-${selected}`, action: 'download', formData: docData, filename: fileName });
+      showToast('✓ PDF downloaded successfully!', 'success');
+      if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
       // RT-178: Track training progress
       if (form.employeeName) {
         const key = form.employeeName.trim().toLowerCase();
@@ -399,7 +417,17 @@ export default function DocumentsPage() {
           {fields.map(({ key, label, type, options }) => (
             <div key={key} className={styles.field}>
               <label className={styles.label}>{label}</label>
-              {type === 'textarea' ? (
+              {key === 'employeeName' ? (
+                <EmployeeSelect
+                  value={form.employeeName || ''}
+                  onChange={(name, emp) => {
+                    handleChange('employeeName', name);
+                    if (emp?.position) handleChange('position', emp.position);
+                  }}
+                  storeNumber={storeInfo.storeNumber}
+                  placeholder="Search employees..."
+                />
+              ) : type === 'textarea' ? (
                 <textarea
                   className={styles.textarea}
                   value={form[key] || ''}
@@ -434,12 +462,14 @@ export default function DocumentsPage() {
         )}
 
         <button
-          className={styles.downloadBtn}
+          className={`${styles.downloadBtn}${showSuccess ? ' gen-download-success' : ''}`}
           onClick={handleDownload}
           disabled={generating}
+          title="Ctrl+Enter to download"
         >
-          {generating ? `Generating PDF… ${generateProgress}%` : 'Download PDF'}
+          {generating ? <><span className="gen-btn-spinner" />Generating PDF… {generateProgress}%</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
+        <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
 
         {/* RT-177: Training packet navigation (prev / next) */}
         {(() => {
