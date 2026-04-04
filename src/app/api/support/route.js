@@ -88,6 +88,13 @@ export async function POST(request) {
     createdAt: new Date().toISOString(),
   };
 
+  // RT-155: Store priority and category for feature requests
+  if (type === 'feature') {
+    const VALID_PRIORITIES = ['nice-to-have', 'medium', 'high', 'critical'];
+    if (body.priority && VALID_PRIORITIES.includes(body.priority)) ticket.priority = body.priority;
+    if (body.category) ticket.category = String(body.category).slice(0, 100);
+  }
+
   tickets.push(ticket);
   const tmpPath = TICKETS_FILE + '.tmp';
   await fs.writeFile(tmpPath, JSON.stringify(tickets, null, 2));

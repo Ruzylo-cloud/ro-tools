@@ -52,10 +52,11 @@ export default function SupportPage() {
     type === 'bug' ? setBugSubmitting(true) : setFeatureSubmitting(true);
 
     try {
+      const extra = type === 'feature' ? { priority: featurePriority, category: featureCategory } : {};
       const res = await fetch('/api/support', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type, title, description }),
+        body: JSON.stringify({ type, title, description, ...extra }),
       });
       const data = await res.json();
       if (data.success) {
