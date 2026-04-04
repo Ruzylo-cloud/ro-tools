@@ -36,6 +36,7 @@ const DOC_TYPE_ICONS = {
   'manager-log': '📓',
   'dm-walkthroughs': '🔍',
   'onboarding-packets': '📋',
+  'new-hire-checklist': '📋',
   'training-level1': '📚',
   'training-level2': '📚',
   'training-level3': '📚',
@@ -45,9 +46,10 @@ const DOC_TYPE_ICONS = {
   'training-orientation': '📚',
 };
 
-// Maps generator types to their actual page paths
+// Maps generator types to their actual page paths (types not under /generators/)
 const DOC_TYPE_PATHS = {
   'flyer': '/dashboard/flyer',
+  'new-hire-checklist': '/dashboard/documents',
   'training-level1': '/dashboard/documents',
   'training-level2': '/dashboard/documents',
   'training-level3': '/dashboard/documents',
