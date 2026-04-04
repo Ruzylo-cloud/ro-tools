@@ -19,9 +19,9 @@ const TOOLS = [
   {
     icon: '\u{1F4C4}',
     name: 'Document Generators',
-    desc: '12 professional generators — catering orders, written warnings, evaluations, coaching forms, injury reports, resignations, terminations, meal break waivers, timesheet and attestation corrections. All auto-filled and downloadable as PDF.',
+    desc: '15 professional generators — catering orders, written warnings, evaluations, coaching forms, injury reports, resignations, terminations, meal break waivers, timesheet and attestation corrections, work orders, manager logs, DM walk-throughs, onboarding packets, and food labels. All auto-filled and downloadable as PDF.',
     highlight: true,
-    stat: '12 Forms',
+    stat: '15 Forms',
   },
   {
     icon: '\u{1F4CB}',
@@ -44,8 +44,8 @@ const TOOLS = [
   {
     icon: '\u{1F4C2}',
     name: 'Training Documents',
-    desc: 'Level 1-3 training packets, new hire checklists, and uniform templates. All JMVG-branded and ready to print or save to Google Drive.',
-    stat: '5 Templates',
+    desc: 'Level 1-3 training packets, Slicer, Opener, Shift Lead, Orientation, and New Hire Checklist. All JMVG-branded and ready to print or save to Google Drive. Includes knowledge-check quizzes.',
+    stat: '8 Templates',
   },
   {
     icon: '\u{1F3C6}',
@@ -188,7 +188,7 @@ export default function LandingPage() {
             </div>
             {/* RT-258: Login feature badges */}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 16 }}>
-              {['📝 12 Generators', '📊 Scoreboard', '🖊️ E-Sign', '🚀 Auto-fill'].map(f => (
+              {['📝 15 Generators', '📊 Scoreboard', '🖊️ E-Sign', '🚀 Auto-fill'].map(f => (
                 <span key={f} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', background: 'rgba(19,74,124,0.08)', color: '#134A7C', borderRadius: 20, border: '1px solid rgba(19,74,124,0.15)' }}>{f}</span>
               ))}
             </div>
@@ -249,7 +249,7 @@ export default function LandingPage() {
       <section className={styles.statsBar}>
         <div className={styles.statsInner}>
           <div className={styles.statItem}>
-            <div className={styles.statNumber}>12</div>
+            <div className={styles.statNumber}>15</div>
             <div className={styles.statLabel}>Document Generators</div>
           </div>
           <div className={styles.statDivider}></div>
