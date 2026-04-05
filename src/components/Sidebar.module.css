@@ -197,9 +197,8 @@
 }
 
 .divider {
-  height: 1px;
-  background: var(--border, #e5e7eb);
-  margin: 6px 6px;
+  height: 8px;
+  margin: 2px 0;
 }
 
 /* ─── Sidebar Collapse ─── */
@@ -556,7 +555,7 @@
 :global([data-theme="dark"]) .subLink { color: #8888a0; }
 :global([data-theme="dark"]) .subLink:hover { color: #4a90d0; background: rgba(74,144,208,0.07); }
 :global([data-theme="dark"]) .subLinkActive { color: #4a90d0; background: rgba(74,144,208,0.1); }
-:global([data-theme="dark"]) .divider { background: #3d3d4a; }
+/* divider is spacing-only, no visible line */
 /* footer has no border */
 :global([data-theme="dark"]) .themeBtn { color: #a0a0b0; }
 :global([data-theme="dark"]) .themeBtn:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
