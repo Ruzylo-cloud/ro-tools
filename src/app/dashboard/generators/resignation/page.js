@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import ResignationPreview from '@/components/ResignationPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import ESignButton from '@/components/ESignButton';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
@@ -403,6 +404,13 @@ export default function ResignationPage() {
           {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
         <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
+        <ESignButton
+          documentType="resignation"
+          documentTitle={`Employee Resignation${form.employeeName ? ' — ' + form.employeeName : ''}`}
+          employeeName={form.employeeName}
+          formData={form}
+          disabled={!form.employeeName}
+        />
         <button
           type="button"
           onClick={() => { if (confirm('Clear all fields and start over?')) { clearDraft(); window.location.reload(); } }}

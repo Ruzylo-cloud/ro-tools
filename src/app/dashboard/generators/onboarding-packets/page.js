@@ -5,6 +5,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import OnboardingPacketPreview from '@/components/OnboardingPacketPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import ESignButton from '@/components/ESignButton';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
@@ -271,6 +272,13 @@ export default function OnboardingPacketsPage() {
           {generating ? <><span className="gen-btn-spinner" />Generating...</> : showSuccess ? '✓ Downloaded!' : 'Download Onboarding PDF'}
         </button>
         <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
+        <ESignButton
+          documentType="onboarding-packets"
+          documentTitle={`Onboarding Packet${form.employeeName ? ' — ' + form.employeeName : ''}`}
+          employeeName={form.employeeName}
+          formData={form}
+          disabled={!form.employeeName}
+        />
         <button
           type="button"
           onClick={() => { if (confirm('Clear all fields and start over?')) { clearDraft(); window.location.reload(); } }}

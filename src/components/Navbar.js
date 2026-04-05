@@ -268,7 +268,12 @@ export default function Navbar() {
             <Link href="/dashboard/reading" className={`${styles.navLink} ${isActive('/dashboard/reading') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Reading</Link>
           </div>
 
-          {/* 7. Store Profile */}
+          {/* 7. Signatures */}
+          <div className={styles.navItem}>
+            <Link href="/dashboard/signatures" className={`${styles.navLink} ${isActive('/dashboard/signatures') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Signatures</Link>
+          </div>
+
+          {/* 8. Store Profile */}
           <div className={styles.navItem}>
             <Link href="/dashboard/profile" className={`${styles.navLink} ${isActive('/dashboard/profile') ? styles.navLinkActive : ''}`} onClick={closeDropdown}>Store Profile</Link>
           </div>

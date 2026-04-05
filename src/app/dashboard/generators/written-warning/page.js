@@ -7,6 +7,7 @@ import WrittenWarningPreview from '@/components/WrittenWarningPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
+import ESignButton from '@/components/ESignButton';
 import { useFormDraft } from '@/lib/useFormDraft';
 import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
@@ -382,6 +383,13 @@ export default function WrittenWarningPage() {
           )}
         </button>
         <p className={styles.keyboardHint}>Tip: Press Ctrl+Enter to generate</p>
+        <ESignButton
+          documentType="written-warning"
+          documentTitle={`Written Warning${form.employeeName ? ' — ' + form.employeeName : ''}`}
+          employeeName={form.employeeName}
+          formData={form}
+          disabled={!form.employeeName || !form.violationDescription}
+        />
         <button
           type="button"
           onClick={() => { if (confirm('Clear all fields and start over?')) { clearDraft(); window.location.reload(); } }}
