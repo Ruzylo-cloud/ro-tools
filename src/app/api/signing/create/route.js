@@ -21,16 +21,16 @@ export async function POST(request) {
 
   const { documentType, documentTitle, employeeName, employeeEmail, formData, driveFolderId } = body;
 
-  if (!documentType || !documentTitle || !employeeName || !employeeEmail) {
+  if (!documentType || !documentTitle || !employeeName) {
     return NextResponse.json(
-      { error: 'documentType, documentTitle, employeeName, and employeeEmail are required' },
+      { error: 'documentType, documentTitle, and employeeName are required' },
       { status: 400 }
     );
   }
 
-  // Validate email is @jmvalley.com
-  if (!employeeEmail.endsWith('@jmvalley.com')) {
-    return NextResponse.json({ error: 'Employee email must be @jmvalley.com' }, { status: 400 });
+  // Basic email format check if provided — no domain restriction, crew may use personal email
+  if (employeeEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(employeeEmail)) {
+    return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
   }
 
   const token = generateSigningToken();
@@ -53,38 +53,41 @@ export async function POST(request) {
     driveFolder: driveFolderId || null,
   });
 
-  // Send email to employee with signing link
-  const emailHtml = buildSigningEmail({
-    documentTitle,
-    documentType,
-    employeeName,
-    managerName: session.name,
-    signingUrl,
-  });
-
-  try {
-    const emailRes = await fetch(`${protocol}://${host}/api/email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        cookie: request.headers.get('cookie') || '',
-      },
-      body: JSON.stringify({
-        to: employeeEmail,
-        subject: `Action Required: Sign "${documentTitle}"`,
-        htmlBody: emailHtml,
-      }),
+  // Send email only if an address was provided
+  let emailSent = false;
+  if (employeeEmail) {
+    const emailHtml = buildSigningEmail({
+      documentTitle,
+      documentType,
+      employeeName,
+      managerName: session.name,
+      signingUrl,
     });
 
-    if (!emailRes.ok) {
-      console.error('Failed to send signing email:', await emailRes.text());
-      // Don't fail the request — the signing link is still valid
+    try {
+      const emailRes = await fetch(`${protocol}://${host}/api/email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          cookie: request.headers.get('cookie') || '',
+        },
+        body: JSON.stringify({
+          to: employeeEmail,
+          subject: `Action Required: Sign "${documentTitle}"`,
+          htmlBody: emailHtml,
+        }),
+      });
+
+      emailSent = emailRes.ok;
+      if (!emailRes.ok) {
+        console.error('Failed to send signing email:', await emailRes.text());
+      }
+    } catch (err) {
+      console.error('Email send error:', err);
     }
-  } catch (err) {
-    console.error('Email send error:', err);
   }
 
-  return NextResponse.json({ success: true, token, signingUrl });
+  return NextResponse.json({ success: true, token, signingUrl, emailSent });
 }
 
 /**
