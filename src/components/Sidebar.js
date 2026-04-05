@@ -235,6 +235,24 @@ export default function Sidebar() {
               <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
+          <a
+            href="https://mission-control-1049928336088.us-central1.run.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.mobileIconBtn}
+            aria-label="Notifications"
+            style={{ position: 'relative', textDecoration: 'none' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            {notifCount > 0 && (
+              <span style={{ position: 'absolute', top: '-4px', right: '-4px', minWidth: '16px', height: '16px', background: '#EE3227', color: '#fff', borderRadius: '8px', fontSize: '9px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px', border: '2px solid #fff' }}>
+                {notifCount > 9 ? '9+' : notifCount}
+              </span>
+            )}
+          </a>
           <button
             className={`${styles.hamburger} ${mobileOpen ? styles.hamburgerOpen : ''}`}
             onClick={() => setMobileOpen(v => !v)}
