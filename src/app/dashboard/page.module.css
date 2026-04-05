@@ -490,7 +490,8 @@
   gap: 8px;
   padding: 20px 12px;
   background: var(--white);
-  border: 1.5px solid var(--border);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--jm-red, #EE3227);
   border-radius: 14px;
   text-decoration: none;
   color: var(--charcoal);
