@@ -1693,7 +1693,7 @@ export default function ReadingPage() {
                           {quizzesNotTaken.slice(1, 5).map(id => {
                             const b = BOOKS.find(x => x.id === id);
                             return b ? (
-                              <div key={id} onClick={() => setSelectedBook(id)} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', background: 'var(--gray-50)', border: '1px solid var(--border)', borderRadius: 20, cursor: 'pointer', color: 'var(--text)' }}>
+                              <div key={id} onClick={() => setSelectedBook(id)} style={{ fontSize: 11, fontWeight: 600, padding: '3px 10px', background: 'var(--gray-200)', border: '1px solid var(--border)', borderRadius: 20, cursor: 'pointer', color: 'var(--text)' }}>
                                 {b.title}
                               </div>
                             ) : null;
@@ -1886,14 +1886,14 @@ export default function ReadingPage() {
 
           {/* Key Takeaways */}
           {book.keyTakeaways && book.keyTakeaways.length > 0 && (
-            <div style={{ background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: 14, padding: 28, marginBottom: 20 }}>
-              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#1e40af', marginBottom: 16 }}>
+            <div style={{ background: 'rgba(19,74,124,0.06)', border: '1px solid rgba(19,74,124,0.15)', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+              <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16 }}>
                 Key Takeaways
               </h2>
               <ul style={{ paddingLeft: 0, listStyle: 'none', margin: 0 }}>
                 {book.keyTakeaways.map((t, i) => (
-                  <li key={i} style={{ display: 'flex', gap: 10, marginBottom: 12, fontSize: 15, lineHeight: 1.7, color: '#1e3a5f' }}>
-                    <span style={{ color: '#2563eb', fontWeight: 800, flexShrink: 0, marginTop: 1 }}>→</span>
+                  <li key={i} style={{ display: 'flex', gap: 10, marginBottom: 12, fontSize: 15, lineHeight: 1.7, color: 'var(--text)' }}>
+                    <span style={{ color: 'var(--jm-blue)', fontWeight: 800, flexShrink: 0, marginTop: 1 }}>→</span>
                     <span>{t}</span>
                   </li>
                 ))}
@@ -1928,7 +1928,7 @@ export default function ReadingPage() {
                 <div key={i} style={{ marginBottom: 10, border: '1px solid var(--border)', borderRadius: 10, overflow: 'hidden' }}>
                   <button
                     onClick={() => toggleChapter(i)}
-                    style={{ width: '100%', textAlign: 'left', padding: '14px 18px', background: expandedChapters[i] ? 'rgba(19,74,124,0.06)' : 'var(--gray-50)', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}
+                    style={{ width: '100%', textAlign: 'left', padding: '14px 18px', background: expandedChapters[i] ? 'rgba(19,74,124,0.06)' : 'var(--gray-100)', border: 'none', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}
                   >
                     <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--jm-blue)' }}>{item.chapter}</span>
                     <span style={{ fontSize: 18, color: 'var(--jm-blue)', flexShrink: 0, transform: expandedChapters[i] ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
@@ -1969,13 +1969,13 @@ export default function ReadingPage() {
               {quizActive && (
                 <div>
                   {!quizSubmitted && (
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: '#eff6ff', borderRadius: 8, border: '1px solid #bfdbfe', marginBottom: 20, fontSize: 13, color: '#1e40af', fontWeight: 600 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: 'rgba(19,74,124,0.08)', borderRadius: 8, border: '1px solid rgba(19,74,124,0.2)', marginBottom: 20, fontSize: 13, color: 'var(--jm-blue)', fontWeight: 600 }}>
                       <span>📋 {BOOK_QUIZZES[book.id]?.length || 20} questions</span>
                       <span>Need {passingScore(book.id)}/{BOOK_QUIZZES[book.id]?.length || 20} to pass (90%)</span>
                     </div>
                   )}
                   {BOOK_QUIZZES[book.id].map((q, qi) => (
-                    <div key={qi} style={{ marginBottom: 24, padding: '16px 20px', background: 'var(--gray-50)', borderRadius: 10, border: quizSubmitted ? (quizAnswers[qi] === q.a ? '1.5px solid #16a34a' : '1.5px solid #dc2626') : '1px solid var(--border)' }}>
+                    <div key={qi} style={{ marginBottom: 24, padding: '16px 20px', background: 'var(--gray-100)', borderRadius: 10, border: quizSubmitted ? (quizAnswers[qi] === q.a ? '1.5px solid #16a34a' : '1.5px solid #dc2626') : '1px solid var(--border)' }}>
                       <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', marginBottom: 12 }}>
                         {qi + 1}. {q.q}
                       </div>

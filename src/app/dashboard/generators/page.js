@@ -39,7 +39,6 @@ function GenIcon({ emoji, size = 24, color = 'currentColor' }) {
     </span>
   );
 }
-
 // RT-057: Generators that require e-sign
 const ESIGN_TOOLS = new Set([
   '/dashboard/generators/written-warning',
@@ -119,7 +118,7 @@ function ToolCard({ tool, usageCount = 0, hasDraft = false }) {
       <Link href={tool.href} className={styles.card} onClick={handleClick}>
         {tool.isNew && <span className={styles.badgeNew}>New</span>}
         {/* RT-061: Draft saved indicator */}
-        {hasDraft && <span style={{ position: 'absolute', top: '10px', left: '10px', fontSize: '10px', fontWeight: 700, padding: '2px 7px', borderRadius: '10px', background: 'rgba(37,99,235,0.10)', color: '#2563eb', border: '1px solid rgba(37,99,235,0.18)' }}>draft</span>}
+        {hasDraft && <span style={{ position: 'absolute', bottom: '42px', left: '10px', fontSize: '10px', fontWeight: 700, padding: '2px 7px', borderRadius: '10px', background: 'rgba(37,99,235,0.10)', color: '#2563eb', border: '1px solid rgba(37,99,235,0.18)' }}>draft</span>}
         {/* RT-082: Usage count badge */}
         {usageCount > 0 && <span style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '10px', fontWeight: 700, padding: '2px 6px', borderRadius: '10px', background: 'rgba(19,74,124,0.08)', color: 'var(--jm-blue)' }}>{usageCount}×</span>}
         <div className={styles.cardIcon}><GenIcon emoji={tool.icon} size={28} /></div>

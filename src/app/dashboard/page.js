@@ -81,8 +81,6 @@ export default function DashboardPage() {
   const [recentError, setRecentError] = useState(false);
   // RT-053: Quick stats
   const [stats, setStats] = useState({ generated: 0, pendingApprovals: 0 });
-  // RT-060: Auto-refresh
-  const [autoRefresh, setAutoRefresh] = useState(false);
   // RT-071: Last login
   const [lastLogin, setLastLogin] = useState(null);
 
@@ -126,13 +124,6 @@ export default function DashboardPage() {
       });
   };
   useEffect(() => { loadRecentDocs(); }, []);
-
-  // RT-060: Auto-refresh every 60s
-  useEffect(() => {
-    if (!autoRefresh) return;
-    const id = setInterval(loadRecentDocs, 60000);
-    return () => clearInterval(id);
-  }, [autoRefresh]);
 
   // RT-074: ⌘K keyboard shortcut to jump to generators search
   useEffect(() => {
@@ -210,14 +201,6 @@ export default function DashboardPage() {
         <Link href="/dashboard/generators" className={styles.heroCta}>
           Open Generators &rarr;
         </Link>
-        {/* RT-060: Auto-refresh toggle */}
-        <button
-          onClick={() => setAutoRefresh(v => !v)}
-          style={{ marginLeft: '12px', padding: '9px 16px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px', cursor: 'pointer', color: autoRefresh ? 'var(--jm-blue)' : 'var(--gray-500)' }}
-          title="Toggle auto-refresh"
-        >
-          {autoRefresh ? '⟳ Auto ON' : '⟳ Auto OFF'}
-        </button>
       </div>
 
       {/* RT-053: Quick stats row */}
