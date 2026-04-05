@@ -159,12 +159,17 @@ html[data-theme="dark"] {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  transition: margin-left 0.25s ease;
 }
 @media (max-width: 768px) {
   .rt-sidebar-content {
     margin-left: 0;
     padding-top: var(--rt-topbar-h);
   }
+}
+/* Sidebar collapsed — content fills full width */
+body.rt-sidebar-collapsed .rt-sidebar-content {
+  margin-left: 0;
 }
 
 /* ─── RT-001: Smooth scrolling ─── */

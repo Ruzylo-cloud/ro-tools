@@ -57,6 +57,9 @@ export default function Sidebar() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [theme, setTheme] = useState('light');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [stores, setStores] = useState([]);
+  const [activeStore, setActiveStore] = useState(null);
 
   // Collapsible sections
   const [openSections, setOpenSections] = useState({ generators: false, catering: false });
@@ -80,13 +83,36 @@ export default function Sidebar() {
     setOpenSections({ generators: inGenerators, catering: inCatering });
   }, [pathname]);
 
-  // Load admin/role + unread updates
+  // Collapse state init
+  useEffect(() => {
+    const saved = localStorage.getItem('rt-sidebar-collapsed');
+    if (saved === '1') {
+      setCollapsed(true);
+      document.body.classList.add('rt-sidebar-collapsed');
+    }
+  }, []);
+
+  const toggleCollapse = useCallback(() => {
+    const next = !collapsed;
+    setCollapsed(next);
+    document.body.classList.toggle('rt-sidebar-collapsed', next);
+    localStorage.setItem('rt-sidebar-collapsed', next ? '1' : '0');
+  }, [collapsed]);
+
+  // Load admin/role + stores + unread updates
   useEffect(() => {
     fetch('/api/profile')
       .then(r => r.json())
       .then(d => {
         setIsAdmin(d.isAdmin || false);
         setUserRole(d.profile?.role || d.role || '');
+        // Build store list — profile has single store; admins/DMs may have more
+        const storeList = d.stores || (d.profile?.storeNumber ? [{ id: d.profile.storeNumber, name: d.profile.storeName || `Store ${d.profile.storeNumber}` }] : []);
+        setStores(storeList);
+        // Load active store from localStorage or default to first
+        const saved = localStorage.getItem('jmvg-active-store');
+        const match = storeList.find(s => String(s.id) === String(saved));
+        setActiveStore(match || storeList[0] || null);
       })
       .catch(() => {});
     fetch('/api/updates?limit=1')
@@ -255,8 +281,17 @@ export default function Sidebar() {
         </div>
       )}
 
+      {/* ── Expand tab (when collapsed) ── */}
+      {collapsed && (
+        <button className={styles.expandTab} onClick={toggleCollapse} title="Expand sidebar" aria-label="Expand sidebar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+      )}
+
       {/* ── Sidebar ── */}
-      <aside className={`${styles.sidebar} ${mobileOpen ? styles.sidebarOpen : ''}`} aria-label="Navigation sidebar">
+      <aside className={`${styles.sidebar} ${mobileOpen ? styles.sidebarOpen : ''} ${collapsed ? styles.sidebarCollapsed : ''}`} aria-label="Navigation sidebar">
         {/* Logo */}
         <Link href="/dashboard" className={styles.logo} onClick={navClick}>
           <Image src="/jmvg-logo.png" alt="JM Valley Group" width={72} height={36} priority style={{ borderRadius: '4px', objectFit: 'contain' }} />
@@ -416,11 +451,42 @@ export default function Sidebar() {
           )}
         </nav>
 
-        {/* Footer: user + dark mode + sign out */}
+        {/* Footer: store picker + dark mode + collapse + user row */}
         <div className={styles.footer}>
+          {/* Store picker (shown for multi-store users or any user with store assigned) */}
+          {activeStore && (
+            <div className={styles.storePicker}>
+              {stores.length > 1 ? (
+                <select
+                  className={styles.storeSelect}
+                  value={activeStore?.id || ''}
+                  onChange={e => {
+                    const s = stores.find(x => String(x.id) === e.target.value);
+                    if (s) { setActiveStore(s); localStorage.setItem('jmvg-active-store', String(s.id)); }
+                  }}
+                  title="Switch active store"
+                >
+                  {stores.map(s => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
+                </select>
+              ) : (
+                <div className={styles.storeLabel}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                  <span>{activeStore.name}</span>
+                </div>
+              )}
+            </div>
+          )}
           <button className={styles.themeBtn} onClick={toggleTheme} title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
             <span>{theme === 'light' ? '🌙' : '☀️'}</span>
             <span className={styles.themeBtnLabel}>{theme === 'light' ? 'Dark mode' : 'Light mode'}</span>
+          </button>
+          <button className={styles.collapseBtn} onClick={toggleCollapse} title="Collapse sidebar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            <span>Collapse</span>
           </button>
           {user && (
             <div className={styles.userRow}>
