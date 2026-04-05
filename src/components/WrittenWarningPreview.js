@@ -187,7 +187,9 @@ const WrittenWarningPreview = forwardRef(function WrittenWarningPreview({ data }
             fontWeight: 500,
             minHeight: '16px',
           }}>
-            {employeeSignature || '\u00A0'}
+            {employeeSignature?.startsWith('data:')
+              ? <img src={employeeSignature} style={{ height: '36px', maxWidth: '200px', display: 'block' }} alt="signature" />
+              : (employeeSignature || '\u00A0')}
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2px' }}>
             <span style={{ fontSize: '6pt', color: '#666', fontWeight: 600 }}>Employee Signature</span>

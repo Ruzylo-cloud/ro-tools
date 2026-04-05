@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import WrittenWarningPreview from '@/components/WrittenWarningPreview';
@@ -100,6 +101,25 @@ export default function WrittenWarningPage() {
       .catch(() => setLoading(false));
   }, [user]);
 
+  // Pre-fill from completed signing request
+  const searchParams = useSearchParams();
+  const signToken = searchParams?.get('sign_token');
+
+  useEffect(() => {
+    if (!signToken || !user) return;
+    fetch(`/api/signing/manager/${signToken}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.formData && Object.keys(data.formData).length > 0) {
+          setForm(prev => ({ ...prev, ...data.formData }));
+        }
+        if (data.signatureDataUrl) {
+          setForm(prev => ({ ...prev, employeeSignature: data.signatureDataUrl }));
+        }
+      })
+      .catch(() => {});
+  }, [signToken, user]);
+
   const handleChange = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
     // Clear error on change
@@ -169,7 +189,7 @@ export default function WrittenWarningPage() {
               warningDate: form.warningDate || '',
             },
           }),
-        }).catch(() => {});
+        }).catch(err => console.error('[doc-save] failed:', err));
       }
     } catch (err) {
       if (mountedRef.current) showToast('Failed to generate PDF. Please try again.', 'error');

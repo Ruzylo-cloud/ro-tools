@@ -102,6 +102,21 @@ export default function DMWalkthroughsPage() {
       const fileName = `dm-walkthrough-${slug}-${form.inspectionDate || 'today'}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'dm-walkthroughs', action: 'download', formData: form, filename: fileName });
+      // Save admin copy to GCS
+      try {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        await fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: null,
+            documentType: 'dm-walkthroughs',
+            fileName: fileName,
+            content: pdfBase64,
+            metadata: { storeNumber: form.storeNumber || '', inspectionDate: form.inspectionDate || '' },
+          }),
+        });
+      } catch (err) { console.error('Admin doc save failed:', err); }
       showToast('Walkthrough PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);

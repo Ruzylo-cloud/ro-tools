@@ -29,12 +29,12 @@ export async function POST(request) {
     const body = await request.json();
     const { employeeName, employeeId, documentType, fileName, content, metadata } = body;
 
-    if (!employeeName || !documentType || !fileName) {
-      return NextResponse.json({ error: 'employeeName, documentType, fileName required' }, { status: 400 });
+    if (!documentType || !fileName) {
+      return NextResponse.json({ error: 'documentType and fileName required' }, { status: 400 });
     }
 
     // 1. Save to internal storage (GCS volume)
-    const safeName = employeeName.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const safeName = (employeeName || '_general').replace(/[^a-zA-Z0-9_-]/g, '_');
     const empDir = path.join(DOCS_DIR, safeName);
     await ensureDir(empDir);
 

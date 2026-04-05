@@ -105,6 +105,21 @@ export default function ManagerLogPage() {
       const fileName = `manager-log-${form.logDate || 'today'}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'manager-log', action: 'download', formData: { ...form, boards: form.boards.map(b => ({ name: b.name, entryCount: b.entries.length })) }, filename: fileName });
+      // Save admin copy to GCS
+      try {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        await fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: null,
+            documentType: 'manager-log',
+            fileName: fileName,
+            content: pdfBase64,
+            metadata: { storeNumber: form.storeNumber || '', logDate: form.logDate || '' },
+          }),
+        });
+      } catch (err) { console.error('Admin doc save failed:', err); }
       showToast('Manager log PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);

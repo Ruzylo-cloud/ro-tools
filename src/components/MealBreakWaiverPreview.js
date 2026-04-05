@@ -187,7 +187,11 @@ const MealBreakWaiverPreview = forwardRef(function MealBreakWaiverPreview({ data
       <div style={{ display: 'flex', gap: '40px', marginBottom: '14px' }}>
         <div style={{ flex: 1, fontSize: '9pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Employee Signature</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '20px', fontStyle: 'italic', color: '#2D2D2D' }}>{employeeSignature}</div>
+          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '20px', fontStyle: 'italic', color: '#2D2D2D' }}>
+            {employeeSignature?.startsWith('data:')
+              ? <img src={employeeSignature} style={{ height: '36px', maxWidth: '200px', display: 'block' }} alt="signature" />
+              : (employeeSignature || '')}
+          </div>
         </div>
         <div style={{ flex: 1, fontSize: '9pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '4px' }}>Date</div>

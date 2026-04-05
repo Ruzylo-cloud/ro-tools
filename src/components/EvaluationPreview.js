@@ -283,9 +283,11 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
             fontWeight: 500,
             color: '#2D2D2D',
             minHeight: '14px',
-            fontStyle: employeeSignature ? 'italic' : 'normal',
+            fontStyle: employeeSignature && !employeeSignature.startsWith('data:') ? 'italic' : 'normal',
           }}>
-            {employeeSignature || ''}
+            {employeeSignature?.startsWith('data:')
+              ? <img src={employeeSignature} style={{ height: '36px', maxWidth: '200px', display: 'block' }} alt="signature" />
+              : (employeeSignature || '')}
           </div>
           <div style={{ fontSize: '6pt', color: '#888' }}>Employee Signature</div>
           <div style={{ fontSize: '6pt', color: '#888' }}>Date: {formatDate(evaluationDate) || '___________'}</div>

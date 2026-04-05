@@ -166,7 +166,11 @@ const TimesheetCorrectionPreview = forwardRef(function TimesheetCorrectionPrevie
       <div style={{ display: 'flex', gap: '40px', marginBottom: '10px' }}>
         <div style={{ flex: 1, fontSize: '8.5pt' }}>
           <div style={{ fontWeight: 600, color: '#134A7C', marginBottom: '2px' }}>Employee Signature</div>
-          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', fontStyle: 'italic', color: '#2D2D2D' }}>{employeeSignature || ''}</div>
+          <div style={{ borderBottom: '2px solid #134A7C', padding: '6px 0', minHeight: '18px', fontStyle: 'italic', color: '#2D2D2D' }}>
+            {employeeSignature?.startsWith('data:')
+              ? <img src={employeeSignature} style={{ height: '36px', maxWidth: '200px', display: 'block' }} alt="signature" />
+              : (employeeSignature || '')}
+          </div>
           <div style={{ fontSize: '7pt', color: '#9ca3af', marginTop: '2px' }}>Print Name</div>
         </div>
         <div style={{ flex: 1, fontSize: '8.5pt' }}>

@@ -102,6 +102,21 @@ export default function FoodLabelsPage() {
       const fileName = `food-labels-${name}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'food-labels', action: 'download', formData: form, filename: fileName });
+      // Save admin copy to GCS
+      try {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        await fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: form.preparedBy || null,
+            documentType: 'food-labels',
+            fileName: fileName,
+            content: pdfBase64,
+            metadata: { storeNumber: form.storeNumber || '', preparedBy: form.preparedBy || '' },
+          }),
+        });
+      } catch (err) { console.error('Admin doc save failed:', err); }
       showToast('Food labels PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);

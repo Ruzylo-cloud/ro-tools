@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import OnboardingPacketPreview from '@/components/OnboardingPacketPreview';
@@ -78,6 +79,25 @@ export default function OnboardingPacketsPage() {
       .catch(() => setLoading(false));
   }, [user]);
 
+  // Pre-fill from completed signing request
+  const searchParams = useSearchParams();
+  const signToken = searchParams?.get('sign_token');
+
+  useEffect(() => {
+    if (!signToken || !user) return;
+    fetch(`/api/signing/manager/${signToken}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.formData && Object.keys(data.formData).length > 0) {
+          setForm(prev => ({ ...prev, ...data.formData }));
+        }
+        if (data.signatureDataUrl) {
+          setForm(prev => ({ ...prev, employeeSignature: data.signatureDataUrl }));
+        }
+      })
+      .catch(() => {});
+  }, [signToken, user]);
+
   const handleChange = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
   };
@@ -140,7 +160,7 @@ export default function OnboardingPacketsPage() {
             content: pdfBase64,
             metadata: { createdBy: form.managerName, storeNumber: form.storeNumber },
           }),
-        }).catch(() => {});
+        }).catch(err => console.error('[doc-save] failed:', err));
       }
 
       logActivity({ generatorType: 'onboarding-packets', action: 'download', formData: { ...form, completedDocs: form.completedDocs }, filename: fileName });

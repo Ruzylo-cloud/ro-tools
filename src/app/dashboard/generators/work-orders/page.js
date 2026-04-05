@@ -103,6 +103,21 @@ export default function WorkOrdersPage() {
       const fileName = `work-order-${slug}.pdf`;
       pdf.save(fileName);
       logActivity({ generatorType: 'work-orders', action: 'download', formData: form, filename: fileName });
+      // Save admin copy to GCS
+      try {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        await fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: null,
+            documentType: 'work-orders',
+            fileName: fileName,
+            content: pdfBase64,
+            metadata: { storeNumber: form.storeNumber || '', title: form.title || '' },
+          }),
+        });
+      } catch (err) { console.error('Admin doc save failed:', err); }
       showToast('Work order PDF downloaded!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF generation error:', err);

@@ -224,6 +224,21 @@ export default function CateringOrderPage() {
         : 'catering-order-form.pdf';
       pdf.save(filename);
       logActivity({ generatorType: 'catering-order', action: 'download', formData: form, filename });
+      // Save admin copy to GCS
+      try {
+        const pdfBase64 = pdf.output('datauristring').split(',')[1];
+        await fetch('/api/employees/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            employeeName: null,
+            documentType: 'catering-order',
+            fileName: filename,
+            content: pdfBase64,
+            metadata: { storeNumber: form.storeNumber || '', orderDate: form.orderDate || '' },
+          }),
+        });
+      } catch (err) { console.error('Admin doc save failed:', err); }
       // Auto-save catering client + order with full form snapshot for reorder
       if (form.customerName?.trim()) {
         fetch('/api/catering/orders', {

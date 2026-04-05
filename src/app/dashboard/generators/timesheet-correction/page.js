@@ -119,7 +119,7 @@ export default function TimesheetCorrectionPage() {
               storeNumber: form.storeNumber || '',
             },
           }),
-        }).catch(() => {});
+        }).catch(err => console.error('[doc-save] failed:', err));
       }
 
       logActivity({ generatorType: 'timesheet-correction', action: 'download', formData: form, filename: 'timesheet-correction.pdf' });

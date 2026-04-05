@@ -3,6 +3,16 @@
 import { useState, useEffect } from 'react';
 import { useToast } from '@/components/Toast';
 
+const GENERATOR_ROUTES = {
+  'written-warning': '/dashboard/generators/written-warning',
+  'evaluation': '/dashboard/generators/evaluation',
+  'resignation': '/dashboard/generators/resignation',
+  'termination': '/dashboard/generators/termination',
+  'meal-break-waiver': '/dashboard/generators/meal-break-waiver',
+  'attestation-correction': '/dashboard/generators/attestation-correction',
+  'onboarding-packets': '/dashboard/generators/onboarding-packets',
+};
+
 const TYPE_LABELS = {
   'written-warning': 'Written Warning',
   'evaluation': 'Performance Evaluation',
@@ -164,6 +174,14 @@ export default function SignaturesPage() {
                       >
                         {copiedToken === r.token ? '✓ Copied' : '🔗 Copy Link'}
                       </button>
+                    )}
+                    {r.status === 'signed' && GENERATOR_ROUTES[r.documentType] && (
+                      <a
+                        href={`${GENERATOR_ROUTES[r.documentType]}?sign_token=${r.token}`}
+                        style={{ padding: '6px 12px', border: '1px solid #16a34a', borderRadius: 8, background: 'rgba(22,163,74,0.07)', textDecoration: 'none', fontSize: 12, fontWeight: 600, color: '#16a34a', display: 'inline-block' }}
+                      >
+                        📄 Finalize PDF
+                      </a>
                     )}
                   </div>
                 </div>

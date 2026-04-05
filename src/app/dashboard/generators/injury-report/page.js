@@ -133,7 +133,7 @@ export default function InjuryReportPage() {
               storeNumber: form.storeNumber || '',
             },
           }),
-        }).catch(() => {});
+        }).catch(err => console.error('[doc-save] failed:', err));
       }
 
       logActivity({ generatorType: 'injury-report', action: 'download', formData: form, filename: fileName });
