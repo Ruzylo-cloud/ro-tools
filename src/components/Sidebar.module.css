@@ -28,7 +28,6 @@
   padding: 18px 14px 14px;
   text-decoration: none;
   flex-shrink: 0;
-  border-bottom: 1px solid var(--border, #e5e7eb);
   transition: background 0.15s;
 }
 .logo:hover { background: rgba(19,74,124,0.03); }
@@ -47,10 +46,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: 10px 10px 4px;
+  margin: 6px 10px 4px;
   padding: 7px 10px;
   background: var(--gray-50, #fafbfc);
-  border: 1px solid var(--border, #e5e7eb);
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
@@ -60,9 +59,8 @@
   flex-shrink: 0;
 }
 .searchTrigger:hover {
-  border-color: var(--jm-blue, #134A7C);
   color: var(--jm-blue, #134A7C);
-  background: rgba(19,74,124,0.04);
+  background: rgba(19,74,124,0.06);
 }
 .kbdHint {
   margin-left: auto;
@@ -289,8 +287,7 @@
 
 /* ─── Footer ─── */
 .footer {
-  border-top: 1px solid var(--border, #e5e7eb);
-  padding: 10px 8px;
+  padding: 8px 8px 12px;
   flex-shrink: 0;
 }
 
@@ -543,14 +540,12 @@
   background: #252530;
   border-right-color: #3d3d4a;
 }
-:global([data-theme="dark"]) .logo { border-bottom-color: #3d3d4a; }
 :global([data-theme="dark"]) .logoText { color: #4a90d0; }
 :global([data-theme="dark"]) .searchTrigger {
   background: #1e1e24;
-  border-color: #3d3d4a;
   color: #8888a0;
 }
-:global([data-theme="dark"]) .searchTrigger:hover { border-color: #4a90d0; color: #4a90d0; }
+:global([data-theme="dark"]) .searchTrigger:hover { color: #4a90d0; background: rgba(74,144,208,0.1); }
 :global([data-theme="dark"]) .kbdHint { background: #1e1e24; border-color: #3d3d4a; color: #5555a0; }
 :global([data-theme="dark"]) .navLink { color: #a0a0b0; }
 :global([data-theme="dark"]) .navLink:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
@@ -562,7 +557,7 @@
 :global([data-theme="dark"]) .subLink:hover { color: #4a90d0; background: rgba(74,144,208,0.07); }
 :global([data-theme="dark"]) .subLinkActive { color: #4a90d0; background: rgba(74,144,208,0.1); }
 :global([data-theme="dark"]) .divider { background: #3d3d4a; }
-:global([data-theme="dark"]) .footer { border-top-color: #3d3d4a; }
+/* footer has no border */
 :global([data-theme="dark"]) .themeBtn { color: #a0a0b0; }
 :global([data-theme="dark"]) .themeBtn:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
 :global([data-theme="dark"]) .userName { color: #e8e8ed; }
