@@ -1,4 +1,6 @@
 :root {
+  --rt-sidebar-w: 220px;
+  --rt-topbar-h: 56px;
   --jm-blue: #134A7C;
   --jm-red: #EE3227;
   --jm-blue-light: #1a5a94;
@@ -150,6 +152,20 @@ html[data-theme="dark"] {
    FINAL POLISH — RO Tools CSS Improvements (RT-001 to RT-080)
    Matched to RO Control design system for cross-platform consistency.
    ═══════════════════════════════════════════════════════════════════════ */
+
+/* ─── Sidebar layout wrapper ─── */
+.rt-sidebar-content {
+  margin-left: var(--rt-sidebar-w);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+@media (max-width: 768px) {
+  .rt-sidebar-content {
+    margin-left: 0;
+    padding-top: var(--rt-topbar-h);
+  }
+}
 
 /* ─── RT-001: Smooth scrolling ─── */
 html { scroll-behavior: smooth; }
