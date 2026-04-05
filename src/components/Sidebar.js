@@ -55,6 +55,7 @@ export default function Sidebar() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState('');
   const [unreadCount, setUnreadCount] = useState(0); // app updates badge
+  const [latestUpdateId, setLatestUpdateId] = useState(''); // for clearing badge
   const [notifCount, setNotifCount] = useState(0);  // RC notification count
   const [theme, setTheme] = useState('light');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -121,6 +122,7 @@ export default function Sidebar() {
       .then(d => {
         const latest = d.updates?.[0]?.id || '';
         const seen = localStorage.getItem('rt-last-update') || '';
+        setLatestUpdateId(latest);
         if (latest && latest !== seen) setUnreadCount(1);
       })
       .catch(() => {});
@@ -446,20 +448,27 @@ export default function Sidebar() {
             <span className={styles.icon}>📁</span> Documents
           </Link>
 
-          <Link href="/dashboard/updates" className={`${styles.navLink} ${isActive('/dashboard/updates') ? styles.navLinkActive : ''}`} onClick={navClick} style={{ position: 'relative' }}>
+          <Link href="/dashboard/updates" className={`${styles.navLink} ${isActive('/dashboard/updates') ? styles.navLinkActive : ''}`} onClick={() => { if (latestUpdateId) { localStorage.setItem('rt-last-update', latestUpdateId); setUnreadCount(0); } navClick(); }} style={{ position: 'relative' }}>
             <span className={styles.icon}>🆕</span> Updates
             {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
           </Link>
 
-          {/* Notifications — cross-app with RC */}
-          <div className={`${styles.navLink}`} style={{ position: 'relative', cursor: 'pointer' }} role="button" tabIndex={0}>
+          {/* Notifications — cross-app link to RC */}
+          <a
+            href="https://mission-control-1049928336088.us-central1.run.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.navLink}
+            style={{ position: 'relative' }}
+            onClick={navClick}
+          >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px', flexShrink: 0 }}>
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
             Notifications
             {notifCount > 0 && <span className={styles.badge}>{notifCount > 9 ? '9+' : notifCount}</span>}
-          </div>
+          </a>
 
           <Link href="/dashboard/support" className={`${styles.navLink} ${isActive('/dashboard/support') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>💬</span> Support
