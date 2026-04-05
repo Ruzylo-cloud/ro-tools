@@ -491,31 +491,27 @@ export default function Sidebar() {
 
         {/* Footer */}
         <div className={styles.footer}>
-          {/* Store picker */}
-          {activeStore && (
-            <div className={styles.storePicker}>
-              {stores.length > 1 ? (
-                <select
-                  className={styles.storeSelect}
-                  value={activeStore?.id || ''}
-                  onChange={e => {
-                    const s = stores.find(x => String(x.id) === e.target.value);
-                    if (s) { setActiveStore(s); localStorage.setItem('jmvg-active-store', String(s.id)); }
-                  }}
-                  title="Switch active store"
-                >
-                  {stores.map(s => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
-                  ))}
-                </select>
+          {/* Store picker — always visible */}
+          <div className={styles.storePicker}>
+            <select
+              className={styles.storeSelect}
+              value={activeStore?.id || ''}
+              onChange={e => {
+                const s = stores.find(x => String(x.id) === e.target.value);
+                if (s) { setActiveStore(s); localStorage.setItem('jmvg-active-store', String(s.id)); }
+              }}
+              title="Switch active store"
+              disabled={stores.length === 0}
+            >
+              {stores.length === 0 ? (
+                <option value="">Loading store...</option>
               ) : (
-                <div className={styles.storeLabel}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-                  <span>{activeStore.name}</span>
-                </div>
+                stores.map(s => (
+                  <option key={s.id} value={s.id}>{s.name}</option>
+                ))
               )}
-            </div>
-          )}
+            </select>
+          </div>
 
           {/* Icon row: Notifications + Dark mode toggle */}
           <div className={styles.footerIconRow}>
