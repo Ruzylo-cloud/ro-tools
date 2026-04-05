@@ -54,7 +54,8 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState('');
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(0); // app updates badge
+  const [notifCount, setNotifCount] = useState(0);  // RC notification count
   const [theme, setTheme] = useState('light');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -99,7 +100,7 @@ export default function Sidebar() {
     localStorage.setItem('rt-sidebar-collapsed', next ? '1' : '0');
   }, [collapsed]);
 
-  // Load admin/role + stores + unread updates
+  // Load admin/role + stores + unread updates + RC notification count
   useEffect(() => {
     fetch('/api/profile')
       .then(r => r.json())
@@ -123,6 +124,19 @@ export default function Sidebar() {
         if (latest && latest !== seen) setUnreadCount(1);
       })
       .catch(() => {});
+    // Fetch RC notification count (cross-app via proxy)
+    fetch('/api/notifications')
+      .then(r => r.json())
+      .then(d => { if (d.count > 0) setNotifCount(d.count); })
+      .catch(() => {});
+    // Refresh notification count every 2 minutes
+    const notifInterval = setInterval(() => {
+      fetch('/api/notifications')
+        .then(r => r.json())
+        .then(d => setNotifCount(d.count || 0))
+        .catch(() => {});
+    }, 120000);
+    return () => clearInterval(notifInterval);
   }, []);
 
   // Theme init
@@ -433,9 +447,19 @@ export default function Sidebar() {
           </Link>
 
           <Link href="/dashboard/updates" className={`${styles.navLink} ${isActive('/dashboard/updates') ? styles.navLinkActive : ''}`} onClick={navClick} style={{ position: 'relative' }}>
-            <span className={styles.icon}>🔔</span> Updates
+            <span className={styles.icon}>🆕</span> Updates
             {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
           </Link>
+
+          {/* Notifications — cross-app with RC */}
+          <div className={`${styles.navLink}`} style={{ position: 'relative', cursor: 'pointer' }} role="button" tabIndex={0}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px', flexShrink: 0 }}>
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Notifications
+            {notifCount > 0 && <span className={styles.badge}>{notifCount > 9 ? '9+' : notifCount}</span>}
+          </div>
 
           <Link href="/dashboard/support" className={`${styles.navLink} ${isActive('/dashboard/support') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>💬</span> Support
