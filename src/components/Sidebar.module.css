@@ -3,15 +3,13 @@
    Desktop: fixed left sidebar, 220px.  Mobile: slide-in drawer.
    ═══════════════════════════════════════════════════════════════ */
 
-/* CSS variables (--rt-sidebar-w, --rt-topbar-h) are defined in globals.css */
-
 /* ─── Sidebar ─── */
 .sidebar {
+  width: 220px;
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  width: var(--rt-sidebar-w);
   background: var(--white, #fff);
   border-right: 1px solid var(--border, #e5e7eb);
   display: flex;
@@ -117,17 +115,18 @@
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
   background: var(--jm-red, #EE3227);
   color: #fff;
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2px solid var(--white, #fff);
 }
 
 /* ─── Collapsible group ─── */
@@ -156,7 +155,7 @@
 }
 .groupBtnActive {
   color: var(--jm-blue, #134A7C);
-  background: rgba(19,74,124,0.06);
+  background: rgba(19,74,124,0.08);
   font-weight: 600;
 }
 
@@ -179,7 +178,7 @@
   padding: 6px 10px;
   font-size: 12px;
   font-weight: 400;
-  color: var(--gray-500, #6b7280);
+  color: var(--gray-600, #6b7280);
   text-decoration: none;
   border-radius: 6px;
   transition: all 0.12s;
@@ -228,28 +227,13 @@
 .expandTab:hover { color: var(--jm-blue, #134A7C); border-color: var(--jm-blue, #134A7C); }
 :global([data-theme="dark"]) .expandTab { background: #252530; border-color: #3d3d4a; box-shadow: 2px 0 8px rgba(0,0,0,0.3); }
 
-.collapseBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 7px 10px;
-  background: none;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--gray-500, #6b7280);
-  font-family: inherit;
-  transition: all 0.12s;
-  margin-bottom: 2px;
+/* ─── Footer ─── */
+.footer {
+  padding: 8px 8px 12px;
+  flex-shrink: 0;
 }
-.collapseBtn:hover { background: rgba(19,74,124,0.05); color: var(--jm-blue, #134A7C); }
-:global([data-theme="dark"]) .collapseBtn { color: #a0a0b0; }
-:global([data-theme="dark"]) .collapseBtn:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
 
-/* ─── Store Picker ─── */
+/* Store picker */
 .storePicker {
   margin-bottom: 4px;
 }
@@ -284,13 +268,60 @@
 }
 :global([data-theme="dark"]) .storeLabel { background: #1e1e24; border-color: #3d3d4a; color: #a0a0b0; }
 
-/* ─── Footer ─── */
-.footer {
-  padding: 8px 8px 12px;
-  flex-shrink: 0;
+/* Icon row — notifications + dark mode toggle */
+.footerIconRow {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.footerIconBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 8px;
+  border: 1px solid var(--border, #e5e7eb);
+  background: var(--gray-50, #fafbfc);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-600, #6b7280);
+  font-family: inherit;
+  transition: all 0.12s;
+  position: relative;
+  text-decoration: none;
+}
+.footerIconBtn:hover {
+  border-color: var(--jm-blue, #134A7C);
+  color: var(--jm-blue, #134A7C);
+  background: rgba(19,74,124,0.05);
+}
+:global([data-theme="dark"]) .footerIconBtn { border-color: #3d3d4a; background: #1e1e24; color: #8888a0; }
+:global([data-theme="dark"]) .footerIconBtn:hover { border-color: #4a90d0; color: #4a90d0; background: rgba(74,144,208,0.08); }
+
+/* Notification badge inside icon btn */
+.iconBtnBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  min-width: 15px;
+  height: 15px;
+  background: var(--jm-red, #EE3227);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 2px solid var(--white, #fff);
 }
 
-.themeBtn {
+/* Collapse button */
+.collapseBtn {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -301,17 +332,17 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 13px;
+  font-weight: 500;
   color: var(--gray-600, #6b7280);
   font-family: inherit;
   transition: all 0.12s;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
-.themeBtn:hover {
-  background: rgba(19,74,124,0.05);
-  color: var(--jm-blue, #134A7C);
-}
-.themeBtnLabel { font-weight: 500; }
+.collapseBtn:hover { background: rgba(19,74,124,0.05); color: var(--jm-blue, #134A7C); }
+:global([data-theme="dark"]) .collapseBtn { color: #a0a0b0; }
+:global([data-theme="dark"]) .collapseBtn:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
 
+/* User row */
 .userRow {
   display: flex;
   align-items: center;
@@ -377,7 +408,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: var(--rt-topbar-h);
+  height: 56px;
   background: var(--white, #fff);
   border-bottom: 1px solid var(--border, #e5e7eb);
   align-items: center;
@@ -524,7 +555,7 @@
     transform: translateX(-100%);
     transition: transform 0.25s ease;
     z-index: 200;
-    top: 0; /* starts at top of screen on mobile */
+    top: 0;
   }
   .sidebarOpen {
     transform: translateX(0);
@@ -555,10 +586,8 @@
 :global([data-theme="dark"]) .subLink { color: #8888a0; }
 :global([data-theme="dark"]) .subLink:hover { color: #4a90d0; background: rgba(74,144,208,0.07); }
 :global([data-theme="dark"]) .subLinkActive { color: #4a90d0; background: rgba(74,144,208,0.1); }
-/* divider is spacing-only, no visible line */
-/* footer has no border */
-:global([data-theme="dark"]) .themeBtn { color: #a0a0b0; }
-:global([data-theme="dark"]) .themeBtn:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
+:global([data-theme="dark"]) .collapseBtn { color: #a0a0b0; }
+:global([data-theme="dark"]) .collapseBtn:hover { color: #4a90d0; background: rgba(74,144,208,0.08); }
 :global([data-theme="dark"]) .userName { color: #e8e8ed; }
 :global([data-theme="dark"]) .userRole { color: #6666a0; }
 :global([data-theme="dark"]) .signOutBtn { border-color: #3d3d4a; color: #8888a0; }
@@ -576,3 +605,5 @@
 :global([data-theme="dark"]) .searchResult:hover,
 :global([data-theme="dark"]) .searchResultActive { background: rgba(74,144,208,0.1); }
 :global([data-theme="dark"]) .searchKbd { background: #1e1e24; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .badge { border-color: #252530; }
+:global([data-theme="dark"]) .iconBtnBadge { border-color: #252530; }

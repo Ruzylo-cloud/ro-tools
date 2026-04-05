@@ -8,7 +8,7 @@ import { useAuth } from '@/components/AuthProvider';
 import styles from './Sidebar.module.css';
 
 const SEARCH_ITEMS = [
-  { label: 'Dashboard Overview', path: '/dashboard', icon: '🏠', keywords: 'home overview dashboard' },
+  { label: 'Dashboard Overview', path: '/dashboard', icon: '📌', keywords: 'home overview dashboard' },
   { label: 'All Generators', path: '/dashboard/generators', icon: '📄', keywords: 'forms generate documents all' },
   { label: 'Catering Order', path: '/dashboard/generators/catering-order', icon: '📝', keywords: 'catering order customer client' },
   { label: 'Written Warning', path: '/dashboard/generators/written-warning', icon: '⚠️', keywords: 'warning discipline write-up hr' },
@@ -25,17 +25,16 @@ const SEARCH_ITEMS = [
   { label: 'Work Order', path: '/dashboard/generators/work-orders', icon: '🔧', keywords: 'work order repair maintenance' },
   { label: 'Onboarding Packet', path: '/dashboard/generators/onboarding-packets', icon: '🆕', keywords: 'onboarding new hire orientation packet' },
   { label: 'Food Labels', path: '/dashboard/generators/food-labels', icon: '🏷️', keywords: 'food label date prep labels' },
+  { label: 'Signatures', path: '/dashboard/signatures', icon: '✍️', keywords: 'esign signatures documents sign' },
   { label: 'Catering Flyer', path: '/dashboard/flyer', icon: '🖨️', keywords: 'flyer catering print menu' },
   { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
   { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
   { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
-  { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
-  { label: 'Document History', path: '/dashboard/history', icon: '🕐', keywords: 'history past documents generated' },
   { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
   { label: 'Updates & Changelog', path: '/dashboard/updates', icon: '🆕', keywords: 'updates changelog releases features' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
+  { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
   { label: 'Support & Feedback', path: '/dashboard/support', icon: '💬', keywords: 'support help feedback bug report' },
-  { label: 'Signatures', path: '/dashboard/signatures', icon: '✍️', keywords: 'esign signatures documents sign' },
   { label: 'Admin Panel', path: '/dashboard/admin', icon: '⚙️', keywords: 'admin users roles manage' },
 ];
 
@@ -54,9 +53,9 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState('');
-  const [unreadCount, setUnreadCount] = useState(0); // app updates badge
-  const [latestUpdateId, setLatestUpdateId] = useState(''); // for clearing badge
-  const [notifCount, setNotifCount] = useState(0);  // RC notification count
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [latestUpdateId, setLatestUpdateId] = useState('');
+  const [notifCount, setNotifCount] = useState(0);
   const [theme, setTheme] = useState('light');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -80,7 +79,7 @@ export default function Sidebar() {
 
   // Auto-open sections on active path
   useEffect(() => {
-    const inGenerators = pathname.startsWith('/dashboard/generators') || pathname.startsWith('/dashboard/signatures') || pathname.startsWith('/dashboard/history');
+    const inGenerators = pathname.startsWith('/dashboard/generators') || pathname.startsWith('/dashboard/signatures');
     const inCatering = pathname.startsWith('/dashboard/flyer') || pathname.startsWith('/dashboard/catering');
     setOpenSections({ generators: inGenerators, catering: inCatering });
   }, [pathname]);
@@ -108,10 +107,8 @@ export default function Sidebar() {
       .then(d => {
         setIsAdmin(d.isAdmin || false);
         setUserRole(d.profile?.role || d.role || '');
-        // Build store list — profile has single store; admins/DMs may have more
         const storeList = d.stores || (d.profile?.storeNumber ? [{ id: d.profile.storeNumber, name: d.profile.storeName || `Store ${d.profile.storeNumber}` }] : []);
         setStores(storeList);
-        // Load active store from localStorage or default to first
         const saved = localStorage.getItem('jmvg-active-store');
         const match = storeList.find(s => String(s.id) === String(saved));
         setActiveStore(match || storeList[0] || null);
@@ -126,12 +123,10 @@ export default function Sidebar() {
         if (latest && latest !== seen) setUnreadCount(1);
       })
       .catch(() => {});
-    // Fetch RC notification count (cross-app via proxy)
     fetch('/api/notifications')
       .then(r => r.json())
       .then(d => { if (d.count > 0) setNotifCount(d.count); })
       .catch(() => {});
-    // Refresh notification count every 2 minutes
     const notifInterval = setInterval(() => {
       fetch('/api/notifications')
         .then(r => r.json())
@@ -248,7 +243,7 @@ export default function Sidebar() {
               <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
             </svg>
             {notifCount > 0 && (
-              <span style={{ position: 'absolute', top: '-4px', right: '-4px', minWidth: '16px', height: '16px', background: '#EE3227', color: '#fff', borderRadius: '8px', fontSize: '9px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px', border: '2px solid #fff' }}>
+              <span style={{ position: 'absolute', top: '-4px', right: '-4px', minWidth: '15px', height: '15px', background: '#EE3227', color: '#fff', borderRadius: '8px', fontSize: '9px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 3px', border: '2px solid #fff' }}>
                 {notifCount > 9 ? '9+' : notifCount}
               </span>
             )}
@@ -267,7 +262,7 @@ export default function Sidebar() {
       {/* ── Backdrop (mobile only) ── */}
       {mobileOpen && <div className={styles.backdrop} onClick={() => setMobileOpen(false)} />}
 
-      {/* ── Global search dropdown (also mobile) ── */}
+      {/* ── Global search dropdown ── */}
       {searchOpen && (
         <div className={styles.searchOverlay} onClick={e => { if (e.target === e.currentTarget) setSearchOpen(false); }}>
           <div className={styles.searchModal}>
@@ -326,6 +321,7 @@ export default function Sidebar() {
 
       {/* ── Sidebar ── */}
       <aside className={`${styles.sidebar} ${mobileOpen ? styles.sidebarOpen : ''} ${collapsed ? styles.sidebarCollapsed : ''}`} aria-label="Navigation sidebar">
+
         {/* Logo */}
         <Link href="/dashboard" className={styles.logo} onClick={navClick}>
           <Image src="/jmvg-logo.png" alt="JM Valley Group" width={72} height={36} priority style={{ borderRadius: '4px', objectFit: 'contain' }} />
@@ -350,7 +346,7 @@ export default function Sidebar() {
 
           {/* Overview */}
           <Link href="/dashboard" className={`${styles.navLink} ${isActive('/dashboard', true) ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>🏠</span> Overview
+            <span className={styles.icon}>📌</span> Overview
           </Link>
 
           {/* Generators (collapsible) */}
@@ -458,6 +454,19 @@ export default function Sidebar() {
 
           <div className={styles.divider} />
 
+          <Link
+            href="/dashboard/updates"
+            className={`${styles.navLink} ${isActive('/dashboard/updates') ? styles.navLinkActive : ''}`}
+            onClick={() => {
+              if (latestUpdateId) { localStorage.setItem('rt-last-update', latestUpdateId); setUnreadCount(0); }
+              navClick();
+            }}
+            style={{ position: 'relative' }}
+          >
+            <span className={styles.icon}>🆕</span> Updates
+            {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
+          </Link>
+
           <Link href="/dashboard/profile" className={`${styles.navLink} ${isActive('/dashboard/profile') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>🏪</span> Store Profile
           </Link>
@@ -465,28 +474,6 @@ export default function Sidebar() {
           <Link href="/dashboard/documents" className={`${styles.navLink} ${isActive('/dashboard/documents') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>📁</span> Documents
           </Link>
-
-          <Link href="/dashboard/updates" className={`${styles.navLink} ${isActive('/dashboard/updates') ? styles.navLinkActive : ''}`} onClick={() => { if (latestUpdateId) { localStorage.setItem('rt-last-update', latestUpdateId); setUnreadCount(0); } navClick(); }} style={{ position: 'relative' }}>
-            <span className={styles.icon}>🆕</span> Updates
-            {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
-          </Link>
-
-          {/* Notifications — cross-app link to RC */}
-          <a
-            href="https://mission-control-1049928336088.us-central1.run.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.navLink}
-            style={{ position: 'relative' }}
-            onClick={navClick}
-          >
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: '8px', flexShrink: 0 }}>
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-            </svg>
-            Notifications
-            {notifCount > 0 && <span className={styles.badge}>{notifCount > 9 ? '9+' : notifCount}</span>}
-          </a>
 
           <Link href="/dashboard/support" className={`${styles.navLink} ${isActive('/dashboard/support') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>💬</span> Support
@@ -502,9 +489,9 @@ export default function Sidebar() {
           )}
         </nav>
 
-        {/* Footer: store picker + dark mode + collapse + user row */}
+        {/* Footer */}
         <div className={styles.footer}>
-          {/* Store picker (shown for multi-store users or any user with store assigned) */}
+          {/* Store picker */}
           {activeStore && (
             <div className={styles.storePicker}>
               {stores.length > 1 ? (
@@ -529,16 +516,57 @@ export default function Sidebar() {
               )}
             </div>
           )}
-          <button className={styles.themeBtn} onClick={toggleTheme} title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
-            <span>{theme === 'light' ? '🌙' : '☀️'}</span>
-            <span className={styles.themeBtnLabel}>{theme === 'light' ? 'Dark mode' : 'Light mode'}</span>
-          </button>
+
+          {/* Icon row: Notifications + Dark mode toggle */}
+          <div className={styles.footerIconRow}>
+            <a
+              href="https://mission-control-1049928336088.us-central1.run.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.footerIconBtn}
+              aria-label="Notifications"
+              title="Open RO Control notifications"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span>Notifications</span>
+              {notifCount > 0 && (
+                <span className={styles.iconBtnBadge}>{notifCount > 9 ? '9+' : notifCount}</span>
+              )}
+            </a>
+            <button
+              className={styles.footerIconBtn}
+              onClick={toggleTheme}
+              title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+              aria-label="Toggle dark mode"
+            >
+              {theme === 'light' ? (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              ) : (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              )}
+              <span>{theme === 'light' ? 'Dark' : 'Light'}</span>
+            </button>
+          </div>
+
+          {/* Collapse button */}
           <button className={styles.collapseBtn} onClick={toggleCollapse} title="Collapse sidebar">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6" />
             </svg>
             <span>Collapse</span>
           </button>
+
+          {/* User row */}
           {user && (
             <div className={styles.userRow}>
               <div className={styles.avatar}>
