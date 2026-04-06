@@ -566,11 +566,9 @@ export default function Sidebar() {
           {user && (
             <div className={styles.userRow}>
               <div className={styles.avatar}>
-                {user.picture ? (
-                  <img src={user.picture} alt="" width={28} height={28} style={{ borderRadius: '50%', objectFit: 'cover', width: '100%', height: '100%' }} />
-                ) : (
-                  <span className={styles.avatarInitials}>{(user.name || user.email || '?').slice(0, 1).toUpperCase()}</span>
-                )}
+                <span className={styles.avatarInitials}>
+                  {(user.name || user.email || '?').split(' ').map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || '?'}
+                </span>
               </div>
               <div className={styles.userMeta}>
                 <div className={styles.userName}>{user.name?.split(' ')[0] || 'Account'}</div>
