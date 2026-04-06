@@ -31,7 +31,6 @@ const SEARCH_ITEMS = [
   { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
   { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
   { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
-  { label: 'Updates & Changelog', path: '/dashboard/updates', icon: '🆕', keywords: 'updates changelog releases features' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
   { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
   { label: 'Support & Feedback', path: '/dashboard/support', icon: '💬', keywords: 'support help feedback bug report' },
@@ -452,21 +451,6 @@ export default function Sidebar() {
             <span className={styles.icon}>📚</span> Reading
           </Link>
 
-          <div className={styles.divider} />
-
-          <Link
-            href="/dashboard/updates"
-            className={`${styles.navLink} ${isActive('/dashboard/updates') ? styles.navLinkActive : ''}`}
-            onClick={() => {
-              if (latestUpdateId) { localStorage.setItem('rt-last-update', latestUpdateId); setUnreadCount(0); }
-              navClick();
-            }}
-            style={{ position: 'relative' }}
-          >
-            <span className={styles.icon}>🆕</span> Updates
-            {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
-          </Link>
-
           <Link href="/dashboard/profile" className={`${styles.navLink} ${isActive('/dashboard/profile') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>🏪</span> Store Profile
           </Link>
@@ -583,6 +567,14 @@ export default function Sidebar() {
               </button>
             </div>
           )}
+          <div className={styles.footerVersion}>
+            RO Tools v2.9.3 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group &nbsp;|&nbsp;{' '}
+            <a href="/dashboard/support" className={styles.footerVersionLink} onClick={navClick}>Support</a>
+            &nbsp;|&nbsp;
+            <Link href="/dashboard/updates" className={styles.footerVersionLink} onClick={navClick}>Changelog</Link>
+            &nbsp;|&nbsp;
+            <a href="/privacy" target="_blank" rel="noopener noreferrer" className={styles.footerVersionLink}>Privacy</a>
+          </div>
         </div>
       </aside>
     </>
