@@ -69,6 +69,11 @@
   padding: 1px 5px;
   color: var(--gray-400, #9ca3af);
   font-family: monospace;
+  box-shadow: none;
+  min-width: auto;
+  height: auto;
+  line-height: 1;
+  font-weight: 400;
 }
 
 /* ─── Nav ─── */
