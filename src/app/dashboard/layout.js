@@ -163,7 +163,7 @@ export default function DashboardLayout({ children }) {
       <ScrollProgress />
       <Sidebar />
       <div className="rt-sidebar-content">
-        <main id="main-content" role="main" style={{ flex: 1, background: 'var(--gray-50)', minHeight: 'calc(100vh - 53px)' }}>
+        <main id="main-content" role="main" style={{ flex: 1, background: 'var(--gray-50)', minHeight: 'calc(100vh - 53px)', paddingBottom: '30px' }}>
           <ErrorBoundary>{children}</ErrorBoundary>
         </main>
         {/* RT-016: Footer */}
