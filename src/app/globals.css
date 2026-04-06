@@ -1355,6 +1355,17 @@ img:not([alt]) { outline: 2px dashed var(--jm-red); }
   }
 }
 
+/* Explicit light mode override — prevents OS prefers-color-scheme from bleeding through
+   when the user has manually set the app to light mode via the theme toggle */
+html[data-theme="light"] {
+  --border: #e5e7eb;
+  --bg: #ffffff;
+  --bg2: #f7f8fa;
+  --card: #ffffff;
+  --text: #1a1a2e;
+  --dim: #6b7280;
+}
+
 /* RT-294/295: Border radius + shadows match RC */
 .rc-radius { border-radius: 14px; }
 .rc-shadow { box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 2px 12px rgba(0,0,0,0.08); }
