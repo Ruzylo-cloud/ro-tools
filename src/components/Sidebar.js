@@ -106,7 +106,12 @@ export default function Sidebar() {
       .then(d => {
         setIsAdmin(d.isAdmin || false);
         setUserRole(d.profile?.role || d.role || '');
-        const storeList = d.stores || (d.profile?.storeNumber ? [{ id: d.profile.storeNumber, name: d.profile.storeName || `Store ${d.profile.storeNumber}` }] : []);
+        const storeList = d.stores ||
+          (d.profile?.stores?.length > 0
+            ? d.profile.stores.map(s => ({ id: s.storeName, name: s.city ? `${s.city}, ${s.state}` : `Store ${s.storeName}` }))
+            : d.profile?.storeName
+              ? [{ id: d.profile.storeName, name: d.profile.city ? `${d.profile.city}, ${d.profile.state}` : `Store ${d.profile.storeName}` }]
+              : []);
         setStores(storeList);
         const saved = localStorage.getItem('jmvg-active-store');
         const match = storeList.find(s => String(s.id) === String(saved));
