@@ -8,6 +8,23 @@ import { isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
+const RC_API_URL = process.env.RC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
+const RC_DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
+
+async function pushRoleToRC(email, role, roleApproved) {
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 3000);
+    await fetch(`${RC_API_URL}/api/profile/sync/role`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': RC_DEV_KEY },
+      body: JSON.stringify({ email, role, roleApproved }),
+      signal: ctrl.signal,
+    });
+    clearTimeout(timer);
+  } catch { /* non-fatal — RC will pick up on next SSO login */ }
+}
+
 export async function POST(request) {
   // Rate limit: 20 approvals per minute per IP
   const { limited } = rateLimit('admin-approve', 60000, 20, request);
@@ -72,6 +89,12 @@ export async function POST(request) {
       resultRole: action === 'deny' ? 'operator' : targetUser.role,
     },
   });
+
+  // Push role change to RC (non-blocking)
+  const resultRole = action === 'deny' ? 'operator' : targetUser.role;
+  if (targetUser.email) {
+    pushRoleToRC(targetUser.email, resultRole, action === 'approve');
+  }
 
   return NextResponse.json({ success: true });
 }
