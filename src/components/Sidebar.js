@@ -235,7 +235,7 @@ export default function Sidebar() {
             </svg>
           </button>
           <a
-            href="https://mission-control-1049928336088.us-central1.run.app"
+            href="https://mission-control-1049928336088.us-central1.run.app?notifications=1"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.mobileIconBtn}
@@ -509,7 +509,7 @@ export default function Sidebar() {
           {/* Icon row: Notifications + Dark mode toggle */}
           <div className={styles.footerIconRow}>
             <a
-              href="https://mission-control-1049928336088.us-central1.run.app"
+              href="https://mission-control-1049928336088.us-central1.run.app?notifications=1"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.footerIconBtn}
