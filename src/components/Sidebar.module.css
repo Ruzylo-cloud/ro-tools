@@ -448,8 +448,15 @@
   cursor: pointer;
   color: var(--gray-600, #6b7280);
   transition: all 0.12s;
+  position: relative;
+  flex-shrink: 0;
 }
 .mobileIconBtn:hover { border-color: var(--jm-blue, #134A7C); color: var(--jm-blue, #134A7C); }
+
+.mobileIconBtn svg {
+  display: block;
+  flex-shrink: 0;
+}
 
 .hamburger {
   display: flex;
