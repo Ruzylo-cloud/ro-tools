@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 import OfflineBanner from '@/components/OfflineBanner';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import QuickTour from '@/components/QuickTour';
@@ -166,8 +165,6 @@ export default function DashboardLayout({ children }) {
         <main id="main-content" role="main" style={{ flex: 1, background: 'var(--gray-50)', minHeight: 'calc(100vh - 53px)', paddingBottom: '30px' }}>
           <ErrorBoundary>{children}</ErrorBoundary>
         </main>
-        {/* RT-016: Footer */}
-        <Footer />
       </div>
       <QuickTour />
       {/* RT-026: Session Timeout Warning */}
