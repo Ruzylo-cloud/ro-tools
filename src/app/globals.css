@@ -1,6 +1,7 @@
 :root {
   --rt-sidebar-w: 220px;
   --rt-topbar-h: 56px;
+  --rt-safe-top: env(safe-area-inset-top, 0px);
   --jm-blue: #134A7C;
   --jm-red: #EE3227;
   --jm-blue-light: #1a5a94;
@@ -166,7 +167,7 @@ html[data-theme="dark"] {
 @media (max-width: 768px) {
   .rt-sidebar-content {
     margin-left: 0;
-    padding-top: var(--rt-topbar-h);
+    padding-top: calc(var(--rt-topbar-h) + var(--rt-safe-top));
   }
 }
 /* Sidebar collapsed — content fills full width */

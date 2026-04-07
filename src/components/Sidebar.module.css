@@ -413,14 +413,15 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: calc(56px + var(--rt-safe-top, 0px));
   background: var(--white, #fff);
   border-bottom: 1px solid var(--border, #e5e7eb);
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: var(--rt-safe-top, 0px) 16px 0;
   z-index: 101;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 .mobileLogo {
   display: flex;
