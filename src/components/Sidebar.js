@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useAuth } from '@/components/AuthProvider';
 import styles from './Sidebar.module.css';
 
+const MC_BASE_URL = 'https://mission-control-1049928336088.us-central1.run.app';
+
 const SEARCH_ITEMS = [
   { label: 'Dashboard Overview', path: '/dashboard', icon: '📌', keywords: 'home overview dashboard' },
   { label: 'All Generators', path: '/dashboard/generators', icon: '📄', keywords: 'forms generate documents all' },
@@ -69,6 +71,9 @@ export default function Sidebar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [searchSelected, setSearchSelected] = useState(-1);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [notifItems, setNotifItems] = useState([]);
+  const [notifLoading, setNotifLoading] = useState(false);
   const searchInputRef = useRef(null);
 
   const isActive = useCallback((path, exact = false) => {
@@ -140,6 +145,23 @@ export default function Sidebar() {
     return () => clearInterval(notifInterval);
   }, []);
 
+  const loadNotifications = useCallback(async () => {
+    setNotifLoading(true);
+    try {
+      const res = await fetch('/api/notifications?mode=list');
+      const data = await res.json();
+      setNotifItems(Array.isArray(data) ? data : []);
+    } catch {
+      setNotifItems([]);
+    } finally {
+      setNotifLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (notifOpen) loadNotifications();
+  }, [notifOpen, loadNotifications]);
+
   // Theme init
   useEffect(() => {
     const saved = localStorage.getItem('ro-tools-theme') || 'light';
@@ -182,6 +204,7 @@ export default function Sidebar() {
   const navClick = useCallback(() => {
     setMobileOpen(false);
     setSearchOpen(false);
+    setNotifOpen(false);
     setSearchQuery('');
     setSearchResults([]);
   }, []);
@@ -189,10 +212,121 @@ export default function Sidebar() {
   const handleSearchNav = useCallback((path) => {
     router.push(path);
     setSearchOpen(false);
+    setNotifOpen(false);
     setSearchQuery('');
     setSearchResults([]);
     setMobileOpen(false);
   }, [router]);
+
+  const getNotificationDestination = useCallback((item) => {
+    const haystack = `${item?.type || ''} ${item?.title || ''} ${item?.message || ''}`.toLowerCase();
+    if (haystack.includes('changelog') || haystack.includes('update')) {
+      return { kind: 'internal', path: '/dashboard/updates' };
+    }
+    if (haystack.includes('directive')) {
+      return { kind: 'internal', path: '/dashboard/directives' };
+    }
+    if (haystack.includes('scoreboard')) {
+      return { kind: 'internal', path: '/dashboard/scoreboard' };
+    }
+    if (haystack.includes('support')) {
+      return { kind: 'internal', path: '/dashboard/support' };
+    }
+    if (haystack.includes('task')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#tasks` };
+    }
+    if (haystack.includes('checklist') || haystack.includes('corrective')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#checklists` };
+    }
+    if (haystack.includes('schedule') || haystack.includes('shift') || haystack.includes('no_show') || haystack.includes('time off') || haystack.includes('time-off') || haystack.includes('labor')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#schedule` };
+    }
+    if (haystack.includes('email')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#emails` };
+    }
+    if (haystack.includes('automation') || haystack.includes('backup') || haystack.includes('webhook')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#automations` };
+    }
+    if (haystack.includes('sync') || haystack.includes('integration') || haystack.includes('gmail') || haystack.includes('homebase') || haystack.includes('jolt')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#integrations` };
+    }
+    if (haystack.includes('employee') || haystack.includes('birthday') || haystack.includes('vacation delegation')) {
+      return { kind: 'external', url: `${MC_BASE_URL}#staff-directory` };
+    }
+    return { kind: 'external', url: `${MC_BASE_URL}#dashboard` };
+  }, []);
+
+  const handleNotificationClick = useCallback(async (item) => {
+    try {
+      await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'read', id: item.id }),
+      });
+    } catch {}
+
+    setNotifItems(prev => prev.map(n => n.id === item.id ? { ...n, read: 1 } : n));
+    setNotifCount(prev => Math.max(0, prev - (item.read ? 0 : 1)));
+    setNotifOpen(false);
+    setMobileOpen(false);
+
+    const dest = getNotificationDestination(item);
+    if (dest.kind === 'internal') {
+      router.push(dest.path);
+      return;
+    }
+    window.location.href = dest.url;
+  }, [getNotificationDestination, router]);
+
+  const markAllNotificationsRead = useCallback(async () => {
+    try {
+      await fetch('/api/notifications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'read-all' }),
+      });
+      setNotifItems(prev => prev.map(n => ({ ...n, read: 1 })));
+      setNotifCount(0);
+    } catch {}
+  }, []);
+
+  const toggleNotifications = useCallback(() => {
+    setSearchOpen(false);
+    setNotifOpen(v => !v);
+  }, []);
+
+  const timeAgo = useCallback((value) => {
+    const ts = new Date(value).getTime();
+    if (!ts) return '';
+    const diff = Math.max(0, Date.now() - ts);
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    if (days < 7) return `${days}d ago`;
+    return new Date(value).toLocaleDateString();
+  }, []);
+
+  const notifIcon = useCallback((type) => {
+    const map = {
+      task_assigned: '✅',
+      task_overdue: '⏰',
+      task_escalated: '⚠️',
+      checklist_due: '📋',
+      shift_checklist: '📋',
+      no_show: '👤',
+      warning: '⚠️',
+      error: '✕',
+      info: 'ℹ️',
+      automation_failure: '🤖',
+      corrective_action: '🧯',
+      corrective_action_escalated: '🚨',
+      corrective_action_recheck: '🔁',
+    };
+    return map[type] || '🔔';
+  }, []);
 
   const handleSearchKeyDown = useCallback((e) => {
     if (e.key === 'ArrowDown') {
@@ -234,11 +368,9 @@ export default function Sidebar() {
               <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
           </button>
-          <a
-            href="https://mission-control-1049928336088.us-central1.run.app?notifications=1"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
             className={styles.mobileIconBtn}
+            onClick={toggleNotifications}
             aria-label="Notifications"
             style={{ position: 'relative', textDecoration: 'none' }}
           >
@@ -251,7 +383,7 @@ export default function Sidebar() {
                 {notifCount > 9 ? '9+' : notifCount}
               </span>
             )}
-          </a>
+          </button>
           <button
             className={`${styles.hamburger} ${mobileOpen ? styles.hamburgerOpen : ''}`}
             onClick={() => setMobileOpen(v => !v)}
@@ -310,6 +442,41 @@ export default function Sidebar() {
             {searchQuery && searchResults.length === 0 && (
               <div className={styles.searchEmpty}>No results for &ldquo;{searchQuery}&rdquo;</div>
             )}
+          </div>
+        </div>
+      )}
+
+      {notifOpen && (
+        <div className={styles.notifOverlay} onClick={e => { if (e.target === e.currentTarget) setNotifOpen(false); }}>
+          <div className={styles.notifModal}>
+            <div className={styles.notifHeader}>
+              <div className={styles.notifHeaderTitle}>Notifications</div>
+              <div className={styles.notifHeaderActions}>
+                {!!notifCount && <button className={styles.notifHeaderBtn} onClick={markAllNotificationsRead}>Mark all read</button>}
+                <button className={styles.notifHeaderBtn} onClick={() => setNotifOpen(false)} aria-label="Close notifications">×</button>
+              </div>
+            </div>
+            <div className={styles.notifList}>
+              {notifLoading ? (
+                <div className={styles.notifEmpty}>Loading...</div>
+              ) : notifItems.length === 0 ? (
+                <div className={styles.notifEmpty}>No notifications yet</div>
+              ) : notifItems.map(item => (
+                <div
+                  key={item.id}
+                  className={`${styles.notifItem} ${!item.read ? styles.notifUnread : ''}`}
+                  onClick={() => handleNotificationClick(item)}
+                >
+                  <div className={styles.notifIcon}>{notifIcon(item.type)}</div>
+                  <div className={styles.notifBody}>
+                    <div className={styles.notifTitle}>{item.title}</div>
+                    {item.message && <div className={styles.notifMessage}>{item.message}</div>}
+                    <div className={styles.notifTime}>{timeAgo(item.created_at)}</div>
+                  </div>
+                  {!item.read && <div className={styles.notifUnreadDot} />}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -508,13 +675,11 @@ export default function Sidebar() {
 
           {/* Icon row: Notifications + Dark mode toggle */}
           <div className={styles.footerIconRow}>
-            <a
-              href="https://mission-control-1049928336088.us-central1.run.app?notifications=1"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
               className={styles.footerIconBtn}
+              onClick={toggleNotifications}
               aria-label="Notifications"
-              title="Open RO Control notifications"
+              title="Notifications"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -524,7 +689,7 @@ export default function Sidebar() {
               {notifCount > 0 && (
                 <span className={styles.iconBtnBadge}>{notifCount > 9 ? '9+' : notifCount}</span>
               )}
-            </a>
+            </button>
             <button
               className={styles.footerIconBtn}
               onClick={toggleTheme}
