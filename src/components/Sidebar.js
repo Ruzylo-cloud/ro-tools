@@ -577,12 +577,7 @@ export default function Sidebar() {
             </div>
           )}
           <div className={styles.footerVersion}>
-            RO Tools v2.9.3 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group &nbsp;|&nbsp;{' '}
-            <a href="/dashboard/support" className={styles.footerVersionLink} onClick={navClick}>Support</a>
-            &nbsp;|&nbsp;
-            <Link href="/dashboard/updates" className={styles.footerVersionLink} onClick={navClick}>Changelog</Link>
-            &nbsp;|&nbsp;
-            <a href="/privacy" target="_blank" rel="noopener noreferrer" className={styles.footerVersionLink}>Privacy</a>
+            RO Tools v2.9.3 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group
           </div>
         </div>
       </aside>
