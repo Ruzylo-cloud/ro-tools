@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { getMissionControlApiKey } from '@/lib/internal-api-key';
 
 export const dynamic = 'force-dynamic';
 
 const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
-const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
 
 /**
  * Notifications proxy for RO Tools.
@@ -13,8 +13,10 @@ const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f
 export async function GET(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  const apiKey = getMissionControlApiKey();
   const { searchParams } = new URL(request.url);
   const mode = searchParams.get('mode') || 'count';
+  if (!apiKey) return NextResponse.json(mode === 'list' ? [] : { count: 0 });
 
   try {
     const endpoint = mode === 'list'
@@ -23,7 +25,7 @@ export async function GET(request) {
     const res = await fetch(
       `${MC_URL}${endpoint}?email=${encodeURIComponent(session.email)}`,
       {
-        headers: { 'X-Dev-Key': DEV_KEY },
+        headers: { 'X-Dev-Key': apiKey },
         signal: AbortSignal.timeout(5000),
       }
     );
@@ -39,6 +41,8 @@ export async function GET(request) {
 export async function POST(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  const apiKey = getMissionControlApiKey();
+  if (!apiKey) return NextResponse.json({ error: 'Notification bridge unavailable' }, { status: 503 });
 
   try {
     const body = await request.json().catch(() => ({}));
@@ -57,7 +61,7 @@ export async function POST(request) {
       `${MC_URL}${endpoint}?email=${encodeURIComponent(session.email)}`,
       {
         method: 'POST',
-        headers: { 'X-Dev-Key': DEV_KEY, 'Content-Type': 'application/json' },
+        headers: { 'X-Dev-Key': apiKey, 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(5000),
       }
     );

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { getMissionControlApiKey } from '@/lib/internal-api-key';
 import { loadJsonFile, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { logAdminAction } from '@/lib/audit';
@@ -9,15 +10,17 @@ import { isDemo } from '@/lib/demo-data';
 export const dynamic = 'force-dynamic';
 
 const RC_API_URL = process.env.RC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
-const RC_DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
 
 async function pushRoleToRC(email, role, roleApproved) {
+  const apiKey = getMissionControlApiKey();
+  if (!apiKey) return;
+
   try {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 3000);
     await fetch(`${RC_API_URL}/api/profile/sync/role`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': RC_DEV_KEY },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
       body: JSON.stringify({ email, role, roleApproved }),
       signal: ctrl.signal,
     });

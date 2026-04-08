@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import crypto from 'crypto';
+import { getSessionSigningKey } from '@/lib/internal-api-key';
 
 /**
  * Session utility with HMAC signing to prevent tampering.
@@ -7,7 +8,7 @@ import crypto from 'crypto';
  */
 
 function getSigningKey() {
-  return process.env.GOOGLE_CLIENT_SECRET || 'dev-key-not-for-production';
+  return getSessionSigningKey();
 }
 
 function sign(data) {

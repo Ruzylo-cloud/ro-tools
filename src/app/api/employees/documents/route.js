@@ -5,6 +5,7 @@
  */
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { getMissionControlApiKey } from '@/lib/internal-api-key';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -13,7 +14,6 @@ export const dynamic = 'force-dynamic';
 const DATA_DIR = process.env.DATA_DIR || '/data';
 const DOCS_DIR = path.join(DATA_DIR, 'employee-documents');
 const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
-const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
 
 async function ensureDir(dir) {
   try { await fs.mkdir(dir, { recursive: true }); } catch(e) {}
@@ -62,23 +62,26 @@ export async function POST(request) {
 
     // 2. Also save reference to MC (if employee exists there)
     if (employeeId) {
+      const apiKey = getMissionControlApiKey();
       try {
-        await fetch(`${MC_URL}/api/employee-documents`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Dev-Key': DEV_KEY,
-          },
-          body: JSON.stringify({
-            employee_id: employeeId,
-            document_type: documentType,
-            file_name: fileName,
-            file_path: filePath,
-            source: 'ro-tools',
-            metadata: meta,
-          }),
-          signal: AbortSignal.timeout(10000),
-        });
+        if (apiKey) {
+          await fetch(`${MC_URL}/api/employee-documents`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Dev-Key': apiKey,
+            },
+            body: JSON.stringify({
+              employee_id: employeeId,
+              document_type: documentType,
+              file_name: fileName,
+              file_path: filePath,
+              source: 'ro-tools',
+              metadata: meta,
+            }),
+            signal: AbortSignal.timeout(10000),
+          });
+        }
       } catch {
         // MC save is best-effort — internal save is primary
       }

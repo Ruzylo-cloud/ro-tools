@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import { loadJsonFile } from '@/lib/data';
+import { hasValidMissionControlApiKey } from '@/lib/internal-api-key';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 
 export const dynamic = 'force-dynamic';
-
-const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
 
 // Role mapping: RT → RC
 const ROLE_MAP = {
@@ -16,7 +15,7 @@ const ROLE_MAP = {
 /** GET /api/admin/user-sync?email=... — RC queries RT for a user's canonical profile */
 export async function GET(request) {
   const key = request.headers.get('x-dev-key');
-  if (!key || key !== DEV_KEY) {
+  if (!hasValidMissionControlApiKey(key)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

@@ -68,4 +68,4 @@
 - Cloud Run: https://ro-tools-1049928336088.us-central1.run.app
 - GCP Project: pcsbot-490004
 - Service Account: ro-tools@pcsbot-490004.iam.gserviceaccount.com
-- Drive Scan API Key: 02629e14ed2ddcdedaec36e0d113c0420ed7fe717b2d81c28ff899816b737a7e
+- Drive Scan Admin Key: set `ROTOOLS_ADMIN_API_KEY` and send it as `x-admin-key`

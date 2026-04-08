@@ -1,17 +1,15 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { hasValidRoToolsAdminApiKey } from '@/lib/internal-api-key';
 import { isSuperAdmin } from '@/lib/roles';
 import { getServiceDrive, getServiceDocs, getServiceSheets } from '@/lib/google-service';
 import { withTimeout } from '@/lib/api-timeout';
 
 export const dynamic = 'force-dynamic';
 
-const API_KEY = '02629e14ed2ddcdedaec36e0d113c0420ed7fe717b2d81c28ff899816b737a7e';
-
 async function checkAuth(request) {
-  const { searchParams } = new URL(request.url);
-  const key = searchParams.get('key');
-  if (key === API_KEY) return true;
+  const key = request.headers.get('x-admin-key') || request.headers.get('x-api-key');
+  if (hasValidRoToolsAdminApiKey(key)) return true;
   const session = getSession();
   return session && isSuperAdmin(session.email);
 }

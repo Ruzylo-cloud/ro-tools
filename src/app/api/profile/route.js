@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { getMissionControlApiKey } from '@/lib/internal-api-key';
 import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin, needsApproval } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
@@ -97,22 +98,24 @@ export async function POST(request) {
 
   // Sync profile to RO Control (Mission Control)
   const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
-  const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
+  const apiKey = getMissionControlApiKey();
   try {
-    await fetch(`${MC_URL}/api/admin/stores/sync-profile`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'X-Dev-Key': DEV_KEY },
-      body: JSON.stringify({
-        email: session.email,
-        storeName: body.storeName,
-        storeNumber: body.storeNumber,
-        storeAddress: body.storeAddress,
-        storePhone: body.storePhone,
-        operatorName: body.operatorName,
-        source: 'ro-tools',
-      }),
-      signal: AbortSignal.timeout(5000),
-    });
+    if (apiKey) {
+      await fetch(`${MC_URL}/api/admin/stores/sync-profile`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Dev-Key': apiKey },
+        body: JSON.stringify({
+          email: session.email,
+          storeName: body.storeName,
+          storeNumber: body.storeNumber,
+          storeAddress: body.storeAddress,
+          storePhone: body.storePhone,
+          operatorName: body.operatorName,
+          source: 'ro-tools',
+        }),
+        signal: AbortSignal.timeout(5000),
+      });
+    }
   } catch(e) {
     // Sync is best-effort — don't block the user
   }

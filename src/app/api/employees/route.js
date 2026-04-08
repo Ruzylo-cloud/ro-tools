@@ -8,11 +8,11 @@
  */
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { getMissionControlApiKey } from '@/lib/internal-api-key';
 
 export const dynamic = 'force-dynamic';
 
 const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
-const DEV_KEY = process.env.MC_DEV_API_KEY || '0f74cf90288b793b876eb33fbd24d828f54a3256dfa36148730278493b1eb68c';
 
 export async function GET(request) {
   try {
@@ -24,10 +24,15 @@ export async function GET(request) {
     // Get user profile to determine role and store
     const { searchParams } = new URL(request.url);
     const storeNumber = searchParams.get('store');
+    const internalApiKey = getMissionControlApiKey();
+
+    if (!internalApiKey) {
+      return NextResponse.json({ employees: [] });
+    }
 
     // Fetch employees from MC
     const res = await fetch(`${MC_URL}/api/employees?include_all=true`, {
-      headers: { 'X-Dev-Key': DEV_KEY },
+      headers: { 'X-Dev-Key': internalApiKey },
       signal: AbortSignal.timeout(10000),
     });
 
