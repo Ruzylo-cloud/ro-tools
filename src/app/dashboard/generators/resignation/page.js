@@ -10,7 +10,7 @@ import ESignButton from '@/components/ESignButton';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired } from '@/lib/form-utils';
+import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const RESIGNATION_TYPES = [
@@ -163,12 +163,7 @@ export default function ResignationPage() {
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
       pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
 
-      const dateStr = form.resignationDate
-        ? form.resignationDate.replace(/-/g, '')
-        : getTodayStr().replace(/-/g, '');
-      const fileName = form.employeeName
-        ? `Resignation_${form.employeeName.replace(/\s+/g, '_')}_${dateStr}.pdf`
-        : `Resignation_${dateStr}.pdf`;
+      const fileName = brandedFilename('Resignation', form.employeeName);
       pdf.save(fileName);
 
       // Dual save to employee's internal file record
@@ -440,7 +435,7 @@ export default function ResignationPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName="resignation.pdf"
+          fileName={brandedFilename('Resignation', form.employeeName)}
           disabled={generating}
           generatorType="resignation"
           formData={form}

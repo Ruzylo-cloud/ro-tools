@@ -10,7 +10,7 @@ import ESignButton from '@/components/ESignButton';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired } from '@/lib/form-utils';
+import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -94,7 +94,7 @@ export default function AttestationCorrectionPage() {
   };
 
   const handleDownload = useCallback(async () => {
-    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }]);
+    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }, { key: 'shiftDate', label: 'Date of Shift' }, { key: 'reason', label: 'Reason for Correction' }]);
     if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
     setErrors({});
     if (!previewRef.current) return;
@@ -108,7 +108,8 @@ export default function AttestationCorrectionPage() {
       if (!mountedRef.current) return;
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
-      pdf.save('attestation-correction.pdf');
+      const fileName = brandedFilename('AttestationCorrection', form.employeeName);
+      pdf.save(fileName);
 
       // Dual save to employee's internal file record
       if (form.employeeName) {
@@ -120,7 +121,7 @@ export default function AttestationCorrectionPage() {
             employeeName: form.employeeName,
             employeeId: form._employeeId || null,
             documentType: 'attestation-correction',
-            fileName: 'attestation-correction.pdf',
+            fileName: fileName,
             content: pdfBase64,
             metadata: {
               createdBy: form.supervisorName || form.managerName || '',
@@ -130,7 +131,7 @@ export default function AttestationCorrectionPage() {
         }).catch(err => console.error('[doc-save] failed:', err));
       }
 
-      logActivity({ generatorType: 'attestation-correction', action: 'download', formData: form, filename: 'attestation-correction.pdf' });
+      logActivity({ generatorType: 'attestation-correction', action: 'download', formData: form, filename: fileName });
       if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF error:', err);
@@ -162,11 +163,12 @@ export default function AttestationCorrectionPage() {
                   <textarea
                     className={styles.textarea}
                     value={form[key] || ''}
-                    onChange={(e) => handleChange(key, e.target.value)}
+                    onChange={(e) => { handleChange(key, e.target.value); if (errors[key]) setErrors(p => ({ ...p, [key]: null })); }}
                     rows={3}
                     maxLength={500}
                   />
                   <div className={styles.charCount}>{(form[key] || '').length}/500</div>
+                  {errors[key] && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors[key]}</div>}
                 </>
               ) : type === 'select' ? (
                 // RT-096: Use select class for proper width/styling
@@ -194,12 +196,15 @@ export default function AttestationCorrectionPage() {
                   {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
                 </>
               ) : (
-                <input
-                  type={type}
-                  className={styles.input}
-                  value={form[key] || ''}
-                  onChange={(e) => handleChange(key, e.target.value)}
-                />
+                <>
+                  <input
+                    type={type}
+                    className={styles.input}
+                    value={form[key] || ''}
+                    onChange={(e) => { handleChange(key, e.target.value); if (errors[key]) setErrors(p => ({ ...p, [key]: null })); }}
+                  />
+                  {errors[key] && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors[key]}</div>}
+                </>
               )}
             </div>
           ))}
@@ -224,7 +229,7 @@ export default function AttestationCorrectionPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName="attestation-correction.pdf"
+          fileName={brandedFilename('AttestationCorrection', form.employeeName)}
           disabled={generating}
           generatorType="attestation-correction"
           formData={form}

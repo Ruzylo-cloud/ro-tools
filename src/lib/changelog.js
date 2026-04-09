@@ -8,6 +8,28 @@
  */
 
 export const changelog = [
+  // ── v2.9.5 — April 9, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.5',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Fix Generic PDF Filenames on Correction Generators',
+    description: 'Timesheet Correction and Attestation Correction generators used hardcoded filenames (e.g. "timesheet-correction.pdf") for downloads, Google Drive saves, and employee file records. Multiple downloads would silently overwrite each other. All three correction generators now use branded filenames with employee name and date via brandedFilename().',
+  },
+  {
+    version: 'v2.9.5',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Add Missing E-Sign to Timesheet Correction',
+    description: 'Timesheet Correction was the only correction generator without an E-Sign button. Employees can now sign timesheet corrections electronically, matching the resignation and attestation correction workflows.',
+  },
+  {
+    version: 'v2.9.5',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Strengthen Validation on Correction Forms',
+    description: 'Timesheet Correction and Attestation Correction only validated employee name before allowing PDF generation. Shift date and reason for correction are now required, with inline error messages that clear on input.',
+  },
   // ── v2.9.4 — April 8, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.4',

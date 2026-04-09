@@ -5,10 +5,11 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/Toast';
 import TimesheetCorrectionPreview from '@/components/TimesheetCorrectionPreview';
 import SaveToDrive from '@/components/SaveToDrive';
+import ESignButton from '@/components/ESignButton';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired } from '@/lib/form-utils';
+import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 // RT-108: Pay period options (Homebase uses Sun-Sat weekly)
@@ -86,7 +87,7 @@ export default function TimesheetCorrectionPage() {
   };
 
   const handleDownload = useCallback(async () => {
-    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }]);
+    const errs = validateRequired(form, [{ key: 'employeeName', label: 'Employee Name' }, { key: 'originalDate', label: 'Date of Shift' }, { key: 'reason', label: 'Reason for Correction' }]);
     if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
     setErrors({});
     if (!previewRef.current) return;
@@ -100,7 +101,8 @@ export default function TimesheetCorrectionPage() {
       if (!mountedRef.current) return;
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
-      pdf.save('timesheet-correction.pdf');
+      const fileName = brandedFilename('TimesheetCorrection', form.employeeName);
+      pdf.save(fileName);
 
       // Dual save to employee's internal file record
       if (form.employeeName) {
@@ -112,7 +114,7 @@ export default function TimesheetCorrectionPage() {
             employeeName: form.employeeName,
             employeeId: form._employeeId || null,
             documentType: 'timesheet-correction',
-            fileName: 'timesheet-correction.pdf',
+            fileName: fileName,
             content: pdfBase64,
             metadata: {
               createdBy: form.supervisorName || form.managerName || '',
@@ -122,7 +124,7 @@ export default function TimesheetCorrectionPage() {
         }).catch(err => console.error('[doc-save] failed:', err));
       }
 
-      logActivity({ generatorType: 'timesheet-correction', action: 'download', formData: form, filename: 'timesheet-correction.pdf' });
+      logActivity({ generatorType: 'timesheet-correction', action: 'download', formData: form, filename: fileName });
       if (mountedRef.current) { showToast('✓ PDF downloaded successfully!', 'success'); clearDraft(); setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {
       console.error('PDF error:', err);
@@ -172,11 +174,12 @@ export default function TimesheetCorrectionPage() {
                   <textarea
                     className={styles.textarea}
                     value={form[key] || ''}
-                    onChange={(e) => handleChange(key, e.target.value)}
+                    onChange={(e) => { handleChange(key, e.target.value); if (errors[key]) setErrors(p => ({ ...p, [key]: null })); }}
                     rows={3}
                     maxLength={500}
                   />
                   <div className={styles.charCount}>{(form[key] || '').length}/500</div>
+                  {errors[key] && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors[key]}</div>}
                 </>
               ) : key === 'employeeName' ? (
                 <>
@@ -194,12 +197,15 @@ export default function TimesheetCorrectionPage() {
                   {errors.employeeName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.employeeName}</div>}
                 </>
               ) : (
-                <input
-                  type={type}
-                  className={styles.input}
-                  value={form[key] || ''}
-                  onChange={(e) => handleChange(key, e.target.value)}
-                />
+                <>
+                  <input
+                    type={type}
+                    className={styles.input}
+                    value={form[key] || ''}
+                    onChange={(e) => { handleChange(key, e.target.value); if (errors[key]) setErrors(p => ({ ...p, [key]: null })); }}
+                  />
+                  {errors[key] && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors[key]}</div>}
+                </>
               )}
             </div>
           ))}
@@ -208,6 +214,13 @@ export default function TimesheetCorrectionPage() {
           {generating ? <><span className="gen-btn-spinner" />Generating PDF...</> : showSuccess ? '✓ Downloaded!' : 'Download PDF'}
         </button>
         <p className="gen-keyboard-hint">Tip: Press Ctrl+Enter to generate</p>
+        <ESignButton
+          documentType="timesheet-correction"
+          documentTitle={`Timesheet Correction${form.employeeName ? ' — ' + form.employeeName : ''}`}
+          employeeName={form.employeeName}
+          formData={form}
+          disabled={!form.employeeName}
+        />
         <button
           type="button"
           onClick={() => { if (confirm('Clear all fields and start over?')) { clearDraft(); window.location.reload(); } }}
@@ -217,7 +230,7 @@ export default function TimesheetCorrectionPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName="timesheet-correction.pdf"
+          fileName={brandedFilename('TimesheetCorrection', form.employeeName)}
           disabled={generating}
           generatorType="timesheet-correction"
           formData={form}
