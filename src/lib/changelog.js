@@ -8,6 +8,21 @@
  */
 
 export const changelog = [
+  // ── v2.9.7 — April 9, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.7',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Block Invalid Catering Orders From Exporting',
+    description: 'The Catering Order generator would export and store orders with no boxes, blank sub selections, or underfilled 12-sub boxes even though pricing assumes each box is full. It now requires delivery details plus a complete, fully allocated box layout before allowing PDF generation.',
+  },
+  {
+    version: 'v2.9.7',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Fix Catering Order File Naming and Stored Order Date',
+    description: 'Catering orders were still using a generic filename and saving a nonexistent form.orderDate field into admin document metadata. The generator now uses a branded filename and stores the real delivery date in the saved metadata.',
+  },
   // ── v2.9.6 — April 9, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.6',

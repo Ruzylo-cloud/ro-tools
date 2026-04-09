@@ -8,7 +8,7 @@ import CateringOrderPreview, { MENU_ITEMS } from '@/components/CateringOrderPrev
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired } from '@/lib/form-utils';
+import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const PRICE_PER_BOX = 89.95;
@@ -149,10 +149,12 @@ export default function CateringOrderPage() {
 
   const handleChange = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
+    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: null }));
   };
 
   // Box sub management
   const addBox = () => {
+    if (errors.boxes) setErrors((prev) => ({ ...prev, boxes: null }));
     setForm(prev => ({
       ...prev,
       boxes: [...prev.boxes, { subs: [{ subName: '', bread: 'White', quantity: 12, mikesWay: true, specialInstructions: '' }] }],
@@ -190,6 +192,7 @@ export default function CateringOrderPage() {
   };
 
   const handleSubChange = (boxIndex, subIndex, key, value) => {
+    if (errors.boxes) setErrors((prev) => ({ ...prev, boxes: null }));
     setForm(prev => {
       const boxes = [...prev.boxes];
       const box = { ...boxes[boxIndex], subs: [...boxes[boxIndex].subs] };
@@ -204,7 +207,22 @@ export default function CateringOrderPage() {
   };
 
   const handleDownload = useCallback(async () => {
-    const errs = validateRequired(form, [{ key: 'customerName', label: 'Customer Name' }]);
+    const errs = validateRequired(form, [
+      { key: 'customerName', label: 'Customer Name' },
+      { key: 'deliveryAddress', label: 'Delivery Address' },
+      { key: 'deliveryDate', label: 'Delivery Date' },
+    ]);
+    if (form.boxes.length === 0) {
+      errs.boxes = 'Add at least one catering box before generating the order.';
+    } else {
+      const hasBlankSub = form.boxes.some((box) => box.subs.some((sub) => !sub.subName?.trim()));
+      const hasUnderfilledBox = form.boxes.some((box) => getBoxSubCount(box) !== SUBS_PER_BOX);
+      if (hasBlankSub) {
+        errs.boxes = 'Select a sub for every catering box entry before generating the order.';
+      } else if (hasUnderfilledBox) {
+        errs.boxes = `Each catering box must total exactly ${SUBS_PER_BOX} subs before generating the order.`;
+      }
+    }
     if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
     setErrors({});
     if (!previewRef.current) return;
@@ -219,9 +237,7 @@ export default function CateringOrderPage() {
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
       pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
-      const filename = form.customerName
-        ? `catering-order-${form.customerName.replace(/\s+/g, '-').toLowerCase()}.pdf`
-        : 'catering-order-form.pdf';
+      const filename = brandedFilename('CateringOrder', form.customerName || form.companyName || 'Order');
       pdf.save(filename);
       logActivity({ generatorType: 'catering-order', action: 'download', formData: form, filename });
       // Save admin copy to GCS
@@ -235,7 +251,7 @@ export default function CateringOrderPage() {
             documentType: 'catering-order',
             fileName: filename,
             content: pdfBase64,
-            metadata: { storeNumber: form.storeNumber || '', orderDate: form.orderDate || '' },
+            metadata: { storeNumber: form.storeNumber || '', orderDate: form.deliveryDate || '' },
           }),
         });
       } catch (err) { console.error('Admin doc save failed:', err); }
@@ -347,11 +363,13 @@ export default function CateringOrderPage() {
             <div className={styles.field}>
               <label className={styles.label}>Delivery Address</label>
               <input type="text" className={styles.input} value={form.deliveryAddress} onChange={(e) => handleChange('deliveryAddress', e.target.value)} placeholder="123 Main St, City, ST" />
+              {errors.deliveryAddress && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.deliveryAddress}</div>}
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.field}>
                 <label className={styles.label}>Date</label>
                 <input type="date" className={styles.input} value={form.deliveryDate} onChange={(e) => handleChange('deliveryDate', e.target.value)} />
+                {errors.deliveryDate && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.deliveryDate}</div>}
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Time</label>
@@ -364,6 +382,7 @@ export default function CateringOrderPage() {
         {/* Boxes */}
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>Order Boxes</h3>
+          {errors.boxes && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginBottom: '10px' }}>{errors.boxes}</div>}
           {form.boxes.map((box, bi) => {
             const filled = getBoxSubCount(box);
             const isFull = filled >= SUBS_PER_BOX;
@@ -376,14 +395,14 @@ export default function CateringOrderPage() {
                       {filled}/{SUBS_PER_BOX} subs
                     </span>
                   </span>
-                  <button className={styles.removeBtn} onClick={() => removeBox(bi)} title="Remove box">&times;</button>
+                  <button className={styles.removeBtn} onClick={() => removeBox(bi)} title="Remove box" aria-label={`Remove box ${bi + 1}`}>&times;</button>
                 </div>
                 {box.subs.map((sub, si) => (
                   <div key={si} style={{ marginBottom: '8px', paddingBottom: si < box.subs.length - 1 ? '8px' : 0, borderBottom: si < box.subs.length - 1 ? '1px solid var(--border)' : 'none' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                       <span style={{ fontSize: '11px', fontWeight: 600, color: 'var(--gray-600)' }}>Sub {si + 1}</span>
                       {box.subs.length > 1 && (
-                        <button className={styles.removeBtn} style={{ fontSize: '14px' }} onClick={() => removeSubFromBox(bi, si)}>&times;</button>
+                        <button className={styles.removeBtn} style={{ fontSize: '14px' }} onClick={() => removeSubFromBox(bi, si)} aria-label={`Remove sub ${si + 1} from box ${bi + 1}`}>&times;</button>
                       )}
                     </div>
                     <div className={styles.fields}>
@@ -601,7 +620,7 @@ export default function CateringOrderPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName="catering-order.pdf"
+          fileName={brandedFilename('CateringOrder', form.customerName || form.companyName || 'Order')}
           disabled={generating}
           generatorType="catering-order"
           formData={form}
@@ -613,10 +632,10 @@ export default function CateringOrderPage() {
         <div className={styles.previewHeader}>
           <h2 className={styles.previewTitle}>Live Preview</h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: 'var(--gray-500)' }}>
-            <button onClick={() => setPreviewZoom(z => Math.max(50, z - 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
+            <button onClick={() => setPreviewZoom(z => Math.max(50, z - 10))} aria-label="Zoom out preview" style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>−</button>
             <span style={{ minWidth: '36px', textAlign: 'center', fontVariantNumeric: 'tabular-nums' }}>{previewZoom}%</span>
-            <button onClick={() => setPreviewZoom(z => Math.min(150, z + 10))} style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
-            <button onClick={() => setPreviewZoom(100)} style={{ padding: '2px 8px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '11px' }}>Reset</button>
+            <button onClick={() => setPreviewZoom(z => Math.min(150, z + 10))} aria-label="Zoom in preview" style={{ width: '24px', height: '24px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+            <button onClick={() => setPreviewZoom(100)} aria-label="Reset preview zoom" style={{ padding: '2px 8px', border: '1px solid var(--border)', borderRadius: '4px', background: 'var(--white)', cursor: 'pointer', fontSize: '11px' }}>Reset</button>
           </div>
         </div>
         <div className={styles.previewContainer} style={{ overflow: 'auto' }}>
