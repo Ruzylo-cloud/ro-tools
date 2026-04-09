@@ -8,6 +8,28 @@
  */
 
 export const changelog = [
+  // ── v2.9.6 — April 9, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.6',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Standardize Work Order, Manager Log, and Food Label Filenames',
+    description: 'Those three generators were still using ad-hoc filenames like "manager-log-2026-04-09.pdf" and "food-labels-item.pdf". Downloads, Drive saves, and stored admin copies now use branded filenames so records are unique and consistent with the rest of the app.',
+  },
+  {
+    version: 'v2.9.6',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Block Blank Daily Logs and Incomplete Label / Work Order PDFs',
+    description: 'Work Orders could be generated without a title, Manager Logs could be exported with zero entries, and Food Labels silently defaulted to a 24-hour shelf life when no shelf-life value was entered. Those generators now stop with inline validation until the required inputs are present.',
+  },
+  {
+    version: 'v2.9.6',
+    date: '2026-04-09',
+    category: 'improvement',
+    title: 'Improve Accessibility on Manager Log Entry Controls',
+    description: 'Manager Log entry removal controls now expose clear aria-labels so assistive tech can identify which board entry will be removed instead of announcing an unlabeled “×” button.',
+  },
   // ── v2.9.5 — April 9, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.5',

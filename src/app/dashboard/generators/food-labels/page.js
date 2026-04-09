@@ -8,6 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -34,6 +35,7 @@ export default function FoodLabelsPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -87,6 +89,15 @@ export default function FoodLabelsPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const errs = validateRequired(form, [{ key: 'itemName', label: 'Item Name' }]);
+    if (!form.shelfLifeHours && !form.shelfLifeDays) {
+      errs.shelfLife = 'Shelf life hours or days is required';
+    }
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      showToast('Please fill in all required fields.', 'error');
+      return;
+    }
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -98,8 +109,7 @@ export default function FoodLabelsPage() {
       if (!mountedRef.current) return;
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
-      const name = form.itemName ? form.itemName.replace(/\s+/g, '-').toLowerCase() : 'food-labels';
-      const fileName = `food-labels-${name}.pdf`;
+      const fileName = brandedFilename('FoodLabels', form.itemName || form.preparedBy || 'Labels');
       pdf.save(fileName);
       logActivity({ generatorType: 'food-labels', action: 'download', formData: form, filename: fileName });
       // Save admin copy to GCS
@@ -147,7 +157,17 @@ export default function FoodLabelsPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Item Name</label>
-              <input type="text" className={styles.input} value={form.itemName} onChange={(e) => handleChange('itemName', e.target.value)} placeholder="e.g. Sliced Turkey, Provolone, Onions" />
+              <input
+                type="text"
+                className={styles.input}
+                value={form.itemName}
+                onChange={(e) => {
+                  handleChange('itemName', e.target.value);
+                  if (errors.itemName) setErrors((p) => ({ ...p, itemName: null }));
+                }}
+                placeholder="e.g. Sliced Turkey, Provolone, Onions"
+              />
+              {errors.itemName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.itemName}</div>}
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Category</label>
@@ -165,13 +185,34 @@ export default function FoodLabelsPage() {
             <div className={styles.fieldRow}>
               <div className={styles.field}>
                 <label className={styles.label}>Hours</label>
-                <input type="number" className={styles.input} value={form.shelfLifeHours} onChange={(e) => handleChange('shelfLifeHours', e.target.value)} placeholder="e.g. 4" min="0" />
+                <input
+                  type="number"
+                  className={styles.input}
+                  value={form.shelfLifeHours}
+                  onChange={(e) => {
+                    handleChange('shelfLifeHours', e.target.value);
+                    if (errors.shelfLife) setErrors((p) => ({ ...p, shelfLife: null }));
+                  }}
+                  placeholder="e.g. 4"
+                  min="0"
+                />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Days</label>
-                <input type="number" className={styles.input} value={form.shelfLifeDays} onChange={(e) => handleChange('shelfLifeDays', e.target.value)} placeholder="e.g. 3" min="0" />
+                <input
+                  type="number"
+                  className={styles.input}
+                  value={form.shelfLifeDays}
+                  onChange={(e) => {
+                    handleChange('shelfLifeDays', e.target.value);
+                    if (errors.shelfLife) setErrors((p) => ({ ...p, shelfLife: null }));
+                  }}
+                  placeholder="e.g. 3"
+                  min="0"
+                />
               </div>
             </div>
+            {errors.shelfLife && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.shelfLife}</div>}
             <div className={styles.field}>
               <label className={styles.label}>Storage Temperature</label>
               <input type="text" className={styles.input} value={form.storageTemp} onChange={(e) => handleChange('storageTemp', e.target.value)} placeholder="e.g. 41°F or below" />
@@ -241,7 +282,7 @@ export default function FoodLabelsPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName={`food-labels-${(form.preparedBy || 'store').replace(/\s+/g, '-').toLowerCase()}`}
+          fileName={brandedFilename('FoodLabels', form.itemName || form.preparedBy || 'Labels')}
           disabled={generating}
           generatorType="food-labels"
           formData={form}

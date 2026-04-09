@@ -7,6 +7,7 @@ import ManagerLogPreview from '@/components/ManagerLogPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const DEFAULT_BOARDS = [
@@ -22,6 +23,7 @@ export default function ManagerLogPage() {
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
   const [previewZoom, setPreviewZoom] = useState(100);
   const previewRef = useRef(null);
   const mountedRef = useRef(true);
@@ -77,6 +79,7 @@ export default function ManagerLogPage() {
       return { ...prev, boards };
     });
     setNewEntry('');
+    setErrors((prev) => ({ ...prev, entries: null }));
   };
 
   const removeEntry = (boardIdx, entryIdx) => {
@@ -91,6 +94,12 @@ export default function ManagerLogPage() {
   };
 
   const handleDownload = useCallback(async () => {
+    const totalEntries = form.boards.reduce((sum, board) => sum + board.entries.length, 0);
+    if (totalEntries === 0) {
+      setErrors({ entries: 'Add at least one log entry before generating the daily report.' });
+      showToast('Add at least one log entry before generating the daily report.', 'error');
+      return;
+    }
     if (!previewRef.current) return;
     setGenerating(true);
     try {
@@ -102,7 +111,7 @@ export default function ManagerLogPage() {
       if (!mountedRef.current) return;
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
-      const fileName = `manager-log-${form.logDate || 'today'}.pdf`;
+      const fileName = brandedFilename('ManagerLog', form.storeName || form.storeNumber || 'Store');
       pdf.save(fileName);
       logActivity({ generatorType: 'manager-log', action: 'download', formData: { ...form, boards: form.boards.map(b => ({ name: b.name, entryCount: b.entries.length })) }, filename: fileName });
       // Save admin copy to GCS
@@ -191,6 +200,7 @@ export default function ManagerLogPage() {
               maxLength={500}
             />
             <div className={styles.charCount}>{(newEntry || '').length}/500</div>
+            {errors.entries && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.entries}</div>}
           </div>
           <button
             type="button"
@@ -220,6 +230,7 @@ export default function ManagerLogPage() {
                   <button
                     type="button"
                     onClick={() => removeEntry(activeBoard, i)}
+                    aria-label={`Remove log entry ${i + 1} from ${form.boards[activeBoard].name}`}
                     style={{
                       background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer',
                       fontSize: '14px', padding: '0 4px', flexShrink: 0,
@@ -246,7 +257,7 @@ export default function ManagerLogPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName={`manager-log-${form.logDate || 'today'}`}
+          fileName={brandedFilename('ManagerLog', form.storeName || form.storeNumber || 'Store')}
           disabled={generating}
           generatorType="manager-log"
           formData={form}

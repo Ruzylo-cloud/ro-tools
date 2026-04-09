@@ -8,7 +8,7 @@ import SaveToDrive from '@/components/SaveToDrive';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired } from '@/lib/form-utils';
+import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -85,7 +85,10 @@ export default function WorkOrdersPage() {
   };
 
   const handleDownload = useCallback(async () => {
-    const errs = validateRequired(form, [{ key: 'description', label: 'Issue Description' }]);
+    const errs = validateRequired(form, [
+      { key: 'title', label: 'Title' },
+      { key: 'description', label: 'Issue Description' },
+    ]);
     if (Object.keys(errs).length) { setErrors(errs); showToast('Please fill in all required fields.', 'error'); return; }
     setErrors({});
     if (!previewRef.current) return;
@@ -99,8 +102,7 @@ export default function WorkOrdersPage() {
       if (!mountedRef.current) return;
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
       pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
-      const slug = form.title ? form.title.replace(/\s+/g, '-').toLowerCase().slice(0, 30) : 'work-order';
-      const fileName = `work-order-${slug}.pdf`;
+      const fileName = brandedFilename('WorkOrder', form.title || form.equipment || 'Request');
       pdf.save(fileName);
       logActivity({ generatorType: 'work-orders', action: 'download', formData: form, filename: fileName });
       // Save admin copy to GCS
@@ -148,7 +150,17 @@ export default function WorkOrdersPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Title</label>
-              <input type="text" className={styles.input} value={form.title} onChange={(e) => handleChange('title', e.target.value)} placeholder="e.g. Slicer blade needs replacement" />
+              <input
+                type="text"
+                className={styles.input}
+                value={form.title}
+                onChange={(e) => {
+                  handleChange('title', e.target.value);
+                  if (errors.title) setErrors((p) => ({ ...p, title: null }));
+                }}
+                placeholder="e.g. Slicer blade needs replacement"
+              />
+              {errors.title && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.title}</div>}
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.field}>
@@ -245,7 +257,7 @@ export default function WorkOrdersPage() {
         </button>
         <SaveToDrive
           getCanvasRef={() => previewRef.current}
-          fileName={`work-order-${(form.title || 'order').replace(/\s+/g, '-').toLowerCase().slice(0, 30)}`}
+          fileName={brandedFilename('WorkOrder', form.title || form.equipment || 'Request')}
           disabled={generating}
           generatorType="work-orders"
           formData={form}
