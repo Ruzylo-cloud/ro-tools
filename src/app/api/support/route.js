@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import { getSession } from '@/lib/session';
 import { rateLimit } from '@/lib/rate-limit';
 import { DEMO_TICKETS, isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 import fs from 'fs/promises';
 import fsSync from 'fs';
 import path from 'path';
@@ -45,6 +46,9 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   // Rate limit: 10 tickets per minute per IP
   const { limited } = rateLimit('support', 60000, 10, request);
   if (limited) {

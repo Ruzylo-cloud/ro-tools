@@ -4,6 +4,7 @@ import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
 import { DEMO_CATERING_ORDERS, isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,6 +64,9 @@ export async function GET(request) {
  * If clientId is not provided but clientName is, auto-create or match client.
  */
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('catering-orders', 60000, 30, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 

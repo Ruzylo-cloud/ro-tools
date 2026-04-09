@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getDrive } from '@/lib/google-client';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 import { Readable } from 'stream';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +13,9 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request) {
   try {
+    const originError = enforceSameOriginMutation(request);
+    if (originError) return originError;
+
     const auth = getAuthenticatedClient();
     if (!auth) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });

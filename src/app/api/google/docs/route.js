@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getDocs, getDrive } from '@/lib/google-client';
 import { withTimeout } from '@/lib/api-timeout';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,6 +48,9 @@ export async function GET(request) {
 
 // Create a new document
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const auth = getAuthenticatedClient();
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 

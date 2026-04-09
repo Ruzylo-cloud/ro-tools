@@ -8,6 +8,14 @@
  */
 
 export const changelog = [
+  // ── v2.9.4 — April 8, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.4',
+    date: '2026-04-08',
+    category: 'bug_fix',
+    title: 'Harden Cookie-Backed API Mutations Against Cross-Site Requests',
+    description: 'Added same-origin enforcement to the write-side API routes that rely on the RO Tools session cookie. Cross-site browser mutation requests are now rejected before they can hit profile, admin, signing, catering, Drive, Google, support, notifications, or document-write flows.',
+  },
   // ── v2.9.3 — April 3, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.3',

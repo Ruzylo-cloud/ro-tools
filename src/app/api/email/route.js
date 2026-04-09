@@ -2,10 +2,14 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { getAuthenticatedClient, getGmail } from '@/lib/google-client';
 import { rateLimit } from '@/lib/rate-limit';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('email', 60000, 5, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 

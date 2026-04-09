@@ -5,6 +5,7 @@ import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
 import { DEMO_LOGS, isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -131,6 +132,9 @@ export async function GET(request) {
  *   filename      (string, optional) — generated filename
  */
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   // Rate limit: 30 log entries per minute per IP
   const { limited } = rateLimit('activity-logs', 60000, 30, request);
   if (limited) {

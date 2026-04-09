@@ -2,10 +2,14 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { generateSigningToken, createSigningRequest } from '@/lib/signing';
 import { rateLimit } from '@/lib/rate-limit';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('signing-create', 60000, 10, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 

@@ -6,6 +6,7 @@ import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { logAdminAction } from '@/lib/audit';
 import { rateLimit } from '@/lib/rate-limit';
 import { isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,6 +30,9 @@ async function pushRoleToRC(email, role, roleApproved) {
 }
 
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   // Rate limit: 20 approvals per minute per IP
   const { limited } = rateLimit('admin-approve', 60000, 20, request);
   if (limited) {

@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifySessionToken } from '@/lib/session';
 import { getMissionControlApiKey } from '@/lib/internal-api-key';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,6 +42,9 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
+    const originError = enforceSameOriginMutation(request);
+    if (originError) return originError;
+
     const session = await getSession(); // RT-144: async getSession requires await
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     const apiKey = getMissionControlApiKey();

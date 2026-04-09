@@ -3,6 +3,7 @@ import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
 import { DEMO_CATERING_CLIENTS, DEMO_CATERING_ORDERS, isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -63,6 +64,9 @@ export async function GET(request, { params }) {
  * PATCH /api/catering/clients/[id] — Update client details.
  */
 export async function PATCH(request, { params }) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('catering-clients', 60000, 30, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
@@ -122,6 +126,9 @@ export async function PATCH(request, { params }) {
  * DELETE /api/catering/clients/[id] — Delete a client and their orders.
  */
 export async function DELETE(request, { params }) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('catering-clients', 60000, 30, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 

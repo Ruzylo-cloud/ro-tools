@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSigningRequest, isExpired, completeSigningRequest } from '@/lib/signing';
 import { rateLimit } from '@/lib/rate-limit';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -45,6 +46,9 @@ export async function GET(request, { params }) {
  * Submits an employee signature.
  */
 export async function POST(request, { params }) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('signing-submit', 60000, 5, request);
   if (limited) {
     return NextResponse.json({ error: 'Too many requests. Please wait a moment.' }, { status: 429 });

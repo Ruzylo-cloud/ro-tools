@@ -5,6 +5,7 @@ import { loadJsonFile, loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin, needsApproval } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
 import { DEMO_PROFILE, isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
@@ -36,6 +37,9 @@ export async function GET() {
 }
 
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   // Rate limit: 30 profile saves per minute per IP
   const { limited } = rateLimit('profile', 60000, 30, request);
   if (limited) {

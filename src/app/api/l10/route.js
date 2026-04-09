@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSessionData } from '@/lib/session';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 import fs from 'fs';
 import path from 'path';
 
@@ -69,6 +70,9 @@ export async function GET(request) {
 
 // POST /api/l10 — save L10 scorecard
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const session = getSessionData(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 

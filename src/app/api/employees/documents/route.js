@@ -6,6 +6,7 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { getMissionControlApiKey } from '@/lib/internal-api-key';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -21,6 +22,9 @@ async function ensureDir(dir) {
 
 export async function POST(request) {
   try {
+    const originError = enforceSameOriginMutation(request);
+    if (originError) return originError;
+
     const session = getSession(); // RT-150: was checking cookie existence only, never verifying token
     if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
