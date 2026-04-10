@@ -128,7 +128,7 @@ export async function POST(request) {
   const apiKey = getMissionControlApiKey();
   try {
     if (apiKey) {
-      await fetch(`${MC_URL}/api/profile/sync`, {
+      const mcSyncRes = await fetch(`${MC_URL}/api/profile/sync`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
         body: JSON.stringify({
@@ -142,6 +142,7 @@ export async function POST(request) {
         }),
         signal: AbortSignal.timeout(5000),
       });
+      if (!mcSyncRes.ok) throw new Error(`MC sync responded with ${mcSyncRes.status}`);
     }
   } catch(e) {
     console.error('[profile] MC sync failed (best-effort, not blocking user):', e);
