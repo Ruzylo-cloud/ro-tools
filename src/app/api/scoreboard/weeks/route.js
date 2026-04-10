@@ -51,6 +51,7 @@ export async function GET() {
 
     return NextResponse.json(weeks);
   } catch (err) {
+    console.error('[scoreboard] Failed to load scoreboard data:', err);
     return NextResponse.json({ error: 'Failed to load scoreboard data' }, { status: 500 });
   }
 }

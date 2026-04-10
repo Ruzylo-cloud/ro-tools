@@ -39,6 +39,7 @@ export async function GET(request) {
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {
+    console.error('[directives] Failed to fetch directives:', err);
     return NextResponse.json({ error: 'Failed to fetch directives', detail: String(err) }, { status: 500 });
   }
 }
@@ -66,6 +67,7 @@ export async function POST(request) {
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {
+    console.error('[directives] Failed to save outreach:', err);
     return NextResponse.json({ error: 'Failed to save outreach', detail: String(err) }, { status: 500 });
   }
 }

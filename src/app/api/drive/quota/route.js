@@ -20,7 +20,8 @@ export async function GET() {
       usage: parseInt(quota.usage || '0', 10),
       usageInDrive: parseInt(quota.usageInDrive || '0', 10),
     });
-  } catch {
+  } catch (e) {
+    console.error('[drive/quota] Failed to fetch quota:', e);
     return NextResponse.json({ error: 'Failed to fetch quota' }, { status: 500 });
   }
 }
