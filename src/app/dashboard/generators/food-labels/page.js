@@ -166,6 +166,7 @@ export default function FoodLabelsPage() {
                   if (errors.itemName) setErrors((p) => ({ ...p, itemName: null }));
                 }}
                 placeholder="e.g. Sliced Turkey, Provolone, Onions"
+                maxLength={100}
               />
               {errors.itemName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.itemName}</div>}
             </div>
@@ -215,7 +216,7 @@ export default function FoodLabelsPage() {
             {errors.shelfLife && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.shelfLife}</div>}
             <div className={styles.field}>
               <label className={styles.label}>Storage Temperature</label>
-              <input type="text" className={styles.input} value={form.storageTemp} onChange={(e) => handleChange('storageTemp', e.target.value)} placeholder="e.g. 41°F or below" />
+              <input type="text" className={styles.input} value={form.storageTemp} onChange={(e) => handleChange('storageTemp', e.target.value)} placeholder="e.g. 41°F or below" maxLength={50} />
             </div>
           </div>
         </div>

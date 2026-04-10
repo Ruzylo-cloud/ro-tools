@@ -214,7 +214,7 @@ export default function OnboardingPacketsPage() {
             <div className={styles.fieldRow}>
               <div className={styles.field}>
                 <label className={styles.label}>Position</label>
-                <input type="text" className={styles.input} value={form.position} onChange={(e) => handleChange('position', e.target.value)} placeholder="Team Member" />
+                <input type="text" className={styles.input} value={form.position} onChange={(e) => handleChange('position', e.target.value)} placeholder="Team Member" maxLength={100} />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Start Date</label>
@@ -277,6 +277,7 @@ export default function OnboardingPacketsPage() {
               onChange={(e) => setNewCustomDoc(e.target.value)}
               placeholder="Add custom document..."
               onKeyDown={(e) => { if (e.key === 'Enter') addCustomDoc(); }}
+              maxLength={200}
               style={{ flex: 1 }}
             />
             <button type="button" onClick={addCustomDoc} style={{
