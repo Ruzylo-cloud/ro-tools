@@ -61,7 +61,12 @@ export async function POST(request) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
       body: JSON.stringify({ ...body, author: session.email || session.name }),
+      signal: AbortSignal.timeout(10000),
     });
+    if (!res.ok) {
+      console.error('[directives/outreach] MC POST responded with', res.status);
+      return NextResponse.json({ error: 'Failed to save outreach' }, { status: res.status >= 500 ? 502 : res.status });
+    }
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {

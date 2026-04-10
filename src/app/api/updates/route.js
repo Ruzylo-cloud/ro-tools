@@ -24,7 +24,8 @@ export async function GET(request) {
     }));
 
     return NextResponse.json({ updates });
-  } catch {
+  } catch (err) {
+    console.error('[updates] GET error:', err);
     return NextResponse.json({ updates: [] });
   }
 }

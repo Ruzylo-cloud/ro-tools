@@ -26,6 +26,9 @@ export async function POST(request) {
     if (!fileName || !pdfBase64) {
       return NextResponse.json({ error: 'fileName and pdfBase64 are required' }, { status: 400 });
     }
+    if (typeof fileName === 'string' && fileName.length > 500) {
+      return NextResponse.json({ error: 'fileName must be 500 characters or fewer' }, { status: 400 });
+    }
 
     // RT-281: Cap upload at 20MB (base64 is ~33% larger than binary)
     if (pdfBase64.length > 27_000_000) {

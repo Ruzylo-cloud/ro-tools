@@ -32,7 +32,8 @@ function getAllForWeek(week) {
       const data = JSON.parse(fs.readFileSync(path.join(L10_DIR, f), 'utf8'));
       return data;
     });
-  } catch {
+  } catch (err) {
+    console.error('[l10] getAllForWeek error:', err);
     return [];
   }
 }
@@ -75,7 +76,8 @@ export async function GET(request) {
       return NextResponse.json(data);
     }
     return NextResponse.json({ week: parseInt(week), values: {}, employees: [], grade: 0 });
-  } catch {
+  } catch (err) {
+    console.error('[l10] GET read error:', err);
     return NextResponse.json({ week: parseInt(week), values: {}, employees: [], grade: 0 });
   }
 }

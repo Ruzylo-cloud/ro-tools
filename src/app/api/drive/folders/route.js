@@ -19,7 +19,8 @@ export async function GET(request) {
     }
 
     const { searchParams } = new URL(request.url);
-    const parentId = searchParams.get('parentId') || 'root';
+    const rawParentId = searchParams.get('parentId') || 'root';
+    const parentId = rawParentId === 'root' ? 'root' : rawParentId.replace(/[^a-zA-Z0-9_\-]/g, '').slice(0, 200) || 'root';
     const source = searchParams.get('source') || '';
 
     const drive = getDrive(auth.client);
@@ -135,6 +136,9 @@ export async function POST(request) {
 
     if (!name) {
       return NextResponse.json({ error: 'Folder name is required' }, { status: 400 });
+    }
+    if (typeof name === 'string' && name.length > 500) {
+      return NextResponse.json({ error: 'Folder name must be 500 characters or fewer' }, { status: 400 });
     }
 
     const drive = getDrive(auth.client);

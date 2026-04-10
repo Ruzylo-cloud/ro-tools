@@ -42,6 +42,7 @@ const GENERATOR_LABELS = {
 };
 
 export async function GET() {
+  try {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   if (!checkAdmin(session)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -92,4 +93,8 @@ export async function GET() {
     topGenerators,
     dailyCounts,
   });
+  } catch (err) {
+    console.error('[logs/analytics] GET error:', err);
+    return NextResponse.json({ error: 'Failed to load analytics' }, { status: 500 });
+  }
 }
