@@ -75,8 +75,9 @@ export default function QuickTour() {
           setVisible(true);
         }
       })
-      .catch(() => {
+      .catch((e) => {
         // If API fails, show tour if not done locally
+        console.debug('[quickTour] tour status load failed (non-fatal):', e);
         if (!done) setVisible(true);
       });
   }, [user]);
@@ -100,7 +101,7 @@ export default function QuickTour() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tourCompleted: true }),
-    }).catch(() => {});
+    }).catch((e) => { console.debug('[quickTour] tour completion save failed (non-fatal):', e); });
     router.push('/dashboard');
   }, [router]);
 

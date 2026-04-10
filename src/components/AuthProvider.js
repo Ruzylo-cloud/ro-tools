@@ -40,7 +40,8 @@ export function AuthProvider({ children }) {
           setLoading(false);
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        console.debug('[auth] session check failed (non-fatal):', e);
         if (!cancelled) {
           setUser(null);
           setLoading(false);
