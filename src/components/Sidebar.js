@@ -263,7 +263,7 @@ export default function Sidebar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'read', id: item.id }),
       });
-    } catch {}
+    } catch (e) { console.debug('[sidebar] notification mark-read failed (non-fatal):', e); }
 
     setNotifItems(prev => prev.map(n => n.id === item.id ? { ...n, read: 1 } : n));
     setNotifCount(prev => Math.max(0, prev - (item.read ? 0 : 1)));
@@ -287,7 +287,7 @@ export default function Sidebar() {
       });
       setNotifItems(prev => prev.map(n => ({ ...n, read: 1 })));
       setNotifCount(0);
-    } catch {}
+    } catch (e) { console.debug('[sidebar] mark-all-read failed (non-fatal):', e); }
   }, []);
 
   const toggleNotifications = useCallback(() => {

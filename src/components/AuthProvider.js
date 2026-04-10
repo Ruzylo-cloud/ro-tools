@@ -20,10 +20,10 @@ export function AuthProvider({ children }) {
             if (val && val.ts && now - val.ts > maxAge) {
               localStorage.removeItem(key);
             }
-          } catch { localStorage.removeItem(key); }
+          } catch (e) { localStorage.removeItem(key); }
         }
       }
-    } catch {}
+    } catch (e) { console.debug('[auth] draft cleanup failed (non-fatal):', e); }
   }, []);
 
   useEffect(() => {

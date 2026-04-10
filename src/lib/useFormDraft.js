@@ -16,7 +16,7 @@ export function useFormDraft(key, initialState) {
           return { ...initialState, ...data };
         }
       }
-    } catch {}
+    } catch (e) { console.debug('[formDraft] draft load failed (non-fatal):', e); }
     return initialState;
   });
 
@@ -25,13 +25,13 @@ export function useFormDraft(key, initialState) {
       const next = typeof updater === 'function' ? updater(prev) : updater;
       try {
         localStorage.setItem(storageKey, JSON.stringify({ data: next, ts: Date.now() }));
-      } catch {}
+      } catch (e) { console.debug('[formDraft] draft save failed (non-fatal):', e); }
       return next;
     });
   }, [storageKey]);
 
   const clearDraft = useCallback(() => {
-    try { localStorage.removeItem(storageKey); } catch {}
+    try { localStorage.removeItem(storageKey); } catch (e) { console.debug('[formDraft] draft clear failed (non-fatal):', e); }
   }, [storageKey]);
 
   return [form, setForm, clearDraft];
