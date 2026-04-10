@@ -742,7 +742,7 @@ export default function Sidebar() {
             </div>
           )}
           <div className={styles.footerVersion}>
-            RO Tools v2.9.7 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group
+            RO Tools v2.9.8 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group
           </div>
         </div>
       </aside>

@@ -8,6 +8,14 @@
  */
 
 export const changelog = [
+  // ── v2.9.8 — April 9, 2026 ───────────────────────────────────────
+  {
+    version: 'v2.9.8',
+    date: '2026-04-09',
+    category: 'bug_fix',
+    title: 'Catering Tracker: Auth Guard on Page Load',
+    description: 'Added a belt-and-suspenders null check before the catering tracker renders so unauthenticated states during SSR never flash the page.',
+  },
   // ── v2.9.7 — April 9, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.7',
