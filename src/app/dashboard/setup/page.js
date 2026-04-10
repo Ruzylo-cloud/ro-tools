@@ -138,11 +138,12 @@ export default function SetupPage() {
         ...stores[0],
       };
 
-      await fetch('/api/profile', {
+      const setupRes = await fetch('/api/profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profileData),
       });
+      if (!setupRes.ok) throw new Error(setupRes.statusText);
 
       router.push('/dashboard');
       router.refresh();

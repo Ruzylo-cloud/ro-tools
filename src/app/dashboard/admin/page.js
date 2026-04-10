@@ -71,6 +71,7 @@ export default function AdminPage() {
     async function loadAdmin() {
       try {
         const profileRes = await fetch('/api/profile');
+        if (!profileRes.ok) throw new Error(profileRes.statusText);
         const profileData = await profileRes.json();
 
         if (cancelled) return;
@@ -83,6 +84,7 @@ export default function AdminPage() {
         setIsAdmin(true);
 
         const usersRes = await fetch('/api/admin/users');
+        if (!usersRes.ok) throw new Error(usersRes.statusText);
         const usersData = await usersRes.json();
 
         if (!cancelled && usersData.users) {
@@ -116,6 +118,7 @@ export default function AdminPage() {
       if (logDateFrom) params.set('from', logDateFrom);
       if (logDateTo) params.set('to', logDateTo);
       const res = await fetch(`/api/logs?${params}`);
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       const rows = data.logs || [];
       const header = ['Time', 'User', 'Email', 'Type', 'Action', 'Detail'];
@@ -149,6 +152,7 @@ export default function AdminPage() {
       if (logDateFrom) params.set('from', logDateFrom);
       if (logDateTo) params.set('to', logDateTo);
       const res = await fetch(`/api/logs?${params}`);
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       setLogs(data.logs || []);
       setLogsTotal(data.total || 0);
@@ -189,6 +193,7 @@ export default function AdminPage() {
         showToast(msg, action === 'approve' ? 'success' : 'error');
       }
       const res = await fetch('/api/admin/users');
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       if (data.users) setUsers(data.users);
     } catch {
@@ -308,7 +313,7 @@ export default function AdminPage() {
           onClick={() => {
             setTab('stats');
             if (!analytics) {
-              fetch('/api/logs/analytics').then(r => r.json()).then(d => setAnalytics(d)).catch(e => { console.error('[admin] Analytics load failed:', e); });
+              fetch('/api/logs/analytics').then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }).then(d => setAnalytics(d)).catch(e => { console.error('[admin] Analytics load failed:', e); });
             }
           }}
         >

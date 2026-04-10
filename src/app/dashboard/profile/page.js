@@ -49,9 +49,10 @@ export default function ProfilePage() {
   const checkScopes = useCallback(async () => {
     try {
       const res = await fetch('/api/auth/scopes');
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       setHasExtendedScopes(data.hasExtendedScopes === true);
-    } catch { /* ignore */ }
+    } catch (e) { console.debug('[profile] scopes check failed (non-fatal):', e); }
   }, []);
 
   useEffect(() => {

@@ -58,6 +58,7 @@ export default function SupportPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, title, description, ...extra }),
       });
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       if (data.success) {
         if (type === 'bug') {

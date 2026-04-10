@@ -142,6 +142,7 @@ export default function CateringTrackerPage() {
       const params = new URLSearchParams({ sort, order: sortOrder });
       if (searchRef.current) params.set('search', searchRef.current);
       const res = await fetch(`/api/catering/clients?${params}`);
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       setClients(data.clients || []);
     } catch {
@@ -165,6 +166,7 @@ export default function CateringTrackerPage() {
   const fetchClientDetail = async (clientId) => {
     try {
       const res = await fetch(`/api/catering/clients/${clientId}`);
+      if (!res.ok) throw new Error(res.statusText);
       const data = await res.json();
       setSelectedClient(data.client);
       setClientOrders(data.orders || []);
