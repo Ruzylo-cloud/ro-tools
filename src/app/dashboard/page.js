@@ -100,8 +100,8 @@ export default function DashboardPage() {
   // RT-053/063: Load stats + pending approvals
   useEffect(() => {
     Promise.allSettled([
-      fetch('/api/logs?limit=1').then(r => r.json()),
-      fetch('/api/admin/users').then(r => r.json()),
+      fetch('/api/logs?limit=1').then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }),
+      fetch('/api/admin/users').then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); }),
     ]).then(([auditRes, adminRes]) => {
       const generated = auditRes.status === 'fulfilled' ? (auditRes.value?.total || 0) : 0;
       const pendingApprovals = adminRes.status === 'fulfilled'

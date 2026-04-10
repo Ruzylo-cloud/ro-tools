@@ -54,7 +54,7 @@ export default function SignaturesPage() {
 
   useEffect(() => {
     fetch('/api/signing')
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => { setRequests(data.requests || []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
