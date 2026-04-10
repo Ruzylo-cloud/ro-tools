@@ -38,8 +38,8 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
         setNeedsUpgrade(true);
         return;
       }
-    } catch {
-      // If scope check fails, try opening anyway — the Drive call will fail gracefully
+    } catch (e) {
+      console.debug('[SaveToDrive] Scope check failed, trying anyway (Drive call will fail gracefully):', e);
     }
     setNeedsUpgrade(false);
     setShowPicker(true);

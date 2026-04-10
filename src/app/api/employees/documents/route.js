@@ -93,8 +93,8 @@ export async function POST(request) {
             signal: AbortSignal.timeout(10000),
           });
         }
-      } catch {
-        // MC save is best-effort — internal save is primary
+      } catch (e) {
+        console.error('[employees/documents] MC save failed (best-effort, internal save is primary):', e);
       }
     }
 

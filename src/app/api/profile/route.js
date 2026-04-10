@@ -132,7 +132,7 @@ export async function POST(request) {
       });
     }
   } catch(e) {
-    // Sync is best-effort — don't block the user
+    console.error('[profile] MC sync failed (best-effort, not blocking user):', e);
   }
 
   return NextResponse.json({ success: true });

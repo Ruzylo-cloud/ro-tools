@@ -98,8 +98,8 @@ export default function AdminPage() {
             admins: all.filter(u => u.role === 'administrator').length,
           });
         }
-      } catch {
-        // Silently handle — user sees empty state
+      } catch (e) {
+        console.error('[admin] loadStats failed (user sees empty state):', e);
       }
       if (!cancelled) setLoading(false);
     }

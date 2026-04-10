@@ -26,7 +26,7 @@ async function pushRoleToRC(email, role, roleApproved) {
       signal: ctrl.signal,
     });
     clearTimeout(timer);
-  } catch { /* non-fatal — RC will pick up on next SSO login */ }
+  } catch (e) { console.debug('[approve] RC notify failed (non-fatal — RC will pick up on next SSO login):', e); }
 }
 
 export async function POST(request) {

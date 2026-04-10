@@ -149,7 +149,7 @@ export async function POST(request) {
       try {
         const snap = JSON.stringify(body.formSnapshot);
         if (snap.length <= 50000) formSnapshot = JSON.parse(snap);
-      } catch { /* skip invalid snapshot */ }
+      } catch (e) { console.debug('[catering/orders] Invalid formSnapshot skipped:', e); }
     }
 
     const order = {

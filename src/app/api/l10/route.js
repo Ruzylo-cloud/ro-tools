@@ -14,8 +14,8 @@ const L10_DIR = path.join(DATA_DIR, 'l10');
 function ensureDir() {
   try {
     if (!fs.existsSync(L10_DIR)) fs.mkdirSync(L10_DIR, { recursive: true });
-  } catch {
-    // Fallback to local dir in dev
+  } catch (e) {
+    console.debug('[l10] ensureDir failed, falling back to local dir in dev:', e);
   }
 }
 

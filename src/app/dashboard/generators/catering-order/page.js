@@ -131,7 +131,7 @@ export default function CateringOrderPage() {
           }));
           showToast(`Loaded client: ${data.clientName}`, 'success');
         }
-      } catch { /* ignore */ }
+      } catch (e) { console.debug('[catering-order] Pre-fill from searchParams failed (non-fatal):', e); }
     }
   }, [loading, searchParams, showToast]);
 
