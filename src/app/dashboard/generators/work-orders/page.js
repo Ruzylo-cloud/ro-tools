@@ -159,6 +159,7 @@ export default function WorkOrdersPage() {
                   if (errors.title) setErrors((p) => ({ ...p, title: null }));
                 }}
                 placeholder="e.g. Slicer blade needs replacement"
+                maxLength={200}
               />
               {errors.title && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.title}</div>}
             </div>
@@ -199,11 +200,11 @@ export default function WorkOrdersPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Equipment / Asset</label>
-              <input type="text" className={styles.input} value={form.equipment} onChange={(e) => handleChange('equipment', e.target.value)} placeholder="e.g. Hobart Slicer #2, Walk-in cooler" />
+              <input type="text" className={styles.input} value={form.equipment} onChange={(e) => handleChange('equipment', e.target.value)} placeholder="e.g. Hobart Slicer #2, Walk-in cooler" maxLength={200} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Location in Store</label>
-              <input type="text" className={styles.input} value={form.location} onChange={(e) => handleChange('location', e.target.value)} placeholder="e.g. Back line, Office, Restroom" />
+              <input type="text" className={styles.input} value={form.location} onChange={(e) => handleChange('location', e.target.value)} placeholder="e.g. Back line, Office, Restroom" maxLength={100} />
             </div>
           </div>
         </div>
@@ -222,7 +223,7 @@ export default function WorkOrdersPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Assigned To</label>
-              <input type="text" className={styles.input} value={form.assignedTo} onChange={(e) => handleChange('assignedTo', e.target.value)} placeholder="Staff member or vendor name" />
+              <input type="text" className={styles.input} value={form.assignedTo} onChange={(e) => handleChange('assignedTo', e.target.value)} placeholder="Staff member or vendor name" maxLength={100} />
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.field}>

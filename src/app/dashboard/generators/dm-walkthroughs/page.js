@@ -152,7 +152,7 @@ export default function DMWalkthroughsPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Inspector (DM)</label>
-              <input type="text" className={styles.input} value={form.inspectorName} onChange={(e) => setForm(prev => ({ ...prev, inspectorName: e.target.value }))} />
+              <input type="text" className={styles.input} value={form.inspectorName} onChange={(e) => setForm(prev => ({ ...prev, inspectorName: e.target.value }))} maxLength={100} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Inspection Date</label>
@@ -195,6 +195,7 @@ export default function DMWalkthroughsPage() {
                   onChange={(e) => setNote(cat, e.target.value)}
                   placeholder="Notes..."
                   style={{ fontSize: '11px', padding: '4px 8px' }}
+                  maxLength={300}
                 />
               </div>
             ))}
@@ -205,11 +206,11 @@ export default function DMWalkthroughsPage() {
           <h3 className={styles.sectionTitle}>Action Items ({form.actionItems.length})</h3>
           <div className={styles.fields}>
             <div className={styles.field}>
-              <input type="text" className={styles.input} value={newAction.description} onChange={(e) => setNewAction(prev => ({ ...prev, description: e.target.value }))} placeholder="Action item description..." />
+              <input type="text" className={styles.input} value={newAction.description} onChange={(e) => setNewAction(prev => ({ ...prev, description: e.target.value }))} placeholder="Action item description..." maxLength={300} />
             </div>
             <div className={styles.fieldRow}>
               <div className={styles.field}>
-                <input type="text" className={styles.input} value={newAction.assignedTo} onChange={(e) => setNewAction(prev => ({ ...prev, assignedTo: e.target.value }))} placeholder="Assigned to" style={{ fontSize: '12px' }} />
+                <input type="text" className={styles.input} value={newAction.assignedTo} onChange={(e) => setNewAction(prev => ({ ...prev, assignedTo: e.target.value }))} placeholder="Assigned to" style={{ fontSize: '12px' }} maxLength={100} />
               </div>
               <div className={styles.field}>
                 <input type="date" className={styles.input} value={newAction.dueDate} onChange={(e) => setNewAction(prev => ({ ...prev, dueDate: e.target.value }))} style={{ fontSize: '12px' }} />

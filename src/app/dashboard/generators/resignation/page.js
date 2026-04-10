@@ -240,6 +240,7 @@ export default function ResignationPage() {
               value={form.employeePosition}
               onChange={(e) => handleChange('employeePosition', e.target.value)}
               placeholder="e.g. Crew Member"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -249,6 +250,7 @@ export default function ResignationPage() {
               className={styles.input}
               value={form.storeName}
               onChange={(e) => handleChange('storeName', e.target.value)}
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -258,6 +260,7 @@ export default function ResignationPage() {
               className={styles.input}
               value={form.storeNumber}
               onChange={(e) => handleChange('storeNumber', e.target.value)}
+              maxLength={10}
             />
           </div>
           <div className={styles.field}>
@@ -267,6 +270,7 @@ export default function ResignationPage() {
               className={styles.input}
               value={form.managerName}
               onChange={(e) => handleChange('managerName', e.target.value)}
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>

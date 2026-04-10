@@ -334,20 +334,20 @@ export default function CateringOrderPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Customer Name</label>
-              <input type="text" className={styles.input} value={form.customerName} onChange={(e) => { handleChange('customerName', e.target.value); if (errors.customerName) setErrors(p => ({ ...p, customerName: null })); }} placeholder="John Smith" />
+              <input type="text" className={styles.input} value={form.customerName} onChange={(e) => { handleChange('customerName', e.target.value); if (errors.customerName) setErrors(p => ({ ...p, customerName: null })); }} placeholder="John Smith" maxLength={100} />
               {errors.customerName && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.customerName}</div>}
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Phone</label>
-              <input type="text" className={styles.input} value={form.customerPhone} onChange={(e) => handleChange('customerPhone', e.target.value)} placeholder="(555) 123-4567" />
+              <input type="text" className={styles.input} value={form.customerPhone} onChange={(e) => handleChange('customerPhone', e.target.value)} placeholder="(555) 123-4567" maxLength={30} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Email</label>
-              <input type="text" className={styles.input} value={form.customerEmail} onChange={(e) => handleChange('customerEmail', e.target.value)} placeholder="john@company.com" />
+              <input type="text" className={styles.input} value={form.customerEmail} onChange={(e) => handleChange('customerEmail', e.target.value)} placeholder="john@company.com" maxLength={200} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Company Name</label>
-              <input type="text" className={styles.input} value={form.companyName} onChange={(e) => handleChange('companyName', e.target.value)} placeholder="Acme Corp" />
+              <input type="text" className={styles.input} value={form.companyName} onChange={(e) => handleChange('companyName', e.target.value)} placeholder="Acme Corp" maxLength={100} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Next Delivery Date (Follow-Up)</label>
@@ -362,7 +362,7 @@ export default function CateringOrderPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Delivery Address</label>
-              <input type="text" className={styles.input} value={form.deliveryAddress} onChange={(e) => handleChange('deliveryAddress', e.target.value)} placeholder="123 Main St, City, ST" />
+              <input type="text" className={styles.input} value={form.deliveryAddress} onChange={(e) => handleChange('deliveryAddress', e.target.value)} placeholder="123 Main St, City, ST" maxLength={200} />
               {errors.deliveryAddress && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors.deliveryAddress}</div>}
             </div>
             <div className={styles.fieldRow}>
@@ -437,7 +437,7 @@ export default function CateringOrderPage() {
                         </div>
                       </div>
                       <div className={styles.field}>
-                        <input type="text" className={styles.input} value={sub.specialInstructions} onChange={(e) => handleSubChange(bi, si, 'specialInstructions', e.target.value)} placeholder="Special instructions..." />
+                        <input type="text" className={styles.input} value={sub.specialInstructions} onChange={(e) => handleSubChange(bi, si, 'specialInstructions', e.target.value)} placeholder="Special instructions..." maxLength={200} />
                       </div>
                     </div>
                   </div>
@@ -577,19 +577,19 @@ export default function CateringOrderPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Store Name</label>
-              <input type="text" className={styles.input} value={form.storeName} onChange={(e) => handleChange('storeName', e.target.value)} />
+              <input type="text" className={styles.input} value={form.storeName} onChange={(e) => handleChange('storeName', e.target.value)} maxLength={100} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Store Phone</label>
-              <input type="text" className={styles.input} value={form.storePhone} onChange={(e) => handleChange('storePhone', e.target.value)} />
+              <input type="text" className={styles.input} value={form.storePhone} onChange={(e) => handleChange('storePhone', e.target.value)} maxLength={30} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Operator Name</label>
-              <input type="text" className={styles.input} value={form.operatorName} onChange={(e) => handleChange('operatorName', e.target.value)} />
+              <input type="text" className={styles.input} value={form.operatorName} onChange={(e) => handleChange('operatorName', e.target.value)} maxLength={100} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Operator Phone</label>
-              <input type="text" className={styles.input} value={form.operatorPhone} onChange={(e) => handleChange('operatorPhone', e.target.value)} />
+              <input type="text" className={styles.input} value={form.operatorPhone} onChange={(e) => handleChange('operatorPhone', e.target.value)} maxLength={30} />
             </div>
           </div>
         </div>
