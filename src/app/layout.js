@@ -38,14 +38,14 @@ export default function RootLayout({ children }) {
             try {
               var t = localStorage.getItem('ro-tools-theme') || 'light';
               document.documentElement.setAttribute('data-theme', t);
-            } catch(e) {}
+            } catch(e) { console.debug('[layout] theme init failed (non-fatal):', e); }
           })();
         `}} />
         {/* RT-270: Service worker registration */}
         <script dangerouslySetInnerHTML={{ __html: `
           if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-              navigator.serviceWorker.register('/sw.js').catch(function(){});
+              navigator.serviceWorker.register('/sw.js').catch(function(e) { console.debug('[layout] SW registration failed (non-fatal):', e); });
             });
           }
         `}} />

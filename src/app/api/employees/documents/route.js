@@ -17,7 +17,7 @@ const DOCS_DIR = path.join(DATA_DIR, 'employee-documents');
 const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
 
 async function ensureDir(dir) {
-  try { await fs.mkdir(dir, { recursive: true }); } catch(e) {}
+  try { await fs.mkdir(dir, { recursive: true }); } catch(e) { console.debug('[docs] mkdir failed (non-fatal):', e); }
 }
 
 export async function POST(request) {

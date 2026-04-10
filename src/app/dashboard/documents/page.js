@@ -173,11 +173,11 @@ export default function DocumentsPage() {
   const [showPreview, setShowPreview] = useState(true); // RT-165: toggle preview
   // RT-164: Recently used templates
   const [recentTemplates, setRecentTemplates] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('rt-recent-docs') || '[]'); } catch { return []; }
+    try { return JSON.parse(localStorage.getItem('rt-recent-docs') || '[]'); } catch (e) { console.debug('[documents] recent docs read failed (non-fatal):', e); return []; }
   });
   // RT-178: Training progress tracking (employee → completed levels)
   const [trainingProgress, setTrainingProgress] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('rt-training-progress') || '{}'); } catch { return {}; }
+    try { return JSON.parse(localStorage.getItem('rt-training-progress') || '{}'); } catch (e) { console.debug('[documents] training progress read failed (non-fatal):', e); return {}; }
   });
   // RT-179: Show certificate option after successful download
   const [lastDownload, setLastDownload] = useState(null);
@@ -225,7 +225,7 @@ export default function DocumentsPage() {
     // RT-164: Track recently used
     setRecentTemplates(prev => {
       const updated = [id, ...prev.filter(t => t !== id)].slice(0, 4);
-      try { localStorage.setItem('rt-recent-docs', JSON.stringify(updated)); } catch {}
+      try { localStorage.setItem('rt-recent-docs', JSON.stringify(updated)); } catch (e) { console.debug('[documents] recent docs save failed (non-fatal):', e); }
       return updated;
     });
   };
@@ -282,7 +282,7 @@ export default function DocumentsPage() {
         const key = form.employeeName.trim().toLowerCase();
         const updated = { ...trainingProgress, [key]: [...new Set([...(trainingProgress[key] || []), selected])] };
         setTrainingProgress(updated);
-        try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch {}
+        try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch (e) { console.debug('[documents] training progress save failed (non-fatal):', e); }
       }
       // RT-179: Track last download for certificate offer
       if (form.employeeName && selected !== 'newhire') {
@@ -637,7 +637,7 @@ export default function DocumentsPage() {
           if (key && pct >= 80) {
             setTrainingProgress(prev => {
               const updated = { ...prev, [key]: [...new Set([...(prev[key] || []), selected + '-quiz'])] };
-              try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch {}
+              try { localStorage.setItem('rt-training-progress', JSON.stringify(updated)); } catch (e) { console.debug('[documents] training progress save failed (non-fatal):', e); }
               return updated;
             });
           }

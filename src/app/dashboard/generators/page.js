@@ -111,7 +111,7 @@ function ToolCard({ tool, usageCount = 0, hasDraft = false }) {
       const recent = JSON.parse(localStorage.getItem('rt-gen-recent') || '[]');
       const updated = [tool.href, ...recent.filter(h => h !== tool.href)].slice(0, 8);
       localStorage.setItem('rt-gen-recent', JSON.stringify(updated));
-    } catch {}
+    } catch (e) { console.debug('[generators] usage tracking failed (non-fatal):', e); }
   };
   return (
     <div className={styles.cardWrap}>
@@ -149,10 +149,10 @@ function ToolCard({ tool, usageCount = 0, hasDraft = false }) {
 
 // RT-082/111: Usage tracking via localStorage
 function getUsageMap() {
-  try { return JSON.parse(localStorage.getItem('rt-gen-usage') || '{}'); } catch { return {}; }
+  try { return JSON.parse(localStorage.getItem('rt-gen-usage') || '{}'); } catch (e) { console.debug('[generators] usage map read failed (non-fatal):', e); return {}; }
 }
 function getRecentlyUsed() {
-  try { return JSON.parse(localStorage.getItem('rt-gen-recent') || '[]'); } catch { return []; }
+  try { return JSON.parse(localStorage.getItem('rt-gen-recent') || '[]'); } catch (e) { console.debug('[generators] recent list read failed (non-fatal):', e); return []; }
 }
 
 export default function GeneratorsPage() {
@@ -182,11 +182,11 @@ export default function GeneratorsPage() {
             if (ts && Date.now() - ts < 7 * 24 * 60 * 60 * 1000) {
               drafts.add(k.replace('ro-tools-draft-', ''));
             }
-          } catch {}
+          } catch (e) { console.debug('[generators] draft parse failed (non-fatal):', e); }
         }
       }
       setDraftsSet(drafts);
-    } catch {}
+    } catch (e) { console.debug('[generators] draft detection failed (non-fatal):', e); }
   }, []);
 
   const filteredCategories = search.trim()

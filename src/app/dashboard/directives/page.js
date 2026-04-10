@@ -583,7 +583,7 @@ export default function DirectivesPage() {
                       const draft = { ...draftDirective, id: Date.now(), savedAt: new Date().toLocaleDateString() };
                       const updated = [draft, ...savedDrafts];
                       setSavedDrafts(updated);
-                      try { localStorage.setItem('directive-drafts', JSON.stringify(updated)); } catch {}
+                      try { localStorage.setItem('directive-drafts', JSON.stringify(updated)); } catch (e) { console.debug('[directives] draft save failed (non-fatal):', e); }
                       setShowCreateDirective(false);
                       setDraftDirective({ title: '', category: 'operations', body: '' });
                     }} disabled={!draftDirective.title.trim()} style={{ padding: '10px 22px', background: draftDirective.title.trim() ? '#134A7C' : '#e5e7eb', color: draftDirective.title.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: draftDirective.title.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}>
@@ -599,7 +599,7 @@ export default function DirectivesPage() {
                             <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{d.title}</div>
                             <div style={{ fontSize: 11, color: '#9ca3af' }}>{d.category} · {d.savedAt}</div>
                           </div>
-                          <button onClick={() => setSavedDrafts(prev => { const u = prev.filter(x => x.id !== d.id); try { localStorage.setItem('directive-drafts', JSON.stringify(u)); } catch {} return u; })} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>&times;</button>
+                          <button onClick={() => setSavedDrafts(prev => { const u = prev.filter(x => x.id !== d.id); try { localStorage.setItem('directive-drafts', JSON.stringify(u)); } catch (e) { console.debug('[directives] draft delete save failed (non-fatal):', e); } return u; })} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>&times;</button>
                         </div>
                       ))}
                     </div>

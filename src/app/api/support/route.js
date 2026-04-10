@@ -14,7 +14,7 @@ const DATA_DIR = process.env.DATA_DIR || path.join(process.cwd(), 'data');
 const TICKETS_FILE = path.join(DATA_DIR, 'support-tickets.json');
 
 async function ensureFile() {
-  await fs.mkdir(DATA_DIR, { recursive: true }).catch(() => {});
+  await fs.mkdir(DATA_DIR, { recursive: true }).catch((e) => { console.debug('[support] mkdir failed (non-fatal):', e); });
   try {
     await fs.access(TICKETS_FILE);
   } catch {
