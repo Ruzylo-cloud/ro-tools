@@ -46,7 +46,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
     // RT-181: Load storage quota when picker opens
     fetch('/api/drive/quota').then(r => r.json()).then(d => {
       if (d.limit && d.usage) setStorageQuota(d);
-    }).catch(() => {});
+    }).catch((e) => { console.debug('[saveToDrive] quota load failed (non-fatal):', e); });
   };
 
   const handleUpgrade = () => {

@@ -122,7 +122,7 @@ export default function Sidebar() {
         const match = storeList.find(s => String(s.id) === String(saved));
         setActiveStore(match || storeList[0] || null);
       })
-      .catch(() => {});
+      .catch((e) => { console.debug('[sidebar] profile load failed (non-fatal):', e); });
     fetch('/api/updates?limit=1')
       .then(r => r.json())
       .then(d => {
@@ -131,16 +131,16 @@ export default function Sidebar() {
         setLatestUpdateId(latest);
         if (latest && latest !== seen) setUnreadCount(1);
       })
-      .catch(() => {});
+      .catch((e) => { console.debug('[sidebar] updates check failed (non-fatal):', e); });
     fetch('/api/notifications')
       .then(r => r.json())
       .then(d => { if (d.count > 0) setNotifCount(d.count); })
-      .catch(() => {});
+      .catch((e) => { console.debug('[sidebar] notifications count failed (non-fatal):', e); });
     const notifInterval = setInterval(() => {
       fetch('/api/notifications')
         .then(r => r.json())
         .then(d => setNotifCount(d.count || 0))
-        .catch(() => {});
+        .catch((e) => { console.debug('[sidebar] notifications poll failed (non-fatal):', e); });
     }, 120000);
     return () => clearInterval(notifInterval);
   }, []);

@@ -127,7 +127,7 @@ export default function DashboardLayout({ children }) {
           router.push('/dashboard/setup');
         }
       })
-      .catch(() => setSetupChecked(true));
+      .catch((e) => { console.debug('[layout] setup check failed (non-fatal):', e); setSetupChecked(true); });
   }, [user, pathname, router]);
 
   useEffect(() => {

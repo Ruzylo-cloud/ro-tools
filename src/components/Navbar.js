@@ -75,7 +75,7 @@ export default function Navbar() {
         setIsAdmin(data.isAdmin || false);
         setUserRole(data.profile?.role || data.role || '');
       })
-      .catch(() => {});
+      .catch((e) => { console.debug('[navbar] profile load failed (non-fatal):', e); });
     // RT-064: Poll for unread updates (simplified — uses local storage diff)
     fetch('/api/updates?limit=1')
       .then(r => r.json())
@@ -84,7 +84,7 @@ export default function Navbar() {
         const seen = localStorage.getItem('rt-last-update') || '';
         if (latest && latest !== seen) setUnreadCount(1);
       })
-      .catch(() => {});
+      .catch((e) => { console.debug('[navbar] updates check failed (non-fatal):', e); });
   }, []);
 
   // Close dropdown on outside click
