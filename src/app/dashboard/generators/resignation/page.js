@@ -401,6 +401,7 @@ export default function ResignationPage() {
               value={form.employeeSignature}
               onChange={(e) => handleChange('employeeSignature', e.target.value)}
               placeholder="Employee printed name"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -411,6 +412,7 @@ export default function ResignationPage() {
               value={form.managerSignature}
               onChange={(e) => handleChange('managerSignature', e.target.value)}
               placeholder="Manager printed name"
+              maxLength={100}
             />
           </div>
         </div>
