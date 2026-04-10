@@ -126,7 +126,9 @@ export async function POST(request, { params }) {
         htmlBody: notifyHtml,
       }),
       signal: AbortSignal.timeout(8000),
-    }).catch(err => console.error('Manager notification error:', err));
+    })
+      .then(res => { if (!res.ok) console.error(`[signing] Manager notification failed with status ${res.status}`); })
+      .catch(err => console.error('Manager notification error:', err));
   }
 
   return NextResponse.json({

@@ -19,13 +19,14 @@ async function pushRoleToRC(email, role, roleApproved) {
   try {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 3000);
-    await fetch(`${RC_API_URL}/api/profile/sync/role`, {
+    const rcRes = await fetch(`${RC_API_URL}/api/profile/sync/role`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
       body: JSON.stringify({ email, role, roleApproved }),
       signal: ctrl.signal,
     });
     clearTimeout(timer);
+    if (!rcRes.ok) console.error(`[approve] RC role sync responded with ${rcRes.status}`);
   } catch (e) { console.debug('[approve] RC notify failed (non-fatal — RC will pick up on next SSO login):', e); }
 }
 

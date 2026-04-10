@@ -139,7 +139,7 @@ export async function GET(request) {
         }));
         docs.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
         return NextResponse.json({ documents: docs });
-      } catch {
+      } catch (err) {
         console.error('[employees/documents] readdir error:', err);
         return NextResponse.json({ documents: [] });
       }

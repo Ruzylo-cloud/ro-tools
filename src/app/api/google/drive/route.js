@@ -58,7 +58,10 @@ export async function POST(request) {
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
   const drive = getDrive(auth.client);
-  const body = await request.json();
+  let body;
+  try { body = await request.json(); } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
   const { name, mimeType, folderId } = body;
 
   if (!name || typeof name !== 'string' || !name.trim()) {
