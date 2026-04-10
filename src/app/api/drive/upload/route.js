@@ -25,7 +25,13 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const { fileName, pdfBase64, folderId } = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    }
+    const { fileName, pdfBase64, folderId } = body;
 
     if (!fileName || !pdfBase64) {
       return NextResponse.json({ error: 'fileName and pdfBase64 are required' }, { status: 400 });

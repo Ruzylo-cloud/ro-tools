@@ -49,7 +49,12 @@ export async function POST(request) {
   if (!apiKey) return NextResponse.json({ error: 'Notification bridge unavailable' }, { status: 503 });
 
   try {
-    const body = await request.json().catch(() => ({}));
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    }
     const action = body?.action;
     let endpoint = '';
 
