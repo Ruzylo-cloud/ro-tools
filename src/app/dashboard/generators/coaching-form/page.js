@@ -56,7 +56,7 @@ export default function CoachingFormPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           const p = data.profile;
@@ -172,7 +172,7 @@ export default function CoachingFormPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Position</label>
-              <input type="text" className={styles.input} value={form.position} onChange={(e) => handleChange('position', e.target.value)} placeholder="e.g. Team Member, Shift Lead" />
+              <input type="text" className={styles.input} value={form.position} onChange={(e) => handleChange('position', e.target.value)} placeholder="e.g. Team Member, Shift Lead" maxLength={100} />
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@ export default function CoachingFormPage() {
             <div className={styles.fieldRow}>
               <div className={styles.field}>
                 <label className={styles.label}>Coach / Manager</label>
-                <input type="text" className={styles.input} value={form.coachName} onChange={(e) => handleChange('coachName', e.target.value)} />
+                <input type="text" className={styles.input} value={form.coachName} onChange={(e) => handleChange('coachName', e.target.value)} maxLength={100} />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Date</label>
@@ -201,7 +201,7 @@ export default function CoachingFormPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Previous Coaching Dates (if any)</label>
-              <input type="text" className={styles.input} value={form.previousDates} onChange={(e) => handleChange('previousDates', e.target.value)} placeholder="e.g. 3/10/2026, 3/15/2026" />
+              <input type="text" className={styles.input} value={form.previousDates} onChange={(e) => handleChange('previousDates', e.target.value)} placeholder="e.g. 3/10/2026, 3/15/2026" maxLength={200} />
             </div>
           </div>
         </div>
@@ -245,7 +245,7 @@ export default function CoachingFormPage() {
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>📋</span> Consequences</h3>
           <div className={styles.field}>
-            <textarea className={styles.textarea} rows={2} value={form.consequences} onChange={(e) => handleChange('consequences', e.target.value)} />
+            <textarea className={styles.textarea} rows={2} value={form.consequences} onChange={(e) => handleChange('consequences', e.target.value)} maxLength={600} />
           </div>
         </div>
 
@@ -253,7 +253,7 @@ export default function CoachingFormPage() {
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}><span className={styles.sectionIcon}>💬</span> Employee Comments</h3>
           <div className={styles.field}>
-            <textarea className={styles.textarea} rows={2} value={form.employeeComments} onChange={(e) => handleChange('employeeComments', e.target.value)} placeholder="Employee's response or comments (optional)..." />
+            <textarea className={styles.textarea} rows={2} value={form.employeeComments} onChange={(e) => handleChange('employeeComments', e.target.value)} placeholder="Employee's response or comments (optional)..." maxLength={600} />
           </div>
         </div>
 

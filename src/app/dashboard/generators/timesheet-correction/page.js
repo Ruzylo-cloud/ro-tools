@@ -31,9 +31,9 @@ function getPayPeriods() {
 
 const FIELDS = [
   { key: 'employeeName', label: 'Employee Name', type: 'text' },
-  { key: 'employeePosition', label: 'Position', type: 'text' },
-  { key: 'storeName', label: 'Store Name', type: 'text' },
-  { key: 'supervisorName', label: 'Supervisor Name', type: 'text' },
+  { key: 'employeePosition', label: 'Position', type: 'text', maxLength: 100 },
+  { key: 'storeName', label: 'Store Name', type: 'text', maxLength: 100 },
+  { key: 'supervisorName', label: 'Supervisor Name', type: 'text', maxLength: 100 },
   { key: 'correctionDate', label: 'Date of Request', type: 'date' },
   { key: 'originalDate', label: 'Date of Shift', type: 'date' },
   { key: 'originalClockIn', label: 'Original Clock In', type: 'time' },
@@ -45,8 +45,8 @@ const FIELDS = [
   { key: 'correctedBreakOut', label: 'Corrected Break Clock Out', type: 'time' },
   { key: 'correctedBreakIn', label: 'Corrected Break Clock In', type: 'time' },
   { key: 'reason', label: 'Reason for Correction', type: 'textarea' },
-  { key: 'employeeSignature', label: 'Employee Signature (Print Name)', type: 'text' },
-  { key: 'supervisorSignature', label: 'Supervisor Signature (Print Name)', type: 'text' },
+  { key: 'employeeSignature', label: 'Employee Signature (Print Name)', type: 'text', maxLength: 100 },
+  { key: 'supervisorSignature', label: 'Supervisor Signature (Print Name)', type: 'text', maxLength: 100 },
 ];
 
 export default function TimesheetCorrectionPage() {
@@ -66,7 +66,7 @@ export default function TimesheetCorrectionPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           setForm(prev => ({
@@ -166,7 +166,7 @@ export default function TimesheetCorrectionPage() {
             </select>
           </div>
 
-          {FIELDS.map(({ key, label, type }) => (
+          {FIELDS.map(({ key, label, type, maxLength }) => (
             <div key={key} className={styles.field}>
               <label className={styles.label}>{label}</label>
               {type === 'textarea' ? (
@@ -203,6 +203,7 @@ export default function TimesheetCorrectionPage() {
                     className={styles.input}
                     value={form[key] || ''}
                     onChange={(e) => { handleChange(key, e.target.value); if (errors[key]) setErrors(p => ({ ...p, [key]: null })); }}
+                    maxLength={maxLength || undefined}
                   />
                   {errors[key] && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors[key]}</div>}
                 </>

@@ -75,7 +75,7 @@ export default function InjuryReportPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           const p = data.profile;
@@ -201,6 +201,12 @@ export default function InjuryReportPage() {
         }),
       });
 
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        showToast(errData.error || 'Failed to send email. Please try again.', 'error');
+        if (mountedRef.current) setSending(false);
+        return;
+      }
       const result = await res.json();
       if (result.success) {
         setSent(true);
@@ -258,7 +264,7 @@ export default function InjuryReportPage() {
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Position</label>
-              <input type="text" className={styles.input} value={form.position} onChange={(e) => handleChange('position', e.target.value)} placeholder="e.g. Team Member, Shift Lead" />
+              <input type="text" className={styles.input} value={form.position} onChange={(e) => handleChange('position', e.target.value)} placeholder="e.g. Team Member, Shift Lead" maxLength={100} />
             </div>
           </div>
         </div>
@@ -321,7 +327,7 @@ export default function InjuryReportPage() {
                 </svg>
                 <div style={{ flex: 1, minWidth: 100 }}>
                   <div style={{ fontSize: 10, color: '#9ca3af', marginBottom: 6 }}>Click body part or type below</div>
-                  <input type="text" className={styles.input} value={form.bodyPartAffected} onChange={(e) => handleChange('bodyPartAffected', e.target.value)} placeholder="e.g. Left hand, right ankle" />
+                  <input type="text" className={styles.input} value={form.bodyPartAffected} onChange={(e) => handleChange('bodyPartAffected', e.target.value)} placeholder="e.g. Left hand, right ankle" maxLength={100} />
                   {form.bodyPartAffected && (
                     <button onClick={() => handleChange('bodyPartAffected', '')} style={{ marginTop: 4, fontSize: 10, color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Clear</button>
                   )}
@@ -344,11 +350,11 @@ export default function InjuryReportPage() {
             <div className={styles.fieldRow}>
               <div className={styles.field}>
                 <label className={styles.label}>Witness Name</label>
-                <input type="text" className={styles.input} value={form.witnessName} onChange={(e) => handleChange('witnessName', e.target.value)} />
+                <input type="text" className={styles.input} value={form.witnessName} onChange={(e) => handleChange('witnessName', e.target.value)} maxLength={100} />
               </div>
               <div className={styles.field}>
                 <label className={styles.label}>Witness Phone</label>
-                <input type="text" className={styles.input} value={form.witnessPhone} onChange={(e) => handleChange('witnessPhone', e.target.value)} />
+                <input type="text" className={styles.input} value={form.witnessPhone} onChange={(e) => handleChange('witnessPhone', e.target.value)} maxLength={30} />
               </div>
             </div>
           </div>
@@ -365,7 +371,7 @@ export default function InjuryReportPage() {
             {form.firstAidGiven && (
               <div className={styles.field}>
                 <label className={styles.label}>First Aid Description</label>
-                <input type="text" className={styles.input} value={form.firstAidDescription} onChange={(e) => handleChange('firstAidDescription', e.target.value)} placeholder="What first aid was given?" />
+                <input type="text" className={styles.input} value={form.firstAidDescription} onChange={(e) => handleChange('firstAidDescription', e.target.value)} placeholder="What first aid was given?" maxLength={200} />
               </div>
             )}
             <label className={styles.checkboxLabel}>
@@ -375,7 +381,7 @@ export default function InjuryReportPage() {
             {form.medicalTreatment && (
               <div className={styles.field}>
                 <label className={styles.label}>Medical Facility</label>
-                <input type="text" className={styles.input} value={form.medicalFacility} onChange={(e) => handleChange('medicalFacility', e.target.value)} placeholder="Hospital or clinic name" />
+                <input type="text" className={styles.input} value={form.medicalFacility} onChange={(e) => handleChange('medicalFacility', e.target.value)} placeholder="Hospital or clinic name" maxLength={200} />
               </div>
             )}
             <label className={styles.checkboxLabel}>
@@ -397,7 +403,7 @@ export default function InjuryReportPage() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label className={styles.label}>Supervisor Name</label>
-              <input type="text" className={styles.input} value={form.supervisorName} onChange={(e) => handleChange('supervisorName', e.target.value)} />
+              <input type="text" className={styles.input} value={form.supervisorName} onChange={(e) => handleChange('supervisorName', e.target.value)} maxLength={100} />
             </div>
             <div className={styles.field}>
               <label className={styles.label}>Actions Taken</label>

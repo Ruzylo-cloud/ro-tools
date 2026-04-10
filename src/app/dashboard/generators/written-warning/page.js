@@ -85,7 +85,7 @@ export default function WrittenWarningPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           setForm(prev => ({
@@ -108,7 +108,7 @@ export default function WrittenWarningPage() {
   useEffect(() => {
     if (!signToken || !user) return;
     fetch(`/api/signing/manager/${signToken}`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => {
         if (data.formData && Object.keys(data.formData).length > 0) {
           setForm(prev => ({ ...prev, ...data.formData }));
@@ -257,26 +257,27 @@ export default function WrittenWarningPage() {
               value={form.employeePosition}
               onChange={(e) => handleChange('employeePosition', e.target.value)}
               placeholder="e.g. Crew Member"
+              maxLength={100}
             />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-store-name">Store Name</label>
             <input id="ww-store-name" type="text" className={styles.input} value={form.storeName}
-              onChange={(e) => handleChange('storeName', e.target.value)} />
+              onChange={(e) => handleChange('storeName', e.target.value)} maxLength={100} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-store-num">Store Number</label>
             <input id="ww-store-num" type="text" className={styles.input} value={form.storeNumber}
-              onChange={(e) => handleChange('storeNumber', e.target.value)} />
+              onChange={(e) => handleChange('storeNumber', e.target.value)} maxLength={10} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-supervisor">Supervisor Name</label>
             <input id="ww-supervisor" type="text" className={styles.input} value={form.supervisorName}
               onChange={(e) => handleChange('supervisorName', e.target.value)}
-              placeholder="Manager name" />
+              placeholder="Manager name" maxLength={100} />
           </div>
 
           <div className={styles.field}>
@@ -348,42 +349,42 @@ export default function WrittenWarningPage() {
             <label className={styles.label} htmlFor="ww-prev-warnings">Previous Warnings</label>
             <textarea id="ww-prev-warnings" className={styles.textarea} value={form.previousWarnings}
               onChange={(e) => handleChange('previousWarnings', e.target.value)}
-              placeholder="List any previous warnings..." rows={2} />
+              placeholder="List any previous warnings..." rows={2} maxLength={600} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-improvement">Expected Improvement</label>
             <textarea id="ww-improvement" className={styles.textarea} value={form.expectedImprovement}
               onChange={(e) => handleChange('expectedImprovement', e.target.value)}
-              placeholder="What is expected going forward..." rows={2} />
+              placeholder="What is expected going forward..." rows={2} maxLength={600} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-consequences">Consequences If Not Improved</label>
             <textarea id="ww-consequences" className={styles.textarea} value={form.consequencesIfNotImproved}
               onChange={(e) => handleChange('consequencesIfNotImproved', e.target.value)}
-              placeholder="Consequences of continued violation..." rows={2} />
+              placeholder="Consequences of continued violation..." rows={2} maxLength={600} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-emp-comments">Employee Comments</label>
             <textarea id="ww-emp-comments" className={styles.textarea} value={form.employeeComments}
               onChange={(e) => handleChange('employeeComments', e.target.value)}
-              placeholder="Employee response (optional)..." rows={2} />
+              placeholder="Employee response (optional)..." rows={2} maxLength={600} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-emp-sig">Employee Signature (Printed Name)</label>
             <input id="ww-emp-sig" type="text" className={styles.input} value={form.employeeSignature}
               onChange={(e) => handleChange('employeeSignature', e.target.value)}
-              placeholder="Employee printed name" />
+              placeholder="Employee printed name" maxLength={100} />
           </div>
 
           <div className={styles.field}>
             <label className={styles.label} htmlFor="ww-sup-sig">Supervisor Signature (Printed Name)</label>
             <input id="ww-sup-sig" type="text" className={styles.input} value={form.supervisorSignature}
               onChange={(e) => handleChange('supervisorSignature', e.target.value)}
-              placeholder="Supervisor printed name" />
+              placeholder="Supervisor printed name" maxLength={100} />
           </div>
         </div>
 

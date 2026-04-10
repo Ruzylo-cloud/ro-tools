@@ -60,7 +60,7 @@ export default function EvaluationPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           setForm(prev => ({
@@ -83,7 +83,7 @@ export default function EvaluationPage() {
   useEffect(() => {
     if (!signToken || !user) return;
     fetch(`/api/signing/manager/${signToken}`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => {
         if (data.formData && Object.keys(data.formData).length > 0) {
           setForm(prev => ({ ...prev, ...data.formData }));
@@ -219,6 +219,7 @@ export default function EvaluationPage() {
               value={form.employeePosition}
               onChange={(e) => handleChange('employeePosition', e.target.value)}
               placeholder="e.g. Crew Member, Shift Lead"
+              maxLength={100}
             />
           </div>
 
@@ -231,6 +232,7 @@ export default function EvaluationPage() {
               className={styles.input}
               value={form.storeName}
               onChange={(e) => handleChange('storeName', e.target.value)}
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -240,6 +242,7 @@ export default function EvaluationPage() {
               className={styles.input}
               value={form.evaluatorName}
               onChange={(e) => handleChange('evaluatorName', e.target.value)}
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -259,6 +262,7 @@ export default function EvaluationPage() {
               value={form.evaluationPeriod}
               onChange={(e) => handleChange('evaluationPeriod', e.target.value)}
               placeholder="e.g. Q1 2026 or Annual 2026"
+              maxLength={100}
             />
           </div>
 
@@ -368,6 +372,7 @@ export default function EvaluationPage() {
               value={form.employeeSignature}
               onChange={(e) => handleChange('employeeSignature', e.target.value)}
               placeholder="Employee prints name to sign"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -378,6 +383,7 @@ export default function EvaluationPage() {
               value={form.evaluatorSignature}
               onChange={(e) => handleChange('evaluatorSignature', e.target.value)}
               placeholder="Evaluator prints name to sign"
+              maxLength={100}
             />
           </div>
         </div>

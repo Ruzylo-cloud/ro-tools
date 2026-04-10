@@ -99,7 +99,7 @@ export default function TerminationPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           setForm(prev => ({
@@ -122,7 +122,7 @@ export default function TerminationPage() {
   useEffect(() => {
     if (!signToken || !user) return;
     fetch(`/api/signing/manager/${signToken}`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => {
         if (data.formData && Object.keys(data.formData).length > 0) {
           setForm(prev => ({ ...prev, ...data.formData }));
@@ -262,6 +262,7 @@ export default function TerminationPage() {
               value={form.employeePosition}
               onChange={(e) => handleChange('employeePosition', e.target.value)}
               placeholder="e.g. Crew Member"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -271,6 +272,7 @@ export default function TerminationPage() {
               className={styles.input}
               value={form.storeName}
               onChange={(e) => handleChange('storeName', e.target.value)}
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -280,6 +282,7 @@ export default function TerminationPage() {
               className={styles.input}
               value={form.storeNumber}
               onChange={(e) => handleChange('storeNumber', e.target.value)}
+              maxLength={10}
             />
           </div>
           <div className={styles.field}>
@@ -289,6 +292,7 @@ export default function TerminationPage() {
               className={styles.input}
               value={form.supervisorName}
               onChange={(e) => handleChange('supervisorName', e.target.value)}
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -401,6 +405,7 @@ export default function TerminationPage() {
               value={form.supervisorSignature}
               onChange={(e) => handleChange('supervisorSignature', e.target.value)}
               placeholder="Supervisor printed name"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -411,6 +416,7 @@ export default function TerminationPage() {
               value={form.witnessName}
               onChange={(e) => handleChange('witnessName', e.target.value)}
               placeholder="Witness full name"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -421,6 +427,7 @@ export default function TerminationPage() {
               value={form.witnessSignature}
               onChange={(e) => handleChange('witnessSignature', e.target.value)}
               placeholder="Witness printed name"
+              maxLength={100}
             />
           </div>
         </div>
