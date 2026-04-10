@@ -28,12 +28,12 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
   useEffect(() => {
     const url = storeNumber ? `/api/employees?store=${storeNumber}` : '/api/employees';
     fetch(url)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => {
         setEmployees(data.employees || []);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((e) => { console.error('[EmployeeSelect] employee load failed:', e); setLoading(false); });
   }, [storeNumber]);
 
   // Close on outside click

@@ -118,7 +118,8 @@ export default function DashboardPage() {
       .then(data => {
         setRecentDocs(Array.isArray(data.logs) ? data.logs.slice(0, 5) : []);
       })
-      .catch(() => {
+      .catch((e) => {
+        console.error('[dashboard] recent docs load failed:', e);
         setRecentError(true);
         setRecentDocs([]);
       });
