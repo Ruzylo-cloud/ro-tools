@@ -26,7 +26,7 @@ export async function GET(request) {
     const res = await fetch(
       `${MC_URL}${endpoint}?email=${encodeURIComponent(session.email)}`,
       {
-        headers: { 'X-Dev-Key': apiKey },
+        headers: { 'X-API-Key': apiKey },
         signal: AbortSignal.timeout(5000),
       }
     );
@@ -65,7 +65,7 @@ export async function POST(request) {
       `${MC_URL}${endpoint}?email=${encodeURIComponent(session.email)}`,
       {
         method: 'POST',
-        headers: { 'X-Dev-Key': apiKey, 'Content-Type': 'application/json' },
+        headers: { 'X-API-Key': apiKey, 'Content-Type': 'application/json' },
         signal: AbortSignal.timeout(5000),
       }
     );

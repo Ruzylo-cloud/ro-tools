@@ -105,16 +105,16 @@ export async function POST(request) {
   const apiKey = getMissionControlApiKey();
   try {
     if (apiKey) {
-      await fetch(`${MC_URL}/api/admin/stores/sync-profile`, {
+      await fetch(`${MC_URL}/api/profile/sync`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Dev-Key': apiKey },
+        headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
         body: JSON.stringify({
           email: session.email,
-          storeName: body.storeName,
-          storeNumber: body.storeNumber,
-          storeAddress: body.storeAddress,
-          storePhone: body.storePhone,
-          operatorName: body.operatorName,
+          name: body.storeName,
+          store_number: body.storeNumber,
+          address: body.storeAddress,
+          phone: body.storePhone,
+          manager_name: body.operatorName,
           source: 'ro-tools',
         }),
         signal: AbortSignal.timeout(5000),

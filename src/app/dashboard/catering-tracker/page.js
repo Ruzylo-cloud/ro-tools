@@ -374,6 +374,7 @@ export default function CateringTrackerPage() {
     a.click(); URL.revokeObjectURL(url);
   };
 
+  if (!user) return null;
   if (loading) return <div className={styles.container}><p style={{ color: 'var(--gray-500)' }}>Loading...</p></div>;
 
   return (
