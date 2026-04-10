@@ -94,7 +94,7 @@ export default function SupportPage() {
           {bugSuccess && <div className={styles.success}>Bug report submitted. Thank you!</div>}
           <div className={styles.field}>
             <label className={styles.label}>What went wrong?</label>
-            <input className={styles.input} value={bugTitle} onChange={e => setBugTitle(e.target.value)} placeholder="e.g. PDF download shows blank page" />
+            <input className={styles.input} value={bugTitle} onChange={e => setBugTitle(e.target.value)} placeholder="e.g. PDF download shows blank page" maxLength={200} />
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Steps to reproduce</label>
@@ -125,7 +125,7 @@ export default function SupportPage() {
           {featureSuccess && <div className={styles.success}>Feature request submitted. Thank you!</div>}
           <div className={styles.field}>
             <label className={styles.label}>What do you need?</label>
-            <input className={styles.input} value={featureTitle} onChange={e => setFeatureTitle(e.target.value)} placeholder="e.g. Door hanger generator" />
+            <input className={styles.input} value={featureTitle} onChange={e => setFeatureTitle(e.target.value)} maxLength={200} placeholder="e.g. Door hanger generator" />
           </div>
           <div className={styles.field}>
             <label className={styles.label}>Tell us more</label>

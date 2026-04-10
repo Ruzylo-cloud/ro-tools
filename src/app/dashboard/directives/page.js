@@ -533,7 +533,7 @@ export default function DirectivesPage() {
                 <div style={{ padding: '20px 24px' }}>
                   <div style={{ marginBottom: 14 }}>
                     <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</label>
-                    <input value={draftDirective.title} onChange={e => setDraftDirective(d => ({ ...d, title: e.target.value }))} placeholder="Directive title..." style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                    <input value={draftDirective.title} onChange={e => setDraftDirective(d => ({ ...d, title: e.target.value }))} placeholder="Directive title..." maxLength={150} style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
                   </div>
                   <div style={{ marginBottom: 14 }}>
                     <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Category</label>
@@ -750,27 +750,27 @@ export default function DirectivesPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Business Name *</label>
-                <input value={outreachForm.business} onChange={e => setOutreachForm(f => ({ ...f, business: e.target.value }))} placeholder="e.g. Kaiser Permanente" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <input value={outreachForm.business} onChange={e => setOutreachForm(f => ({ ...f, business: e.target.value }))} placeholder="e.g. Kaiser Permanente" maxLength={100} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Contact Name</label>
-                <input value={outreachForm.contact} onChange={e => setOutreachForm(f => ({ ...f, contact: e.target.value }))} placeholder="e.g. Jane Smith" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <input value={outreachForm.contact} onChange={e => setOutreachForm(f => ({ ...f, contact: e.target.value }))} placeholder="e.g. Jane Smith" maxLength={100} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Position</label>
-                <input value={outreachForm.position} onChange={e => setOutreachForm(f => ({ ...f, position: e.target.value }))} placeholder="e.g. Department Manager" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <input value={outreachForm.position} onChange={e => setOutreachForm(f => ({ ...f, position: e.target.value }))} placeholder="e.g. Department Manager" maxLength={100} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Phone / Email</label>
-                <input value={outreachForm.phone} onChange={e => setOutreachForm(f => ({ ...f, phone: e.target.value }))} placeholder="e.g. (805) 555-0100" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <input value={outreachForm.phone} onChange={e => setOutreachForm(f => ({ ...f, phone: e.target.value }))} placeholder="e.g. (805) 555-0100" maxLength={50} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Materials Handed Out</label>
-                <input value={outreachForm.materials} onChange={e => setOutreachForm(f => ({ ...f, materials: e.target.value }))} placeholder="e.g. FSC & Menu" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <input value={outreachForm.materials} onChange={e => setOutreachForm(f => ({ ...f, materials: e.target.value }))} placeholder="e.g. FSC & Menu" maxLength={100} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Quantity</label>
-                <input value={outreachForm.qty} onChange={e => setOutreachForm(f => ({ ...f, qty: e.target.value }))} placeholder="3" style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
+                <input value={outreachForm.qty} onChange={e => setOutreachForm(f => ({ ...f, qty: e.target.value }))} placeholder="3" maxLength={10} style={{ width: '100%', padding: '9px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', outline: 'none', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Order Placed?</label>

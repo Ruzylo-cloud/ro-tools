@@ -11,17 +11,17 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 const DEFAULT_HOURS = { open: '10:00', close: '21:00', closed: false };
 
 const STORE_FIELDS = [
-  { key: 'storeNumber', label: 'Store Number', placeholder: '12345' },
-  { key: 'storeName', label: 'Store Name', placeholder: "Jersey Mike's #12345" },
-  { key: 'street', label: 'Street Address', placeholder: '199 S Turnpike Rd' },
-  { key: 'city', label: 'City', placeholder: 'Santa Barbara' },
-  { key: 'state', label: 'State', placeholder: 'CA' },
-  { key: 'phone', label: 'Store Phone', placeholder: '(805) 497-5800' },
-  { key: 'operatorName', label: 'Operator Name', placeholder: 'John Smith' },
-  { key: 'operatorPhone', label: 'Operator Phone', placeholder: '(805) 555-0100' },
-  { key: 'assistantName', label: 'Assistant Name (optional)', placeholder: 'Jane Doe' },
-  { key: 'assistantTitle', label: 'Assistant Title (optional)', placeholder: 'Catering Coordinator' },
-  { key: 'assistantPhone', label: 'Assistant Phone (optional)', placeholder: '(805) 555-0200' },
+  { key: 'storeNumber', label: 'Store Number', placeholder: '12345', max: 20 },
+  { key: 'storeName', label: 'Store Name', placeholder: "Jersey Mike's #12345", max: 100 },
+  { key: 'street', label: 'Street Address', placeholder: '199 S Turnpike Rd', max: 200 },
+  { key: 'city', label: 'City', placeholder: 'Santa Barbara', max: 100 },
+  { key: 'state', label: 'State', placeholder: 'CA', max: 5 },
+  { key: 'phone', label: 'Store Phone', placeholder: '(805) 497-5800', max: 20 },
+  { key: 'operatorName', label: 'Operator Name', placeholder: 'John Smith', max: 100 },
+  { key: 'operatorPhone', label: 'Operator Phone', placeholder: '(805) 555-0100', max: 20 },
+  { key: 'assistantName', label: 'Assistant Name (optional)', placeholder: 'Jane Doe', max: 100 },
+  { key: 'assistantTitle', label: 'Assistant Title (optional)', placeholder: 'Catering Coordinator', max: 100 },
+  { key: 'assistantPhone', label: 'Assistant Phone (optional)', placeholder: '(805) 555-0200', max: 20 },
 ];
 
 export default function ProfilePage() {
@@ -151,11 +151,11 @@ export default function ProfilePage() {
         {/* Basic info */}
         <div className={styles.field}>
           <label className={styles.label}>Your Name</label>
-          <input className={styles.input} value={profile?.displayName || ''} onChange={e => updateField('displayName', e.target.value)} />
+          <input className={styles.input} value={profile?.displayName || ''} onChange={e => updateField('displayName', e.target.value)} maxLength={100} />
         </div>
         <div className={styles.field} style={{ marginTop: 14 }}>
           <label className={styles.label}>District Manager Name</label>
-          <input className={styles.input} value={profile?.districtManager || ''} onChange={e => updateField('districtManager', e.target.value)} placeholder="Mike Johnson" />
+          <input className={styles.input} value={profile?.districtManager || ''} onChange={e => updateField('districtManager', e.target.value)} placeholder="Mike Johnson" maxLength={100} />
         </div>
 
         <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '24px 0' }} />
@@ -169,12 +169,13 @@ export default function ProfilePage() {
                 {stores.length > 1 && <button type="button" onClick={() => removeStore(idx)} style={{ color: '#EE3227', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Remove</button>}
               </div>
             )}
-            {STORE_FIELDS.map(({ key, label, placeholder }) => (
+            {STORE_FIELDS.map(({ key, label, placeholder, max }) => (
               <div key={key} className={styles.field} style={{ marginBottom: 10 }}>
                 <label className={styles.label}>{label}</label>
                 <input
                   className={styles.input}
                   placeholder={placeholder}
+                  maxLength={max}
                   value={store[key] || ''}
                   onChange={e => updateStore(idx, key, e.target.value)}
                 />

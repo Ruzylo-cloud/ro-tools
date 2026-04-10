@@ -28,16 +28,16 @@ const EMPTY_STORE = {
 };
 
 const STORE_FIELDS = [
-  { key: 'storeName', label: 'Store Name', placeholder: "Jersey Mike's #12345", required: true },
-  { key: 'street', label: 'Street Address', placeholder: '199 S Turnpike Rd', required: true },
-  { key: 'city', label: 'City', placeholder: 'Santa Barbara', required: true },
-  { key: 'state', label: 'State', placeholder: 'CA', required: true },
-  { key: 'phone', label: 'Store Phone', placeholder: '(805) 497-5800', required: true },
-  { key: 'operatorName', label: 'Operator Name', placeholder: 'John Smith', required: true },
-  { key: 'operatorPhone', label: 'Operator Phone', placeholder: '(805) 555-0100', required: true },
-  { key: 'assistantName', label: 'Assistant Name', placeholder: 'Jane Doe', required: false },
-  { key: 'assistantTitle', label: 'Assistant Title', placeholder: 'Catering Coordinator', required: false },
-  { key: 'assistantPhone', label: 'Assistant Phone', placeholder: '(805) 555-0200', required: false },
+  { key: 'storeName', label: 'Store Name', placeholder: "Jersey Mike's #12345", required: true, max: 100 },
+  { key: 'street', label: 'Street Address', placeholder: '199 S Turnpike Rd', required: true, max: 200 },
+  { key: 'city', label: 'City', placeholder: 'Santa Barbara', required: true, max: 100 },
+  { key: 'state', label: 'State', placeholder: 'CA', required: true, max: 5 },
+  { key: 'phone', label: 'Store Phone', placeholder: '(805) 497-5800', required: true, max: 20 },
+  { key: 'operatorName', label: 'Operator Name', placeholder: 'John Smith', required: true, max: 100 },
+  { key: 'operatorPhone', label: 'Operator Phone', placeholder: '(805) 555-0100', required: true, max: 20 },
+  { key: 'assistantName', label: 'Assistant Name', placeholder: 'Jane Doe', required: false, max: 100 },
+  { key: 'assistantTitle', label: 'Assistant Title', placeholder: 'Catering Coordinator', required: false, max: 100 },
+  { key: 'assistantPhone', label: 'Assistant Phone', placeholder: '(805) 555-0200', required: false, max: 20 },
 ];
 
 export default function SetupPage() {
@@ -263,6 +263,7 @@ export default function SetupPage() {
               value={displayName}
               onChange={e => setDisplayName(e.target.value)}
               placeholder="Chris Ruzylo"
+              maxLength={100}
             />
           </div>
           <div className={styles.field}>
@@ -272,6 +273,7 @@ export default function SetupPage() {
               value={districtManager}
               onChange={e => setDistrictManager(e.target.value)}
               placeholder="Mike Johnson"
+              maxLength={100}
             />
           </div>
         </div>
@@ -308,6 +310,7 @@ export default function SetupPage() {
                 onFocus={() => { setStoreSearchIdx(idx); setStoreSearch(store.storeNumber || ''); }}
                 onBlur={() => setTimeout(() => { setSuggestions([]); setStoreSearchIdx(-1); }, 200)}
                 placeholder="Start typing store number (e.g. 20360)..."
+                maxLength={20}
                 autoComplete="off"
               />
               {storeSearchIdx === idx && suggestions.length > 0 && (
@@ -337,7 +340,7 @@ export default function SetupPage() {
             </div>
 
             <div className={styles.fieldGrid}>
-              {STORE_FIELDS.map(({ key, label, placeholder, required }) => {
+              {STORE_FIELDS.map(({ key, label, placeholder, required, max }) => {
                 // For admin role, skip assistant fields and make operator fields optional labels
                 const isOptional = !required || (role === 'administrator' && key !== 'storeName');
                 return (
@@ -350,6 +353,7 @@ export default function SetupPage() {
                       value={store[key] || ''}
                       onChange={e => updateStore(idx, key, e.target.value)}
                       placeholder={placeholder}
+                      maxLength={max}
                     />
                   </div>
                 );

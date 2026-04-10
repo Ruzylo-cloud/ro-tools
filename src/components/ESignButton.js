@@ -153,6 +153,7 @@ export default function ESignButton({ documentTitle, documentType, employeeName,
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Leave blank to get a shareable link"
+                    maxLength={150}
                     style={{
                       width: '100%', padding: '10px 14px', border: '1px solid var(--border)', borderRadius: '8px',
                       fontSize: '14px', color: 'var(--text)', background: 'var(--white)', outline: 'none', boxSizing: 'border-box',

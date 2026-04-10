@@ -302,6 +302,7 @@ export default function Navbar() {
                 onKeyDown={handleSearchKeyDown}
                 onBlur={handleSearchBlur}
                 placeholder="Search... (Ctrl+K)"
+                maxLength={100}
                 autoFocus
                 className={styles.searchInput}
                 autoComplete="off"

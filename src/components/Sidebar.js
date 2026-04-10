@@ -415,6 +415,7 @@ export default function Sidebar() {
                   setSearchSelected(-1);
                   setSearchResults(searchFilter(e.target.value));
                 }}
+                maxLength={100}
                 onKeyDown={handleSearchKeyDown}
                 onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
                 placeholder="Search pages... (⌘K)"

@@ -107,6 +107,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
         value={search}
         onChange={e => handleInputChange(e.target.value)}
         placeholder={placeholder || 'Loading employees...'}
+        maxLength={100}
         style={{ ...style, ...errorStyle }}
       />
     );
@@ -119,6 +120,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
         value={search}
         onChange={e => handleInputChange(e.target.value)}
         placeholder={placeholder || 'Employee name'}
+        maxLength={100}
         style={{ ...style, ...errorStyle }}
       />
     );
@@ -133,6 +135,7 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
         onFocus={() => setOpen(true)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder || 'Search employees...'}
+        maxLength={100}
         autoComplete="off"
         style={{
           width: '100%',

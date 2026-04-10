@@ -221,6 +221,7 @@ export default function GeneratorsPage() {
             type="text"
             className={styles.searchInput}
             placeholder="Search generators..."
+            maxLength={100}
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
