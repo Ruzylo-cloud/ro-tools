@@ -68,6 +68,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
       }
 
       const res = await fetch(url);
+      if (!res.ok) throw new Error(`Failed to load folders: ${res.status}`);
       const data = await res.json();
       setFolders(data.folders || []);
       setSharedDrives(data.sharedDrives || []);
@@ -132,6 +133,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
         }),
       });
 
+      if (!res.ok && res.status !== 400 && res.status !== 413) throw new Error(`Upload failed: ${res.status}`);
       const data = await res.json();
       if (data.success) {
         setResult({ type: 'success', link: data.file.webViewLink });
@@ -162,6 +164,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
           parentId: currentFolderId === 'root' ? null : currentFolderId,
         }),
       });
+      if (!res.ok) throw new Error(`Failed to create folder: ${res.status}`);
       const data = await res.json();
       if (data.folder) {
         loadFolders(currentFolderId);
