@@ -39,8 +39,14 @@ export async function POST(request) {
     }
   }
 
-  // RT-158: Sanitize subject to prevent header injection (strip newlines)
+  // Sanitize subject and name to prevent header injection (strip newlines)
   const safeSubject = String(subject).replace(/[\r\n]/g, ' ').slice(0, 500);
+  const safeFromName = String(session.name || '').replace(/[\r\n"<>]/g, ' ').slice(0, 200);
+
+  // Limit htmlBody to prevent memory exhaustion
+  if (String(htmlBody).length > 200000) {
+    return NextResponse.json({ error: 'Email body too large (max 200KB)' }, { status: 400 });
+  }
 
   try {
     const gmail = getGmail(auth.client);
@@ -49,7 +55,7 @@ export async function POST(request) {
 
     // Build RFC 2822 message
     const messageParts = [
-      `From: ${session.name} <${from}>`,
+      `From: ${safeFromName} <${from}>`,
       `To: ${toStr}`,
       `Subject: ${safeSubject}`,
       'MIME-Version: 1.0',
