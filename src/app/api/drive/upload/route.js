@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getDrive } from '@/lib/google-client';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
+import { rateLimit } from '@/lib/rate-limit';
 import { Readable } from 'stream';
 
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,9 @@ export async function POST(request) {
   try {
     const originError = enforceSameOriginMutation(request);
     if (originError) return originError;
+
+    const { limited } = rateLimit('drive-upload', 60000, 10, request);
+    if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
     const auth = getAuthenticatedClient();
     if (!auth) {

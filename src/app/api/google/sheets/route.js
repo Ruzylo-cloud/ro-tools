@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getAuthenticatedClient, getSheets, getDrive } from '@/lib/google-client';
 import { withTimeout } from '@/lib/api-timeout';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,6 +47,9 @@ export async function GET(request) {
 export async function POST(request) {
   const originError = enforceSameOriginMutation(request);
   if (originError) return originError;
+
+  const { limited } = rateLimit('google-sheets', 60000, 15, request);
+  if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
   const auth = getAuthenticatedClient();
   if (!auth) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });

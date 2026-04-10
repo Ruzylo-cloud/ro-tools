@@ -3,6 +3,7 @@ import { getSessionData } from '@/lib/session';
 import { loadJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
+import { rateLimit } from '@/lib/rate-limit';
 import fs from 'fs';
 import path from 'path';
 
@@ -86,6 +87,9 @@ export async function GET(request) {
 export async function POST(request) {
   const originError = enforceSameOriginMutation(request);
   if (originError) return originError;
+
+  const { limited } = rateLimit('l10', 60000, 30, request);
+  if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
   const session = getSessionData(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

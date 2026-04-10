@@ -7,6 +7,7 @@ import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
 import { getMissionControlApiKey } from '@/lib/internal-api-key';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
+import { rateLimit } from '@/lib/rate-limit';
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -24,6 +25,9 @@ export async function POST(request) {
   try {
     const originError = enforceSameOriginMutation(request);
     if (originError) return originError;
+
+    const { limited } = rateLimit('employee-documents', 60000, 20, request);
+    if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
     const session = getSession(); // RT-150: was checking cookie existence only, never verifying token
     if (!session) {
