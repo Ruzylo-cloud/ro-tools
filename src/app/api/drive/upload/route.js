@@ -27,6 +27,11 @@ export async function POST(request) {
       return NextResponse.json({ error: 'fileName and pdfBase64 are required' }, { status: 400 });
     }
 
+    // RT-281: Cap upload at 20MB (base64 is ~33% larger than binary)
+    if (pdfBase64.length > 27_000_000) {
+      return NextResponse.json({ error: 'File too large (max 20MB)' }, { status: 413 });
+    }
+
     const drive = getDrive(auth.client);
 
     // Convert base64 to buffer

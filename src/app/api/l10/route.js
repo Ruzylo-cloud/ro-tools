@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSessionData } from '@/lib/session';
+import { loadJsonFile } from '@/lib/data';
+import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
 import fs from 'fs';
 import path from 'path';
@@ -45,12 +47,22 @@ export async function GET(request) {
   const week = searchParams.get('week');
   const all = searchParams.get('all') === 'true';
 
-  if (!week) return NextResponse.json({ error: 'week parameter required' }, { status: 400 });
+  if (!week || !/^\d+$/.test(week)) {
+    return NextResponse.json({ error: 'week must be a positive integer' }, { status: 400 });
+  }
 
   ensureDir();
 
   if (all) {
-    // Return all ROs' scorecards for this week (for DM view)
+    // RT-282: DM/Admin only — verify role
+    const profiles = loadJsonFile('profiles.json');
+    const profile = profiles[session.id];
+    const isElevated = isSuperAdmin(session.email) || isDefaultAdmin(session.email)
+      || (profile?.role === 'administrator' && profile?.roleApproved === true)
+      || (profile?.role === 'district_manager' && profile?.roleApproved === true);
+    if (!isElevated) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
     const scorecards = getAllForWeek(week);
     return NextResponse.json({ week: parseInt(week), scorecards });
   }
@@ -79,7 +91,9 @@ export async function POST(request) {
   const body = await request.json();
   const { week, values, employees, grade, timeFinished } = body;
 
-  if (!week) return NextResponse.json({ error: 'week required' }, { status: 400 });
+  if (!week || !/^\d+$/.test(String(week))) {
+    return NextResponse.json({ error: 'week must be a positive integer' }, { status: 400 });
+  }
 
   ensureDir();
 
