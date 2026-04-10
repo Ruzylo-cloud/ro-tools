@@ -66,13 +66,16 @@ export async function POST(request) {
 
     // Add content if provided
     if (content) {
+      if (String(content).length > 100000) {
+        return NextResponse.json({ error: 'Document content exceeds maximum allowed size (100,000 characters)' }, { status: 400 });
+      }
       await withTimeout(docs.documents.batchUpdate({
         documentId: res.data.documentId,
         resource: {
           requests: [{
             insertText: {
               location: { index: 1 },
-              text: String(content).slice(0, 100000),
+              text: String(content),
             },
           }],
         },

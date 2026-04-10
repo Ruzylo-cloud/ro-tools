@@ -73,10 +73,12 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Type, title, and description required' }, { status: 400 });
   }
 
-  // Sanitize inputs
+  // Validate input lengths
   const type = body.type === 'bug' ? 'bug' : 'feature';
-  const title = String(body.title).slice(0, 200);
-  const description = String(body.description).slice(0, 2000);
+  if (String(body.title).length > 200) return NextResponse.json({ error: 'Title must be 200 characters or less' }, { status: 400 });
+  if (String(body.description).length > 2000) return NextResponse.json({ error: 'Description must be 2000 characters or less' }, { status: 400 });
+  const title = String(body.title);
+  const description = String(body.description);
 
   const tickets = await loadTickets();
 
@@ -96,7 +98,10 @@ export async function POST(request) {
   if (type === 'feature') {
     const VALID_PRIORITIES = ['nice-to-have', 'medium', 'high', 'critical'];
     if (body.priority && VALID_PRIORITIES.includes(body.priority)) ticket.priority = body.priority;
-    if (body.category) ticket.category = String(body.category).slice(0, 100);
+    if (body.category) {
+      if (String(body.category).length > 100) return NextResponse.json({ error: 'Category must be 100 characters or less' }, { status: 400 });
+      ticket.category = String(body.category);
+    }
   }
 
   tickets.push(ticket);

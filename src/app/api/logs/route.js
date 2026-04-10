@@ -167,10 +167,12 @@ export async function POST(request) {
     );
   }
 
-  // Sanitize inputs
-  const generatorType = String(body.generatorType).slice(0, 100);
+  // Validate input lengths
+  if (String(body.generatorType).length > 100) return NextResponse.json({ error: 'generatorType must be 100 characters or less' }, { status: 400 });
+  if (body.filename && String(body.filename).length > 500) return NextResponse.json({ error: 'filename must be 500 characters or less' }, { status: 400 });
+  const generatorType = String(body.generatorType);
   const action = body.action;
-  const filename = body.filename ? String(body.filename).slice(0, 500) : null;
+  const filename = body.filename ? String(body.filename) : null;
 
   // Deep-clone and sanitize formData (limit total size)
   let formData;
