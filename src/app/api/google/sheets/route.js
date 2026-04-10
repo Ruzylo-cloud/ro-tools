@@ -57,6 +57,7 @@ export async function POST(request) {
     if (action === 'create') {
       // Create new spreadsheet
       const { title, folderId, data } = body;
+      if (title && title.length > 200) return NextResponse.json({ error: 'title must be 200 characters or fewer' }, { status: 400 });
       const sheets = getSheets(auth.client);
 
       const res = await withTimeout(sheets.spreadsheets.create({

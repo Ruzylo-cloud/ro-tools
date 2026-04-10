@@ -32,7 +32,12 @@ export async function GET(request) {
     const res = await fetch(`${MC_URL}/api/directives/outreach${month ? '?month=' + encodeURIComponent(month) : ''}`, {
       headers: { 'x-api-key': apiKey },
       cache: 'no-store',
+      signal: AbortSignal.timeout(10000),
     });
+    if (!res.ok) {
+      console.error('[directives/outreach] MC responded with', res.status);
+      return NextResponse.json({ error: 'Failed to fetch outreach' }, { status: res.status >= 500 ? 502 : res.status });
+    }
     const data = await res.json();
     return NextResponse.json(data);
   } catch (err) {

@@ -75,6 +75,18 @@ export async function POST(request) {
   if (body.phone && typeof body.phone === 'string' && body.phone.length > 30) {
     return NextResponse.json({ error: 'phone must be 30 characters or fewer' }, { status: 400 });
   }
+  if (body.address && typeof body.address === 'string' && body.address.length > 300) {
+    return NextResponse.json({ error: 'address must be 300 characters or fewer' }, { status: 400 });
+  }
+  if (body.operatorName && typeof body.operatorName === 'string' && body.operatorName.length > 200) {
+    return NextResponse.json({ error: 'operatorName must be 200 characters or fewer' }, { status: 400 });
+  }
+  if (body.dmName && typeof body.dmName === 'string' && body.dmName.length > 200) {
+    return NextResponse.json({ error: 'dmName must be 200 characters or fewer' }, { status: 400 });
+  }
+  if (body.email && typeof body.email === 'string' && body.email.length > 254) {
+    return NextResponse.json({ error: 'email must be 254 characters or fewer' }, { status: 400 });
+  }
 
   // Determine approval status server-side only
   if (body.role && needsApproval(body.role)) {

@@ -87,11 +87,12 @@ export async function POST(request) {
           subject: `Action Required: Sign "${documentTitle}"`,
           htmlBody: emailHtml,
         }),
+        signal: AbortSignal.timeout(8000),
       });
 
       emailSent = emailRes.ok;
       if (!emailRes.ok) {
-        console.error('Failed to send signing email:', await emailRes.text());
+        console.error('Failed to send signing email:', emailRes.status, emailRes.statusText);
       }
     } catch (err) {
       console.error('Email send error:', err);

@@ -57,6 +57,8 @@ export async function POST(request) {
   const body = await request.json();
   const { title, folderId, content } = body;
 
+  if (title && title.length > 200) return NextResponse.json({ error: 'title must be 200 characters or fewer' }, { status: 400 });
+
   const docs = getDocs(auth.client);
 
   try {

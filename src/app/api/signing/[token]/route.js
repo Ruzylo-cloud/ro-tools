@@ -125,6 +125,7 @@ export async function POST(request, { params }) {
         subject: `✅ ${signingRequest.employeeName} signed "${signingRequest.documentTitle}"`,
         htmlBody: notifyHtml,
       }),
+      signal: AbortSignal.timeout(8000),
     }).catch(err => console.error('Manager notification error:', err));
   }
 

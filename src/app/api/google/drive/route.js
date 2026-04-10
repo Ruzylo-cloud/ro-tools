@@ -57,6 +57,11 @@ export async function POST(request) {
   const body = await request.json();
   const { name, mimeType, folderId } = body;
 
+  if (!name || typeof name !== 'string' || !name.trim()) {
+    return NextResponse.json({ error: 'name is required' }, { status: 400 });
+  }
+  if (name.length > 500) return NextResponse.json({ error: 'name must be 500 characters or fewer' }, { status: 400 });
+
   try {
     const fileMetadata = {
       name,
