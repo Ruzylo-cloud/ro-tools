@@ -14,10 +14,10 @@ import { validateRequired, brandedFilename } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const FIELDS = [
-  { key: 'employeeName', label: 'Employee Name', type: 'text' },
-  { key: 'employeePosition', label: 'Position', type: 'text' },
-  { key: 'storeName', label: 'Store Name', type: 'text' },
-  { key: 'supervisorName', label: 'Supervisor Name', type: 'text' },
+  { key: 'employeeName', label: 'Employee Name', type: 'text', maxLength: 100 },
+  { key: 'employeePosition', label: 'Position', type: 'text', maxLength: 100 },
+  { key: 'storeName', label: 'Store Name', type: 'text', maxLength: 100 },
+  { key: 'supervisorName', label: 'Supervisor Name', type: 'text', maxLength: 100 },
   { key: 'correctionDate', label: 'Date of Request', type: 'date' },
   { key: 'attestationType', label: 'Attestation Type', type: 'select', options: [
     { value: 'meal', label: 'Meal Period' },
@@ -27,11 +27,11 @@ const FIELDS = [
   { key: 'shiftDate', label: 'Date of Shift', type: 'date' },
   { key: 'shiftStart', label: 'Shift Start Time', type: 'time' },
   { key: 'shiftEnd', label: 'Shift End Time', type: 'time' },
-  { key: 'originalAttestation', label: 'Original Attestation Response', type: 'text' },
-  { key: 'correctedAttestation', label: 'Corrected Attestation Response', type: 'text' },
+  { key: 'originalAttestation', label: 'Original Attestation Response', type: 'text', maxLength: 200 },
+  { key: 'correctedAttestation', label: 'Corrected Attestation Response', type: 'text', maxLength: 200 },
   { key: 'reason', label: 'Reason for Correction', type: 'textarea' },
-  { key: 'employeeSignature', label: 'Employee Signature (Print Name)', type: 'text' },
-  { key: 'supervisorSignature', label: 'Supervisor Signature (Print Name)', type: 'text' },
+  { key: 'employeeSignature', label: 'Employee Signature (Print Name)', type: 'text', maxLength: 100 },
+  { key: 'supervisorSignature', label: 'Supervisor Signature (Print Name)', type: 'text', maxLength: 100 },
 ];
 
 export default function AttestationCorrectionPage() {
@@ -155,7 +155,7 @@ export default function AttestationCorrectionPage() {
         <h2 className={styles.sidebarTitle}>Attestation Correction</h2>
         <p className={styles.sidebarDesc}>Correct meal period or rest break attestation records.</p>
         <div className={styles.fields}>
-          {FIELDS.map(({ key, label, type, options }) => (
+          {FIELDS.map(({ key, label, type, options, maxLength }) => (
             <div key={key} className={styles.field}>
               <label className={styles.label}>{label}</label>
               {type === 'textarea' ? (
@@ -202,6 +202,7 @@ export default function AttestationCorrectionPage() {
                     className={styles.input}
                     value={form[key] || ''}
                     onChange={(e) => { handleChange(key, e.target.value); if (errors[key]) setErrors(p => ({ ...p, [key]: null })); }}
+                    maxLength={maxLength || undefined}
                   />
                   {errors[key] && <div style={{ color: 'var(--jm-red)', fontSize: '12px', marginTop: '3px' }}>{errors[key]}</div>}
                 </>

@@ -14,11 +14,11 @@ import { validateRequired } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const FIELDS = [
-  { key: 'employeeName', label: 'Employee Name', type: 'text' },
-  { key: 'employeePosition', label: 'Position', type: 'text' },
-  { key: 'storeName', label: 'Store Name', type: 'text' },
-  { key: 'storeNumber', label: 'Store Number', type: 'text' },
-  { key: 'managerName', label: 'Manager Name', type: 'text' },
+  { key: 'employeeName', label: 'Employee Name', type: 'text', maxLength: 100 },
+  { key: 'employeePosition', label: 'Position', type: 'text', maxLength: 100 },
+  { key: 'storeName', label: 'Store Name', type: 'text', maxLength: 100 },
+  { key: 'storeNumber', label: 'Store Number', type: 'text', maxLength: 10 },
+  { key: 'managerName', label: 'Manager Name', type: 'text', maxLength: 100 },
   { key: 'waiverDate', label: 'Waiver Date', type: 'date' },
   { key: 'waiverType', label: 'Waiver Type', type: 'select', options: [
     { value: 'first', label: 'First Meal Period Waiver (shifts 6-12 hrs)' },
@@ -26,8 +26,8 @@ const FIELDS = [
     { value: 'on-duty', label: 'On-Duty Meal Period Agreement' },
   ]},
   { key: 'shiftSchedule', label: 'Typical Shift Schedule', type: 'textarea' },
-  { key: 'employeeSignature', label: 'Employee Signature (Print Name)', type: 'text' },
-  { key: 'managerSignature', label: 'Manager Signature (Print Name)', type: 'text' },
+  { key: 'employeeSignature', label: 'Employee Signature (Print Name)', type: 'text', maxLength: 100 },
+  { key: 'managerSignature', label: 'Manager Signature (Print Name)', type: 'text', maxLength: 100 },
 ];
 
 export default function MealBreakWaiverPage() {
@@ -157,7 +157,7 @@ export default function MealBreakWaiverPage() {
         <h2 className={styles.sidebarTitle}>Meal Break Waiver</h2>
         <p className={styles.sidebarDesc}>Generate a California-compliant meal period waiver agreement.</p>
         <div className={styles.fields}>
-          {FIELDS.map(({ key, label, type, options }) => (
+          {FIELDS.map(({ key, label, type, options, maxLength }) => (
             <div key={key} className={styles.field}>
               <label className={styles.label}>{label}</label>
               {type === 'textarea' ? (
@@ -213,6 +213,7 @@ export default function MealBreakWaiverPage() {
                   className={styles.input}
                   value={form[key] || ''}
                   onChange={(e) => handleChange(key, e.target.value)}
+                  maxLength={maxLength || undefined}
                 />
               )}
             </div>
