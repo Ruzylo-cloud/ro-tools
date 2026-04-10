@@ -56,7 +56,8 @@ export async function POST(request) {
     const apiKey = getMissionControlApiKey();
     if (!apiKey) return NextResponse.json({ error: 'Mission Control API key not configured' }, { status: 503 });
 
-    const body = await request.json();
+    let body;
+    try { body = await request.json(); } catch { return NextResponse.json({ error: 'Invalid request body' }, { status: 400 }); }
     const res = await fetch(`${MC_URL}/api/directives/outreach`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
