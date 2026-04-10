@@ -111,6 +111,22 @@ export async function POST(request) {
     }
   }
 
+  if (grade !== undefined && (typeof grade !== 'number' || grade < 0 || grade > 100)) {
+    return NextResponse.json({ error: 'grade must be a number between 0 and 100' }, { status: 400 });
+  }
+  if (employees !== undefined && !Array.isArray(employees)) {
+    return NextResponse.json({ error: 'employees must be an array' }, { status: 400 });
+  }
+  if (employees !== undefined && Array.isArray(employees) && employees.length > 500) {
+    return NextResponse.json({ error: 'employees array too large' }, { status: 400 });
+  }
+  if (timeFinished !== undefined && timeFinished !== null && typeof timeFinished !== 'string') {
+    return NextResponse.json({ error: 'timeFinished must be a string' }, { status: 400 });
+  }
+  if (timeFinished && typeof timeFinished === 'string' && timeFinished.length > 100) {
+    return NextResponse.json({ error: 'timeFinished too long' }, { status: 400 });
+  }
+
   ensureDir();
 
   const data = {

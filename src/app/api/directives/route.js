@@ -58,14 +58,26 @@ export async function POST(request) {
     const apiKey = getMissionControlApiKey();
     if (!apiKey) return NextResponse.json({ error: 'Mission Control API key not configured' }, { status: 503 });
 
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    }
+
+    const { directiveId, comment, response } = body;
+    const forwardBody = { author: session.email || session.name };
+    if (directiveId !== undefined) forwardBody.directiveId = directiveId;
+    if (comment !== undefined && typeof comment === 'string') forwardBody.comment = comment.slice(0, 2000);
+    if (response !== undefined && typeof response === 'string') forwardBody.response = response.slice(0, 2000);
+
     const res = await fetch(`${MC_URL}/api/directives/outreach`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
       },
-      body: JSON.stringify({ ...body, author: session.email || session.name }),
+      body: JSON.stringify(forwardBody),
       signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) {
