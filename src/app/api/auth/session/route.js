@@ -15,7 +15,8 @@ export const dynamic = 'force-dynamic';
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const token = searchParams.get('token');
-  const next = searchParams.get('next') || '/dashboard';
+  const raw = searchParams.get('next') || '/dashboard';
+  const next = raw.startsWith('/') && !raw.startsWith('//') ? raw : '/dashboard';
 
   if (!token) {
     return NextResponse.redirect(new URL('/?error=no_token', request.url));

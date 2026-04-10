@@ -21,7 +21,7 @@ export async function GET(request) {
   const returnTo = searchParams.get('returnTo') || '/dashboard';
 
   // Validate returnTo is a relative path (prevent open redirect)
-  const safePath = returnTo.startsWith('/') ? returnTo : '/dashboard';
+  const safePath = (returnTo.startsWith('/') && !returnTo.startsWith('//')) ? returnTo : '/dashboard';
 
   const url = getExtendedAuthUrl(safePath);
   return NextResponse.redirect(url);

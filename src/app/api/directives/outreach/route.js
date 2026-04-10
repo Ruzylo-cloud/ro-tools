@@ -58,10 +58,28 @@ export async function POST(request) {
 
     let body;
     try { body = await request.json(); } catch { return NextResponse.json({ error: 'Invalid request body' }, { status: 400 }); }
+
+    // Allowlist fields — never forward arbitrary client data to MC
+    function cap(val) { return typeof val === 'string' ? val.slice(0, 2000) : val; }
+    const safeBody = {
+      business_name:  cap(body.business_name),
+      contact_name:   cap(body.contact_name),
+      contact_phone:  cap(body.contact_phone),
+      contact_email:  cap(body.contact_email),
+      visit_date:     cap(body.visit_date),
+      notes:          cap(body.notes),
+      store_number:   cap(body.store_number),
+      status:         cap(body.status),
+      follow_up_date: cap(body.follow_up_date),
+      author:         session.email || session.name,
+    };
+    // Remove undefined keys so MC doesn't receive noise
+    Object.keys(safeBody).forEach(k => safeBody[k] === undefined && delete safeBody[k]);
+
     const res = await fetch(`${MC_URL}/api/directives/outreach`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey },
-      body: JSON.stringify({ ...body, author: session.email || session.name }),
+      body: JSON.stringify(safeBody),
       signal: AbortSignal.timeout(10000),
     });
     if (!res.ok) {

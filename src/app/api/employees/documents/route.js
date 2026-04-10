@@ -47,7 +47,7 @@ export async function POST(request) {
     const safeFileName = path.basename(fileName).replace(/[^a-zA-Z0-9._-]/g, '_');
 
     // 1. Save to internal storage (GCS volume)
-    const safeName = (employeeName || '_general').replace(/[^a-zA-Z0-9_-]/g, '_');
+    const safeName = (employeeName || '_general').slice(0, 100).replace(/[^a-zA-Z0-9_-]/g, '_');
     const empDir = path.join(DOCS_DIR, safeName);
     await ensureDir(empDir);
 
@@ -77,6 +77,9 @@ export async function POST(request) {
     }
 
     // 2. Also save reference to MC (if employee exists there)
+    if (employeeId && typeof employeeId === 'string' && employeeId.length > 64) {
+      return NextResponse.json({ error: 'employeeId too long' }, { status: 400 });
+    }
     if (employeeId) {
       const apiKey = getMissionControlApiKey();
       try {

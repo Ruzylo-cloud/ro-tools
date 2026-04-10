@@ -61,7 +61,7 @@ export async function GET(request) {
     let remember = false;
     if (state) {
       const parts = state.split('|');
-      if (parts[0].startsWith('/')) returnTo = parts[0];
+      if (parts[0].startsWith('/') && !parts[0].startsWith('//')) returnTo = parts[0];
       if (parts.includes('remember')) remember = true;
     }
     const sessionUrl = new URL('/api/auth/session', baseUrl);
