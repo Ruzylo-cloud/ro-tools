@@ -25,7 +25,7 @@ export default function UpdatesPage() {
         const latest = d.updates?.[0]?.id || '';
         if (latest) localStorage.setItem('rt-last-update', latest);
       })
-      .catch(() => {});
+      .catch(e => { console.debug('[updates] Failed to mark latest update:', e); });
   }, []);
   // Group entries by version, then sort groups by date (newest first)
   const grouped = [];

@@ -233,16 +233,16 @@ export default function DirectivesPage() {
     try {
       const stored = localStorage.getItem('reading-outreach');
       if (stored) setOutreachEntries(JSON.parse(stored));
-    } catch(e) {}
+    } catch(e) { console.debug('[directives] outreach parse failed:', e); }
     try {
       const sc = localStorage.getItem('directives-scorecard');
       if (sc) setScorecard(JSON.parse(sc));
-    } catch(e) {}
+    } catch(e) { console.debug('[directives] scorecard parse failed:', e); }
     // RT-199: Load read directive IDs
     try {
       const r = localStorage.getItem('directives-read');
       if (r) setReadIds(new Set(JSON.parse(r)));
-    } catch(e) {}
+    } catch(e) { console.debug('[directives] read-ids parse failed:', e); }
   }, []);
 
   // RT-199: Toggle directive read status

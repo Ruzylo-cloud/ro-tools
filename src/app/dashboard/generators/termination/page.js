@@ -131,7 +131,7 @@ export default function TerminationPage() {
           setForm(prev => ({ ...prev, employeeSignature: data.signatureDataUrl }));
         }
       })
-      .catch(() => {});
+      .catch(e => { console.debug('[termination] Signature token load failed:', e); });
   }, [signToken, user]);
 
   const handleChange = (key, value) => {

@@ -282,7 +282,7 @@ export default function CateringOrderPage() {
               deliveryAddress: form.deliveryAddress,
             },
           }),
-        }).catch(() => {});
+        }).catch(e => { console.debug('[catering-order] Activity log failed:', e); });
       }
       showToast('PDF downloaded successfully!', 'success'); clearDraft(); if (mountedRef.current) { setShowSuccess(true); setTimeout(() => { if (mountedRef.current) setShowSuccess(false); }, 2000); }
     } catch (err) {

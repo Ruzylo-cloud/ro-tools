@@ -82,7 +82,7 @@ export default function MealBreakWaiverPage() {
           setForm(prev => ({ ...prev, employeeSignature: data.signatureDataUrl }));
         }
       })
-      .catch(() => {});
+      .catch(e => { console.debug("[generator] Signature token load failed:", e); });
   }, [signToken, user]);
 
   const handleChange = (key, value) => {

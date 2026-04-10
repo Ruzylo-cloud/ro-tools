@@ -117,7 +117,7 @@ export default function WrittenWarningPage() {
           setForm(prev => ({ ...prev, employeeSignature: data.signatureDataUrl }));
         }
       })
-      .catch(() => {});
+      .catch(e => { console.debug('[written-warning] Signature token load failed:', e); });
   }, [signToken, user]);
 
   const handleChange = (key, value) => {

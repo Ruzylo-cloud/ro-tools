@@ -94,7 +94,7 @@ export default function DashboardPage() {
         }
         if (data.profile?.lastLoginAt) setLastLogin(data.profile.lastLoginAt);
       })
-      .catch(() => {});
+      .catch((e) => { console.error('[dashboard] Profile load failed:', e); });
   }, []);
 
   // RT-053/063: Load stats + pending approvals
@@ -145,7 +145,7 @@ export default function DashboardPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ autoAdminNotified: true }),
       });
-    } catch(e) {}
+    } catch(e) { console.debug('[dashboard] Admin notification ack failed:', e); }
   };
 
   const firstName = profile?.displayName?.split(' ')[0] || user?.name?.split(' ')[0] || '';

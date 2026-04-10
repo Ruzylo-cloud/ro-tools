@@ -1466,15 +1466,15 @@ export default function ReadingPage() {
     try {
       const saved = localStorage.getItem('reading-favorites');
       if (saved) setFavorites(JSON.parse(saved));
-    } catch(e) {}
+    } catch(e) { console.debug('[reading] favorites parse failed:', e); }
     try {
       const savedRead = localStorage.getItem('rt-reading-read');
       if (savedRead) setReadBooks(JSON.parse(savedRead));
-    } catch(e) {}
+    } catch(e) { console.debug('[reading] read-books parse failed:', e); }
     try {
       const savedScores = localStorage.getItem('rt-reading-quiz-scores');
       if (savedScores) setQuizScores(JSON.parse(savedScores));
-    } catch(e) {}
+    } catch(e) { console.debug('[reading] quiz-scores parse failed:', e); }
   }, []);
 
   useEffect(() => {

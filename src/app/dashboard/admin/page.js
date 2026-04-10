@@ -308,7 +308,7 @@ export default function AdminPage() {
           onClick={() => {
             setTab('stats');
             if (!analytics) {
-              fetch('/api/logs/analytics').then(r => r.json()).then(d => setAnalytics(d)).catch(() => {});
+              fetch('/api/logs/analytics').then(r => r.json()).then(d => setAnalytics(d)).catch(e => { console.error('[admin] Analytics load failed:', e); });
             }
           }}
         >

@@ -41,7 +41,7 @@ export default function SupportPage() {
     fetch('/api/support')
       .then(res => res.json())
       .then(data => setTickets(data.tickets || []))
-      .catch(() => {});
+      .catch(e => { console.error('[support] Failed to load tickets:', e); });
   }, []);
 
   const submitTicket = async (type) => {

@@ -322,7 +322,7 @@ export default function DocumentsPage() {
   // RT-168: Copy share/deep-link
   const handleCopyLink = () => {
     const url = `${window.location.origin}/dashboard/documents?template=${selected}`;
-    navigator.clipboard.writeText(url).catch(() => {});
+    navigator.clipboard.writeText(url).catch(e => { console.debug('[documents] Clipboard copy failed:', e); });
   };
 
   // RT-169: Print (open preview in print dialog)
