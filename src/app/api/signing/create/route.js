@@ -32,6 +32,13 @@ export async function POST(request) {
     );
   }
 
+  if (typeof documentTitle === 'string' && documentTitle.length > 200) {
+    return NextResponse.json({ error: 'documentTitle must be 200 characters or fewer' }, { status: 400 });
+  }
+  if (typeof employeeName === 'string' && employeeName.length > 200) {
+    return NextResponse.json({ error: 'employeeName must be 200 characters or fewer' }, { status: 400 });
+  }
+
   // Basic email format check if provided — no domain restriction, crew may use personal email
   if (employeeEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(employeeEmail)) {
     return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
@@ -94,10 +101,25 @@ export async function POST(request) {
   return NextResponse.json({ success: true, token, signingUrl, emailSent });
 }
 
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 /**
  * Build JMVG-branded signing email HTML.
  */
 function buildSigningEmail({ documentTitle, documentType, employeeName, managerName, signingUrl }) {
+  const safeTitle = escapeHtml(documentTitle);
+  const safeType = escapeHtml(documentType);
+  const safeName = escapeHtml(employeeName);
+  const safeManager = escapeHtml(managerName);
+  // signingUrl is server-generated, but still escape for safety
+  const safeUrl = encodeURI(signingUrl);
   return `
 <!DOCTYPE html>
 <html>
@@ -125,10 +147,10 @@ function buildSigningEmail({ documentTitle, documentType, employeeName, managerN
           <tr>
             <td style="padding:40px;">
               <p style="margin:0 0 20px;color:#2D2D2D;font-size:16px;line-height:1.6;">
-                Hi ${employeeName},
+                Hi ${safeName},
               </p>
               <p style="margin:0 0 24px;color:#2D2D2D;font-size:16px;line-height:1.6;">
-                <strong>${managerName}</strong> has sent you a document that requires your signature.
+                <strong>${safeManager}</strong> has sent you a document that requires your signature.
               </p>
               <!-- Document Info Box -->
               <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;border-radius:8px;margin:0 0 32px;">
@@ -138,10 +160,10 @@ function buildSigningEmail({ documentTitle, documentType, employeeName, managerN
                       Document
                     </p>
                     <p style="margin:0 0 12px;color:#134A7C;font-size:18px;font-weight:700;">
-                      ${documentTitle}
+                      ${safeTitle}
                     </p>
                     <p style="margin:0;color:#6b7280;font-size:14px;">
-                      Type: ${documentType}
+                      Type: ${safeType}
                     </p>
                   </td>
                 </tr>
@@ -150,18 +172,18 @@ function buildSigningEmail({ documentTitle, documentType, employeeName, managerN
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td align="center" style="padding:0 0 32px;">
-                    <a href="${signingUrl}" style="display:inline-block;background:#134A7C;color:#ffffff;text-decoration:none;padding:16px 48px;border-radius:8px;font-size:16px;font-weight:600;letter-spacing:0.3px;">
+                    <a href="${safeUrl}" style="display:inline-block;background:#134A7C;color:#ffffff;text-decoration:none;padding:16px 48px;border-radius:8px;font-size:16px;font-weight:600;letter-spacing:0.3px;">
                       Review &amp; Sign Document
                     </a>
                   </td>
                 </tr>
               </table>
               <p style="margin:0 0 8px;color:#9ca3af;font-size:13px;line-height:1.5;">
-                This link will expire in 72 hours. If you have questions about this document, please contact ${managerName} directly.
+                This link will expire in 72 hours. If you have questions about this document, please contact ${safeManager} directly.
               </p>
               <p style="margin:0;color:#9ca3af;font-size:13px;line-height:1.5;">
                 If the button doesn't work, copy and paste this URL into your browser:<br>
-                <a href="${signingUrl}" style="color:#134A7C;word-break:break-all;">${signingUrl}</a>
+                <a href="${safeUrl}" style="color:#134A7C;word-break:break-all;">${safeUrl}</a>
               </p>
             </td>
           </tr>

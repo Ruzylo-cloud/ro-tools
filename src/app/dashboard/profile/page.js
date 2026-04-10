@@ -111,11 +111,12 @@ export default function ProfilePage() {
       if (profile.stores?.[0]) {
         Object.assign(saveData, profile.stores[0]);
       }
-      await fetch('/api/profile', {
+      const res = await fetch('/api/profile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(saveData),
       });
+      if (!res.ok) throw new Error(`Save failed: ${res.status}`);
       setSaved(true);
       showToast('Profile saved successfully.', 'success');
       setTimeout(() => setSaved(false), 3000);
