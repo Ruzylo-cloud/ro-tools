@@ -234,24 +234,42 @@ const SLIDES = [
     bg: '#f8fafc',
     color: '#1a1a2e',
   },
-  // iOS APP
+  // iOS APPS
   {
-    type: 'feature',
-    label: 'NOW AVAILABLE',
-    title: 'RO Tools for iPhone & iPad',
-    description: 'The full RO Tools platform — native on iOS. Every generator, every training packet, catering tracker, scoreboard, and admin tool. Built in SwiftUI with on-device PDF generation, offline support, and push notifications.',
-    bullets: [
-      'All 17 document generators + 8 training packets with on-device PDF rendering',
-      '54 pages of training materials — generate offline, sync when connected',
-      'Catering CRM with follow-up reminders via push notifications',
-      'Live scoreboard — 12 weeks of performance data, store comparison',
-      'Google OAuth — same @jmvalley.com login, Face ID for quick access',
-      'Available now on TestFlight — App Store submission pending approval',
+    type: 'twoapp',
+    label: 'NOW ON TESTFLIGHT',
+    title: 'Two Native iOS Apps',
+    apps: [
+      {
+        name: 'RO Tools',
+        icon: '📱',
+        color: '#134A7C',
+        desc: 'The full management platform on your phone',
+        bullets: [
+          'All 17 generators + 8 training packets',
+          'Catering CRM with push reminders',
+          'Live JMVG scoreboard',
+          'On-device PDF rendering + offline support',
+          '@jmvalley.com login, Face ID quick access',
+        ],
+      },
+      {
+        name: 'RO Control',
+        icon: '🖥',
+        color: '#EE3227',
+        desc: 'Kiosk + manager operations for iPads',
+        bullets: [
+          'Employee timeclock (PIN-based check-in)',
+          'Mid-day + end-of-day closeout workflows',
+          'Schedule viewer for crew',
+          'Break attestation with digital signature',
+          'Persistent kiosk mode with lock screen',
+        ],
+      },
     ],
-    stat: { value: 'iOS', label: 'native app' },
+    stat: { value: '2', label: 'iOS apps on TestFlight' },
     bg: '#fff',
     color: '#1a1a2e',
-    accent: '#EE3227',
   },
   // ROADMAP
   {
@@ -264,7 +282,7 @@ const SLIDES = [
       'Live Scoreboard API — auto-import weekly data from Google Sheets',
       'Homebase Integration — live schedule and timecard sync across 30+ stores',
       'Multi-Language Support — Spanish forms for bilingual staff',
-      'RO Control iOS App — on TestFlight now, full store operations on mobile ✓',
+      'Mission Control — full store OS for DMs, Directors, and ownership group',
     ],
     bg: '#fff',
     color: '#1a1a2e',
@@ -404,6 +422,43 @@ function SlideContent({ slide, visible }) {
             ))}
           </tbody>
         </table>
+      </div>
+    );
+  }
+
+  if (slide.type === 'twoapp') {
+    return (
+      <div className={`slide ${animClass}`} style={{ background: slide.bg, color: slide.color, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '60px 80px' }}>
+        <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: 'uppercase', color: '#EE3227', marginBottom: 16 }}>{slide.label}</div>
+        <h2 style={{ fontSize: 40, fontWeight: 800, fontFamily: "'Playfair Display', serif", letterSpacing: -1, marginBottom: 40, color: '#134A7C' }}>{slide.title}</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, maxWidth: 1000 }}>
+          {slide.apps.map((app, i) => (
+            <div key={i} style={{ background: '#f8fafc', border: `2px solid ${app.color}`, borderRadius: 16, padding: '28px 24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                <span style={{ fontSize: 28 }}>{app.icon}</span>
+                <div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: app.color }}>{app.name}</div>
+                  <div style={{ fontSize: 13, color: '#6b7280' }}>{app.desc}</div>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {app.bullets.map((b, j) => (
+                  <div key={j} style={{ display: 'flex', gap: 8, alignItems: 'baseline', fontSize: 13 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: '50%', background: app.color, flexShrink: 0, marginTop: 6 }}></div>
+                    <span style={{ color: '#374151' }}>{b}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 32, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ background: '#134A7C', borderRadius: 12, padding: '12px 24px', textAlign: 'center' }}>
+            <div style={{ fontSize: 36, fontWeight: 900, fontFamily: "'Playfair Display', serif", color: '#fff', lineHeight: 1 }}>{slide.stat.value}</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: 1, marginTop: 4 }}>{slide.stat.label}</div>
+          </div>
+          <div style={{ fontSize: 14, color: '#6b7280', maxWidth: 400 }}>Both apps built in SwiftUI with on-device PDF, offline support, push notifications, and @jmvalley.com Google OAuth. Available on TestFlight now.</div>
+        </div>
       </div>
     );
   }
