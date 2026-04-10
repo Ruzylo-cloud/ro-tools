@@ -63,7 +63,7 @@ export default function WorkOrdersPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           const p = data.profile;

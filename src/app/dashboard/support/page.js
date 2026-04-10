@@ -39,7 +39,7 @@ export default function SupportPage() {
 
   useEffect(() => {
     fetch('/api/support')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => setTickets(data.tickets || []))
       .catch(e => { console.error('[support] Failed to load tickets:', e); });
   }, []);

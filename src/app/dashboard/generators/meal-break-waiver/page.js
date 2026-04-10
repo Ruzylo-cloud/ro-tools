@@ -50,7 +50,7 @@ export default function MealBreakWaiverPage() {
   useEffect(() => {
     if (!user) return;
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         if (data.profile) {
           setForm(prev => ({
@@ -73,7 +73,7 @@ export default function MealBreakWaiverPage() {
   useEffect(() => {
     if (!signToken || !user) return;
     fetch(`/api/signing/manager/${signToken}`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => {
         if (data.formData && Object.keys(data.formData).length > 0) {
           setForm(prev => ({ ...prev, ...data.formData }));

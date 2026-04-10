@@ -86,7 +86,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     fetch('/api/profile')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         setProfile(data.profile);
         if (data.profile?.autoAdminGranted === true && !data.profile?.autoAdminNotified) {
@@ -114,7 +114,7 @@ export default function DashboardPage() {
   // RT-033: Load recent activity
   const loadRecentDocs = () => {
     fetch('/api/logs?limit=5')
-      .then(res => res.json())
+      .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
       .then(data => {
         setRecentDocs(Array.isArray(data.logs) ? data.logs.slice(0, 5) : []);
       })

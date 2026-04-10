@@ -20,7 +20,7 @@ export default function UpdatesPage() {
   // RT-129: Mark updates as read when this page is visited
   useEffect(() => {
     fetch('/api/updates?limit=1')
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(d => {
         const latest = d.updates?.[0]?.id || '';
         if (latest) localStorage.setItem('rt-last-update', latest);
