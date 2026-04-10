@@ -37,13 +37,17 @@ export async function POST(request) {
       return NextResponse.json({ error: 'documentType and fileName required' }, { status: 400 });
     }
 
+    // RT-283: Sanitize all user-controlled path components to prevent path traversal
+    const safeType = documentType.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const safeFileName = path.basename(fileName).replace(/[^a-zA-Z0-9._-]/g, '_');
+
     // 1. Save to internal storage (GCS volume)
     const safeName = (employeeName || '_general').replace(/[^a-zA-Z0-9_-]/g, '_');
     const empDir = path.join(DOCS_DIR, safeName);
     await ensureDir(empDir);
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const internalFileName = `${documentType}_${timestamp}_${fileName}`;
+    const internalFileName = `${safeType}_${timestamp}_${safeFileName}`;
     const filePath = path.join(empDir, internalFileName);
 
     // Save metadata
@@ -61,6 +65,9 @@ export async function POST(request) {
 
     await fs.writeFile(filePath + '.meta.json', JSON.stringify(meta, null, 2));
     if (content) {
+      if (content.length > 27_000_000) {
+        return NextResponse.json({ error: 'File too large (max 20MB)' }, { status: 413 });
+      }
       await fs.writeFile(filePath, Buffer.from(content, 'base64'));
     }
 
@@ -69,11 +76,11 @@ export async function POST(request) {
       const apiKey = getMissionControlApiKey();
       try {
         if (apiKey) {
-          await fetch(`${MC_URL}/api/employee-documents`, {
+          await fetch(`${MC_URL}/api/internal/employee-documents`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'X-Dev-Key': apiKey,
+              'X-API-Key': apiKey,
             },
             body: JSON.stringify({
               employee_id: employeeId,
