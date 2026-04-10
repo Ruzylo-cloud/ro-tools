@@ -40,8 +40,13 @@ export async function POST(request) {
   }
 
   // Basic email format check if provided — no domain restriction, crew may use personal email
-  if (employeeEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(employeeEmail)) {
-    return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+  if (employeeEmail) {
+    if (employeeEmail.length > 254) {
+      return NextResponse.json({ error: 'Email address too long' }, { status: 400 });
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(employeeEmail)) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+    }
   }
 
   const token = generateSigningToken();
