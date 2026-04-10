@@ -34,6 +34,7 @@ export async function GET(request) {
     const res = await fetch(url, {
       headers: { 'x-api-key': apiKey },
       cache: 'no-store',
+      signal: AbortSignal.timeout(10000),
     });
     const data = await res.json();
     return NextResponse.json(data);
@@ -60,6 +61,7 @@ export async function POST(request) {
         'x-api-key': apiKey,
       },
       body: JSON.stringify({ ...body, author: session.email || session.name }),
+      signal: AbortSignal.timeout(10000),
     });
     const data = await res.json();
     return NextResponse.json(data);
