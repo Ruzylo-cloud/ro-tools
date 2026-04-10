@@ -136,7 +136,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    const { name, parentId } = await request.json();
+    let name, parentId;
+    try { ({ name, parentId } = await request.json()); } catch { return NextResponse.json({ error: 'Invalid request body' }, { status: 400 }); }
 
     if (!name) {
       return NextResponse.json({ error: 'Folder name is required' }, { status: 400 });
