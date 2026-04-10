@@ -65,6 +65,17 @@ export async function POST(request) {
   delete body.roleApproved;
   delete body.rolePending;
 
+  // Input length guards
+  if (body.storeName && typeof body.storeName === 'string' && body.storeName.length > 200) {
+    return NextResponse.json({ error: 'storeName must be 200 characters or fewer' }, { status: 400 });
+  }
+  if (body.storeNumber && typeof body.storeNumber === 'string' && body.storeNumber.length > 20) {
+    return NextResponse.json({ error: 'storeNumber must be 20 characters or fewer' }, { status: 400 });
+  }
+  if (body.phone && typeof body.phone === 'string' && body.phone.length > 30) {
+    return NextResponse.json({ error: 'phone must be 30 characters or fewer' }, { status: 400 });
+  }
+
   // Determine approval status server-side only
   if (body.role && needsApproval(body.role)) {
     if (isSuperAdmin(session.email) || isDefaultAdmin(session.email)) {
