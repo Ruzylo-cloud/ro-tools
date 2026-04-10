@@ -406,6 +406,7 @@ export default function AdminPage() {
                 placeholder="Search users..."
                 value={userSearch}
                 onChange={e => setUserSearch(e.target.value)}
+                maxLength={200}
                 style={{ padding: '6px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, color: '#111', width: 200 }}
               />
             </div>
@@ -448,6 +449,7 @@ export default function AdminPage() {
               value={logSearch}
               onChange={(e) => setLogSearch(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && fetchLogs(0)}
+              maxLength={200}
             />
             <select className={styles.logSelect} value={logType} onChange={(e) => { setLogType(e.target.value); }}>
               {GENERATOR_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}

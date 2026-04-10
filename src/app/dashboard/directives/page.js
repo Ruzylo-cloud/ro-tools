@@ -619,6 +619,7 @@ export default function DirectivesPage() {
                 placeholder="Search directives..."
                 value={directiveSearch}
                 onChange={e => setDirectiveSearch(e.target.value)}
+                maxLength={200}
                 style={{ fontFamily: 'inherit' }}
               />
             </div>

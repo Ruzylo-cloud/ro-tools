@@ -1715,6 +1715,7 @@ export default function ReadingPage() {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               aria-label="Search books by title or author"
+              maxLength={200}
               style={{ flex: 1, padding: '10px 14px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, outline: 'none', color: 'var(--charcoal)' }}
             />
           </div>

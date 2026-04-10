@@ -504,6 +504,7 @@ export default function CateringTrackerPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && fetchClients()}
+          maxLength={100}
         />
         <button className={styles.searchBtn} onClick={fetchClients}>Search</button>
       </div>
@@ -607,25 +608,25 @@ export default function CateringTrackerPage() {
                 <div className={styles.modalFields}>
                   <div className={styles.modalField}>
                     <label>Client Name *</label>
-                    <input type="text" value={form.clientName} onChange={e => setForm(p => ({ ...p, clientName: e.target.value }))} placeholder="Jane Doe" />
+                    <input type="text" value={form.clientName} onChange={e => setForm(p => ({ ...p, clientName: e.target.value }))} placeholder="Jane Doe" maxLength={100} />
                   </div>
                   <div className={styles.modalField}>
                     <label>Company</label>
-                    <input type="text" value={form.companyName} onChange={e => setForm(p => ({ ...p, companyName: e.target.value }))} placeholder="Acme Corp" />
+                    <input type="text" value={form.companyName} onChange={e => setForm(p => ({ ...p, companyName: e.target.value }))} placeholder="Acme Corp" maxLength={100} />
                   </div>
                   <div className={styles.modalRow}>
                     <div className={styles.modalField}>
                       <label>Phone</label>
-                      <input type="text" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="(555) 123-4567" />
+                      <input type="text" value={form.phone} onChange={e => setForm(p => ({ ...p, phone: e.target.value }))} placeholder="(555) 123-4567" maxLength={20} />
                     </div>
                     <div className={styles.modalField}>
                       <label>Email</label>
-                      <input type="text" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} placeholder="jane@company.com" />
+                      <input type="text" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} placeholder="jane@company.com" maxLength={150} />
                     </div>
                   </div>
                   <div className={styles.modalField}>
                     <label>Address</label>
-                    <input type="text" value={form.address} onChange={e => setForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St" />
+                    <input type="text" value={form.address} onChange={e => setForm(p => ({ ...p, address: e.target.value }))} placeholder="123 Main St" maxLength={200} />
                   </div>
                   <div className={styles.modalField}>
                     <label>Reorder Frequency</label>
@@ -635,7 +636,7 @@ export default function CateringTrackerPage() {
                   </div>
                   <div className={styles.modalField}>
                     <label>Notes</label>
-                    <textarea rows={2} value={form.notes} onChange={e => setForm(p => ({ ...p, notes: e.target.value }))} placeholder="Preferences, dietary restrictions, delivery notes..." />
+                    <textarea rows={2} value={form.notes} onChange={e => setForm(p => ({ ...p, notes: e.target.value }))} placeholder="Preferences, dietary restrictions, delivery notes..." maxLength={500} />
                   </div>
 
                   {/* Notable Dates */}
@@ -643,7 +644,7 @@ export default function CateringTrackerPage() {
                     <label>Notable Dates</label>
                     {form.notableDates.map((nd, i) => (
                       <div key={i} className={styles.notableDateRow}>
-                        <input type="text" value={nd.label} onChange={e => updateNotableDate(i, 'label', e.target.value)} placeholder="Event name" />
+                        <input type="text" value={nd.label} onChange={e => updateNotableDate(i, 'label', e.target.value)} placeholder="Event name" maxLength={100} />
                         <input type="date" value={nd.date} onChange={e => updateNotableDate(i, 'date', e.target.value)} />
                         <button className={styles.removeNdBtn} onClick={() => removeNotableDate(i)}>&times;</button>
                       </div>
@@ -805,7 +806,7 @@ export default function CateringTrackerPage() {
                   </div>
                   <div className={styles.modalField}>
                     <label>Notes</label>
-                    <textarea rows={2} value={orderForm.notes} onChange={e => setOrderForm(p => ({ ...p, notes: e.target.value }))} placeholder="Order notes..." />
+                    <textarea rows={2} value={orderForm.notes} onChange={e => setOrderForm(p => ({ ...p, notes: e.target.value }))} placeholder="Order notes..." maxLength={500} />
                   </div>
                 </div>
                 <div className={styles.modalActions}>

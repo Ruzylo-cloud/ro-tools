@@ -185,6 +185,7 @@ export default function HistoryPage() {
           placeholder="Search history..."
           value={search}
           onChange={e => setSearch(e.target.value)}
+          maxLength={200}
         />
         <select
           className={styles.filterSelect}

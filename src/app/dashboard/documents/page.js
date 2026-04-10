@@ -436,6 +436,7 @@ export default function DocumentsPage() {
                   className={styles.textarea}
                   value={form[key] || ''}
                   onChange={(e) => handleChange(key, e.target.value)}
+                  maxLength={1000}
                 />
               ) : type === 'select' ? (
                 <select
@@ -452,6 +453,7 @@ export default function DocumentsPage() {
                   className={styles.input}
                   value={form[key] || ''}
                   onChange={(e) => handleChange(key, e.target.value)}
+                  maxLength={500}
                 />
               )}
             </div>

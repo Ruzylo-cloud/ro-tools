@@ -194,6 +194,7 @@ export default function FlyerPage() {
                 className={styles.input}
                 value={form[key] || ''}
                 onChange={(e) => handleChange(key, e.target.value)}
+                maxLength={200}
               />
             </div>
           ))}
@@ -233,6 +234,7 @@ export default function FlyerPage() {
                       value={currentName}
                       onChange={e => handleMenuOverride(item.key, 'name', e.target.value)}
                       placeholder="Name"
+                      maxLength={60}
                       style={{
                         width: '100%', padding: '4px 8px', fontSize: 12, border: '1px solid var(--border)',
                         borderRadius: 6, marginBottom: 4, boxSizing: 'border-box',
@@ -243,6 +245,7 @@ export default function FlyerPage() {
                       value={currentDesc}
                       onChange={e => handleMenuOverride(item.key, 'desc', e.target.value)}
                       placeholder="Description"
+                      maxLength={120}
                       style={{
                         width: '100%', padding: '4px 8px', fontSize: 11, border: '1px solid var(--border)',
                         borderRadius: 6, color: 'var(--gray-500)', boxSizing: 'border-box',
