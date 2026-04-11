@@ -4,7 +4,11 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { STORE_DIRECTORY, getStoreLabel } from '@/lib/store-directory';
 import styles from './page.module.css';
 
-const CATEGORIES = [
+// Canonical 15-category fallback list. Keys MUST match the server-side
+// rubric (M343/M346) and the iOS app. The rubric is also loaded at runtime
+// from /api/mc/stability/rubric — that response is authoritative and will
+// override this list once available.
+const DEFAULT_CATEGORIES = [
   { key: 'reliability',     name: 'Reliability' },
   { key: 'urgency',         name: 'Urgency' },
   { key: 'sprinkling',      name: 'Sprinkling' },
@@ -29,20 +33,23 @@ const TIER_DEFS = {
   C: 'Needs Improvement',
   D: 'Action Required',
 };
+// Rank is used for sparkline height — A is highest.
 const TIER_RANK = { A: 4, B: 3, C: 2, D: 1 };
+// Priority order for tie-break: HIGHER tier wins (A before B before C before D).
+const TIER_PRIORITY = ['A', 'B', 'C', 'D'];
 
 function majorityTier(scores) {
   const tally = { A: 0, B: 0, C: 0, D: 0 };
   for (const v of Object.values(scores || {})) {
     if (v?.tier && tally[v.tier] !== undefined) tally[v.tier]++;
   }
-  const entries = Object.entries(tally).filter(([, n]) => n > 0);
-  if (entries.length === 0) return '';
-  const max = Math.max(...entries.map(([, n]) => n));
-  const tied = entries.filter(([, n]) => n === max).map(([k]) => k);
-  // tie-break: lower tier wins (e.g. tie between B and C → C)
-  tied.sort((a, b) => TIER_RANK[a] - TIER_RANK[b]);
-  return tied[0];
+  const max = Math.max(tally.A, tally.B, tally.C, tally.D);
+  if (max === 0) return '';
+  // Tie-break: higher tier wins (A > B > C > D).
+  for (const t of TIER_PRIORITY) {
+    if (tally[t] === max) return t;
+  }
+  return '';
 }
 
 export default function TierAssessmentPage() {
@@ -74,13 +81,26 @@ export default function TierAssessmentPage() {
       .catch((e) => { setMcEmployeeError(String(e?.message || e)); });
   }, [storeId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Load rubric once
+  // Load rubric once. The rubric response is authoritative for category
+  // names and ordering — we fall back to DEFAULT_CATEGORIES only if the
+  // API is unreachable.
   useEffect(() => {
     fetch('/api/mc/stability/rubric')
       .then(r => r.json())
-      .then(d => setRubric(d.rubric || []))
+      .then(d => setRubric(Array.isArray(d.rubric) ? d.rubric : []))
       .catch(() => setRubric([]));
   }, []);
+
+  // Canonical category list: prefer live rubric, fall back to defaults.
+  const categories = useMemo(() => {
+    if (Array.isArray(rubric) && rubric.length > 0) {
+      return rubric
+        .slice()
+        .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+        .map(r => ({ key: r.category_key, name: r.category_name || r.category_key }));
+    }
+    return DEFAULT_CATEGORIES;
+  }, [rubric]);
 
   // Load history when employee changes
   const loadHistory = useCallback(() => {
@@ -163,7 +183,7 @@ export default function TierAssessmentPage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>ABC Employee Tier Assessment</h1>
-        <div className={styles.subtitle}>15-category rubric with A/B/C/D grading. Majority vote with tie-break to lower tier.</div>
+        <div className={styles.subtitle}>15-category rubric with A/B/C/D grading. Majority vote with tie-break to the higher tier (A &gt; B &gt; C &gt; D).</div>
       </div>
 
       <div className={styles.tabs}>
@@ -197,7 +217,7 @@ export default function TierAssessmentPage() {
           <div className={styles.summary}>
             <div>
               <div className={styles.summaryLabel}>Categories Scored</div>
-              <div className={styles.summaryValue}>{completedCount} / {CATEGORIES.length}</div>
+              <div className={styles.summaryValue}>{completedCount} / {categories.length}</div>
             </div>
             <div>
               <div className={styles.summaryLabel}>Computed Tier</div>
@@ -231,7 +251,7 @@ export default function TierAssessmentPage() {
                 </tr>
               </thead>
               <tbody>
-                {CATEGORIES.map((cat, i) => (
+                {categories.map((cat, i) => (
                   <tr key={cat.key}>
                     <td className={styles.catName}>
                       <span className={styles.catNum}>{i + 1}.</span>{cat.name}
@@ -323,9 +343,9 @@ export default function TierAssessmentPage() {
       {tab === 'rubric' && (
         <>
           <div className={styles.banner}>
-            Reference rubric (read-only). Each A/B/C/D column description is a placeholder — fill in later via the Mission Control rubric editor.
+            Reference rubric (read-only). Owners and company admins can edit the A/B/C/D descriptions for each category from the Mission Control rubric editor.
           </div>
-          {CATEGORIES.map((cat, i) => {
+          {categories.map((cat, i) => {
             const r = rubric.find(x => x.category_key === cat.key) || {};
             return (
               <div key={cat.key} className={styles.rubricCard}>
