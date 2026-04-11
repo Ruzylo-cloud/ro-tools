@@ -8,6 +8,42 @@
  */
 
 export const changelog = [
+  // ── v2.10.0 — April 11, 2026 ──────────────────────────────────────
+  {
+    version: 'v2.10.0',
+    date: '2026-04-11',
+    category: 'new_feature',
+    title: 'Tools: Payroll Workbench, Stability Snapshot, Tier Assessment',
+    description: 'Three new operator tools under Dashboard → Tools. Payroll Workbench pulls unified payroll summaries by role category. Stability Snapshot renders a canonical 7-role leadership grid across all 30 stores with OPEN gaps highlighted in red and a full-store star badge when every slot is filled at tier B or better. Tier Assessment loads the live rubric from mission-control and runs a majority vote across categories with tie-break to the higher tier.',
+  },
+  {
+    version: 'v2.10.0',
+    date: '2026-04-11',
+    category: 'improvement',
+    title: 'ABC Tier Assessment: Live Rubric + Correct Tie-Break',
+    description: 'Tier Assessment now loads categories from the live /api/mc/stability/rubric endpoint instead of a hardcoded list, so rubric edits in mission-control flow through immediately. Fixed the tie-break direction — ties now resolve to the HIGHER tier (A > B > C > D) instead of the lower one.',
+  },
+  {
+    version: 'v2.10.0',
+    date: '2026-04-11',
+    category: 'improvement',
+    title: 'Stability Snapshot: Canonical 7-Role Grid',
+    description: 'Rewrote the Stability Snapshot page to use the canonical 7-role key set from the server (RO, ARO, GM, AGM, Shift Lead, Manager, Staff). Each store shows filled/open counts, open slots render in red, and the portfolio fill rate footer tracks the whole company at a glance.',
+  },
+  {
+    version: 'v2.10.0',
+    date: '2026-04-11',
+    category: 'new_feature',
+    title: 'Directives + Updates Publishing',
+    description: 'Admins and directors can now publish directives and store updates directly from the dashboard. Posts are versioned, timestamped, and visible to the whole org immediately.',
+  },
+  {
+    version: 'v2.10.0',
+    date: '2026-04-11',
+    category: 'new_feature',
+    title: 'Catering Tracker: Pipeline + Calendar Views',
+    description: 'The catering tracker now has a pipeline Kanban view and a month calendar view in addition to the table. Drag orders between stages, see delivery dates at a glance, and filter by store.',
+  },
   // ── v2.9.8 — April 9, 2026 ───────────────────────────────────────
   {
     version: 'v2.9.8',
