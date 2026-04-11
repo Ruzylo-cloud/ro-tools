@@ -3,12 +3,26 @@ import crypto from 'crypto';
 import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
-import { DEMO_CATERING_ORDERS, isDemo } from '@/lib/demo-data';
+import { DEMO_CATERING_ORDERS, DEMO_CATERING_CLIENTS, isDemo } from '@/lib/demo-data';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
 const normalize = s => s.toLowerCase().replace(/\s+/g, ' ').trim();
+
+// Pipeline statuses for catering orders. Must be kept in sync with the
+// catering-tracker UI. Legacy orders without a status default to 'confirmed'.
+const PIPELINE_STATUSES = ['lead', 'quoted', 'confirmed', 'prepped', 'delivered', 'paid'];
+
+function sanitizeItems(arr) {
+  if (!Array.isArray(arr)) return [];
+  return arr.slice(0, 50).map(it => {
+    const name = String(it?.name || '').trim().slice(0, 200);
+    const qty = Math.max(0, Math.min(10000, parseFloat(it?.qty) || 0));
+    const unitPrice = Math.max(0, Math.min(100000, parseFloat(it?.unitPrice) || 0));
+    return { name, qty, unitPrice };
+  }).filter(it => it.name || it.qty || it.unitPrice);
+}
 
 async function getStoreNumber(session) {
   const profiles = await loadJsonFileAsync('profiles.json');
@@ -26,36 +40,54 @@ export async function GET(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  if (isDemo(session)) {
-    const { searchParams } = new URL(request.url);
-    const clientId = searchParams.get('clientId');
-    const limit = Math.min(Math.max(parseInt(searchParams.get('limit')) || 50, 1), 200);
-    const offset = Math.max(parseInt(searchParams.get('offset')) || 0, 0);
-    let orders = [...DEMO_CATERING_ORDERS].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
-    if (clientId) orders = orders.filter(o => o.clientId === clientId);
-    return NextResponse.json({ orders: orders.slice(offset, offset + limit), total: orders.length });
-  }
-
-  const storeNumber = await getStoreNumber(session);
-  if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
-
-  const data = await loadJsonFileAsync(`catering-${storeNumber}.json`);
-  let orders = Array.isArray(data.orders) ? data.orders : [];
-
   const { searchParams } = new URL(request.url);
   const clientId = searchParams.get('clientId');
-  if (clientId) orders = orders.filter(o => o.clientId === clientId);
-
-  orders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
-
-  const limit = Math.min(Math.max(parseInt(searchParams.get('limit')) || 50, 1), 200);
+  const enrich = searchParams.get('enrich') === '1';
+  const limit = Math.min(Math.max(parseInt(searchParams.get('limit')) || 50, 1), 500);
   const offset = Math.max(parseInt(searchParams.get('offset')) || 0, 0);
 
-  return NextResponse.json({
-    orders: orders.slice(offset, offset + limit),
-    total: orders.length,
+  let orders;
+  let clients;
+  if (isDemo(session)) {
+    orders = [...DEMO_CATERING_ORDERS];
+    clients = DEMO_CATERING_CLIENTS || [];
+  } else {
+    const storeNumber = await getStoreNumber(session);
+    if (!storeNumber) return NextResponse.json({ error: 'No store configured' }, { status: 400 });
+    const data = await loadJsonFileAsync(`catering-${storeNumber}.json`);
+    orders = Array.isArray(data.orders) ? [...data.orders] : [];
+    clients = Array.isArray(data.clients) ? data.clients : [];
+  }
+
+  if (clientId) orders = orders.filter(o => o.clientId === clientId);
+  // Sort by delivery date if present, otherwise orderDate.
+  orders.sort((a, b) => {
+    const ad = new Date(a.deliveryDate || a.orderDate);
+    const bd = new Date(b.deliveryDate || b.orderDate);
+    return bd - ad;
   });
+
+  let result = orders.slice(offset, offset + limit);
+  if (enrich) {
+    const clientMap = new Map(clients.map(c => [c.id, c]));
+    result = result.map(o => {
+      const c = clientMap.get(o.clientId) || null;
+      return {
+        ...o,
+        status: o.status || 'confirmed',
+        // Fallback display fields from linked client if not on the order.
+        customerName: o.customerName || c?.clientName || '',
+        customerPhone: o.customerPhone || c?.phone || '',
+        customerEmail: o.customerEmail || c?.email || '',
+        deliveryAddress: o.deliveryAddress || c?.address || '',
+        client: c ? { id: c.id, clientName: c.clientName, companyName: c.companyName } : null,
+      };
+    });
+  }
+
+  return NextResponse.json({ orders: result, total: orders.length });
 }
+
 
 /**
  * POST /api/catering/orders — Log a catering order.
@@ -104,6 +136,7 @@ export async function POST(request) {
 
   let clientId = body.clientId || null;
   let autoCreated = false;
+  let createdOrder = null;
 
   await updateJsonFile(`catering-${storeNumber}.json`, (data) => {
     if (!data.clients) data.clients = [];
@@ -152,23 +185,48 @@ export async function POST(request) {
       } catch (e) { console.debug('[catering/orders] Invalid formSnapshot skipped:', e); }
     }
 
+    // Extended pipeline fields (all optional, backwards compatible).
+    const status = PIPELINE_STATUSES.includes(body.status) ? body.status : 'confirmed';
+    const items = sanitizeItems(body.items);
+    const deliveryDate = /^\d{4}-\d{2}-\d{2}$/.test(body.deliveryDate || '') ? body.deliveryDate : orderDate;
+    const deliveryTime = body.deliveryTime ? String(body.deliveryTime).trim().slice(0, 20) : '';
+    const tax = Math.max(0, Math.min(100, parseFloat(body.tax) || 0));
+    const subtotal = items.length
+      ? items.reduce((s, it) => s + it.qty * it.unitPrice, 0)
+      : Math.max(0, parseFloat(body.subtotal) || totalAmount);
+
     const order = {
       id: crypto.randomUUID(),
       clientId,
       orderDate,
+      deliveryDate,
+      deliveryTime,
       totalAmount,
-      itemCount: Math.max(0, parseInt(body.itemCount) || 0),
+      subtotal,
+      tax,
+      items,
+      status,
+      customerName: body.customerName ? String(body.customerName).trim().slice(0, 200) : '',
+      customerPhone: body.customerPhone ? String(body.customerPhone).trim().slice(0, 30) : '',
+      customerEmail: body.customerEmail ? String(body.customerEmail).trim().slice(0, 200) : '',
+      deliveryAddress: body.deliveryAddress ? String(body.deliveryAddress).trim().slice(0, 500) : '',
+      depositPaid: body.depositPaid === true,
+      itemCount: items.length
+        ? items.reduce((s, it) => s + it.qty, 0)
+        : Math.max(0, parseInt(body.itemCount) || 0),
       headCount: Math.max(0, parseInt(body.headCount) || 0),
       notes: body.notes ? String(body.notes).trim().slice(0, 2000) : '',
       autoGenerated: body.autoGenerated === true,
       formSnapshot,
       createdBy: session.id,
       createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
     data.orders.push(order);
+    createdOrder = order;
     return data;
   });
 
-  return NextResponse.json({ success: true, clientId, autoCreated }, { status: 201 });
+  return NextResponse.json({ success: true, clientId, autoCreated, order: createdOrder }, { status: 201 });
 }
