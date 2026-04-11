@@ -4,36 +4,49 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { STORE_DIRECTORY, getStoreLabel } from '@/lib/store-directory';
 import styles from './page.module.css';
 
-const ROLE_SLOTS = [
-  { key: 'RO',      label: 'RO' },
-  { key: 'ARO',     label: 'ARO' },
-  { key: 'SL_1',    label: 'SL 1' },
-  { key: 'SL_2',    label: 'SL 2' },
-  { key: 'SL_CREW', label: 'SL / Crew' },
+// Canonical 7 leadership role slots returned by Mission Control's
+// /api/tools/stability-snapshot endpoint. Do not invent labels here; the
+// backend is the source of truth and sends role_label with each slot.
+const DEFAULT_ROLE_KEYS = [
+  'owner',
+  'company_admin',
+  'director',
+  'restaurant_operator',
+  'asst_restaurant_operator',
+  'manager',
+  'shift_lead',
 ];
 
-const STATUSES = [
-  { key: 'filled',   label: 'Filled',   cls: 'statusFilled' },
-  { key: 'vacant',   label: 'Vacant',   cls: 'statusVacant' },
-  { key: 'training', label: 'Training', cls: 'statusTraining' },
-  { key: 'at_risk',  label: 'At-Risk',  cls: 'statusAtRisk' },
-];
+const DEFAULT_ROLE_LABELS = {
+  owner: 'Owner',
+  company_admin: 'Company Admin',
+  director: 'Director / DM',
+  restaurant_operator: 'Restaurant Operator (GM)',
+  asst_restaurant_operator: 'Asst. Restaurant Operator (AGM)',
+  manager: 'Manager',
+  shift_lead: 'Shift Lead',
+};
 
 const TIERS = ['A', 'B', 'C', 'D'];
 
 export default function StabilitySnapshotPage() {
-  const [snapshot, setSnapshot] = useState([]);
+  const [snapshots, setSnapshots] = useState([]);
+  const [roleKeys, setRoleKeys] = useState(DEFAULT_ROLE_KEYS);
+  const [roleLabels, setRoleLabels] = useState(DEFAULT_ROLE_LABELS);
+  const [summary, setSummary] = useState(null);
   const [selectedStores, setSelectedStores] = useState(() => new Set(STORE_DIRECTORY.map(s => s.id)));
-  const [editCell, setEditCell] = useState(null); // { storeNumber, slot, current }
   const [loading, setLoading] = useState(true);
   const [mcError, setMcError] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/mc/stability');
+      const res = await fetch('/api/mc/stability/snapshot');
       const data = await res.json();
-      setSnapshot(data.snapshot || []);
+      setSnapshots(Array.isArray(data.snapshots) ? data.snapshots : []);
+      setRoleKeys(Array.isArray(data.roleKeys) && data.roleKeys.length ? data.roleKeys : DEFAULT_ROLE_KEYS);
+      setRoleLabels(data.roleLabels && Object.keys(data.roleLabels).length ? data.roleLabels : DEFAULT_ROLE_LABELS);
+      setSummary(data.summary || null);
       setMcError(data.mcError || null);
     } catch (e) {
       setMcError(String(e?.message || e));
@@ -44,39 +57,63 @@ export default function StabilitySnapshotPage() {
 
   useEffect(() => { load(); }, [load]);
 
-  const visibleStores = useMemo(
-    () => snapshot.filter(s => selectedStores.has(String(s.storeNumber))),
-    [snapshot, selectedStores],
-  );
-
-  // If MC empty, synthesize shell from directory so grid still renders
+  // Synthesize an empty shell for every directory store the user hasn't
+  // filtered out, then overlay real MC snapshots on top. This guarantees
+  // every store is visible (even with zero leadership recorded) so DMs can
+  // instantly spot understaffed stores — that's the entire point of the grid.
   const displayStores = useMemo(() => {
-    if (visibleStores.length > 0) return visibleStores;
-    return STORE_DIRECTORY
+    const byNumber = new Map();
+    for (const snap of snapshots) {
+      if (snap?.storeNumber) byNumber.set(String(snap.storeNumber), snap);
+    }
+    const visible = STORE_DIRECTORY
       .filter(s => selectedStores.has(s.id))
-      .map(s => ({
-        storeNumber: s.id,
-        storeName: getStoreLabel(s.id),
-        roles: Object.fromEntries(ROLE_SLOTS.map(r => [r.key, {
-          label: r.label, employeeName: '', status: 'vacant', notes: '', tier: '',
-        }])),
-      }));
-  }, [visibleStores, selectedStores]);
-
-  // KPIs
-  const stats = useMemo(() => {
-    let filled = 0, vacant = 0, atRisk = 0, total = 0;
-    for (const store of displayStores) {
-      for (const slotKey of ROLE_SLOTS.map(r => r.key)) {
-        total++;
-        const r = store.roles?.[slotKey];
-        if (!r) { vacant++; continue; }
-        if (r.status === 'filled') filled++;
-        else if (r.status === 'at_risk') atRisk++;
-        else if (r.status === 'vacant' || !r.employeeName) vacant++;
+      .map(s => {
+        const existing = byNumber.get(String(s.id));
+        if (existing) return existing;
+        return {
+          storeNumber: s.id,
+          storeName: getStoreLabel(s.id),
+          roles: roleKeys.map(key => ({
+            role: key,
+            role_label: roleLabels[key] || key,
+            employee_name: null,
+            tier: null,
+            status: 'open',
+          })),
+          filledCount: 0,
+          totalSlots: roleKeys.length,
+          openSlots: roleKeys.length,
+          belowBCount: 0,
+          isFullStore: false,
+        };
+      });
+    // Also surface any MC stores that aren't in the directory (edge case).
+    for (const snap of snapshots) {
+      const key = String(snap.storeNumber);
+      if (!STORE_DIRECTORY.find(s => s.id === key) && selectedStores.has(key)) {
+        visible.push(snap);
       }
     }
-    return { filled, vacant, atRisk, total };
+    return visible;
+  }, [snapshots, selectedStores, roleKeys, roleLabels]);
+
+  // KPIs (locally computed for the current filter; backend summary covers all).
+  const stats = useMemo(() => {
+    let filled = 0, open = 0, total = 0, belowB = 0, fullStores = 0;
+    for (const store of displayStores) {
+      for (const slot of store.roles || []) {
+        total++;
+        if (slot.status === 'filled' && slot.employee_name) {
+          filled++;
+          if (slot.tier && slot.tier !== 'A' && slot.tier !== 'B') belowB++;
+        } else {
+          open++;
+        }
+      }
+      if (store.isFullStore) fullStores++;
+    }
+    return { filled, open, total, belowB, fullStores };
   }, [displayStores]);
 
   const toggleStore = (id) => {
@@ -89,69 +126,10 @@ export default function StabilitySnapshotPage() {
   const selectAll = () => setSelectedStores(new Set(STORE_DIRECTORY.map(s => s.id)));
   const clearAll = () => setSelectedStores(new Set());
 
-  const openEdit = (store, slotKey) => {
-    const r = store.roles?.[slotKey] || {};
-    setEditCell({
-      storeNumber: String(store.storeNumber),
-      storeName: store.storeName,
-      slot: slotKey,
-      employeeName: r.employeeName || '',
-      status: r.status || 'vacant',
-      tier: r.tier || '',
-      notes: r.notes || '',
-    });
-  };
-
-  const saveEdit = async () => {
-    if (!editCell) return;
-    const body = {
-      store_number: editCell.storeNumber,
-      role_slot: editCell.slot,
-      employee_name: editCell.employeeName,
-      status: editCell.status,
-      tier: editCell.tier,
-      notes: editCell.notes,
-    };
-    try {
-      await fetch('/api/mc/stability/cell', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-    } catch { /* non-fatal — always update local */ }
-    // Local update
-    setSnapshot(prev => {
-      const exists = prev.some(s => String(s.storeNumber) === editCell.storeNumber);
-      const updater = (s) => {
-        if (String(s.storeNumber) !== editCell.storeNumber) return s;
-        return {
-          ...s,
-          roles: {
-            ...(s.roles || {}),
-            [editCell.slot]: {
-              label: ROLE_SLOTS.find(r => r.key === editCell.slot)?.label,
-              employeeName: editCell.employeeName,
-              status: editCell.status,
-              tier: editCell.tier,
-              notes: editCell.notes,
-            },
-          },
-        };
-      };
-      if (exists) return prev.map(updater);
-      // Create shell entry
-      return [...prev, {
-        storeNumber: editCell.storeNumber,
-        storeName: editCell.storeName,
-        roles: { [editCell.slot]: {
-          employeeName: editCell.employeeName,
-          status: editCell.status,
-          tier: editCell.tier,
-          notes: editCell.notes,
-        } },
-      }];
-    });
-    setEditCell(null);
+  const tierClass = (tier) => {
+    const t = (tier || '').toUpperCase();
+    if (TIERS.includes(t)) return styles[`tier${t}`];
+    return styles.tierNone;
   };
 
   return (
@@ -160,7 +138,8 @@ export default function StabilitySnapshotPage() {
         <div className={styles.headerText}>
           <h1 className={styles.title}>Weekly Employee Stability Snapshot</h1>
           <div className={styles.subtitle}>
-            Role-slot grid per store. Click any cell to edit inline. Saves directly to Mission Control.
+            Leadership stability per store. Each column is a store, each row is a canonical role slot.
+            Green = filled with A/B tier, amber = filled with C/D, red = OPEN gap. A full store has every slot filled B-or-better.
           </div>
         </div>
         <div className={styles.toolbar}>
@@ -170,30 +149,32 @@ export default function StabilitySnapshotPage() {
 
       {mcError && (
         <div className={styles.banner}>
-          Mission Control stability endpoint unavailable ({mcError}). Edits save locally; grid falls back to the store directory shell.
+          Mission Control stability endpoint unavailable ({mcError}). Showing empty-shell grid from the store directory.
         </div>
       )}
 
       <div className={styles.kpiRow}>
         <div className={styles.kpi}>
-          <div className={styles.kpiLabel}>Total Slots</div>
-          <div className={styles.kpiValue}>{stats.total}</div>
-          <div className={styles.kpiSub}>{displayStores.length} stores × {ROLE_SLOTS.length} roles</div>
+          <div className={styles.kpiLabel}>Stores</div>
+          <div className={styles.kpiValue}>{displayStores.length}</div>
+          <div className={styles.kpiSub}>{stats.fullStores} full (all B+)</div>
         </div>
         <div className={styles.kpi}>
           <div className={styles.kpiLabel}>Filled</div>
           <div className={styles.kpiValue} style={{ color: '#16a34a' }}>{stats.filled}</div>
-          <div className={styles.kpiSub}>{stats.total > 0 ? Math.round(stats.filled / stats.total * 100) : 0}%</div>
+          <div className={styles.kpiSub}>
+            {stats.total > 0 ? Math.round(stats.filled / stats.total * 100) : 0}% of {stats.total} slots
+          </div>
         </div>
         <div className={styles.kpi}>
-          <div className={styles.kpiLabel}>Vacant</div>
-          <div className={styles.kpiValue} style={{ color: '#dc2626' }}>{stats.vacant}</div>
-          <div className={styles.kpiSub}>Open role slots</div>
+          <div className={styles.kpiLabel}>Open Gaps</div>
+          <div className={styles.kpiValue} style={{ color: '#dc2626' }}>{stats.open}</div>
+          <div className={styles.kpiSub}>Unfilled leadership slots</div>
         </div>
         <div className={styles.kpi}>
-          <div className={styles.kpiLabel}>At-Risk</div>
-          <div className={styles.kpiValue} style={{ color: '#f59e0b' }}>{stats.atRisk}</div>
-          <div className={styles.kpiSub}>Flagged for attention</div>
+          <div className={styles.kpiLabel}>Below B</div>
+          <div className={styles.kpiValue} style={{ color: '#f59e0b' }}>{stats.belowB}</div>
+          <div className={styles.kpiSub}>Filled with C or D tier</div>
         </div>
       </div>
 
@@ -219,32 +200,39 @@ export default function StabilitySnapshotPage() {
               <tr>
                 <th>Role</th>
                 {displayStores.map(store => (
-                  <th key={store.storeNumber}>{store.storeNumber} {store.storeName}</th>
+                  <th key={store.storeNumber}>
+                    {store.storeNumber} {store.storeName}
+                    {store.isFullStore && <span style={{ marginLeft: 6 }} title="Full store: every slot B or better">★</span>}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {ROLE_SLOTS.map(slot => (
-                <tr key={slot.key}>
-                  <td className={styles.roleCell}>{slot.label}</td>
+              {roleKeys.map(key => (
+                <tr key={key}>
+                  <td className={styles.roleCell}>{roleLabels[key] || key}</td>
                   {displayStores.map(store => {
-                    const r = store.roles?.[slot.key] || {};
-                    const statusMeta = STATUSES.find(s => s.key === r.status) || STATUSES[1];
-                    const tierKey = (r.tier || '').toUpperCase();
+                    const slot = (store.roles || []).find(r => r.role === key) || {
+                      status: 'open', employee_name: null, tier: null,
+                    };
+                    const isOpen = slot.status !== 'filled' || !slot.employee_name;
+                    const tierKey = (slot.tier || '').toUpperCase();
                     return (
                       <td key={store.storeNumber}>
-                        <div className={styles.cell} onClick={() => openEdit(store, slot.key)}>
-                          {r.employeeName ? (
-                            <div className={styles.cellName}>{r.employeeName}</div>
+                        <div className={styles.cell}>
+                          {isOpen ? (
+                            <div className={styles.vacant}>— OPEN —</div>
                           ) : (
-                            <div className={styles.vacant}>— vacant —</div>
+                            <div className={styles.cellName}>{slot.employee_name}</div>
                           )}
                           <div className={styles.cellMeta}>
-                            {tierKey && TIERS.includes(tierKey) && (
-                              <span className={`${styles.tierBadge} ${styles[`tier${tierKey}`]}`}>{tierKey}</span>
+                            {!isOpen && (
+                              <span className={`${styles.tierBadge} ${tierClass(tierKey)}`}>
+                                {tierKey || '—'}
+                              </span>
                             )}
-                            <span className={`${styles.statusDot} ${styles[statusMeta.cls]}`} />
-                            <span className={styles.statusText}>{statusMeta.label}</span>
+                            <span className={`${styles.statusDot} ${isOpen ? styles.statusVacant : styles.statusFilled}`} />
+                            <span className={styles.statusText}>{isOpen ? 'Open' : 'Filled'}</span>
                           </div>
                         </div>
                       </td>
@@ -258,61 +246,11 @@ export default function StabilitySnapshotPage() {
       </div>
       {loading && <div style={{ textAlign: 'center', padding: 20, color: 'var(--gray-400)' }}>Loading…</div>}
 
-      {editCell && (
-        <div className={styles.overlay} onClick={e => { if (e.target === e.currentTarget) setEditCell(null); }}>
-          <div className={styles.modal}>
-            <div className={styles.modalTitle}>{editCell.storeName || editCell.storeNumber} · {ROLE_SLOTS.find(r => r.key === editCell.slot)?.label}</div>
-            <div className={styles.modalSub}>Store {editCell.storeNumber}</div>
-
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Employee Name</label>
-              <input
-                className={styles.input}
-                value={editCell.employeeName}
-                onChange={e => setEditCell(c => ({ ...c, employeeName: e.target.value }))}
-                placeholder="Full name"
-              />
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Status</label>
-              <select
-                className={styles.fieldSelect}
-                value={editCell.status}
-                onChange={e => setEditCell(c => ({ ...c, status: e.target.value }))}
-              >
-                {STATUSES.map(s => <option key={s.key} value={s.key}>{s.label}</option>)}
-              </select>
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Tier</label>
-              <div className={styles.tierPicker}>
-                {TIERS.map(t => (
-                  <button
-                    key={t}
-                    type="button"
-                    className={`${styles.tierOpt} ${editCell.tier === t ? `${styles.tierOptActive} ${styles[`tier${t}`]}` : ''}`}
-                    onClick={() => setEditCell(c => ({ ...c, tier: c.tier === t ? '' : t }))}
-                  >{t}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.fieldLabel}>Notes</label>
-              <textarea
-                className={styles.textarea}
-                value={editCell.notes}
-                onChange={e => setEditCell(c => ({ ...c, notes: e.target.value }))}
-              />
-            </div>
-
-            <div className={styles.modalActions}>
-              <button className={styles.btnCancel} onClick={() => setEditCell(null)}>Cancel</button>
-              <button className={styles.btnSave} onClick={saveEdit}>Save</button>
-            </div>
-          </div>
+      {summary && !loading && (
+        <div style={{ marginTop: 16, fontSize: 11, color: 'var(--gray-500)', textAlign: 'center' }}>
+          Source of truth: Mission Control employees + tier assessments. Fill rate across portfolio:{' '}
+          <strong>{summary.fillRatePct}%</strong> ({summary.filledSlots}/{summary.totalSlots} slots,{' '}
+          {summary.fullStores}/{summary.totalStores} full stores).
         </div>
       )}
     </div>
