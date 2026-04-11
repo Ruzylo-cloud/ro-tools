@@ -6,6 +6,7 @@ export const SUPER_ADMINS = [
   'daniel@jmvalley.com',
   'brittany@jmvalley.com',
   'david@jmvalley.com',
+  'cody@jmvalley.com',
 ];
 
 export function isSuperAdmin(email) {
@@ -19,6 +20,7 @@ export const DEFAULT_ADMINS = [
   'bethany@jmvalley.com',
   'daniel@jmvalley.com',
   'brittany@jmvalley.com',
+  'cody@jmvalley.com',
 ];
 
 export function isDefaultAdmin(email) {
