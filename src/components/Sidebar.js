@@ -31,9 +31,6 @@ const SEARCH_ITEMS = [
   { label: 'Catering Flyer', path: '/dashboard/flyer', icon: '🖨️', keywords: 'flyer catering print menu' },
   { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
   { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
-  { label: 'Weekly Schedule', path: '/dashboard/schedule', icon: '🗓️', keywords: 'schedule shifts weekly employees homebase' },
-  { label: 'Daily Checklists', path: '/dashboard/checklists', icon: '✅', keywords: 'checklists jolt food safety daily tasks' },
-  { label: 'Completion Reports', path: '/dashboard/reports', icon: '📈', keywords: 'reports completion daily weekly rollup stats' },
   { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
   { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
@@ -617,18 +614,6 @@ export default function Sidebar() {
 
           <Link href="/dashboard/directives" className={`${styles.navLink} ${isActive('/dashboard/directives') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>📅</span> Directives
-          </Link>
-
-          <Link href="/dashboard/schedule" className={`${styles.navLink} ${isActive('/dashboard/schedule') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>🗓️</span> Schedule
-          </Link>
-
-          <Link href="/dashboard/checklists" className={`${styles.navLink} ${isActive('/dashboard/checklists') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>✅</span> Checklists
-          </Link>
-
-          <Link href="/dashboard/reports" className={`${styles.navLink} ${isActive('/dashboard/reports') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>📈</span> Reports
           </Link>
 
           <Link href="/dashboard/scoreboard" className={`${styles.navLink} ${isActive('/dashboard/scoreboard') ? styles.navLinkActive : ''}`} onClick={navClick}>
