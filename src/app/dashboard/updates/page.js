@@ -41,9 +41,12 @@ export default function UpdatesPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Updates & Changelog</h1>
-        <p className={styles.subtitle}>Everything that&apos;s been shipped, fixed, and improved.</p>
+      <div className={styles.header} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16, flexWrap: 'wrap' }}>
+        <div>
+          <h1 className={styles.title}>Updates & Changelog</h1>
+          <p className={styles.subtitle}>Everything that&apos;s been shipped, fixed, and improved.</p>
+        </div>
+        <a href="/dashboard/updates/publish" style={{ background: '#134A7C', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Company News Feed →</a>
       </div>
 
       <div className={styles.timeline}>
