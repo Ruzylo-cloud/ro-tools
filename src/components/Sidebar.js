@@ -32,6 +32,9 @@ const SEARCH_ITEMS = [
   { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
   { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
   { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
+  { label: 'Payroll Workbench', path: '/dashboard/tools/payroll', icon: '💵', keywords: 'payroll pay period wages tips tools' },
+  { label: 'Stability Snapshot', path: '/dashboard/tools/stability-snapshot', icon: '🧱', keywords: 'stability snapshot role slot staffing tools' },
+  { label: 'Tier Assessment', path: '/dashboard/tools/tier-assessment', icon: '🎯', keywords: 'abc tier assessment rubric employees tools' },
   { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
   { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
@@ -64,7 +67,7 @@ export default function Sidebar() {
   const [activeStore, setActiveStore] = useState(null);
 
   // Collapsible sections
-  const [openSections, setOpenSections] = useState({ generators: false, catering: false });
+  const [openSections, setOpenSections] = useState({ generators: false, catering: false, tools: false });
 
   // Search state
   const [searchOpen, setSearchOpen] = useState(false);
@@ -85,7 +88,8 @@ export default function Sidebar() {
   useEffect(() => {
     const inGenerators = pathname.startsWith('/dashboard/generators') || pathname.startsWith('/dashboard/signatures');
     const inCatering = pathname.startsWith('/dashboard/flyer') || pathname.startsWith('/dashboard/catering');
-    setOpenSections({ generators: inGenerators, catering: inCatering });
+    const inTools = pathname.startsWith('/dashboard/tools');
+    setOpenSections({ generators: inGenerators, catering: inCatering, tools: inTools });
   }, [pathname]);
 
   // Collapse state init
@@ -607,6 +611,32 @@ export default function Sidebar() {
                 </Link>
                 <Link href="/dashboard/catering-tracker" className={`${styles.subLink} ${isActive('/dashboard/catering-tracker') ? styles.subLinkActive : ''}`} onClick={navClick}>
                   <span>📊</span> Catering Tracker
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Tools (collapsible) */}
+          <div className={styles.group}>
+            <button
+              className={`${styles.groupBtn} ${(openSections.tools || isActive('/dashboard/tools')) ? styles.groupBtnActive : ''}`}
+              onClick={() => toggleSection('tools')}
+              aria-expanded={openSections.tools}
+            >
+              <span className={styles.icon}>🛠️</span>
+              Tools
+              <ChevronIcon open={openSections.tools} />
+            </button>
+            {openSections.tools && (
+              <div className={styles.subItems}>
+                <Link href="/dashboard/tools/payroll" className={`${styles.subLink} ${isActive('/dashboard/tools/payroll') ? styles.subLinkActive : ''}`} onClick={navClick}>
+                  <span>💵</span> Payroll Workbench
+                </Link>
+                <Link href="/dashboard/tools/stability-snapshot" className={`${styles.subLink} ${isActive('/dashboard/tools/stability-snapshot') ? styles.subLinkActive : ''}`} onClick={navClick}>
+                  <span>🧱</span> Stability Snapshot
+                </Link>
+                <Link href="/dashboard/tools/tier-assessment" className={`${styles.subLink} ${isActive('/dashboard/tools/tier-assessment') ? styles.subLinkActive : ''}`} onClick={navClick}>
+                  <span>🎯</span> Tier Assessment
                 </Link>
               </div>
             )}

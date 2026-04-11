@@ -1,0 +1,107 @@
+.container { max-width: 1400px; margin: 0 auto; padding: 40px 24px; }
+.header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+.headerText { flex: 1; min-width: 280px; }
+.title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--jm-blue); margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: var(--gray-600); }
+
+.toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.select { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; color: var(--charcoal); background: var(--white); min-width: 160px; }
+.select:focus { outline: none; border-color: var(--jm-blue); }
+.btn { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); color: var(--jm-blue); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.btn:hover { background: var(--jm-blue); color: white; border-color: var(--jm-blue); }
+.btnPrimary { background: var(--jm-blue); color: white; border-color: var(--jm-blue); }
+.btnPrimary:hover { background: #0e3a62; border-color: #0e3a62; }
+.btnGhost { background: transparent; border-color: transparent; color: var(--gray-500); }
+
+/* KPI cards row */
+.kpiRow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+.kpi { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--jm-red); border-radius: 12px; padding: 14px 16px; }
+.kpiLabel { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+.kpiValue { font-size: 22px; font-weight: 800; color: var(--jm-blue); font-family: 'Playfair Display', serif; line-height: 1.1; }
+.kpiSub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+
+.layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+
+.section { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 18px; }
+.sectionTitle { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 800; color: var(--jm-blue); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.sectionBadge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: var(--gray-100); color: var(--gray-600); text-transform: uppercase; }
+
+.tableWrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1100px; }
+.table th { padding: 9px 8px; text-align: left; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.3px; font-size: 9px; background: var(--gray-50); border-bottom: 2px solid var(--border); white-space: nowrap; }
+.table td { padding: 6px 8px; border-bottom: 1px solid var(--gray-100); white-space: nowrap; }
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr:hover { background: rgba(19,74,124,0.03); }
+.nameCell { font-weight: 600; color: var(--charcoal); min-width: 160px; }
+.cellInput { width: 70px; padding: 4px 6px; border: 1px solid transparent; border-radius: 4px; font-size: 12px; font-family: inherit; background: transparent; color: var(--charcoal); text-align: right; }
+.cellInput:hover { border-color: var(--gray-200); }
+.cellInput:focus { outline: none; border-color: var(--jm-blue); background: var(--white); }
+.totalCell { font-weight: 800; color: var(--jm-blue); text-align: right; }
+
+.emptySection { text-align: center; padding: 28px 16px; color: var(--gray-400); font-size: 13px; }
+
+/* P&L breakdown */
+.plGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.plItem { display: flex; flex-direction: column; gap: 4px; }
+.plLabel { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.3px; }
+.plInput { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; font-family: inherit; text-align: right; }
+.plInput:focus { outline: none; border-color: var(--jm-blue); }
+.plTotal { grid-column: 1 / -1; background: var(--gray-50); border-top: 2px solid var(--jm-blue); padding: 10px 12px; border-radius: 6px; display: flex; justify-content: space-between; font-weight: 800; color: var(--jm-blue); margin-top: 4px; }
+
+/* Reconciliation row */
+.tipRecon { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+.tipBox { background: var(--gray-50); border-radius: 8px; padding: 12px; }
+.tipBoxLabel { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; margin-bottom: 4px; }
+.tipBoxValue { font-size: 18px; font-weight: 800; color: var(--jm-blue); font-family: 'Playfair Display', serif; }
+.flexeBtn { background: var(--gray-100); border: 1px dashed var(--border); color: var(--gray-500); font-size: 11px; padding: 6px 10px; border-radius: 6px; margin-top: 6px; cursor: not-allowed; width: 100%; }
+
+.notesArea { width: 100%; min-height: 100px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; resize: vertical; color: var(--charcoal); background: var(--white); }
+.notesArea:focus { outline: none; border-color: var(--jm-blue); }
+
+/* Side panel */
+.sidePanel { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; position: sticky; top: 16px; align-self: start; }
+.sidePanelTitle { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 800; color: var(--jm-blue); margin-bottom: 10px; }
+.watchItem { background: var(--gray-50); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; font-size: 12px; }
+.watchName { font-weight: 700; color: var(--charcoal); margin-bottom: 2px; display: flex; justify-content: space-between; align-items: center; }
+.watchMeta { font-size: 10px; color: var(--gray-500); }
+.watchAdd { width: 100%; padding: 8px 10px; border: 1px dashed var(--border); border-radius: 6px; background: transparent; color: var(--gray-500); font-size: 12px; cursor: pointer; margin-top: 4px; }
+.watchAdd:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.removeBtn { background: none; border: none; color: var(--gray-400); cursor: pointer; font-size: 14px; padding: 0 4px; }
+.removeBtn:hover { color: var(--jm-red); }
+
+.banner { padding: 10px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 16px; }
+.bannerInfo { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); color: #1e40af; }
+.bannerWarn { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); color: #92400e; }
+
+@media (max-width: 1100px) {
+  .layout { grid-template-columns: 1fr; }
+  .kpiRow { grid-template-columns: repeat(2, 1fr); }
+  .plGrid { grid-template-columns: repeat(2, 1fr); }
+  .tipRecon { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .container { padding: 28px 14px; }
+  .title { font-size: 22px; }
+  .kpiRow { grid-template-columns: 1fr 1fr; }
+  .kpiValue { font-size: 18px; }
+}
+
+:global([data-theme="dark"]) .section,
+:global([data-theme="dark"]) .kpi,
+:global([data-theme="dark"]) .sidePanel { background: #252535; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .select,
+:global([data-theme="dark"]) .plInput,
+:global([data-theme="dark"]) .notesArea { background: #2a2a36; border-color: #3d3d4a; color: #d0d0e0; }
+:global([data-theme="dark"]) .table th { background: #1e1e2a; color: #8080a0; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .table td { border-color: #2d2d3d; }
+:global([data-theme="dark"]) .tableWrap { border-color: #3d3d4a; }
+:global([data-theme="dark"]) .tipBox,
+:global([data-theme="dark"]) .watchItem,
+:global([data-theme="dark"]) .plTotal { background: #2a2a36; }
+:global([data-theme="dark"]) .nameCell,
+:global([data-theme="dark"]) .totalCell,
+:global([data-theme="dark"]) .watchName,
+:global([data-theme="dark"]) .kpiValue,
+:global([data-theme="dark"]) .tipBoxValue { color: #d0d0e0; }
+:global([data-theme="dark"]) .btn { background: #2a2a36; color: #4a90d0; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .btnPrimary { background: #4a90d0; color: white; border-color: #4a90d0; }

@@ -1,0 +1,108 @@
+.container { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+.header { margin-bottom: 24px; }
+.title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--jm-blue); margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: var(--gray-600); }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 24px; background: var(--gray-50); border-radius: 10px; padding: 4px; }
+.tab { flex: 1; padding: 10px 16px; border: none; border-radius: 8px; background: transparent; font-size: 13px; font-weight: 600; color: var(--gray-500); cursor: pointer; font-family: inherit; }
+.tabActive { background: var(--white); color: var(--jm-blue); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+.picker { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 18px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.pickerLabel { font-size: 11px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.3px; margin-right: 6px; }
+.select { padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; color: var(--charcoal); background: var(--white); min-width: 180px; }
+.select:focus { outline: none; border-color: var(--jm-blue); }
+
+/* Assessment grid */
+.assessWrap { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 18px; }
+.assessTable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.assessTable th { padding: 12px 14px; background: var(--jm-blue); color: white; font-weight: 700; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; }
+.assessTable th.tierHead { text-align: center; width: 90px; }
+.assessTable td { padding: 12px 14px; border-top: 1px solid var(--gray-100); }
+.assessTable tr:first-child td { border-top: none; }
+.catName { font-weight: 700; color: var(--charcoal); }
+.catNum { display: inline-block; width: 22px; color: var(--gray-400); font-weight: 700; }
+.tierCell { text-align: center; }
+.radio { width: 24px; height: 24px; cursor: pointer; accent-color: var(--jm-blue); }
+.catNote { width: 100%; margin-top: 6px; padding: 6px 10px; border: 1px solid var(--gray-100); border-radius: 6px; font-size: 12px; background: var(--gray-50); color: var(--charcoal); font-family: inherit; }
+.catNote:focus { outline: none; border-color: var(--jm-blue); background: var(--white); }
+
+/* Summary card */
+.summary { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--jm-blue); border-radius: 12px; padding: 20px; margin-bottom: 18px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; align-items: center; }
+.summaryLabel { font-size: 11px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; }
+.summaryValue { font-size: 28px; font-weight: 800; color: var(--jm-blue); font-family: 'Playfair Display', serif; }
+.tierBadgeBig { display: inline-block; padding: 8px 20px; border-radius: 10px; color: white; font-size: 22px; font-weight: 800; font-family: 'Playfair Display', serif; }
+.tierA { background: #16a34a; }
+.tierB { background: #2563eb; }
+.tierC { background: #f59e0b; }
+.tierD { background: #dc2626; }
+.tierNone { background: var(--gray-400); }
+.overridePicker { display: flex; gap: 6px; }
+.overrideBtn { padding: 6px 12px; border: 1.5px solid var(--border); background: var(--white); border-radius: 8px; font-weight: 800; color: var(--gray-500); cursor: pointer; font-size: 14px; }
+.overrideBtn:hover { border-color: var(--jm-blue); color: var(--jm-blue); }
+.overrideBtnActive { color: white; border-color: transparent; }
+.overrideBtnActive.tierA { background: #16a34a; }
+.overrideBtnActive.tierB { background: #2563eb; }
+.overrideBtnActive.tierC { background: #f59e0b; }
+.overrideBtnActive.tierD { background: #dc2626; }
+
+.notesArea { width: 100%; min-height: 80px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; font-family: inherit; resize: vertical; }
+.notesArea:focus { outline: none; border-color: var(--jm-blue); }
+
+.submitBar { display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 18px; }
+.btn { padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); color: var(--jm-blue); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.btn:hover { background: var(--jm-blue); color: white; }
+.btnPrimary { background: var(--jm-blue); color: white; border-color: var(--jm-blue); }
+.btnPrimary:hover { background: #0e3a62; border-color: #0e3a62; }
+
+/* History */
+.historyCard { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+.historyHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.historyDate { font-size: 12px; color: var(--gray-500); }
+.historyNotes { font-size: 13px; color: var(--charcoal); line-height: 1.5; margin-top: 6px; background: var(--gray-50); padding: 8px 12px; border-radius: 6px; }
+.sparkline { display: flex; gap: 8px; align-items: flex-end; margin-top: 12px; height: 50px; }
+.sparkItem { flex: 1; max-width: 42px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.sparkBar { width: 100%; border-radius: 4px 4px 0 0; min-height: 6px; }
+.sparkDate { font-size: 9px; color: var(--gray-400); white-space: nowrap; }
+
+.empty { text-align: center; padding: 48px 24px; color: var(--gray-400); font-size: 13px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; }
+
+.rubricCard { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; }
+.rubricTitle { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 800; color: var(--jm-blue); margin-bottom: 10px; }
+.rubricGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.rubricCol { background: var(--gray-50); border-radius: 8px; padding: 12px; }
+.rubricTierLabel { font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; }
+.rubricDesc { font-size: 12px; color: var(--charcoal); line-height: 1.4; min-height: 60px; font-style: italic; }
+.rubricEmpty { color: var(--gray-400); font-style: normal; }
+
+.banner { padding: 10px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 16px; background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); color: #1e40af; }
+
+@media (max-width: 800px) {
+  .container { padding: 28px 14px; }
+  .title { font-size: 22px; }
+  .summary { grid-template-columns: 1fr; }
+  .assessTable th.tierHead { width: 48px; }
+  .assessTable th, .assessTable td { padding: 8px 6px; }
+  .rubricGrid { grid-template-columns: 1fr 1fr; }
+}
+
+:global([data-theme="dark"]) .picker,
+:global([data-theme="dark"]) .assessWrap,
+:global([data-theme="dark"]) .summary,
+:global([data-theme="dark"]) .historyCard,
+:global([data-theme="dark"]) .rubricCard,
+:global([data-theme="dark"]) .empty { background: #252535; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .assessTable th { background: #1e1e2a; }
+:global([data-theme="dark"]) .assessTable td { border-color: #2d2d3d; }
+:global([data-theme="dark"]) .catName,
+:global([data-theme="dark"]) .summaryValue,
+:global([data-theme="dark"]) .rubricTitle,
+:global([data-theme="dark"]) .historyNotes { color: #d0d0e0; }
+:global([data-theme="dark"]) .select,
+:global([data-theme="dark"]) .notesArea,
+:global([data-theme="dark"]) .catNote { background: #2a2a36; border-color: #3d3d4a; color: #d0d0e0; }
+:global([data-theme="dark"]) .rubricCol,
+:global([data-theme="dark"]) .historyNotes { background: #2a2a36; }
+:global([data-theme="dark"]) .tabs { background: #1e1e2a; }
+:global([data-theme="dark"]) .tabActive { background: #2a2a36; color: #4a90d0; }
+:global([data-theme="dark"]) .btn { background: #2a2a36; color: #4a90d0; border-color: #3d3d4a; }
+:global([data-theme="dark"]) .btnPrimary { background: #4a90d0; color: white; border-color: #4a90d0; }
