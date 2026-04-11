@@ -20,13 +20,19 @@ function sign(data) {
 function verify(token) {
   const parts = token.split('.');
   if (parts.length !== 2) return null;
-
   const [payload, sig] = parts;
-  const expected = crypto.createHmac('sha256', getSigningKey()).update(payload).digest('base64url');
 
-  // Timing-safe comparison to prevent timing attacks
-  if (sig.length !== expected.length) return null;
-  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected))) return null;
+  const tryKey = (key) => {
+    if (!key) return false;
+    const expected = crypto.createHmac('sha256', key).update(payload).digest('base64url');
+    if (sig.length !== expected.length) return false;
+    return crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected));
+  };
+
+  const primary = getSigningKey();
+  const previous = process.env.GOOGLE_CLIENT_SECRET_PREVIOUS?.trim() || null;
+
+  if (!tryKey(primary) && !tryKey(previous)) return null;
 
   try {
     return JSON.parse(Buffer.from(payload, 'base64url').toString());
