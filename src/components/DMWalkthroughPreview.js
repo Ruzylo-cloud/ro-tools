@@ -56,7 +56,7 @@ const DMWalkthroughPreview = forwardRef(function DMWalkthroughPreview({ data }, 
     >
       <div style={{ height: '5px', background: '#EE3227' }} />
       <div style={{ textAlign: 'center', padding: '4px 0 2px' }}>
-        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '60px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '60px', width: '60px', objectFit: 'contain' }} crossOrigin="anonymous" />
       </div>
       <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 3px' }} />
       <div style={{ textAlign: 'center' }}>

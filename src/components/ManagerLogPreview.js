@@ -63,7 +63,7 @@ const ManagerLogPreview = forwardRef(function ManagerLogPreview({ data }, ref) {
     >
       <div style={{ height: '5px', background: '#EE3227' }} />
       <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
-        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '70px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '70px', width: '70px', objectFit: 'contain' }} crossOrigin="anonymous" />
       </div>
       <div style={{ height: '1.5px', background: '#134A7C', margin: '0 28px 4px' }} />
       <div style={{ textAlign: 'center' }}>

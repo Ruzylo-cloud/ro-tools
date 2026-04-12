@@ -125,7 +125,7 @@ const FoodLabelPreview = forwardRef(function FoodLabelPreview({ data }, ref) {
 
       {/* Header */}
       <div style={{ textAlign: 'center', padding: '8px 0 4px' }}>
-        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '60px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jmvg-logo.png" alt="JMVG" style={{ height: '60px', width: '60px', objectFit: 'contain' }} crossOrigin="anonymous" />
       </div>
       <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 4px' }} />
       <div style={{ textAlign: 'center', marginBottom: '8px' }}>

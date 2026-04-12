@@ -68,7 +68,7 @@ const EvaluationPreview = forwardRef(function EvaluationPreview({ data }, ref) {
 
       {/* JMVG Logo */}
       <div style={{ textAlign: 'center', padding: '5px 0 2px' }}>
-        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '90px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '90px', width: '90px', objectFit: 'contain' }} crossOrigin="anonymous" />
       </div>
 
       {/* Blue Divider */}

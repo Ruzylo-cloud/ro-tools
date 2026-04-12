@@ -107,7 +107,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
     <>
       <div style={{ height: '4px', background: '#EE3227' }} />
       <div style={{ textAlign: 'center', padding: '3px 28px 2px' }}>
-        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: 'auto' }} crossOrigin="anonymous" />
+        <img src="/jmvg-logo.png" alt="JM Valley Group" style={{ height: '40px', width: '40px', objectFit: 'contain' }} crossOrigin="anonymous" />
       </div>
       <div style={{ height: '1px', background: '#134A7C', margin: '0 28px 4px' }} />
     </>
