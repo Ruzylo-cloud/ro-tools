@@ -178,6 +178,24 @@ const SLIDES = [
     color: '#fff',
     accent: '#EE3227',
   },
+  // OPERATIONS TOOLS
+  {
+    type: 'grid',
+    label: 'BEYOND DOCUMENTS',
+    title: 'Operations & Analytics Tools',
+    items: [
+      { icon: '💵', name: 'Payroll Workbench', desc: 'Tips, hours, pay periods' },
+      { icon: '🧱', name: 'Stability Snapshot', desc: 'Staffing grid per store' },
+      { icon: '🎯', name: 'Tier Assessment', desc: 'ABC employee scoring' },
+      { icon: '🎫', name: 'FSC Tracker', desc: 'Guest recovery tracking' },
+      { icon: '📅', name: 'Marketing Directives', desc: 'Campaigns & calendar' },
+      { icon: '📚', name: 'Reading Library', desc: '15 leadership books' },
+      { icon: '📈', name: 'L10 Scorecard', desc: '30 weekly metrics' },
+      { icon: '✍️', name: 'E-Signatures', desc: 'Digital signing workflow' },
+    ],
+    bg: 'linear-gradient(135deg, #134A7C 0%, #1a5a94 100%)',
+    color: '#fff',
+  },
   // COMPLIANCE
   {
     type: 'text',
