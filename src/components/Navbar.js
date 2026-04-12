@@ -32,6 +32,7 @@ const SEARCH_ITEMS = [
   { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
   { label: 'Document History', path: '/dashboard/history', icon: '🕐', keywords: 'history past documents generated' },
   { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
+  { label: 'FSC Tracker', path: '/dashboard/fsc-tracker', icon: '🎫', keywords: 'fsc free sub card guest recovery complaint' },
   { label: 'Updates & Changelog', path: '/dashboard/updates', icon: '🆕', keywords: 'updates changelog releases features' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
   { label: 'Support & Feedback', path: '/dashboard/support', icon: '💬', keywords: 'support help feedback bug report' },
@@ -219,7 +220,7 @@ export default function Navbar() {
           {/* 3. Catering (dropdown) */}
           <div className={styles.navItem}>
             <button
-              className={`${styles.navLink} ${openDropdown === 'catering' || isActive('/dashboard/catering') || isActive('/dashboard/generators/catering') || pathname === '/dashboard/flyer' ? styles.navLinkActive : ''}`}
+              className={`${styles.navLink} ${openDropdown === 'catering' || isActive('/dashboard/catering') || isActive('/dashboard/generators/catering') || isActive('/dashboard/fsc-tracker') || pathname === '/dashboard/flyer' ? styles.navLinkActive : ''}`}
               onClick={() => toggleDropdown('catering')}
               aria-expanded={openDropdown === 'catering'}
               aria-haspopup="true"
@@ -247,6 +248,13 @@ export default function Navbar() {
                   <div>
                     <div className={styles.dropdownLabel}>Catering Tracker</div>
                     <div className={styles.dropdownHint}>Track clients, orders, and follow-ups</div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/fsc-tracker" className={styles.dropdownItem} onClick={closeDropdown}>
+                  <span className={styles.dropdownIcon}>&#x1F3AB;</span>
+                  <div>
+                    <div className={styles.dropdownLabel}>FSC Tracker</div>
+                    <div className={styles.dropdownHint}>Free Sub Card guest recovery</div>
                   </div>
                 </Link>
               </div>
@@ -442,6 +450,9 @@ export default function Navbar() {
             </Link>
             <Link href="/dashboard/catering-tracker" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
               <span>&#x1F4CA;</span> Catering Tracker
+            </Link>
+            <Link href="/dashboard/fsc-tracker" className={styles.mobileDropdownItem} onClick={closeMobileMenu}>
+              <span>&#x1F3AB;</span> FSC Tracker
             </Link>
           </div>
         )}
