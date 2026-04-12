@@ -337,6 +337,43 @@ export default function WelcomePage() {
           ))}
         </div>
 
+        {/* WHAT WE NEED */}
+        <div style={{
+          background: '#fff',
+          borderRadius: 16,
+          border: '2px solid #f0c040',
+          padding: '36px 40px',
+          marginBottom: 64,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
+            <span style={{ fontSize: 28 }}>🔑</span>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#1a1a2e', margin: 0 }}>What We Still Need</h3>
+          </div>
+          <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6, marginBottom: 20 }}>
+            The infrastructure to support everything below is already built and ready to go — we just need the access to wire it up.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            <div style={{
+              background: '#fefce8', borderRadius: 12, padding: '20px 24px',
+              border: '1px solid #f0c04050',
+            }}>
+              <div style={{ fontWeight: 700, fontSize: 15, color: '#92400e', marginBottom: 8 }}>FlexePOS Admin Account</div>
+              <div style={{ fontSize: 13, color: '#78350f', lineHeight: 1.55 }}>
+                A single admin-level FlexePOS account with access to all 30 stores. This lets us pull daily sales, transaction counts, and register data directly into the platform — no more logging into a separate system.
+              </div>
+            </div>
+            <div style={{
+              background: '#fefce8', borderRadius: 12, padding: '20px 24px',
+              border: '1px solid #f0c04050',
+            }}>
+              <div style={{ fontWeight: 700, fontSize: 15, color: '#92400e', marginBottom: 8 }}>DM / Admin Vantage Point Access</div>
+              <div style={{ fontSize: 13, color: '#78350f', lineHeight: 1.55 }}>
+                Any district manager or admin-level Vantage Point reports, emails, or data feeds we don't currently have access to — weekly reports, P&L breakdowns, automated emails. Anything that can be pulled in so operators see their full picture in one place.
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* COMPLIANCE + SECURITY CALLOUT */}
         <div style={{
           display: 'grid',
