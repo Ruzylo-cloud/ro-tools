@@ -6,7 +6,7 @@ const NAVY = '#0d2d4a';
 
 const LINKS = [
   { icon: '🎬', label: 'Live Presentation', desc: 'Interactive slideshow for meetings', url: '/presentation', color: BLUE },
-  { icon: '🖥️', label: 'Live App (RO Tools)', desc: 'ro-tools.app — all 17 generators + scoreboard + catering', url: 'https://ro-tools.app', color: '#1a5a94', external: true },
+  { icon: '🖥️', label: 'Live App (RO Tools)', desc: 'ro-tools.app — all 15 generators + scoreboard + catering', url: 'https://ro-tools.app', color: '#1a5a94', external: true },
   { icon: '📱', label: 'iOS App — RO Tools', desc: 'TestFlight — generators, catering CRM, scoreboard on iPhone', url: 'https://testflight.apple.com/join/rotools', color: '#555', external: true },
   { icon: '📱', label: 'iOS App — RO Control', desc: 'TestFlight — store kiosk, timeclock, closeout, schedule', url: 'https://testflight.apple.com/join/rocontrol', color: '#555', external: true },
   { icon: '🏪', label: 'Store Kiosk Demo', desc: 'Crew timeclock, checklist, closeout — tablet mode', url: '/demo', color: '#2d7a4a', external: false },
@@ -25,10 +25,8 @@ const GENERATORS = [
   { icon: '⏰', name: 'Timesheet Correction', tag: 'Payroll' },
   { icon: '📄', name: 'Attestation Correction', tag: 'CA §226.7' },
   { icon: '📦', name: 'Onboarding Packet', tag: 'New Hire' },
-  { icon: '📚', name: 'Training Packets', tag: '8 Templates' },
   { icon: '🏆', name: 'DM Walk-Through', tag: 'Inspection' },
   { icon: '📝', name: 'Catering Order', tag: 'Revenue' },
-  { icon: '📋', name: 'Catering Flyer', tag: 'Marketing' },
   { icon: '🏷️', name: 'Food Labels', tag: 'Food Safety' },
   { icon: '🔧', name: 'Work Orders', tag: 'Maintenance' },
   { icon: '📓', name: 'Manager Log', tag: 'Daily Ops' },
@@ -39,7 +37,7 @@ const PLATFORMS = [
     icon: '🌐',
     name: 'RO Tools Web',
     url: 'ro-tools.app',
-    desc: 'Manager platform — 17 generators, catering CRM, scoreboard, directives, L10 scorecard, e-signatures, training library.',
+    desc: 'Manager platform — 15 generators, catering CRM, scoreboard, directives, L10 scorecard, e-signatures, training library.',
     color: BLUE,
   },
   {
@@ -66,7 +64,7 @@ const PLATFORMS = [
 ];
 
 const STATS = [
-  { value: '17', label: 'Document Generators' },
+  { value: '15', label: 'Document Generators' },
   { value: '4', label: 'Platforms Built' },
   { value: '30', label: 'JMVG Stores Covered' },
   { value: '$0', label: 'Monthly Licensing Cost' },
@@ -232,7 +230,7 @@ export default function WelcomePage() {
 
         {/* DOCUMENT GENERATORS */}
         <h2 style={{ fontSize: 13, fontWeight: 700, letterSpacing: 2, textTransform: 'uppercase', color: '#999', marginBottom: 20 }}>
-          17 Document Generators
+          15 Document Generators
         </h2>
         <div style={{
           display: 'grid',
