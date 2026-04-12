@@ -44,6 +44,9 @@ const PAGE_TITLES = {
   '/dashboard/reading': 'Reading — RO Tools',
   '/dashboard/messaging': 'Messaging — RO Tools',
   '/dashboard/setup': 'Setup — RO Tools',
+  '/dashboard/l10': 'L10 Scorecard — RO Tools',
+  '/dashboard/signatures': 'E-Signatures — RO Tools',
+  '/dashboard/fsc-tracker': 'FSC Tracker — RO Tools',
 };
 
 export default function DashboardLayout({ children }) {
