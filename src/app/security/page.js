@@ -325,7 +325,7 @@ export default function SecurityPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20, marginTop: 28 }}>
             {[
               ['🔒', '100% JMVG Infrastructure', 'All data in your Google Cloud org. No vendor has access. No third-party contracts.'],
-              ['📄', 'Legally Compliant Documents', '17 generators enforce CA labor law fields — signed, timestamped, tamper-evident.'],
+              ['📄', 'Legally Compliant Documents', '15 generators enforce CA labor law fields — signed, timestamped, tamper-evident.'],
               ['🕐', 'PIN-Verified Timeclock', 'Crew clock-in requires PIN at the kiosk. All punches are store-IP verified.'],
               ['✍️', 'Digital Signature Trail', 'Every signature is timestamped and stored immutably. Admissible in disputes.'],
               ['📊', 'Full Audit Log', 'Every action — logins, form submissions, edits — logged with user ID and timestamp.'],

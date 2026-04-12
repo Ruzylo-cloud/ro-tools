@@ -74,7 +74,7 @@ const DIRECTIVES = [
         title: 'Key Announcements',
         type: 'list',
         items: [
-          'JMVG grew from 21 to 29 stores — welcome San Diego and Riverside teams (11 new family members)',
+          'JMVG grew from 21 to 30 stores — welcome San Diego and Riverside teams (12 new family members)',
           'New team members: Nick, Josh, Samantha, Thom, Eddie, Sebastian, Ben, Gabby, Natasya, Sabrina, Bryan',
           'February marketing outreach results reviewed',
           'Soft Skills vs Hard Skills training discussion',
