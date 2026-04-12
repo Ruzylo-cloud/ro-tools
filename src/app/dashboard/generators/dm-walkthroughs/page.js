@@ -228,7 +228,7 @@ export default function DMWalkthroughsPage() {
                   {item.assignedTo && <span style={{ color: 'var(--gray-500)' }}> ({item.assignedTo})</span>}
                 </div>
                 <button type="button" onClick={() => removeAction(i)} style={{
-                  background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', fontSize: '14px',
+                  background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer', fontSize: '14px',
                 }}>
                   &times;
                 </button>

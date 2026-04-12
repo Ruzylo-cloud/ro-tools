@@ -759,7 +759,7 @@ export default function CateringTrackerPage() {
         {/* RT-152: Show archived toggle */}
         <button
           onClick={() => setShowArchived(p => !p)}
-          style={{ padding: '5px 14px', fontSize: 12, fontWeight: 600, borderRadius: 16, cursor: 'pointer', border: '1px solid #d1d5db', background: 'var(--white)', color: '#9ca3af', marginLeft: 'auto' }}
+          style={{ padding: '5px 14px', fontSize: 12, fontWeight: 600, borderRadius: 16, cursor: 'pointer', border: '1px solid #d1d5db', background: 'var(--white)', color: 'var(--gray-400)', marginLeft: 'auto' }}
         >
           {showArchived ? 'Hide Archived' : 'Show Archived'}
         </button>
@@ -1012,11 +1012,11 @@ export default function CateringTrackerPage() {
                       {clientOrders.map((o, idx) => (
                         <div key={o.id} style={{ position: 'relative', marginBottom: 16 }}>
                           {/* Timeline dot */}
-                          <div style={{ position: 'absolute', left: -21, top: 4, width: 10, height: 10, borderRadius: '50%', background: idx === 0 ? 'var(--jm-blue)' : '#9ca3af', border: '2px solid #fff', boxShadow: '0 0 0 1px #e5e7eb' }} />
+                          <div style={{ position: 'absolute', left: -21, top: 4, width: 10, height: 10, borderRadius: '50%', background: idx === 0 ? 'var(--jm-blue)' : 'var(--gray-400)', border: '2px solid #fff', boxShadow: '0 0 0 1px #e5e7eb' }} />
                           <div style={{ background: 'var(--gray-50)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
                               <span style={{ fontSize: 13, fontWeight: 700, color: '#111' }}>{formatCurrency(o.totalAmount)}</span>
-                              <span style={{ fontSize: 11, color: '#9ca3af' }}>{formatDate(o.orderDate)}</span>
+                              <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>{formatDate(o.orderDate)}</span>
                             </div>
                             <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                               {o.itemCount > 0 && <span style={{ fontSize: 11, color: 'var(--gray-500)' }}>{o.itemCount} subs</span>}

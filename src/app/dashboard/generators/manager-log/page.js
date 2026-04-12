@@ -219,14 +219,14 @@ export default function ManagerLogPage() {
                 }}>
                   <div>
                     <div style={{ fontSize: '12px', color: 'var(--text)', lineHeight: 1.4 }}>{entry.content}</div>
-                    <div style={{ fontSize: '10px', color: '#9ca3af', marginTop: '2px' }}>{entry.time}</div>
+                    <div style={{ fontSize: '10px', color: 'var(--gray-400)', marginTop: '2px' }}>{entry.time}</div>
                   </div>
                   <button
                     type="button"
                     onClick={() => removeEntry(activeBoard, i)}
                     aria-label={`Remove log entry ${i + 1} from ${form.boards[activeBoard].name}`}
                     style={{
-                      background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer',
+                      background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer',
                       fontSize: '14px', padding: '0 4px', flexShrink: 0,
                     }}
                   >

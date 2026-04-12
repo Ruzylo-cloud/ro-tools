@@ -35,7 +35,7 @@ function TerminationChecklist() {
       {TERM_CHECKLIST.map(item => (
         <label key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--gray-700)', cursor: 'pointer', padding: '3px 0' }}>
           <input type="checkbox" checked={checked.includes(item)} onChange={() => toggle(item)} style={{ accentColor: 'var(--jm-blue)' }} />
-          <span style={{ textDecoration: checked.includes(item) ? 'line-through' : 'none', color: checked.includes(item) ? '#9ca3af' : 'var(--charcoal)' }}>{item}</span>
+          <span style={{ textDecoration: checked.includes(item) ? 'line-through' : 'none', color: checked.includes(item) ? 'var(--gray-400)' : 'var(--charcoal)' }}>{item}</span>
         </label>
       ))}
     </div>

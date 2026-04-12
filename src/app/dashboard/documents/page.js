@@ -395,7 +395,7 @@ export default function DocumentsPage() {
                 <div className={styles.templateName}>{t.name}</div>
                 <div className={styles.templateDesc}>{t.desc}</div>
                 {/* RT-127: Version tag */}
-                {t.version && <div style={{ fontSize: 9, fontWeight: 700, color: selected === t.id ? 'rgba(255,255,255,0.6)' : '#9ca3af', marginTop: 2 }}>v{t.version}</div>}
+                {t.version && <div style={{ fontSize: 9, fontWeight: 700, color: selected === t.id ? 'rgba(255,255,255,0.6)' : 'var(--gray-400)', marginTop: 2 }}>v{t.version}</div>}
                 {/* RT-178: Completed checkmark */}
                 {isDone && <div className={styles.templateDone}>✓ Done</div>}
               </div>
@@ -473,14 +473,14 @@ export default function DocumentsPage() {
               <button
                 onClick={() => idx > 0 && handleTemplateChange(TEMPLATES[idx - 1].id)}
                 disabled={idx <= 0}
-                style={{ flex: 1, padding: '8px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx <= 0 ? '#9ca3af' : '#374151', cursor: idx <= 0 ? 'not-allowed' : 'pointer' }}
+                style={{ flex: 1, padding: '8px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx <= 0 ? 'var(--gray-400)' : '#374151', cursor: idx <= 0 ? 'not-allowed' : 'pointer' }}
               >
                 ← {idx > 0 ? TEMPLATES[idx - 1].name : 'Previous'}
               </button>
               <button
                 onClick={() => idx < TEMPLATES.length - 1 && handleTemplateChange(TEMPLATES[idx + 1].id)}
                 disabled={idx >= TEMPLATES.length - 1}
-                style={{ flex: 1, padding: '8px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx >= TEMPLATES.length - 1 ? '#9ca3af' : '#374151', cursor: idx >= TEMPLATES.length - 1 ? 'not-allowed' : 'pointer' }}
+                style={{ flex: 1, padding: '8px', background: 'var(--gray-100)', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 12, fontWeight: 600, color: idx >= TEMPLATES.length - 1 ? 'var(--gray-400)' : '#374151', cursor: idx >= TEMPLATES.length - 1 ? 'not-allowed' : 'pointer' }}
               >
                 {idx < TEMPLATES.length - 1 ? TEMPLATES[idx + 1].name : 'Next'} →
               </button>
@@ -700,7 +700,7 @@ export default function DocumentsPage() {
                     <button
                       onClick={submitQuiz}
                       disabled={Object.keys(quizAnswers).length < quiz.questions.length}
-                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < quiz.questions.length ? '#9ca3af' : 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < quiz.questions.length ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
+                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < quiz.questions.length ? 'var(--gray-400)' : 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < quiz.questions.length ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
                     >
                       Submit Quiz ({Object.keys(quizAnswers).length}/{quiz.questions.length} answered)
                     </button>

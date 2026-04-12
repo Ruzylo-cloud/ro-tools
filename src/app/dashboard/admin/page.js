@@ -286,7 +286,7 @@ export default function AdminPage() {
           ].map(s => (
             <div key={s.label} style={{ flex: 1, minWidth: 100, padding: '12px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 10, textAlign: 'center' }}>
               <div style={{ fontSize: 22, fontWeight: 800, color: s.color }}>{s.val}</div>
-              <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{s.label}</div>
+              <div style={{ fontSize: 11, color: 'var(--gray-400)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -438,7 +438,7 @@ export default function AdminPage() {
                     <span className={styles.userEmail}>{u.email}</span>
                     {/* RT-226: Last login */}
                     {u.lastLoginAt && (
-                      <span style={{ fontSize: 10, color: '#9ca3af', display: 'block' }}>
+                      <span style={{ fontSize: 10, color: 'var(--gray-400)', display: 'block' }}>
                         Last login: {new Date(u.lastLoginAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </span>
                     )}
@@ -446,7 +446,7 @@ export default function AdminPage() {
                   <span className={`${styles.userRole} ${roleClass(u.role, u.roleApproved)}`}>
                     {roleLabel(u.role)}
                   </span>
-                  <span style={{ fontSize: 12, color: '#9ca3af' }}>{u.stores} store{u.stores !== 1 ? 's' : ''}</span>
+                  <span style={{ fontSize: 12, color: 'var(--gray-400)' }}>{u.stores} store{u.stores !== 1 ? 's' : ''}</span>
                 </div>
               ))
             )}
@@ -507,7 +507,7 @@ export default function AdminPage() {
                     <span className={styles.logColTime}>{formatTimestamp(log.timestamp)}</span>
                     <span className={styles.logColUser}>
                       <span style={{ fontWeight: 600 }}>{log.userName || '—'}</span>
-                      <span style={{ fontSize: 11, color: '#9ca3af', display: 'block' }}>{log.userEmail || ''}</span>
+                      <span style={{ fontSize: 11, color: 'var(--gray-400)', display: 'block' }}>{log.userEmail || ''}</span>
                     </span>
                     <span className={styles.logColType}>{log.generatorType || '—'}</span>
                     <span className={styles.logColAction}>
@@ -551,7 +551,7 @@ export default function AdminPage() {
       {tab === 'stats' && (
         <div>
           {!analytics ? (
-            <div style={{ padding: 40, textAlign: 'center', color: '#9ca3af', fontSize: 14 }}>Loading analytics...</div>
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--gray-400)', fontSize: 14 }}>Loading analytics...</div>
           ) : (
             <>
               {/* Summary stats */}
@@ -566,7 +566,7 @@ export default function AdminPage() {
                 ].map(s => (
                   <div key={s.label} style={{ padding: '14px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 10, textAlign: 'center' }}>
                     <div style={{ fontSize: 24, fontWeight: 800, color: s.color }}>{s.val}</div>
-                    <div style={{ fontSize: 10, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 2 }}>{s.label}</div>
+                    <div style={{ fontSize: 10, color: 'var(--gray-400)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 2 }}>{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -575,7 +575,7 @@ export default function AdminPage() {
               <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '20px 20px 16px' }}>
                 <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Top Generators</div>
                 {analytics.topGenerators.length === 0 ? (
-                  <div style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', padding: '20px 0' }}>No data yet</div>
+                  <div style={{ fontSize: 13, color: 'var(--gray-400)', textAlign: 'center', padding: '20px 0' }}>No data yet</div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {analytics.topGenerators.map((g, i) => {
@@ -583,7 +583,7 @@ export default function AdminPage() {
                       const pct = Math.round((g.count / maxCount) * 100);
                       return (
                         <div key={g.type} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                          <div style={{ width: 20, fontSize: 11, fontWeight: 700, color: '#9ca3af', textAlign: 'right', flexShrink: 0 }}>{i + 1}</div>
+                          <div style={{ width: 20, fontSize: 11, fontWeight: 700, color: 'var(--gray-400)', textAlign: 'right', flexShrink: 0 }}>{i + 1}</div>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
                               <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-700)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.label}</span>

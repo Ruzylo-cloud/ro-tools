@@ -452,7 +452,7 @@ export default function DirectivesPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(238,50,39,0.06)', border: '1px solid rgba(238,50,39,0.2)', borderRadius: 10, padding: '10px 16px', marginBottom: 20, fontSize: 13 }}>
           <span style={{ fontSize: 16 }}>🔔</span>
           <span style={{ fontWeight: 700, color: 'var(--jm-red)' }}>{newDirectiveCount} new {newDirectiveCount === 1 ? 'directive' : 'directives'}</span>
-          <span style={{ color: '#4b5563' }}>updated in the last 14 days — review the Directives tab</span>
+          <span style={{ color: 'var(--gray-600)' }}>updated in the last 14 days — review the Directives tab</span>
           {tab !== 'directives' && (
             <button onClick={() => setTab('directives')} style={{ marginLeft: 'auto', padding: '4px 12px', background: 'var(--jm-red)', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>View</button>
           )}
@@ -514,7 +514,7 @@ export default function DirectivesPage() {
                     <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{d.title}</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{d.description}</div>
                   </div>
-                  <div style={{ fontSize: 11, color: '#9ca3af', whiteSpace: 'nowrap', marginTop: 2 }}>Updated {formatDate(d.updatedDate)}</div>
+                  <div style={{ fontSize: 11, color: 'var(--gray-400)', whiteSpace: 'nowrap', marginTop: 2 }}>Updated {formatDate(d.updatedDate)}</div>
                 </div>
               ))}
             </div>
@@ -589,7 +589,7 @@ export default function DirectivesPage() {
                       try { localStorage.setItem('directive-drafts', JSON.stringify(updated)); } catch (e) { console.debug('[directives] draft save failed (non-fatal):', e); }
                       setShowCreateDirective(false);
                       setDraftDirective({ title: '', category: 'operations', body: '' });
-                    }} disabled={!draftDirective.title.trim()} style={{ padding: '10px 22px', background: draftDirective.title.trim() ? 'var(--jm-blue)' : '#e5e7eb', color: draftDirective.title.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: draftDirective.title.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}>
+                    }} disabled={!draftDirective.title.trim()} style={{ padding: '10px 22px', background: draftDirective.title.trim() ? 'var(--jm-blue)' : '#e5e7eb', color: draftDirective.title.trim() ? '#fff' : 'var(--gray-400)', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: draftDirective.title.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}>
                       Save Draft
                     </button>
                   </div>
@@ -600,7 +600,7 @@ export default function DirectivesPage() {
                         <div key={d.id} style={{ padding: '8px 12px', background: 'var(--gray-50)', borderRadius: 8, marginBottom: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                           <div>
                             <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{d.title}</div>
-                            <div style={{ fontSize: 11, color: '#9ca3af' }}>{d.category} · {d.savedAt}</div>
+                            <div style={{ fontSize: 11, color: 'var(--gray-400)' }}>{d.category} · {d.savedAt}</div>
                           </div>
                           <button onClick={() => setSavedDrafts(prev => { const u = prev.filter(x => x.id !== d.id); try { localStorage.setItem('directive-drafts', JSON.stringify(u)); } catch (e) { console.debug('[directives] draft delete save failed (non-fatal):', e); } return u; })} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: 18, lineHeight: 1 }}>&times;</button>
                         </div>
@@ -788,7 +788,7 @@ export default function DirectivesPage() {
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <button onClick={addOutreachEntry} disabled={!outreachForm.business.trim()} style={{ padding: '10px 22px', background: outreachForm.business.trim() ? 'var(--jm-blue)' : '#e5e7eb', color: outreachForm.business.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: outreachForm.business.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit', transition: 'background 0.15s' }}>Add Entry</button>
+              <button onClick={addOutreachEntry} disabled={!outreachForm.business.trim()} style={{ padding: '10px 22px', background: outreachForm.business.trim() ? 'var(--jm-blue)' : '#e5e7eb', color: outreachForm.business.trim() ? '#fff' : 'var(--gray-400)', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: outreachForm.business.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit', transition: 'background 0.15s' }}>Add Entry</button>
               {outreachSaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>Saved!</span>}
             </div>
           </div>
@@ -810,15 +810,15 @@ export default function DirectivesPage() {
                     {outreachEntries.map((e) => (
                       <tr key={e.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
                         <td style={{ padding: '8px 10px', color: 'var(--text)', fontWeight: 600 }}>{e.business}</td>
-                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.contact || '—'}</td>
-                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.position || '—'}</td>
-                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.phone || '—'}</td>
-                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.materials}</td>
-                        <td style={{ padding: '8px 10px', color: '#4b5563' }}>{e.qty}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--gray-600)' }}>{e.contact || '—'}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--gray-600)' }}>{e.position || '—'}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--gray-600)' }}>{e.phone || '—'}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--gray-600)' }}>{e.materials}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--gray-600)' }}>{e.qty}</td>
                         <td style={{ padding: '8px 10px' }}>
                           <span style={{ fontWeight: 700, color: e.order === 'Y' ? '#16a34a' : '#6b7280' }}>{e.order}</span>
                         </td>
-                        <td style={{ padding: '8px 10px', color: '#4b5563', whiteSpace: 'nowrap' }}>{e.followUp ? formatShortDate(e.followUp) : '—'}</td>
+                        <td style={{ padding: '8px 10px', color: 'var(--gray-600)', whiteSpace: 'nowrap' }}>{e.followUp ? formatShortDate(e.followUp) : '—'}</td>
                         <td style={{ padding: '8px 10px' }}>
                           <button onClick={() => removeOutreachEntry(e.id)} style={{ background: 'none', border: 'none', color: 'var(--jm-red)', cursor: 'pointer', fontSize: 13, fontWeight: 700, padding: '2px 6px' }}>x</button>
                         </td>
@@ -831,7 +831,7 @@ export default function DirectivesPage() {
           )}
 
           {outreachEntries.length === 0 && (
-            <div style={{ textAlign: 'center', padding: '40px 20px', color: '#9ca3af', fontSize: 14 }}>No outreach entries yet. Log your first business visit above.</div>
+            <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--gray-400)', fontSize: 14 }}>No outreach entries yet. Log your first business visit above.</div>
           )}
         </div>
       )}
@@ -874,7 +874,7 @@ export default function DirectivesPage() {
                       <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{field.desc}</div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      {field.prefix === '$' && <span style={{ fontSize: 16, fontWeight: 700, color: '#9ca3af' }}>$</span>}
+                      {field.prefix === '$' && <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--gray-400)' }}>$</span>}
                       <input
                         type="number"
                         value={val || (field.key === 'growthTarget' ? (val === '' ? '' : val) : '')}
@@ -882,7 +882,7 @@ export default function DirectivesPage() {
                         onChange={e => updateScorecardField(field.key, e.target.value)}
                         style={{ width: 90, padding: '8px 10px', border: `1px solid ${highlightColor || '#e5e7eb'}`, borderRadius: 8, fontSize: 14, fontWeight: 700, textAlign: 'right', color: highlightColor || '#2D2D2D', outline: 'none', fontFamily: 'inherit', background: 'var(--white)' }}
                       />
-                      {field.prefix === '%' && <span style={{ fontSize: 14, fontWeight: 700, color: '#9ca3af' }}>%</span>}
+                      {field.prefix === '%' && <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--gray-400)' }}>%</span>}
                     </div>
                   </div>
                 );
@@ -909,9 +909,9 @@ export default function DirectivesPage() {
                     <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: 'var(--gray-50)', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : 'var(--jm-red)') : 'var(--jm-blue)'}` }}>
                       <div style={{ fontWeight: 700, color: 'var(--jm-blue)', fontSize: 14, minWidth: 120 }}>{month}</div>
                       <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', flex: 1 }}>
-                        {data.upselling && <span style={{ fontSize: 12, color: '#4b5563' }}>Upselling: <strong>${data.upselling}</strong></span>}
-                        {data.marketing && <span style={{ fontSize: 12, color: '#4b5563' }}>Marketing: <strong>${data.marketing}</strong></span>}
-                        {data.storeIdea && <span style={{ fontSize: 12, color: '#4b5563' }}>Store Idea: <strong>${data.storeIdea}</strong></span>}
+                        {data.upselling && <span style={{ fontSize: 12, color: 'var(--gray-600)' }}>Upselling: <strong>${data.upselling}</strong></span>}
+                        {data.marketing && <span style={{ fontSize: 12, color: 'var(--gray-600)' }}>Marketing: <strong>${data.marketing}</strong></span>}
+                        {data.storeIdea && <span style={{ fontSize: 12, color: 'var(--gray-600)' }}>Store Idea: <strong>${data.storeIdea}</strong></span>}
                         {hasGrowth && <span style={{ fontSize: 12, fontWeight: 700, color: met ? '#16a34a' : 'var(--jm-red)' }}>Growth: {data.growthActual}% {met ? '(met target)' : `(target ${target}%)`}</span>}
                       </div>
                     </div>
@@ -943,11 +943,11 @@ export default function DirectivesPage() {
                     {/* Content */}
                     <div style={{ flex: 1, padding: '10px 0 10px 10px', opacity: past ? 0.45 : 1 }}>
                       <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: current ? '#16a34a' : past ? '#9ca3af' : 'var(--jm-blue)', minWidth: 70, flexShrink: 0 }}>{formatShortDate(item.date)}</span>
-                        <span style={{ fontSize: 13, color: past ? '#9ca3af' : '#2D2D2D', fontWeight: isCalendarMonth ? 400 : 500 }}>{item.label}</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: current ? '#16a34a' : past ? 'var(--gray-400)' : 'var(--jm-blue)', minWidth: 70, flexShrink: 0 }}>{formatShortDate(item.date)}</span>
+                        <span style={{ fontSize: 13, color: past ? 'var(--gray-400)' : '#2D2D2D', fontWeight: isCalendarMonth ? 400 : 500 }}>{item.label}</span>
                         {current && <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(22,163,74,0.12)', color: '#16a34a', padding: '2px 8px', borderRadius: 100 }}>THIS MONTH</span>}
                       </div>
-                      {item.source && <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 2 }}>{item.source}</div>}
+                      {item.source && <div style={{ fontSize: 11, color: 'var(--gray-400)', marginTop: 2 }}>{item.source}</div>}
                     </div>
                   </div>
                 );
@@ -962,7 +962,7 @@ export default function DirectivesPage() {
         <div>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16 }}>Communication History</h2>
           {readIds.size === 0 && outreachEntries.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '48px 24px', color: '#9ca3af' }}>
+            <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--gray-400)' }}>
               <div style={{ fontSize: 36, marginBottom: 12 }}>📋</div>
               <div style={{ fontSize: 15, fontWeight: 600 }}>No history yet</div>
               <div style={{ fontSize: 13, marginTop: 4 }}>Mark directives as read and log outreach visits to see your history here.</div>

@@ -253,7 +253,7 @@ export default function OnboardingPacketsPage() {
                 </span>
                 {isCustom && (
                   <button type="button" onClick={() => removeCustomDoc(i - form.documents.length)} style={{
-                    background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', fontSize: '14px',
+                    background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer', fontSize: '14px',
                   }}>
                     &times;
                   </button>

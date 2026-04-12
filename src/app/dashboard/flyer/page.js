@@ -170,7 +170,7 @@ export default function FlyerPage() {
                 }}
               >
                 <div style={{ fontSize: 11, fontWeight: 700, color: flyerTemplate === t.id ? 'var(--jm-blue)' : 'var(--charcoal)' }}>{t.label}</div>
-                <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 2 }}>{t.desc}</div>
+                <div style={{ fontSize: 9, color: 'var(--gray-400)', marginTop: 2 }}>{t.desc}</div>
               </button>
             ))}
           </div>
@@ -204,7 +204,7 @@ export default function FlyerPage() {
             }}
           >
             <span>Customize Menu</span>
-            <span style={{ fontSize: 11, color: '#9ca3af' }}>{showMenuEditor ? '▲' : '▼'}</span>
+            <span style={{ fontSize: 11, color: 'var(--gray-400)' }}>{showMenuEditor ? '▲' : '▼'}</span>
           </button>
           {showMenuEditor && (
             <div style={{

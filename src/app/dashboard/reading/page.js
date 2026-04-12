@@ -2018,7 +2018,7 @@ export default function ReadingPage() {
                         });
                       }}
                       disabled={Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length}
-                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'var(--border)' : 'var(--jm-blue)', color: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? '#9ca3af' : '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'not-allowed' : 'pointer' }}
+                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'var(--border)' : 'var(--jm-blue)', color: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'var(--gray-400)' : '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < BOOK_QUIZZES[book.id].length ? 'not-allowed' : 'pointer' }}
                     >
                       Submit Quiz
                     </button>

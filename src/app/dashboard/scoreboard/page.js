@@ -11,7 +11,7 @@ const COLOR_MAP = {
   green: { bg: 'rgba(22,163,74,0.12)', color: '#16a34a', label: 'Trifecta' },
   yellow: { bg: 'rgba(245,158,11,0.12)', color: '#b45309', label: '2 Targets' },
   orange: { bg: 'rgba(249,115,22,0.12)', color: '#c2410c', label: '1 Target' },
-  none: { bg: 'transparent', color: '#9ca3af', label: '0 Targets' },
+  none: { bg: 'transparent', color: 'var(--gray-400)', label: '0 Targets' },
 };
 
 function formatCurrency(n) {
@@ -67,7 +67,7 @@ function MetricTh({ label, children }) {
 function TrendArrow({ current, previous, higherIsBetter = true, fmt }) {
   if (!previous || previous === 0) return null;
   const diff = current - previous;
-  if (Math.abs(diff) < 0.01) return <span style={{ color: '#9ca3af', fontSize: '11px' }}>—</span>;
+  if (Math.abs(diff) < 0.01) return <span style={{ color: 'var(--gray-400)', fontSize: '11px' }}>—</span>;
   const isGood = higherIsBetter ? diff > 0 : diff < 0;
   const arrow = diff > 0 ? '▲' : '▼';
   const color = isGood ? '#16a34a' : '#dc2626';
