@@ -36,7 +36,7 @@ const SLIDES = [
   {
     type: 'text',
     label: 'THE PROBLEM',
-    title: 'Inconsistent paperwork across 30+ stores',
+    title: 'Inconsistent paperwork across 30 stores',
     bullets: [
       'Every store uses different Word templates for the same forms',
       'Manual data entry — wrong store numbers, addresses, phone numbers',
@@ -54,7 +54,7 @@ const SLIDES = [
     label: 'THE SOLUTION',
     title: 'One platform. Every tool. Every store.',
     bullets: [
-      '17 document generators + 8 training packets — PDF in seconds, not minutes',
+      '15 document generators + 8 training packets — PDF in seconds, not minutes',
       'Digital manager signatures + e-sign links sent to employees',
       'Auto-email to HR on injury reports — instant compliance',
       'Store info auto-fills everywhere — enter it once, use everywhere',
@@ -70,7 +70,7 @@ const SLIDES = [
     type: 'stats',
     label: 'BY THE NUMBERS',
     stats: [
-      { value: '17', label: 'Document Generators' },
+      { value: '15', label: 'Document Generators' },
       { value: '30', label: 'JMVG Stores' },
       { value: '8', label: 'Training Packet Templates' },
       { value: '$0', label: 'Monthly Cost' },
@@ -84,9 +84,8 @@ const SLIDES = [
   {
     type: 'grid',
     label: 'DOCUMENT GENERATORS',
-    title: '17 Professional PDF Generators',
+    title: '15 Professional PDF Generators',
     items: [
-      { icon: '📋', name: 'Catering Flyer', desc: 'Print-ready with full menu' },
       { icon: '📝', name: 'Catering Order', desc: 'Auto-calculated pricing' },
       { icon: '⚠️', name: 'Written Warning', desc: 'Progressive discipline' },
       { icon: '⭐', name: 'Performance Eval', desc: '10-category scoring' },
@@ -97,7 +96,6 @@ const SLIDES = [
       { icon: '🍽️', name: 'Meal Break Waiver', desc: 'CA Labor Code §512' },
       { icon: '⏰', name: 'Timesheet Correction', desc: 'Clock in/out fixes' },
       { icon: '📄', name: 'Attestation Correction', desc: 'Meal/rest break forms' },
-      { icon: '📚', name: 'Training Packets', desc: '8 multi-page templates' },
       { icon: '🏷️', name: 'Food Labels', desc: 'Prep/expiry date labels' },
       { icon: '🔧', name: 'Work Orders', desc: 'Equipment maintenance' },
       { icon: '📓', name: 'Manager Log', desc: 'Daily shift notes' },
@@ -112,7 +110,7 @@ const SLIDES = [
     type: 'feature',
     label: 'HR COMPLIANCE',
     title: 'Written Warning Generator',
-    description: 'Every written warning across all 30+ stores follows the exact same format. Same legal language, same structure, same compliance. HR can search and verify any warning instantly.',
+    description: 'Every written warning across all 30 stores follows the exact same format. Same legal language, same structure, same compliance. HR can search and verify any warning instantly.',
     bullets: [
       '5 levels: Verbal → Written → Final → Suspension → Termination',
       'Violation categories with structured improvement plans',
@@ -167,7 +165,7 @@ const SLIDES = [
     type: 'feature',
     label: 'PERFORMANCE',
     title: 'JMVG Scoreboard',
-    description: '12 weeks of real performance data across all 30+ stores. Grand Slams, Trifectas, and growth rankings drive healthy competition. New week added automatically.',
+    description: '12 weeks of real performance data across all 30 stores. Grand Slams, Trifectas, and growth rankings drive healthy competition. New week added automatically.',
     bullets: [
       '4 targets: Labor, COGs Variance, COGs Actual, PY Growth',
       'Color-coded: Royal Blue (Grand Slam) → Orange (1 target)',
@@ -246,7 +244,7 @@ const SLIDES = [
         color: '#134A7C',
         desc: 'The full management platform on your phone',
         bullets: [
-          'All 17 generators + 8 training packets',
+          'All 15 generators + 8 training packets',
           'Catering CRM with push reminders',
           'Live JMVG scoreboard',
           'On-device PDF rendering + offline support',
