@@ -99,6 +99,7 @@ export default function HistoryPage() {
   const [total, setTotal] = useState(0);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
 
   // Filters
   const [search, setSearch] = useState('');
@@ -126,12 +127,14 @@ export default function HistoryPage() {
       }
       if (actionFilter) params.set('action', actionFilter);
 
+      setFetchError(false);
       const res = await fetch(`/api/logs?${params.toString()}`);
       if (!res.ok) throw new Error('Failed to fetch');
       const data = await res.json();
       setLogs(data.logs || []);
       setTotal(data.total || 0);
     } catch {
+      setFetchError(true);
       setLogs([]);
       setTotal(0);
     } finally {
@@ -239,8 +242,17 @@ export default function HistoryPage() {
         </div>
       )}
 
+      {/* Error State */}
+      {!loading && fetchError && (
+        <div className={styles.empty}>
+          <div className={styles.emptyIcon}>&#x26A0;&#xFE0F;</div>
+          <div className={styles.emptyTitle}>Failed to load history</div>
+          <div className={styles.emptyText}>Something went wrong. Please try again.</div>
+        </div>
+      )}
+
       {/* Empty State */}
-      {!loading && displayLogs.length === 0 && (
+      {!loading && !fetchError && displayLogs.length === 0 && (
         <div className={styles.empty}>
           <div className={styles.emptyIcon}>&#x1F4C4;</div>
           <div className={styles.emptyTitle}>No history found</div>

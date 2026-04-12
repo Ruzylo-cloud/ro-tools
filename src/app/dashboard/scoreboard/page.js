@@ -81,12 +81,15 @@ function TrendArrow({ current, previous, higherIsBetter = true, fmt }) {
 
 function ServerEntries({ week, saved }) {
   const [entries, setEntries] = useState([]);
+  const [loadError, setLoadError] = useState(false);
   useEffect(() => {
+    setLoadError(false);
     fetch(`/api/scoreboard/entries?week=${week}`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error(); return r.json(); })
       .then(d => setEntries(d.entries || []))
-      .catch(() => {});
+      .catch(() => setLoadError(true));
   }, [week, saved]);
+  if (loadError) return <div style={{ marginTop: 20, color: 'var(--jm-red)', fontSize: 13 }}>Failed to load entries for this week.</div>;
   if (entries.length === 0) return null;
   return (
     <div style={{ marginTop: 20 }}>

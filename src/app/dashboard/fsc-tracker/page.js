@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/components/AuthProvider';
+import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
 const EMPTY_FORM = () => ({
@@ -15,6 +16,7 @@ const EMPTY_FORM = () => ({
 
 export default function FSCTrackerPage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -76,35 +78,51 @@ export default function FSCTrackerPage() {
       setShowModal(false);
       fetchRequests();
     } catch {
-      // silent
+      showToast('Failed to save FSC request.', 'error');
     } finally {
       setSaving(false);
     }
   };
 
   const markSent = async (id) => {
-    const dateSent = new Date().toISOString().split('T')[0];
-    await fetch('/api/fsc', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, dateSent }),
-    });
-    fetchRequests();
+    try {
+      const dateSent = new Date().toISOString().split('T')[0];
+      const res = await fetch('/api/fsc', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, dateSent }),
+      });
+      if (!res.ok) throw new Error();
+      fetchRequests();
+    } catch {
+      showToast('Failed to mark as sent.', 'error');
+    }
   };
 
   const markUnsent = async (id) => {
-    await fetch('/api/fsc', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, dateSent: null }),
-    });
-    fetchRequests();
+    try {
+      const res = await fetch('/api/fsc', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, dateSent: null }),
+      });
+      if (!res.ok) throw new Error();
+      fetchRequests();
+    } catch {
+      showToast('Failed to update status.', 'error');
+    }
   };
 
   const deleteRequest = async (id) => {
     if (!confirm('Delete this FSC request?')) return;
-    await fetch(`/api/fsc?id=${id}`, { method: 'DELETE' });
-    fetchRequests();
+    try {
+      const res = await fetch(`/api/fsc?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error();
+      showToast('FSC request deleted.', 'success');
+      fetchRequests();
+    } catch {
+      showToast('Failed to delete request.', 'error');
+    }
   };
 
   // Stats

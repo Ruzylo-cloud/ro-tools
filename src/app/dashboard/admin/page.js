@@ -389,11 +389,11 @@ export default function AdminPage() {
                   </span>
                   <div className={styles.actions}>
                     <button className={styles.approveBtn} onClick={() => setConfirmAction({ userId: u.id, action: 'approve', userName: u.displayName || u.email })} disabled={actionLoading === u.id}>
-                      {actionLoading === u.id ? '...' : 'Approve'}
+                      {actionLoading === u.id ? 'Approving...' : 'Approve'}
                     </button>
                     {/* RT-219: Confirm before deny */}
                     <button className={styles.denyBtn} onClick={() => setConfirmAction({ userId: u.id, action: 'deny', userName: u.displayName || u.email })} disabled={actionLoading === u.id}>
-                      {actionLoading === u.id ? '...' : 'Deny'}
+                      {actionLoading === u.id ? 'Denying...' : 'Deny'}
                     </button>
                   </div>
                 </div>
