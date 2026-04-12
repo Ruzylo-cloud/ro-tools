@@ -164,12 +164,12 @@ export default function FlyerPage() {
                 onClick={() => setFlyerTemplate(t.id)}
                 style={{
                   flex: 1, padding: '7px 4px', borderRadius: 8,
-                  border: flyerTemplate === t.id ? '2px solid #134A7C' : '1px solid var(--border)',
+                  border: flyerTemplate === t.id ? '2px solid var(--jm-blue)' : '1px solid var(--border)',
                   background: flyerTemplate === t.id ? 'rgba(19,74,124,0.06)' : 'var(--white)',
                   cursor: 'pointer', textAlign: 'center',
                 }}
               >
-                <div style={{ fontSize: 11, fontWeight: 700, color: flyerTemplate === t.id ? '#134A7C' : '#374151' }}>{t.label}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: flyerTemplate === t.id ? 'var(--jm-blue)' : 'var(--charcoal)' }}>{t.label}</div>
                 <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 2 }}>{t.desc}</div>
               </button>
             ))}

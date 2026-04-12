@@ -1640,7 +1640,7 @@ export default function ReadingPage() {
               <>
                 {/* Progress bar */}
                 <div style={{ height: 5, background: 'var(--gray-100)', borderRadius: 3, overflow: 'hidden', marginBottom: 14 }}>
-                  <div style={{ height: '100%', borderRadius: 3, background: '#EE3227', width: `${Math.round((quizzesTaken.length / quizBookIds.length) * 100)}%`, transition: 'width 0.4s' }} />
+                  <div style={{ height: '100%', borderRadius: 3, background: 'var(--jm-red)', width: `${Math.round((quizzesTaken.length / quizBookIds.length) * 100)}%`, transition: 'width 0.4s' }} />
                 </div>
 
                 {/* Tests Taken */}
@@ -1682,7 +1682,7 @@ export default function ReadingPage() {
                         <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--jm-blue)' }}>{nextQuizBook.title}</div>
                         <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>by {nextQuizBook.author} · 20 questions · need 18/20 to pass</div>
                       </div>
-                      <button onClick={() => setSelectedBook(nextQuizBook.id)} style={{ padding: '8px 18px', background: '#EE3227', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                      <button onClick={() => setSelectedBook(nextQuizBook.id)} style={{ padding: '8px 18px', background: 'var(--jm-red)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap' }}>
                         Take Test →
                       </button>
                     </div>
@@ -1830,8 +1830,8 @@ export default function ReadingPage() {
           </div>
 
           {/* Why This Book Matters */}
-          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderTop: '3px solid #EE3227', borderRadius: 14, padding: 28, marginBottom: 20 }}>
-            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: '#EE3227', marginBottom: 12 }}>
+          <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderTop: '3px solid var(--jm-red)', borderRadius: 14, padding: 28, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, color: 'var(--jm-red)', marginBottom: 12 }}>
               Why This Book Matters for JM Valley
             </h2>
             <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--text)' }}>{book.importance}</p>
@@ -1870,7 +1870,7 @@ export default function ReadingPage() {
 
           {/* How to Apply */}
           {book.howToApply && (
-            <div style={{ background: 'linear-gradient(135deg, #134A7C 0%, #1a5a94 100%)', borderRadius: 14, padding: 28, marginBottom: 20, color: '#fff' }}>
+            <div style={{ background: 'linear-gradient(135deg, var(--jm-blue) 0%, #1a5a94 100%)', borderRadius: 14, padding: 28, marginBottom: 20, color: '#fff' }}>
               <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: 22, fontWeight: 800, marginBottom: 16 }}>
                 How to Apply This at Your Store
               </h2>
@@ -1910,8 +1910,8 @@ export default function ReadingPage() {
               </h2>
               <p style={{ fontSize: 14, color: 'var(--gray-500)', marginBottom: 20, marginTop: -8 }}>Real scenarios that show how these concepts play out in a Jersey Mike\'s environment.</p>
               {book.storeScenarios.map((scenario, i) => (
-                <div key={i} style={{ marginBottom: i < book.storeScenarios.length - 1 ? 16 : 0, padding: '16px 20px', background: 'rgba(238,50,39,0.06)', border: '1px solid rgba(238,50,39,0.2)', borderLeft: '4px solid #EE3227', borderRadius: 10 }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: '#EE3227', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Scenario {i + 1}</div>
+                <div key={i} style={{ marginBottom: i < book.storeScenarios.length - 1 ? 16 : 0, padding: '16px 20px', background: 'rgba(238,50,39,0.06)', border: '1px solid rgba(238,50,39,0.2)', borderLeft: '4px solid var(--jm-red)', borderRadius: 10 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--jm-red)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 8 }}>Scenario {i + 1}</div>
                   <p style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--text)', margin: 0 }}>{scenario}</p>
                 </div>
               ))}
@@ -1992,7 +1992,7 @@ export default function ReadingPage() {
                               onClick={() => !quizSubmitted && setQuizAnswers(prev => ({ ...prev, [qi]: oi }))}
                               style={{
                                 textAlign: 'left', padding: '10px 14px', borderRadius: 8, cursor: quizSubmitted ? 'default' : 'pointer', fontSize: 14, transition: 'all 0.15s',
-                                border: isCorrect ? '1.5px solid #16a34a' : isWrong ? '1.5px solid #dc2626' : isSelected ? '1.5px solid #134A7C' : '1px solid var(--border)',
+                                border: isCorrect ? '1.5px solid #16a34a' : isWrong ? '1.5px solid #dc2626' : isSelected ? '1.5px solid var(--jm-blue)' : '1px solid var(--border)',
                                 background: isCorrect ? '#f0fdf4' : isWrong ? '#fef2f2' : isSelected ? 'rgba(19,74,124,0.06)' : 'var(--white)',
                                 color: isCorrect ? '#16a34a' : isWrong ? '#dc2626' : isSelected ? 'var(--jm-blue)' : 'var(--text)',
                                 fontWeight: isSelected || isCorrect ? 600 : 400,
@@ -2061,7 +2061,7 @@ export default function ReadingPage() {
                 href={book.audibleUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: '#EE3227', color: '#fff', borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '14px 28px', background: 'var(--jm-red)', color: '#fff', borderRadius: 8, fontSize: 15, fontWeight: 700, textDecoration: 'none', transition: 'all 0.2s' }}
               >
                 🎧 Audible
               </a>

@@ -451,10 +451,10 @@ export default function DirectivesPage() {
       {newDirectiveCount > 0 && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'rgba(238,50,39,0.06)', border: '1px solid rgba(238,50,39,0.2)', borderRadius: 10, padding: '10px 16px', marginBottom: 20, fontSize: 13 }}>
           <span style={{ fontSize: 16 }}>🔔</span>
-          <span style={{ fontWeight: 700, color: '#EE3227' }}>{newDirectiveCount} new {newDirectiveCount === 1 ? 'directive' : 'directives'}</span>
+          <span style={{ fontWeight: 700, color: 'var(--jm-red)' }}>{newDirectiveCount} new {newDirectiveCount === 1 ? 'directive' : 'directives'}</span>
           <span style={{ color: '#4b5563' }}>updated in the last 14 days — review the Directives tab</span>
           {tab !== 'directives' && (
-            <button onClick={() => setTab('directives')} style={{ marginLeft: 'auto', padding: '4px 12px', background: '#EE3227', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>View</button>
+            <button onClick={() => setTab('directives')} style={{ marginLeft: 'auto', padding: '4px 12px', background: 'var(--jm-red)', color: '#fff', border: 'none', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>View</button>
           )}
         </div>
       )}
@@ -466,7 +466,7 @@ export default function DirectivesPage() {
             {t}
             {/* RT-197: Badge on Directives tab */}
             {t === 'directives' && newDirectiveCount > 0 && (
-              <span style={{ background: '#EE3227', color: '#fff', borderRadius: 10, fontSize: 10, fontWeight: 800, padding: '1px 5px', lineHeight: 1.4 }}>{newDirectiveCount}</span>
+              <span style={{ background: 'var(--jm-red)', color: '#fff', borderRadius: 10, fontSize: 10, fontWeight: 800, padding: '1px 5px', lineHeight: 1.4 }}>{newDirectiveCount}</span>
             )}
           </button>
         ))}
@@ -506,10 +506,10 @@ export default function DirectivesPage() {
 
           {/* Quick summary of active directives */}
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Active Directives</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid var(--jm-red)' }}>Active Directives</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {DIRECTIVES.filter(d => d.status === 'active').map(d => (
-                <div key={d.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 14px', background: 'var(--gray-50)', borderRadius: 10, borderLeft: '3px solid #134A7C' }}>
+                <div key={d.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 14px', background: 'var(--gray-50)', borderRadius: 10, borderLeft: '3px solid var(--jm-blue)' }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{d.title}</div>
                     <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{d.description}</div>
@@ -700,7 +700,7 @@ export default function DirectivesPage() {
                       </span>
                       {/* RT-197: New badge for recently updated directives */}
                       {isNewDirective(directive.updatedDate) && (
-                        <span style={{ fontSize: 10, fontWeight: 800, background: '#EE3227', color: '#fff', padding: '2px 6px', borderRadius: 4, letterSpacing: '0.5px' }}>NEW</span>
+                        <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--jm-red)', color: '#fff', padding: '2px 6px', borderRadius: 4, letterSpacing: '0.5px' }}>NEW</span>
                       )}
                       {/* RT-199: Read badge */}
                       {readIds.has(directive.id) && (
@@ -749,7 +749,7 @@ export default function DirectivesPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           {/* Form */}
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Log Business Visit</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid var(--jm-red)' }}>Log Business Visit</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Business Name *</label>
@@ -796,7 +796,7 @@ export default function DirectivesPage() {
           {/* Table */}
           {outreachEntries.length > 0 && (
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Outreach Log ({outreachEntries.length} entries)</div>
+              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid var(--jm-red)' }}>Outreach Log ({outreachEntries.length} entries)</div>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, minWidth: 640 }}>
                   <thead>
@@ -820,7 +820,7 @@ export default function DirectivesPage() {
                         </td>
                         <td style={{ padding: '8px 10px', color: '#4b5563', whiteSpace: 'nowrap' }}>{e.followUp ? formatShortDate(e.followUp) : '—'}</td>
                         <td style={{ padding: '8px 10px' }}>
-                          <button onClick={() => removeOutreachEntry(e.id)} style={{ background: 'none', border: 'none', color: '#EE3227', cursor: 'pointer', fontSize: 13, fontWeight: 700, padding: '2px 6px' }}>x</button>
+                          <button onClick={() => removeOutreachEntry(e.id)} style={{ background: 'none', border: 'none', color: 'var(--jm-red)', cursor: 'pointer', fontSize: 13, fontWeight: 700, padding: '2px 6px' }}>x</button>
                         </td>
                       </tr>
                     ))}
@@ -840,7 +840,7 @@ export default function DirectivesPage() {
       {tab === 'scorecard' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Monthly Revenue Scorecard</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid var(--jm-red)' }}>Monthly Revenue Scorecard</div>
 
             {/* Month selector */}
             <div style={{ marginBottom: 20 }}>
@@ -865,7 +865,7 @@ export default function DirectivesPage() {
                 const actualVal = parseFloat(val);
                 let highlightColor = null;
                 if (isGrowthComparison && val !== '') {
-                  highlightColor = actualVal >= targetVal ? '#16a34a' : '#EE3227';
+                  highlightColor = actualVal >= targetVal ? '#16a34a' : 'var(--jm-red)';
                 }
                 return (
                   <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : 'var(--gray-50)', borderRadius: 10, borderLeft: `3px solid ${highlightColor || 'var(--jm-blue)'}` }}>
@@ -898,7 +898,7 @@ export default function DirectivesPage() {
           {/* Saved months summary */}
           {Object.keys(scorecard).length > 0 && (
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Saved Months</div>
+              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid var(--jm-red)' }}>Saved Months</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {Object.entries(scorecard).filter(([, v]) => v && Object.keys(v).some(k => v[k] !== '' && v[k] !== undefined)).map(([month, data]) => {
                   const target = parseFloat(data.growthTarget || 5);
@@ -906,13 +906,13 @@ export default function DirectivesPage() {
                   const hasGrowth = !isNaN(actual);
                   const met = hasGrowth && actual >= target;
                   return (
-                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: 'var(--gray-50)', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : '#EE3227') : 'var(--jm-blue)'}` }}>
+                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: 'var(--gray-50)', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : 'var(--jm-red)') : 'var(--jm-blue)'}` }}>
                       <div style={{ fontWeight: 700, color: 'var(--jm-blue)', fontSize: 14, minWidth: 120 }}>{month}</div>
                       <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', flex: 1 }}>
                         {data.upselling && <span style={{ fontSize: 12, color: '#4b5563' }}>Upselling: <strong>${data.upselling}</strong></span>}
                         {data.marketing && <span style={{ fontSize: 12, color: '#4b5563' }}>Marketing: <strong>${data.marketing}</strong></span>}
                         {data.storeIdea && <span style={{ fontSize: 12, color: '#4b5563' }}>Store Idea: <strong>${data.storeIdea}</strong></span>}
-                        {hasGrowth && <span style={{ fontSize: 12, fontWeight: 700, color: met ? '#16a34a' : '#EE3227' }}>Growth: {data.growthActual}% {met ? '(met target)' : `(target ${target}%)`}</span>}
+                        {hasGrowth && <span style={{ fontSize: 12, fontWeight: 700, color: met ? '#16a34a' : 'var(--jm-red)' }}>Growth: {data.growthActual}% {met ? '(met target)' : `(target ${target}%)`}</span>}
                       </div>
                     </div>
                   );
@@ -927,7 +927,7 @@ export default function DirectivesPage() {
       {tab === 'calendar' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 20, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>2026 Key Dates Timeline</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 20, paddingBottom: 8, borderBottom: '2px solid var(--jm-red)' }}>2026 Key Dates Timeline</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {allDates.map((item, i) => {
                 const past = isPast(item.date);
@@ -982,7 +982,7 @@ export default function DirectivesPage() {
               ))}
               {/* Outreach visits */}
               {outreachEntries.slice().reverse().map(e => (
-                <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderLeft: '4px solid #134A7C', borderRadius: 8 }}>
+                <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', background: 'var(--white)', border: '1px solid var(--border)', borderLeft: '4px solid var(--jm-blue)', borderRadius: 8 }}>
                   <span style={{ fontSize: 18 }}>🏢</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{e.business}</div>

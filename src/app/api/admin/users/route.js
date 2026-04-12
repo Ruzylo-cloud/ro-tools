@@ -32,6 +32,8 @@ export async function GET() {
     rolePending: profile.rolePending,
     setupComplete: profile.setupComplete,
     stores: profile.stores?.length || 0,
+    storeNumber: profile.storeNumber || '',
+    lastLoginAt: profile.lastLoginAt || null,
   }));
 
   return NextResponse.json({ users });

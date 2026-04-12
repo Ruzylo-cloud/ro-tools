@@ -212,7 +212,7 @@ export default function DMWalkthroughsPage() {
               </div>
             </div>
             <button type="button" onClick={addAction} style={{
-              padding: '6px 14px', background: '#EE3227', color: '#fff', border: 'none',
+              padding: '6px 14px', background: 'var(--jm-red)', color: '#fff', border: 'none',
               borderRadius: '6px', fontSize: '12px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               Add Action Item
@@ -220,7 +220,7 @@ export default function DMWalkthroughsPage() {
 
             {form.actionItems.map((item, i) => (
               <div key={i} style={{
-                padding: '6px 8px', background: '#fef2f2', borderLeft: '3px solid #EE3227',
+                padding: '6px 8px', background: '#fef2f2', borderLeft: '3px solid var(--jm-red)',
                 borderRadius: '0 4px 4px 0', display: 'flex', justifyContent: 'space-between', gap: '8px',
               }}>
                 <div style={{ fontSize: '12px', color: 'var(--text)' }}>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getLeaderboards, getWeekScoreboard, getAvailableWeeks } from '@/lib/scoreboard-data';
 import { getStoreName, getStoreLabel, STORE_DIRECTORY } from '@/lib/store-directory';
 import styles from './page.module.css';
@@ -76,6 +76,33 @@ function TrendArrow({ current, previous, higherIsBetter = true, fmt }) {
     <span style={{ color, fontSize: '10px', marginLeft: '4px', fontWeight: 700 }}>
       {arrow} {label}
     </span>
+  );
+}
+
+function ServerEntries({ week, saved }) {
+  const [entries, setEntries] = useState([]);
+  useEffect(() => {
+    fetch(`/api/scoreboard/entries?week=${week}`)
+      .then(r => r.json())
+      .then(d => setEntries(d.entries || []))
+      .catch(() => {});
+  }, [week, saved]);
+  if (entries.length === 0) return null;
+  return (
+    <div style={{ marginTop: 20 }}>
+      <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Saved Week {week} Entries ({entries.length})</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {entries.map((e) => (
+          <div key={e.id || e.storeId} style={{ padding: '10px 14px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <span style={{ fontWeight: 700 }}>{getStoreName(e.storeId)} #{e.storeId}</span>
+            <span>Sales: ${(e.netSales || 0).toLocaleString()}</span>
+            {e.labor > 0 && <span>Labor: {e.labor}%</span>}
+            {e.cogsActual > 0 && <span>COGs: {e.cogsActual}%</span>}
+            {e.targetsHit !== undefined && <span>Targets: {e.targetsHit}/4</span>}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -466,7 +493,7 @@ export default function ScoreboardPage() {
         return (
           <div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
-              {[{ label: 'Store A', val: compareA, setter: setCompareA, color: 'var(--jm-blue)' }, { label: 'Store B', val: compareB, setter: setCompareB, color: '#EE3227' }].map(s => (
+              {[{ label: 'Store A', val: compareA, setter: setCompareA, color: 'var(--jm-blue)' }, { label: 'Store B', val: compareB, setter: setCompareB, color: 'var(--jm-red)' }].map(s => (
                 <div key={s.label}>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>{s.label}</label>
                   <select
@@ -485,7 +512,7 @@ export default function ScoreboardPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: 'var(--gray-50)', padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
                   <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)' }}>{getStoreName(compareA)}</span>
                   <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-400)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Metric</span>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#EE3227', textAlign: 'right' }}>{getStoreName(compareB)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-red)', textAlign: 'right' }}>{getStoreName(compareB)}</span>
                 </div>
                 {METRICS.map(m => {
                   const vA = rowA[m.key], vB = rowB[m.key];
@@ -548,44 +575,42 @@ export default function ScoreboardPage() {
             </div>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (!entryForm.storeId || !entryForm.netSales) return;
-                  const existing = JSON.parse(localStorage.getItem('scoreboard-entries') || '[]');
-                  existing.push({ ...entryForm, weekNum: selectedWeek, savedAt: new Date().toISOString() });
-                  localStorage.setItem('scoreboard-entries', JSON.stringify(existing));
-                  setEntryForm({ storeId: '', netSales: '', pySales: '', breadCount: '', cogsActual: '', cogsVariance: '', labor: '', laborTarget: '' });
-                  setEntrySaved(true);
-                  setTimeout(() => setEntrySaved(false), 2500);
+                  try {
+                    const res = await fetch('/api/scoreboard/entries', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        weekNum: selectedWeek,
+                        storeId: entryForm.storeId,
+                        netSales: parseFloat(entryForm.netSales) || 0,
+                        pySales: parseFloat(entryForm.pySales) || 0,
+                        breadCount: parseInt(entryForm.breadCount) || 0,
+                        cogsActual: parseFloat(entryForm.cogsActual) || 0,
+                        cogsVariance: parseFloat(entryForm.cogsVariance) || 0,
+                        labor: parseFloat(entryForm.labor) || 0,
+                        laborTarget: parseFloat(entryForm.laborTarget) || 0,
+                      }),
+                    });
+                    if (!res.ok) throw new Error('Save failed');
+                    setEntryForm({ storeId: '', netSales: '', pySales: '', breadCount: '', cogsActual: '', cogsVariance: '', labor: '', laborTarget: '' });
+                    setEntrySaved(true);
+                    setTimeout(() => setEntrySaved(false), 2500);
+                  } catch {
+                    alert('Failed to save entry. Please try again.');
+                  }
                 }}
                 disabled={!entryForm.storeId || !entryForm.netSales}
                 style={{ padding: '10px 24px', background: 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: (!entryForm.storeId || !entryForm.netSales) ? 0.5 : 1 }}
               >
                 Save Entry
               </button>
-              {entrySaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>✓ Saved!</span>}
+              {entrySaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>Saved!</span>}
             </div>
           </div>
-          {/* Recent entries */}
-          {(() => {
-            const entries = JSON.parse(typeof window !== 'undefined' ? localStorage.getItem('scoreboard-entries') || '[]' : '[]');
-            const weekEntries = entries.filter(e => e.weekNum === selectedWeek);
-            if (weekEntries.length === 0) return null;
-            return (
-              <div style={{ marginTop: 20 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Saved Week {selectedWeek} Entries</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                  {weekEntries.map((e, i) => (
-                    <div key={i} style={{ padding: '10px 14px', background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                      <span style={{ fontWeight: 700 }}>{getStoreName(e.storeId)} #{e.storeId}</span>
-                      <span>Sales: ${parseFloat(e.netSales).toLocaleString()}</span>
-                      {e.labor && <span>Labor: {e.labor}%</span>}
-                      {e.cogsActual && <span>COGs: {e.cogsActual}%</span>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
+          {/* Recent entries — fetched from server */}
+          <ServerEntries week={selectedWeek} saved={entrySaved} />
         </div>
       )}
 

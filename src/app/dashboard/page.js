@@ -461,7 +461,7 @@ export default function DashboardPage() {
           <p className={styles.pillarDesc}>faster than manual Word templates</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', fontWeight: 900, color: '#EE3227', fontFamily: "'Playfair Display', serif" }}>30+</div>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: 'var(--jm-red)', fontFamily: "'Playfair Display', serif" }}>30+</div>
           <p className={styles.pillarDesc}>stores across JM Valley Group</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
@@ -469,7 +469,7 @@ export default function DashboardPage() {
           <p className={styles.pillarDesc}>pages of training content rebuilt from Director&apos;s originals</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', fontWeight: 900, color: '#EE3227', fontFamily: "'Playfair Display', serif" }}>$0</div>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: 'var(--jm-red)', fontFamily: "'Playfair Display', serif" }}>$0</div>
           <p className={styles.pillarDesc}>monthly cost — runs on Google Cloud at no charge at current scale</p>
         </div>
       </div>

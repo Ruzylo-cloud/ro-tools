@@ -386,7 +386,7 @@ export default function DocumentsPage() {
               >
                 {/* RT-183: New badge */}
                 {isNew && !isDone && (
-                  <span style={{ position: 'absolute', top: 6, right: 6, fontSize: 8, fontWeight: 800, padding: '1px 5px', borderRadius: 8, background: '#EE3227', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>New</span>
+                  <span style={{ position: 'absolute', top: 6, right: 6, fontSize: 8, fontWeight: 800, padding: '1px 5px', borderRadius: 8, background: 'var(--jm-red)', color: '#fff', textTransform: 'uppercase', letterSpacing: '0.5px' }}>New</span>
                 )}
                 {/* RT-185: Visual thumbnail */}
                 <div className={styles.templateThumb} style={{ background: selected === t.id ? 'rgba(255,255,255,0.15)' : `${t.color}18` }}>
@@ -493,7 +493,7 @@ export default function DocumentsPage() {
           <button
             onClick={handleBatchDownload}
             disabled={generating}
-            style={{ width: '100%', marginTop: 8, padding: '10px', background: 'var(--white)', border: '1px solid #134A7C', borderRadius: 8, fontSize: 13, fontWeight: 600, color: 'var(--jm-blue)', cursor: 'pointer' }}
+            style={{ width: '100%', marginTop: 8, padding: '10px', background: 'var(--white)', border: '1px solid var(--jm-blue)', borderRadius: 8, fontSize: 13, fontWeight: 600, color: 'var(--jm-blue)', cursor: 'pointer' }}
           >
             📦 Download All Packets
           </button>

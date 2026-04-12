@@ -243,7 +243,7 @@ export default function AdminPage() {
   const actionBadgeStyle = (action) => {
     if (action === 'download') return { background: 'rgba(19,74,124,0.1)', color: 'var(--jm-blue)' };
     if (action === 'drive-save') return { background: 'rgba(22,163,74,0.1)', color: '#16a34a' };
-    if (action === 'email-send') return { background: 'rgba(238,50,39,0.1)', color: '#EE3227' };
+    if (action === 'email-send') return { background: 'rgba(238,50,39,0.1)', color: 'var(--jm-red)' };
     return { background: '#f3f4f6', color: 'var(--gray-500)' };
   };
 
@@ -259,12 +259,17 @@ export default function AdminPage() {
   const logsPageCount = Math.ceil(logsTotal / 50);
   const logsCurrentPage = Math.floor(logsOffset / 50) + 1;
 
-  // RT-225: Filtered users by search
+  // RT-225: Filtered users by search + store filter
+  const [storeFilter, setStoreFilter] = useState('');
   const filteredApproved = approved.filter(u => {
-    if (!userSearch) return true;
-    const q = userSearch.toLowerCase();
-    return (u.displayName || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q);
+    if (userSearch) {
+      const q = userSearch.toLowerCase();
+      if (!(u.displayName || '').toLowerCase().includes(q) && !(u.email || '').toLowerCase().includes(q)) return false;
+    }
+    if (storeFilter && u.storeNumber !== storeFilter) return false;
+    return true;
   });
+  const uniqueStores = [...new Set(approved.map(u => u.storeNumber).filter(Boolean))].sort();
 
   return (
     <div className={styles.container}>
@@ -275,7 +280,7 @@ export default function AdminPage() {
         <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
           {[
             { label: 'Total Users', val: userStats.total, color: 'var(--jm-blue)' },
-            { label: 'Pending', val: userStats.pending, color: '#EE3227' },
+            { label: 'Pending', val: userStats.pending, color: 'var(--jm-red)' },
             { label: 'Approved', val: userStats.approved, color: '#16a34a' },
             { label: 'Admins', val: userStats.admins, color: '#7c3aed' },
           ].map(s => (
@@ -296,7 +301,7 @@ export default function AdminPage() {
           Users
           {/* RT-222: Pending badge */}
           {pending.length > 0 && (
-            <span style={{ marginLeft: 6, background: '#EE3227', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 10, padding: '1px 6px', verticalAlign: 'middle' }}>
+            <span style={{ marginLeft: 6, background: 'var(--jm-red)', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: 10, padding: '1px 6px', verticalAlign: 'middle' }}>
               {pending.length}
             </span>
           )}
@@ -398,17 +403,30 @@ export default function AdminPage() {
 
           {/* All Users */}
           <div className={styles.section}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, flexWrap: 'wrap', gap: 8 }}>
               <div className={styles.sectionTitle} style={{ margin: 0 }}>All Users</div>
-              {/* RT-225: User search */}
-              <input
-                type="text"
-                placeholder="Search users..."
-                value={userSearch}
-                onChange={e => setUserSearch(e.target.value)}
-                maxLength={200}
-                style={{ padding: '6px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, color: '#111', width: 200 }}
-              />
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                {/* Store filter */}
+                {uniqueStores.length > 1 && (
+                  <select
+                    value={storeFilter}
+                    onChange={e => setStoreFilter(e.target.value)}
+                    style={{ padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, color: '#111' }}
+                  >
+                    <option value="">All Stores</option>
+                    {uniqueStores.map(s => <option key={s} value={s}>Store #{s}</option>)}
+                  </select>
+                )}
+                {/* RT-225: User search */}
+                <input
+                  type="text"
+                  placeholder="Search users..."
+                  value={userSearch}
+                  onChange={e => setUserSearch(e.target.value)}
+                  maxLength={200}
+                  style={{ padding: '6px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, color: '#111', width: 200 }}
+                />
+              </div>
             </div>
             {filteredApproved.length === 0 ? (
               <div className={styles.empty}>{userSearch ? 'No users match your search.' : 'No users yet.'}</div>
@@ -572,7 +590,7 @@ export default function AdminPage() {
                               <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--jm-blue)', flexShrink: 0, marginLeft: 8 }}>{g.count}</span>
                             </div>
                             <div style={{ height: 4, background: '#f3f4f6', borderRadius: 2, overflow: 'hidden' }}>
-                              <div style={{ height: '100%', borderRadius: 2, background: i === 0 ? '#EE3227' : 'var(--jm-blue)', width: `${pct}%`, transition: 'width 0.5s' }} />
+                              <div style={{ height: '100%', borderRadius: 2, background: i === 0 ? 'var(--jm-red)' : 'var(--jm-blue)', width: `${pct}%`, transition: 'width 0.5s' }} />
                             </div>
                           </div>
                         </div>
