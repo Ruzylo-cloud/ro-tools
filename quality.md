@@ -23,12 +23,12 @@
 
 ## Security
 - [ ] **JWT_SECRET persistence** — DONE for MC. Verify RO Tools session secret is also persistent (not regenerated per deploy).
-- [ ] **Rate limiting** — verify all auth endpoints have rate limiting.
+- [x] **Rate limiting** — All auth endpoints have rate limiting: login (10/min), demo (5/min), callback (15/min), upgrade (5/min), apple/send-code (5/min), apple/complete (10/min), apple/lookup (15/min).
 - [ ] **Input validation** — verify all form inputs are validated server-side, not just client-side.
 - [ ] **CORS** — verify only ro-tools.app and ro-control.app are allowed origins.
 
 ## Documentation
 - [x] **FEATURES.md** — Updated by techy: added FSC Tracker, Payroll Workbench, Stability Snapshot, Tier Assessment, Reading Library sections.
-- [ ] **hierarchy.md** — verify accurate after all Homebase imports.
-- [ ] **errors.md** — verify zero OPEN items.
-- [ ] **matchingstyle.md** — verify zero unchecked items.
+- [x] **hierarchy.md** — Verified: 29 stores (23 mapped + 7 unmapped TBD), 5 DMs, all ROs listed. Store directory updated to match.
+- [x] **errors.md** — Verified: zero OPEN items. All errors marked FIXED.
+- [x] **matchingstyle.md** — Verified: zero unchecked items on RT side. One RC logo size mismatch (90x45 vs 72x36) — MC scope.

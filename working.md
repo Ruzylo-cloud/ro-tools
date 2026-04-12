@@ -6,12 +6,9 @@
 - **Project:** RO Tools (ro-tools)
 
 ## Active Task
-- **Task:** Scanning for next task
-- **Status:** SCANNING
+- **Task:** Scanning for next RT task
+- **Status:** LOOKING
 
 ## Completed This Session
-1. FSC Tracker — NEW BUILD (d77e14f) — /dashboard/fsc-tracker + /api/fsc CRUD
-2. Welcome page — all new features (f8281d8) — 16 new tool/operation items added
-3. FSC demo data + FEATURES.md update + quality sweep (7ce8ff7)
-4. Presentation — operations & analytics slide (d20ec7f)
-5. Store directory — 12 stores named, DM assignments fixed (f5e5517)
+1. FSC Tracker — verified, rate limit fix, navbar integration
+2. Security — auth rate limiting on all 7 endpoints (DONE, pushed)
