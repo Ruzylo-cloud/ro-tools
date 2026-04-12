@@ -30,6 +30,7 @@ const SEARCH_ITEMS = [
   { label: 'Signatures', path: '/dashboard/signatures', icon: '✍️', keywords: 'esign signatures documents sign' },
   { label: 'Catering Flyer', path: '/dashboard/flyer', icon: '🖨️', keywords: 'flyer catering print menu' },
   { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
+  { label: 'FSC Tracker', path: '/dashboard/fsc-tracker', icon: '🎫', keywords: 'fsc free sub card guest recovery complaint' },
   { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
   { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
   { label: 'Payroll Workbench', path: '/dashboard/tools/payroll', icon: '💵', keywords: 'payroll pay period wages tips tools' },
@@ -611,6 +612,9 @@ export default function Sidebar() {
                 </Link>
                 <Link href="/dashboard/catering-tracker" className={`${styles.subLink} ${isActive('/dashboard/catering-tracker') ? styles.subLinkActive : ''}`} onClick={navClick}>
                   <span>📊</span> Catering Tracker
+                </Link>
+                <Link href="/dashboard/fsc-tracker" className={`${styles.subLink} ${isActive('/dashboard/fsc-tracker') ? styles.subLinkActive : ''}`} onClick={navClick}>
+                  <span>🎫</span> FSC Tracker
                 </Link>
               </div>
             )}
