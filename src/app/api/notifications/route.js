@@ -17,12 +17,18 @@ export async function GET(request) {
   const apiKey = getMissionControlApiKey();
   const { searchParams } = new URL(request.url);
   const mode = searchParams.get('mode') || 'count';
-  if (!apiKey) return NextResponse.json(mode === 'list' ? [] : { count: 0 });
+  const since = searchParams.get('since') || '';
+  if (!apiKey) return NextResponse.json(mode === 'list' ? [] : mode === 'sync' ? { notifications: [], serverTime: new Date().toISOString() } : { count: 0 });
 
   try {
-    const endpoint = mode === 'list'
-      ? '/api/notifications/external'
-      : '/api/notifications/external-count';
+    let endpoint;
+    if (mode === 'sync') {
+      endpoint = `/api/notifications/external/sync${since ? `&since=${encodeURIComponent(since)}` : ''}`;
+    } else if (mode === 'list') {
+      endpoint = '/api/notifications/external';
+    } else {
+      endpoint = '/api/notifications/external-count';
+    }
     const res = await fetch(
       `${MC_URL}${endpoint}?email=${encodeURIComponent(session.email)}`,
       {
@@ -30,12 +36,12 @@ export async function GET(request) {
         signal: AbortSignal.timeout(5000),
       }
     );
-    if (!res.ok) return NextResponse.json(mode === 'list' ? [] : { count: 0 });
+    if (!res.ok) return NextResponse.json(mode === 'list' ? [] : mode === 'sync' ? { notifications: [], serverTime: new Date().toISOString() } : { count: 0 });
     const data = await res.json();
+    if (mode === 'sync') return NextResponse.json(data);
     return NextResponse.json(mode === 'list' ? data : { count: data.count || 0 });
   } catch {
-    // RC unreachable — fail silently, don't break RT
-    return NextResponse.json(mode === 'list' ? [] : { count: 0 });
+    return NextResponse.json(mode === 'list' ? [] : mode === 'sync' ? { notifications: [], serverTime: new Date().toISOString() } : { count: 0 });
   }
 }
 
