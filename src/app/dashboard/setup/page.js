@@ -188,7 +188,7 @@ export default function SetupPage() {
         </div>
         {isAutoAdmin && (
           <div className={styles.autoAdminNote}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <polyline points="9 12 11 14 15 10" />
             </svg>
@@ -331,7 +331,7 @@ export default function SetupPage() {
                         borderBottom: '1px solid #f3f4f6',
                       }}
                     >
-                      <span style={{ fontWeight: 700, color: '#134A7C' }}>{s.id}</span>
+                      <span style={{ fontWeight: 700, color: 'var(--jm-blue)' }}>{s.id}</span>
                       <span style={{ color: 'var(--gray-500)' }}> — {s.name}</span>
                     </button>
                   ))}

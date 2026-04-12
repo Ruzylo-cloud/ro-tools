@@ -6,7 +6,7 @@ import { getStoreName, getStoreLabel, STORE_DIRECTORY } from '@/lib/store-direct
 import styles from './page.module.css';
 
 const COLOR_MAP = {
-  royalblue: { bg: 'rgba(19,74,124,0.12)', color: '#134A7C', label: 'Grand Slam' },
+  royalblue: { bg: 'rgba(19,74,124,0.12)', color: 'var(--jm-blue)', label: 'Grand Slam' },
   blue: { bg: 'rgba(59,130,246,0.12)', color: '#2563eb', label: 'Double Digit' },
   green: { bg: 'rgba(22,163,74,0.12)', color: '#16a34a', label: 'Trifecta' },
   yellow: { bg: 'rgba(245,158,11,0.12)', color: '#b45309', label: '2 Targets' },
@@ -466,7 +466,7 @@ export default function ScoreboardPage() {
         return (
           <div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 24 }}>
-              {[{ label: 'Store A', val: compareA, setter: setCompareA, color: '#134A7C' }, { label: 'Store B', val: compareB, setter: setCompareB, color: '#EE3227' }].map(s => (
+              {[{ label: 'Store A', val: compareA, setter: setCompareA, color: 'var(--jm-blue)' }, { label: 'Store B', val: compareB, setter: setCompareB, color: '#EE3227' }].map(s => (
                 <div key={s.label}>
                   <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: s.color, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 6 }}>{s.label}</label>
                   <select
@@ -483,7 +483,7 @@ export default function ScoreboardPage() {
             {rowA && rowB ? (
               <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: 'var(--gray-50)', padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#134A7C' }}>{getStoreName(compareA)}</span>
+                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)' }}>{getStoreName(compareA)}</span>
                   <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-400)', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Metric</span>
                   <span style={{ fontSize: 13, fontWeight: 700, color: '#EE3227', textAlign: 'right' }}>{getStoreName(compareB)}</span>
                 </div>
@@ -513,7 +513,7 @@ export default function ScoreboardPage() {
       {/* RT-146: Data entry tab */}
       {tab === 'entry' && (
         <div>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 6 }}>Enter Weekly Scoreboard Data</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 6 }}>Enter Weekly Scoreboard Data</h2>
           <p style={{ fontSize: 13, color: 'var(--gray-500)', marginBottom: 20 }}>Enter Week {selectedWeek} data for a store. Saved entries are stored locally for this session.</p>
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '24px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14, marginBottom: 20 }}>
@@ -558,7 +558,7 @@ export default function ScoreboardPage() {
                   setTimeout(() => setEntrySaved(false), 2500);
                 }}
                 disabled={!entryForm.storeId || !entryForm.netSales}
-                style={{ padding: '10px 24px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: (!entryForm.storeId || !entryForm.netSales) ? 0.5 : 1 }}
+                style={{ padding: '10px 24px', background: 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: (!entryForm.storeId || !entryForm.netSales) ? 0.5 : 1 }}
               >
                 Save Entry
               </button>

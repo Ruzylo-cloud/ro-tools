@@ -34,8 +34,8 @@ function TerminationChecklist() {
       </div>
       {TERM_CHECKLIST.map(item => (
         <label key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--gray-700)', cursor: 'pointer', padding: '3px 0' }}>
-          <input type="checkbox" checked={checked.includes(item)} onChange={() => toggle(item)} style={{ accentColor: '#134A7C' }} />
-          <span style={{ textDecoration: checked.includes(item) ? 'line-through' : 'none', color: checked.includes(item) ? '#9ca3af' : '#374151' }}>{item}</span>
+          <input type="checkbox" checked={checked.includes(item)} onChange={() => toggle(item)} style={{ accentColor: 'var(--jm-blue)' }} />
+          <span style={{ textDecoration: checked.includes(item) ? 'line-through' : 'none', color: checked.includes(item) ? '#9ca3af' : 'var(--charcoal)' }}>{item}</span>
         </label>
       ))}
     </div>
@@ -360,7 +360,7 @@ export default function TerminationPage() {
                   type="checkbox"
                   checked={form.companyPropertyReturned.includes(item)}
                   onChange={() => handlePropertyToggle(item)}
-                  style={{ accentColor: '#134A7C' }}
+                  style={{ accentColor: 'var(--jm-blue)' }}
                 />
                 {item}
               </label>

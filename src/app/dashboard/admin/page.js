@@ -241,7 +241,7 @@ export default function AdminPage() {
   };
 
   const actionBadgeStyle = (action) => {
-    if (action === 'download') return { background: 'rgba(19,74,124,0.1)', color: '#134A7C' };
+    if (action === 'download') return { background: 'rgba(19,74,124,0.1)', color: 'var(--jm-blue)' };
     if (action === 'drive-save') return { background: 'rgba(22,163,74,0.1)', color: '#16a34a' };
     if (action === 'email-send') return { background: 'rgba(238,50,39,0.1)', color: '#EE3227' };
     return { background: '#f3f4f6', color: 'var(--gray-500)' };
@@ -274,7 +274,7 @@ export default function AdminPage() {
       {!loading && (
         <div style={{ display: 'flex', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
           {[
-            { label: 'Total Users', val: userStats.total, color: '#134A7C' },
+            { label: 'Total Users', val: userStats.total, color: 'var(--jm-blue)' },
             { label: 'Pending', val: userStats.pending, color: '#EE3227' },
             { label: 'Approved', val: userStats.approved, color: '#16a34a' },
             { label: 'Admins', val: userStats.admins, color: '#7c3aed' },
@@ -374,7 +374,7 @@ export default function AdminPage() {
               pending.map(u => (
                 <div key={u.id} className={styles.userRow}>
                   {/* RT-223: Bulk checkbox */}
-                  <input type="checkbox" checked={bulkSelected.includes(u.id)} onChange={() => toggleBulkSelect(u.id)} style={{ accentColor: '#134A7C', marginRight: 8 }} />
+                  <input type="checkbox" checked={bulkSelected.includes(u.id)} onChange={() => toggleBulkSelect(u.id)} style={{ accentColor: 'var(--jm-blue)', marginRight: 8 }} />
                   <div className={styles.userInfo}>
                     <span className={styles.userName}>{u.displayName || 'No name'}</span>
                     <span className={styles.userEmail}>{u.email}</span>
@@ -464,7 +464,7 @@ export default function AdminPage() {
             {/* RT-224: Export CSV */}
             <button
               onClick={exportLogsCsv}
-              style={{ padding: '6px 14px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
+              style={{ padding: '6px 14px', background: 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}
             >
               ↓ CSV
             </button>
@@ -539,7 +539,7 @@ export default function AdminPage() {
               {/* Summary stats */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10, marginBottom: 24 }}>
                 {[
-                  { label: 'Total Generated', val: analytics.total, color: '#134A7C' },
+                  { label: 'Total Generated', val: analytics.total, color: 'var(--jm-blue)' },
                   { label: 'Today', val: analytics.today, color: '#2563eb' },
                   { label: 'This Week', val: analytics.thisWeek, color: '#16a34a' },
                   { label: 'This Month', val: analytics.thisMonth, color: '#7c3aed' },
@@ -555,7 +555,7 @@ export default function AdminPage() {
 
               {/* Top generators */}
               <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 12, padding: '20px 20px 16px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#134A7C', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Top Generators</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Top Generators</div>
                 {analytics.topGenerators.length === 0 ? (
                   <div style={{ fontSize: 13, color: '#9ca3af', textAlign: 'center', padding: '20px 0' }}>No data yet</div>
                 ) : (
@@ -569,10 +569,10 @@ export default function AdminPage() {
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
                               <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--gray-700)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.label}</span>
-                              <span style={{ fontSize: 12, fontWeight: 700, color: '#134A7C', flexShrink: 0, marginLeft: 8 }}>{g.count}</span>
+                              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--jm-blue)', flexShrink: 0, marginLeft: 8 }}>{g.count}</span>
                             </div>
                             <div style={{ height: 4, background: '#f3f4f6', borderRadius: 2, overflow: 'hidden' }}>
-                              <div style={{ height: '100%', borderRadius: 2, background: i === 0 ? '#EE3227' : '#134A7C', width: `${pct}%`, transition: 'width 0.5s' }} />
+                              <div style={{ height: '100%', borderRadius: 2, background: i === 0 ? '#EE3227' : 'var(--jm-blue)', width: `${pct}%`, transition: 'width 0.5s' }} />
                             </div>
                           </div>
                         </div>

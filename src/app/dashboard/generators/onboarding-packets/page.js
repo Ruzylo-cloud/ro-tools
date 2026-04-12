@@ -225,7 +225,7 @@ export default function OnboardingPacketsPage() {
           <div style={{ marginBottom: '8px', background: '#f3f4f6', borderRadius: '4px', height: '6px', overflow: 'hidden' }}>
             <div style={{
               width: `${totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0}%`,
-              height: '100%', background: completedCount === totalCount ? '#16A34A' : '#134A7C',
+              height: '100%', background: completedCount === totalCount ? '#16A34A' : 'var(--jm-blue)',
               borderRadius: '4px', transition: 'width 0.3s',
             }} />
           </div>
@@ -242,7 +242,7 @@ export default function OnboardingPacketsPage() {
                   type="checkbox"
                   checked={isChecked}
                   onChange={() => toggleDoc(doc.name)}
-                  style={{ accentColor: '#134A7C', width: '16px', height: '16px', cursor: 'pointer' }}
+                  style={{ accentColor: 'var(--jm-blue)', width: '16px', height: '16px', cursor: 'pointer' }}
                 />
                 <span style={{
                   fontSize: '12px', color: isChecked ? '#16A34A' : '#2D2D2D',
@@ -275,7 +275,7 @@ export default function OnboardingPacketsPage() {
               style={{ flex: 1 }}
             />
             <button type="button" onClick={addCustomDoc} style={{
-              padding: '8px 12px', background: '#134A7C', color: '#fff', border: 'none',
+              padding: '8px 12px', background: 'var(--jm-blue)', color: '#fff', border: 'none',
               borderRadius: '6px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               +

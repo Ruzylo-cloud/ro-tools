@@ -444,7 +444,7 @@ export default function DirectivesPage() {
           <h1 className={styles.title}>Marketing Directives</h1>
           <p className={styles.subtitle}>Monthly marketing directives, action items, and campaign calendar for JMVG.</p>
         </div>
-        <a href="/dashboard/directives/publish" style={{ background: '#134A7C', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Publish & Acks →</a>
+        <a href="/dashboard/directives/publish" style={{ background: 'var(--jm-blue)', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Publish & Acks →</a>
       </div>
 
       {/* RT-197: New directives notification banner */}
@@ -462,7 +462,7 @@ export default function DirectivesPage() {
       {/* Tab Bar */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 32, borderBottom: '1px solid var(--border)', paddingBottom: 12, flexWrap: 'wrap' }}>
         {['overview', 'directives', 'outreach', 'scorecard', 'calendar', 'history'].map(t => (
-          <button key={t} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? '#134A7C' : 'transparent', color: tab === t ? '#fff' : 'var(--gray-500)', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>
+          <button key={t} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '8px 16px', borderRadius: 8, border: 'none', background: tab === t ? 'var(--jm-blue)' : 'transparent', color: tab === t ? '#fff' : 'var(--gray-500)', fontWeight: 600, fontSize: 14, cursor: 'pointer', textTransform: 'capitalize', transition: 'background 0.15s, color 0.15s' }}>
             {t}
             {/* RT-197: Badge on Directives tab */}
             {t === 'directives' && newDirectiveCount > 0 && (
@@ -479,14 +479,14 @@ export default function DirectivesPage() {
             {/* Active Directives card */}
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Active Directives</div>
-              <div style={{ fontSize: 42, fontWeight: 800, color: '#134A7C', lineHeight: 1, marginBottom: 6 }}>{activeCount}</div>
+              <div style={{ fontSize: 42, fontWeight: 800, color: 'var(--jm-blue)', lineHeight: 1, marginBottom: 6 }}>{activeCount}</div>
               <div style={{ fontSize: 13, color: 'var(--gray-500)' }}>directives currently active</div>
             </div>
 
             {/* Current Focus card */}
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Current Focus</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#134A7C', lineHeight: 1.25, marginBottom: 6 }}>{currentFocus}</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--jm-blue)', lineHeight: 1.25, marginBottom: 6 }}>{currentFocus}</div>
               <div style={{ fontSize: 13, color: 'var(--gray-500)' }}>{currentMonthName} marketing focus</div>
             </div>
 
@@ -495,7 +495,7 @@ export default function DirectivesPage() {
               <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: 10 }}>Next Key Date</div>
               {nextKeyDate ? (
                 <>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: '#134A7C', lineHeight: 1.25, marginBottom: 6 }}>{formatShortDate(nextKeyDate.date)}</div>
+                  <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--jm-blue)', lineHeight: 1.25, marginBottom: 6 }}>{formatShortDate(nextKeyDate.date)}</div>
                   <div style={{ fontSize: 13, color: 'var(--gray-500)', lineHeight: 1.4 }}>{nextKeyDate.label}</div>
                 </>
               ) : (
@@ -506,7 +506,7 @@ export default function DirectivesPage() {
 
           {/* Quick summary of active directives */}
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Active Directives</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Active Directives</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {DIRECTIVES.filter(d => d.status === 'active').map(d => (
                 <div key={d.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '12px 14px', background: 'var(--gray-50)', borderRadius: 10, borderLeft: '3px solid #134A7C' }}>
@@ -530,7 +530,7 @@ export default function DirectivesPage() {
             <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.55)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }} onClick={() => setShowCreateDirective(false)}>
               <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 660, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
                 <div style={{ padding: '18px 24px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div style={{ fontSize: 17, fontWeight: 700, color: '#134A7C' }}>Create Directive</div>
+                  <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--jm-blue)' }}>Create Directive</div>
                   <button onClick={() => setShowCreateDirective(false)} style={{ background: 'none', border: 'none', fontSize: 22, cursor: 'pointer', color: 'var(--gray-500)' }}>&times;</button>
                 </div>
                 <div style={{ padding: '20px 24px' }}>
@@ -589,7 +589,7 @@ export default function DirectivesPage() {
                       try { localStorage.setItem('directive-drafts', JSON.stringify(updated)); } catch (e) { console.debug('[directives] draft save failed (non-fatal):', e); }
                       setShowCreateDirective(false);
                       setDraftDirective({ title: '', category: 'operations', body: '' });
-                    }} disabled={!draftDirective.title.trim()} style={{ padding: '10px 22px', background: draftDirective.title.trim() ? '#134A7C' : '#e5e7eb', color: draftDirective.title.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: draftDirective.title.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}>
+                    }} disabled={!draftDirective.title.trim()} style={{ padding: '10px 22px', background: draftDirective.title.trim() ? 'var(--jm-blue)' : '#e5e7eb', color: draftDirective.title.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: draftDirective.title.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit' }}>
                       Save Draft
                     </button>
                   </div>
@@ -653,7 +653,7 @@ export default function DirectivesPage() {
             {/* RT-196: Create directive with rich text editor */}
             <button
               onClick={() => { setDraftDirective({ title: '', category: 'operations', body: '' }); setShowCreateDirective(true); }}
-              style={{ padding: '8px 14px', border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 700, background: '#134A7C', color: '#fff', cursor: 'pointer' }}
+              style={{ padding: '8px 14px', border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 700, background: 'var(--jm-blue)', color: '#fff', cursor: 'pointer' }}
             >
               + New Directive
             </button>
@@ -749,7 +749,7 @@ export default function DirectivesPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           {/* Form */}
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Log Business Visit</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Log Business Visit</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 16 }}>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 5 }}>Business Name *</label>
@@ -788,7 +788,7 @@ export default function DirectivesPage() {
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <button onClick={addOutreachEntry} disabled={!outreachForm.business.trim()} style={{ padding: '10px 22px', background: outreachForm.business.trim() ? '#134A7C' : '#e5e7eb', color: outreachForm.business.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: outreachForm.business.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit', transition: 'background 0.15s' }}>Add Entry</button>
+              <button onClick={addOutreachEntry} disabled={!outreachForm.business.trim()} style={{ padding: '10px 22px', background: outreachForm.business.trim() ? 'var(--jm-blue)' : '#e5e7eb', color: outreachForm.business.trim() ? '#fff' : '#9ca3af', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: outreachForm.business.trim() ? 'pointer' : 'not-allowed', fontFamily: 'inherit', transition: 'background 0.15s' }}>Add Entry</button>
               {outreachSaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>Saved!</span>}
             </div>
           </div>
@@ -796,7 +796,7 @@ export default function DirectivesPage() {
           {/* Table */}
           {outreachEntries.length > 0 && (
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Outreach Log ({outreachEntries.length} entries)</div>
+              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Outreach Log ({outreachEntries.length} entries)</div>
               <div style={{ overflowX: 'auto' }}>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12, minWidth: 640 }}>
                   <thead>
@@ -840,12 +840,12 @@ export default function DirectivesPage() {
       {tab === 'scorecard' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Monthly Revenue Scorecard</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Monthly Revenue Scorecard</div>
 
             {/* Month selector */}
             <div style={{ marginBottom: 20 }}>
               <label style={{ fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: '0.4px', display: 'block', marginBottom: 6 }}>Month</label>
-              <select value={scorecardMonth} onChange={e => setScorecardMonth(e.target.value)} style={{ padding: '9px 14px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', background: 'var(--white)', fontWeight: 600, color: '#134A7C' }}>
+              <select value={scorecardMonth} onChange={e => setScorecardMonth(e.target.value)} style={{ padding: '9px 14px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, fontFamily: 'inherit', outline: 'none', background: 'var(--white)', fontWeight: 600, color: 'var(--jm-blue)' }}>
                 {SCORECARD_MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
             </div>
@@ -868,7 +868,7 @@ export default function DirectivesPage() {
                   highlightColor = actualVal >= targetVal ? '#16a34a' : '#EE3227';
                 }
                 return (
-                  <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : 'var(--gray-50)', borderRadius: 10, borderLeft: `3px solid ${highlightColor || '#134A7C'}` }}>
+                  <div key={field.key} style={{ display: 'flex', gap: 16, alignItems: 'center', padding: '14px 16px', background: highlightColor ? (actualVal >= targetVal ? 'rgba(22,163,74,0.05)' : 'rgba(238,50,39,0.05)') : 'var(--gray-50)', borderRadius: 10, borderLeft: `3px solid ${highlightColor || 'var(--jm-blue)'}` }}>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', marginBottom: 2 }}>{field.label}</div>
                       <div style={{ fontSize: 12, color: 'var(--gray-500)' }}>{field.desc}</div>
@@ -890,7 +890,7 @@ export default function DirectivesPage() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 20 }}>
-              <button onClick={saveScorecardMonth} style={{ padding: '10px 22px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>Save Scorecard</button>
+              <button onClick={saveScorecardMonth} style={{ padding: '10px 22px', background: 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontWeight: 700, fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>Save Scorecard</button>
               {scorecardSaved && <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>Saved!</span>}
             </div>
           </div>
@@ -898,7 +898,7 @@ export default function DirectivesPage() {
           {/* Saved months summary */}
           {Object.keys(scorecard).length > 0 && (
             <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Saved Months</div>
+              <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>Saved Months</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {Object.entries(scorecard).filter(([, v]) => v && Object.keys(v).some(k => v[k] !== '' && v[k] !== undefined)).map(([month, data]) => {
                   const target = parseFloat(data.growthTarget || 5);
@@ -906,8 +906,8 @@ export default function DirectivesPage() {
                   const hasGrowth = !isNaN(actual);
                   const met = hasGrowth && actual >= target;
                   return (
-                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: 'var(--gray-50)', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : '#EE3227') : '#134A7C'}` }}>
-                      <div style={{ fontWeight: 700, color: '#134A7C', fontSize: 14, minWidth: 120 }}>{month}</div>
+                    <div key={month} style={{ display: 'flex', gap: 16, padding: '12px 16px', background: 'var(--gray-50)', borderRadius: 10, alignItems: 'center', borderLeft: `3px solid ${hasGrowth ? (met ? '#16a34a' : '#EE3227') : 'var(--jm-blue)'}` }}>
+                      <div style={{ fontWeight: 700, color: 'var(--jm-blue)', fontSize: 14, minWidth: 120 }}>{month}</div>
                       <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', flex: 1 }}>
                         {data.upselling && <span style={{ fontSize: 12, color: '#4b5563' }}>Upselling: <strong>${data.upselling}</strong></span>}
                         {data.marketing && <span style={{ fontSize: 12, color: '#4b5563' }}>Marketing: <strong>${data.marketing}</strong></span>}
@@ -927,7 +927,7 @@ export default function DirectivesPage() {
       {tab === 'calendar' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 14, padding: '28px 22px' }}>
-            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: '#134A7C', marginBottom: 20, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>2026 Key Dates Timeline</div>
+            <div style={{ fontFamily: '\'Playfair Display\', serif', fontSize: 16, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 20, paddingBottom: 8, borderBottom: '2px solid #EE3227' }}>2026 Key Dates Timeline</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {allDates.map((item, i) => {
                 const past = isPast(item.date);
@@ -937,13 +937,13 @@ export default function DirectivesPage() {
                   <div key={i} style={{ display: 'flex', gap: 0, position: 'relative' }}>
                     {/* Timeline line */}
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 32, flexShrink: 0 }}>
-                      <div style={{ width: 10, height: 10, borderRadius: '50%', background: current ? '#16a34a' : past ? '#d1d5db' : '#134A7C', border: `2px solid ${current ? '#16a34a' : past ? '#d1d5db' : '#134A7C'}`, marginTop: 14, flexShrink: 0, zIndex: 1 }} />
+                      <div style={{ width: 10, height: 10, borderRadius: '50%', background: current ? '#16a34a' : past ? '#d1d5db' : 'var(--jm-blue)', border: `2px solid ${current ? '#16a34a' : past ? '#d1d5db' : 'var(--jm-blue)'}`, marginTop: 14, flexShrink: 0, zIndex: 1 }} />
                       {i < allDates.length - 1 && <div style={{ width: 2, flex: 1, background: 'var(--border)', minHeight: 8 }} />}
                     </div>
                     {/* Content */}
                     <div style={{ flex: 1, padding: '10px 0 10px 10px', opacity: past ? 0.45 : 1 }}>
                       <div style={{ display: 'flex', gap: 10, alignItems: 'baseline', flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: current ? '#16a34a' : past ? '#9ca3af' : '#134A7C', minWidth: 70, flexShrink: 0 }}>{formatShortDate(item.date)}</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: current ? '#16a34a' : past ? '#9ca3af' : 'var(--jm-blue)', minWidth: 70, flexShrink: 0 }}>{formatShortDate(item.date)}</span>
                         <span style={{ fontSize: 13, color: past ? '#9ca3af' : '#2D2D2D', fontWeight: isCalendarMonth ? 400 : 500 }}>{item.label}</span>
                         {current && <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(22,163,74,0.12)', color: '#16a34a', padding: '2px 8px', borderRadius: 100 }}>THIS MONTH</span>}
                       </div>
@@ -960,7 +960,7 @@ export default function DirectivesPage() {
       {/* ─── RT-145: HISTORY TAB ─── */}
       {tab === 'history' && (
         <div>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: '#134A7C', marginBottom: 16 }}>Communication History</h2>
+          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 800, color: 'var(--jm-blue)', marginBottom: 16 }}>Communication History</h2>
           {readIds.size === 0 && outreachEntries.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '48px 24px', color: '#9ca3af' }}>
               <div style={{ fontSize: 36, marginBottom: 12 }}>📋</div>
@@ -990,7 +990,7 @@ export default function DirectivesPage() {
                       {e.contact && `${e.contact} · `}{e.materials} · {e.qty} qty
                     </div>
                   </div>
-                  <span style={{ fontSize: 11, background: 'rgba(19,74,124,0.1)', color: '#134A7C', padding: '3px 8px', borderRadius: 6, fontWeight: 600 }}>Outreach</span>
+                  <span style={{ fontSize: 11, background: 'rgba(19,74,124,0.1)', color: 'var(--jm-blue)', padding: '3px 8px', borderRadius: 6, fontWeight: 600 }}>Outreach</span>
                 </div>
               ))}
             </div>

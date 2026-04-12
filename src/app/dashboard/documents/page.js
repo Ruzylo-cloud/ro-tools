@@ -75,7 +75,7 @@ const QUIZ_DATA = {
 // RT-183: addedDate tracks when templates were added/updated for "New" notification
 // RT-127: version field for template versioning
 const TEMPLATES = [
-  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: '🎯', color: '#134A7C', addedDate: '2025-01-01', version: '1.2' },
+  { id: 'orientation', name: 'Orientation', desc: 'Day 1 - Policies', icon: '🎯', color: 'var(--jm-blue)', addedDate: '2025-01-01', version: '1.2' },
   { id: 'level1', name: 'Level 1 Training', desc: 'Sprinkle / Wrap', icon: '🥖', color: '#2563eb', addedDate: '2025-01-01', version: '1.3' },
   { id: 'level2', name: 'Level 2 Training', desc: 'Register / Wrap', icon: '🧾', color: '#0891b2', addedDate: '2025-01-01', version: '1.3' },
   { id: 'level3', name: 'Level 3 Training', desc: 'Hot Subs', icon: '🔥', color: '#dc2626', addedDate: '2025-01-01', version: '1.3' },
@@ -359,7 +359,7 @@ export default function DocumentsPage() {
                   <button
                     key={id}
                     onClick={() => handleTemplateChange(id)}
-                    style={{ padding: '4px 10px', fontSize: 12, fontWeight: 600, background: selected === id ? '#134A7C' : '#f0f4f8', color: selected === id ? '#fff' : '#134A7C', border: '1px solid #d1d5db', borderRadius: 16, cursor: 'pointer' }}
+                    style={{ padding: '4px 10px', fontSize: 12, fontWeight: 600, background: selected === id ? 'var(--jm-blue)' : '#f0f4f8', color: selected === id ? '#fff' : 'var(--jm-blue)', border: '1px solid #d1d5db', borderRadius: 16, cursor: 'pointer' }}
                   >
                     {t.name}
                   </button>
@@ -451,7 +451,7 @@ export default function DocumentsPage() {
         {/* RT-172: Progress bar */}
         {generating && generateProgress > 0 && (
           <div style={{ height: 4, background: 'var(--border)', borderRadius: 2, overflow: 'hidden', marginBottom: 10 }}>
-            <div style={{ height: '100%', background: '#134A7C', borderRadius: 2, width: `${generateProgress}%`, transition: 'width 0.3s ease' }} />
+            <div style={{ height: '100%', background: 'var(--jm-blue)', borderRadius: 2, width: `${generateProgress}%`, transition: 'width 0.3s ease' }} />
           </div>
         )}
 
@@ -493,7 +493,7 @@ export default function DocumentsPage() {
           <button
             onClick={handleBatchDownload}
             disabled={generating}
-            style={{ width: '100%', marginTop: 8, padding: '10px', background: 'var(--white)', border: '1px solid #134A7C', borderRadius: 8, fontSize: 13, fontWeight: 600, color: '#134A7C', cursor: 'pointer' }}
+            style={{ width: '100%', marginTop: 8, padding: '10px', background: 'var(--white)', border: '1px solid #134A7C', borderRadius: 8, fontSize: 13, fontWeight: 600, color: 'var(--jm-blue)', cursor: 'pointer' }}
           >
             📦 Download All Packets
           </button>
@@ -639,13 +639,13 @@ export default function DocumentsPage() {
             <div style={{ background: 'var(--white)', borderRadius: 16, width: '100%', maxWidth: 580, maxHeight: '90vh', overflow: 'auto', boxShadow: '0 24px 60px rgba(0,0,0,0.3)' }} onClick={e => e.stopPropagation()}>
               <div style={{ padding: '20px 24px 0', borderBottom: '1px solid var(--border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: '#134A7C' }}>{quiz.title}</div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--jm-blue)' }}>{quiz.title}</div>
                   <button onClick={() => setShowQuiz(false)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--gray-500)', lineHeight: 1 }}>&times;</button>
                 </div>
                 {!quizSubmitted && (
                   <p style={{ fontSize: 13, color: 'var(--gray-500)', marginBottom: 16 }}>
                     Answer all {quiz.questions.length} questions. Score 80% or higher to pass.
-                    {form.employeeName && <strong style={{ color: '#134A7C' }}> — {form.employeeName}</strong>}
+                    {form.employeeName && <strong style={{ color: 'var(--jm-blue)' }}> — {form.employeeName}</strong>}
                   </p>
                 )}
               </div>
@@ -673,7 +673,7 @@ export default function DocumentsPage() {
                     </div>
                     <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
                       {!passed && (
-                        <button onClick={() => { setQuizAnswers({}); setQuizSubmitted(false); setQuizScore(null); }} style={{ padding: '10px 24px', background: '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
+                        <button onClick={() => { setQuizAnswers({}); setQuizSubmitted(false); setQuizScore(null); }} style={{ padding: '10px 24px', background: 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}>
                           Retake Quiz
                         </button>
                       )}
@@ -689,8 +689,8 @@ export default function DocumentsPage() {
                         <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 8 }}>{i + 1}. {q.q}</div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                           {q.options.map((opt, j) => (
-                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? '#134A7C' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : 'var(--white)', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: 'var(--text)', transition: 'all 0.15s' }}>
-                              <input type="radio" name={`q${i}`} value={j} checked={quizAnswers[i] === j} onChange={() => setQuizAnswers(prev => ({ ...prev, [i]: j }))} style={{ accentColor: '#134A7C' }} />
+                            <label key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', borderRadius: 8, border: `1.5px solid ${quizAnswers[i] === j ? 'var(--jm-blue)' : '#e5e7eb'}`, background: quizAnswers[i] === j ? 'rgba(19,74,124,0.06)' : 'var(--white)', cursor: 'pointer', fontSize: 13, fontWeight: quizAnswers[i] === j ? 600 : 400, color: 'var(--text)', transition: 'all 0.15s' }}>
+                              <input type="radio" name={`q${i}`} value={j} checked={quizAnswers[i] === j} onChange={() => setQuizAnswers(prev => ({ ...prev, [i]: j }))} style={{ accentColor: 'var(--jm-blue)' }} />
                               {opt}
                             </label>
                           ))}
@@ -700,7 +700,7 @@ export default function DocumentsPage() {
                     <button
                       onClick={submitQuiz}
                       disabled={Object.keys(quizAnswers).length < quiz.questions.length}
-                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < quiz.questions.length ? '#9ca3af' : '#134A7C', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < quiz.questions.length ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
+                      style={{ width: '100%', padding: '12px', background: Object.keys(quizAnswers).length < quiz.questions.length ? '#9ca3af' : 'var(--jm-blue)', color: '#fff', border: 'none', borderRadius: 8, fontSize: 15, fontWeight: 700, cursor: Object.keys(quizAnswers).length < quiz.questions.length ? 'not-allowed' : 'pointer', fontFamily: 'inherit' }}
                     >
                       Submit Quiz ({Object.keys(quizAnswers).length}/{quiz.questions.length} answered)
                     </button>

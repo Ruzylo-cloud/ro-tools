@@ -140,7 +140,7 @@ export default function ManagerLogPage() {
     return <div className={styles.container}><p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p></div>;
   }
 
-  const BOARD_COLORS = { general: '#134A7C', injuries: '#DC2626', maintenance: '#EA580C', cleaning: '#16A34A' };
+  const BOARD_COLORS = { general: 'var(--jm-blue)', injuries: '#DC2626', maintenance: '#EA580C', cleaning: '#16A34A' };
 
   return (
     <div className={styles.container} onKeyDown={handleKeyDown}>

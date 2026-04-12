@@ -88,7 +88,7 @@ export default function UpdatesPage() {
           <h1 className={styles.title}>Updates & Changelog</h1>
           <p className={styles.subtitle}>Everything that&apos;s been shipped, fixed, and improved.</p>
         </div>
-        <a href="/dashboard/updates/publish" style={{ background: '#134A7C', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Company News Feed &rarr;</a>
+        <a href="/dashboard/updates/publish" style={{ background: 'var(--jm-blue)', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Company News Feed &rarr;</a>
       </div>
 
       {/* Tab bar */}

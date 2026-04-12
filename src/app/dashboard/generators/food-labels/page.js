@@ -227,7 +227,7 @@ export default function FoodLabelsPage() {
                   padding: '4px 10px', borderRadius: '4px', fontSize: '12px', fontWeight: 600,
                   border: form.allergens.includes(a) ? '2px solid #134A7C' : '1px solid var(--border)',
                   background: form.allergens.includes(a) ? 'rgba(19,74,124,0.08)' : 'var(--white)',
-                  color: form.allergens.includes(a) ? '#134A7C' : 'var(--gray-500)',
+                  color: form.allergens.includes(a) ? 'var(--jm-blue)' : 'var(--gray-500)',
                   cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.15s',
                 }}
               >
