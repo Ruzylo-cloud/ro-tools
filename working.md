@@ -6,12 +6,12 @@
 - **Project:** RO Tools (ro-tools)
 
 ## Active Task
-- **Task:** FSC Tracker demo mode + quality sweep
-- **Source:** quality.md + demo-data.js
-- **Status:** BUILDING
-- **Files:** src/lib/demo-data.js, src/app/api/fsc/route.js
-- **Description:** Added demo FSC data (4 sample requests) and demo mode handling in FSC API. Quality sweep found code is clean (0 bare catches needing fix, 0 console.logs, 0 TODOs).
+- **Task:** Scanning for next task
+- **Status:** SCANNING
 
 ## Completed This Session
 1. FSC Tracker — NEW BUILD (d77e14f) — /dashboard/fsc-tracker + /api/fsc CRUD
 2. Welcome page — all new features (f8281d8) — 16 new tool/operation items added
+3. FSC demo data + FEATURES.md update + quality sweep (7ce8ff7)
+4. Presentation — operations & analytics slide (d20ec7f)
+5. Store directory — 12 stores named, DM assignments fixed (f5e5517)

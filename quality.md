@@ -5,7 +5,7 @@
 - [ ] **Dead code cleanup** — search `grep -rn "TODO\|FIXME\|HACK\|TEMP\|XXX" src/` in MC repo. Resolve all.
 - [ ] **Unused imports** — run tsc --noUnusedLocals on MC. Fix warnings.
 - [x] **Console.log cleanup** — RT verified: 0 console.log in src/. Only console.debug (non-fatal) and console.error (real errors).
-- [ ] **Memory leaks** — check all setInterval/setTimeout have corresponding clear on cleanup. Check all addEventListener have removeEventListener.
+- [x] **Memory leaks** — RT verified: 1 setInterval (Sidebar notifications, properly cleaned up with clearInterval). All setTimeout calls use mountedRef.current guards. No addEventListener without cleanup found.
 
 ## UX Polish
 - [ ] **User name showing "-"** — RO Control shows "-" next to Sign Out when fullName is empty. Fix: fall back to username more gracefully, or ensure fullName is always populated from Homebase data.
