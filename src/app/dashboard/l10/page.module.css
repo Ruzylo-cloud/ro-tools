@@ -54,12 +54,45 @@
 .timeLabel { font-size: 13px; font-weight: 600; color: var(--charcoal); }
 
 /* ─── Responsive ─── */
-@media (max-width: 670px) {
-  .container { padding: 24px 16px; }
+@media (max-width: 900px) {
+  .container { padding: 36px 20px; }
+  .title { font-size: 26px; }
+}
+
+@media (max-width: 768px) {
   .gradeCard { flex-direction: column; align-items: stretch; text-align: center; }
-  .gradeCircle { margin: 0 auto; }
-  .metricRow { flex-wrap: wrap; }
+  .gradeCircle { margin: 0 auto; width: 70px; height: 70px; font-size: 24px; }
+  .metricRow { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
   .metricGoal { min-width: unset; text-align: left; font-size: 10px; }
-  .weekBar { flex-direction: column; align-items: stretch; }
+  .metricInput { width: 80px; }
+  .weekBar { flex-direction: column; align-items: stretch; gap: 8px; }
   .saveBtn { margin-left: 0; }
+  .catHeader { padding: 12px 16px; }
+  .catTitle { font-size: 14px; }
+}
+
+@media (max-width: 600px) {
+  .container { padding: 28px 16px; }
+  .title { font-size: 24px; }
+  .metricRow { padding: 10px 12px; }
+  .metricLabel { font-size: 12px; }
+  .metricNum { min-width: 20px; font-size: 10px; }
+  .gradeCircle { width: 60px; height: 60px; font-size: 20px; }
+  .gradeMeta { flex-direction: column; gap: 4px; }
+}
+
+@media (max-width: 460px) {
+  .container { padding: 24px 12px; }
+  .title { font-size: 22px; }
+  .metricRow { flex-direction: column; align-items: stretch; }
+  .metricGoal { text-align: left; }
+  .metricInput { width: 100%; }
+  .metricSelect { width: 100%; }
+}
+
+@media (max-width: 360px) {
+  .container { padding: 20px 10px; }
+  .title { font-size: 20px; }
+  .subtitle { font-size: 12px; }
+  .weekLabel { font-size: 13px; }
 }
