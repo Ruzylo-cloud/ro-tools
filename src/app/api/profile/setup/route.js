@@ -4,12 +4,16 @@ import { updateJsonFile, loadJsonFile } from '@/lib/data';
 import { isSuperAdmin, isDefaultAdmin, needsApproval } from '@/lib/roles';
 import { rateLimit } from '@/lib/rate-limit';
 import { isDemo } from '@/lib/demo-data';
+import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
 const VALID_ROLES = new Set(['operator', 'district_manager', 'administrator']);
 
 export async function POST(request) {
+  const originError = enforceSameOriginMutation(request);
+  if (originError) return originError;
+
   const { limited } = rateLimit('profile-setup', 60000, 20, request);
   if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
 
