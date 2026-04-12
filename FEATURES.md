@@ -105,6 +105,42 @@
 
 ---
 
+## Operations Tools
+
+### FSC Tracker (Free Sub Card)
+- Per-store guest recovery tracking
+- Complaint logging: guest name, address, date, card count, reason
+- Pending/Sent status tracking with mark-sent workflow
+- Search and filter by status
+- Demo mode with sample data
+
+### Payroll Workbench
+- Biweekly pay period management
+- Employee hours, tips, and wages tracking
+- Cash + CC tips reconciliation
+- Click-to-edit cells (Sheets-like)
+- Per-store, per-period data persistence
+
+### Stability Snapshot
+- Role-based staffing grid per store
+- Vacancy tracking and staffing health indicators
+- Inline editing for slot assignments
+- Multi-store view for DMs
+
+### Tier Assessment (ABC Scoring)
+- Weighted rubric-based employee evaluation
+- Category scoring across performance dimensions
+- Tier classification (A/B/C) with tie-break logic
+- Live rubric loaded from server config
+
+### Reading Library
+- 15 leadership books with curated excerpts
+- Discussion questions per book
+- Audible and Amazon purchase links
+- Per-book detail pages with extensive content
+
+---
+
 ## Store Management
 
 ### Store Profiles

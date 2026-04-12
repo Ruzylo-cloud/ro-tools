@@ -1,10 +1,10 @@
 # Quality Fixes — Non-blocking but Important
 
 ## Code Quality
-- [ ] **Bare catch blocks** — 879 fixed in MC, but verify none remain in RT web or iOS apps. Search: `grep -rn "catch {" src/` in all repos.
+- [x] **Bare catch blocks** — RT verified clean (2 intentional: window.print + localStorage). No changes needed.
 - [ ] **Dead code cleanup** — search `grep -rn "TODO\|FIXME\|HACK\|TEMP\|XXX" src/` in MC repo. Resolve all.
 - [ ] **Unused imports** — run tsc --noUnusedLocals on MC. Fix warnings.
-- [ ] **Console.log cleanup** — search for debug console.logs that shouldn't be in production. Keep only structured logging via logger service.
+- [x] **Console.log cleanup** — RT verified: 0 console.log in src/. Only console.debug (non-fatal) and console.error (real errors).
 - [ ] **Memory leaks** — check all setInterval/setTimeout have corresponding clear on cleanup. Check all addEventListener have removeEventListener.
 
 ## UX Polish
@@ -28,7 +28,7 @@
 - [ ] **CORS** — verify only ro-tools.app and ro-control.app are allowed origins.
 
 ## Documentation
-- [ ] **FEATURES.md** — verify complete for both platforms. Recently updated with Marketing, Reading, Employee, Dark Mode, Tour, Auto-Setup.
+- [x] **FEATURES.md** — Updated by techy: added FSC Tracker, Payroll Workbench, Stability Snapshot, Tier Assessment, Reading Library sections.
 - [ ] **hierarchy.md** — verify accurate after all Homebase imports.
 - [ ] **errors.md** — verify zero OPEN items.
 - [ ] **matchingstyle.md** — verify zero unchecked items.

@@ -418,3 +418,57 @@ export const DEMO_CATERING_ORDERS = [
 export function isDemo(session) {
   return session?.isDemo === true || session?.email === 'demo@ro-tools.app';
 }
+
+/**
+ * DEMO_FSC_REQUESTS — sample FSC guest recovery data for demo store #20360.
+ */
+export const DEMO_FSC_REQUESTS = [
+  {
+    id: 'fsc-demo-1',
+    guestName: 'Sarah Mitchell',
+    address: '1245 De La Vina St, Santa Barbara, CA 93101',
+    complaintDate: '2026-04-02',
+    cardCount: 2,
+    reason: 'Order was incorrect — received #7 instead of #13. Guest waited 15 min for remake.',
+    notes: 'Regular customer, always orders #13.',
+    dateSent: '2026-04-04',
+    createdBy: 'chrisr@jmvalley.com',
+    createdAt: '2026-04-02T14:30:00Z',
+  },
+  {
+    id: 'fsc-demo-2',
+    guestName: 'David Chen',
+    address: '890 Anacapa St, Santa Barbara, CA 93101',
+    complaintDate: '2026-04-05',
+    cardCount: 1,
+    reason: 'Cold sub had wilted lettuce and tomatoes were not fresh.',
+    notes: '',
+    dateSent: null,
+    createdBy: 'chrisr@jmvalley.com',
+    createdAt: '2026-04-05T11:15:00Z',
+  },
+  {
+    id: 'fsc-demo-3',
+    guestName: 'Maria Gonzalez',
+    address: '567 State St, Santa Barbara, CA 93101',
+    complaintDate: '2026-04-08',
+    cardCount: 3,
+    reason: 'Catering order for 15 was missing 3 subs. Event started without full order.',
+    notes: 'Left Google review — responded and apologized. Follow up with catering team.',
+    dateSent: null,
+    createdBy: 'chrisr@jmvalley.com',
+    createdAt: '2026-04-08T09:45:00Z',
+  },
+  {
+    id: 'fsc-demo-4',
+    guestName: 'Tom Bradley',
+    address: '2200 Cliff Dr, Santa Barbara, CA 93109',
+    complaintDate: '2026-03-28',
+    cardCount: 1,
+    reason: 'Long wait time during lunch rush. Crew was understaffed.',
+    notes: '',
+    dateSent: '2026-03-30',
+    createdBy: 'chrisr@jmvalley.com',
+    createdAt: '2026-03-28T13:20:00Z',
+  },
+];

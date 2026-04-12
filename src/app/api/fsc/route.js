@@ -4,6 +4,7 @@ import { getSession } from '@/lib/session';
 import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
 import { rateLimit } from '@/lib/rate-limit';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
+import { DEMO_FSC_REQUESTS, isDemo } from '@/lib/demo-data';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,12 +24,22 @@ export async function GET(request) {
   const session = getSession();
   if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-  const storeNumber = await getStoreNumber(session);
-  if (!storeNumber) return NextResponse.json({ error: 'No store assigned' }, { status: 400 });
-
   const { searchParams } = new URL(request.url);
   const statusFilter = searchParams.get('status') || 'all';
   const search = searchParams.get('search')?.toLowerCase();
+
+  // Demo mode: return sample data
+  if (isDemo(session)) {
+    let requests = [...DEMO_FSC_REQUESTS];
+    if (statusFilter === 'pending') requests = requests.filter(r => !r.dateSent);
+    else if (statusFilter === 'sent') requests = requests.filter(r => !!r.dateSent);
+    if (search) requests = requests.filter(r => [r.guestName, r.reason].some(f => f?.toLowerCase().includes(search)));
+    requests.sort((a, b) => new Date(b.complaintDate || 0) - new Date(a.complaintDate || 0));
+    return NextResponse.json({ requests, storeNumber: '20360' });
+  }
+
+  const storeNumber = await getStoreNumber(session);
+  if (!storeNumber) return NextResponse.json({ error: 'No store assigned' }, { status: 400 });
 
   const allData = await loadJsonFileAsync('fsc-requests.json');
   let requests = allData[storeNumber] || [];
