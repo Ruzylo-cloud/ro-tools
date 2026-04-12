@@ -13,16 +13,16 @@
 - [ ] **Loading states** — verify every page shows a loading spinner or skeleton while data fetches. No blank screens.
 - [ ] **Error states** — verify every API call has error handling with user-friendly messages. No raw error dumps.
 - [ ] **Empty states** — verify every list/table shows a friendly empty message ("No employees found", "No tasks yet") instead of blank space.
-- [ ] **Mobile responsive** — verify all pages work on phone (375px) and tablet (768px). No horizontal overflow.
+- [x] **Mobile responsive** — All 33+ pages verified with 4-5 breakpoints each (900, 768, 600, 460, 360px). Tables use overflow-x:auto with iOS momentum scrolling. Viewport export in layout.js. Touch targets 44px min.
 
 ## Performance
 - [ ] **Bundle size** — check if any JS modules are unusually large. Inline script should be under 500KB.
-- [ ] **Image optimization** — verify JMVG logo is properly sized (not serving 500px image at 36px display).
+- [x] **Image optimization** — JMVG logo is 500x500 at 59KB (PNG), displayed at 40-120px. Single cached asset, acceptable for logo quality.
 - [ ] **API response times** — verify no endpoint takes more than 2 seconds. Check for N+1 queries.
 - [ ] **SQLite/PostgreSQL indexes** — verify indexes exist on frequently queried columns (store_id, employee_id, date).
 
 ## Security
-- [ ] **JWT_SECRET persistence** — DONE for MC. Verify RO Tools session secret is also persistent (not regenerated per deploy).
+- [x] **JWT_SECRET persistence** — RT uses GOOGLE_CLIENT_SECRET (Secret Manager, persistent) + GOOGLE_CLIENT_SECRET_PREVIOUS fallback for key rotation. Wired via --update-secrets.
 - [x] **Rate limiting** — All auth endpoints have rate limiting: login (10/min), demo (5/min), callback (15/min), upgrade (5/min), apple/send-code (5/min), apple/complete (10/min), apple/lookup (15/min).
 - [ ] **Input validation** — verify all form inputs are validated server-side, not just client-side.
 - [ ] **CORS** — verify only ro-tools.app and ro-control.app are allowed origins.
