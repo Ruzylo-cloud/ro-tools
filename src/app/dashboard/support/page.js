@@ -34,14 +34,17 @@ export default function SupportPage() {
   const [bugSuccess, setBugSuccess] = useState(false);
   const [featureSuccess, setFeatureSuccess] = useState(false);
   const [tickets, setTickets] = useState([]);
+  const [ticketsLoading, setTicketsLoading] = useState(true);
+  const [ticketsError, setTicketsError] = useState(null);
   const [ticketPage, setTicketPage] = useState(1);
   const TICKETS_PER_PAGE = 10;
 
   useEffect(() => {
     fetch('/api/support')
       .then(res => { if (!res.ok) throw new Error(res.statusText); return res.json(); })
-      .then(data => setTickets(data.tickets || []))
-      .catch(e => { console.error('[support] Failed to load tickets:', e); });
+      .then(data => { setTickets(data.tickets || []); setTicketsError(null); })
+      .catch(() => { setTicketsError('Could not load tickets.'); })
+      .finally(() => setTicketsLoading(false));
   }, []);
 
   const submitTicket = async (type) => {
@@ -193,7 +196,11 @@ export default function SupportPage() {
 
       <div className={styles.ticketsSection}>
         <div className={styles.ticketsTitle}>Your Submissions</div>
-        {tickets.length === 0 ? (
+        {ticketsLoading ? (
+          <div className={styles.empty}>Loading submissions...</div>
+        ) : ticketsError ? (
+          <div className={styles.empty}>{ticketsError}</div>
+        ) : tickets.length === 0 ? (
           <div className={styles.empty}>No submissions yet.</div>
         ) : (
           <>

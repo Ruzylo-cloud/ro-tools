@@ -54,6 +54,7 @@ export default function FlyerPage() {
   const { showToast } = useToast();
   const [form, setForm] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
   const [generating, setGenerating] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   // RT-141: template selector — persisted in draft
@@ -72,7 +73,7 @@ export default function FlyerPage() {
         if (data.profile) setForm(data.profile);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(() => { setLoadError('Could not load store profile.'); setLoading(false); });
   }, [user]);
 
   const handleChange = (key, value) => {
@@ -130,7 +131,15 @@ export default function FlyerPage() {
   if (loading) {
     return (
       <div className={styles.container}>
-        <p style={{ color: 'var(--gray-500)', padding: '48px' }}>Loading store info...</p>
+        <p style={{ color: 'var(--gray-500)', padding: '48px', textAlign: 'center' }}>Loading store info...</p>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className={styles.container}>
+        <p style={{ color: 'var(--jm-red)', padding: '48px', textAlign: 'center' }}>{loadError}</p>
       </div>
     );
   }
