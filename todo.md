@@ -30,7 +30,7 @@
 - [ ] **Dark mode** — verify toggle works on all 4 platforms, mid-grey palette consistent
 - [ ] **Quick Tour** — verify shows on first login only, skippable, navigates to pages
 - [ ] **Auto-setup** — verify @jmvalley.com login auto-fills profile from Homebase data
-- [ ] **/welcome page** — verify complete with all features, comparison, security, ROI, presentations
+- [x] **/welcome page** — UPDATED by techy: added Tools & Analytics (8 items) + Store Operations (8 items) sections covering all new features
 - [ ] **Crew PIN login** — verify schedule first tab, swaps, time off, availability
 
 ## Homebase App Parity — FROM 108 SCREENSHOT REVIEW

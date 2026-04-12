@@ -32,7 +32,7 @@
 - [ ] Cross-platform: profile edit RT → syncs to RC
 
 ### PHASE 6: /welcome + Presentations (T23-25)
-- [ ] Update /welcome with ALL new features (People hub, schedule builder, crew login, marketing, reading)
+- [DONE] Update /welcome with ALL new features (People hub, schedule builder, crew login, marketing, reading, FSC, payroll, stability, tier, L10, Jarvis, kiosk, closeout, checklists, announcements)
 - [ ] RT presentation (~4 min)
 - [ ] RC presentation (~4 min)
 - [ ] Dashboard operational widgets (shift lead+ labor view)
