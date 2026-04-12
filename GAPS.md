@@ -33,7 +33,7 @@
 
 ### PHASE 6: /welcome + Presentations (T23-25)
 - [DONE] Update /welcome with ALL new features (People hub, schedule builder, crew login, marketing, reading, FSC, payroll, stability, tier, L10, Jarvis, kiosk, closeout, checklists, announcements)
-- [ ] RT presentation (~4 min)
+- [DONE] RT presentation (~4 min) — added Operations & Analytics slide with 8 new tools
 - [ ] RC presentation (~4 min)
 - [ ] Dashboard operational widgets (shift lead+ labor view)
 

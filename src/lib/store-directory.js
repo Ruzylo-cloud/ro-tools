@@ -10,32 +10,32 @@
 const STORE_DIRECTORY = [
   { id: '20011', name: 'Westlake', ro: 'Raul Rodriguez', dm: 'Jacob Elliott' },
   { id: '20013', name: 'Buellton', ro: 'Reilly McMahon', dm: 'Josh Smith', address: '211 E HWY 246 Suite 101, Buellton, CA 93427' },
-  { id: '20026', name: '20026', ro: 'Kassandra Baker', dm: 'Josiah Noray' },
+  { id: '20026', name: 'Tampa', ro: 'Kassandra Baker', dm: 'Josiah Noray' },
   { id: '20048', name: 'Janss', ro: 'Alex Navarrete', dm: 'Jacob Elliott' },
   { id: '20075', name: 'Isla Vista', ro: 'Salvador Rangel', dm: 'Josh Smith' },
   { id: '20091', name: '20091', ro: '', dm: '' },
-  { id: '20116', name: '20116', ro: 'Jaylen Israel', dm: 'Jacob Elliott' },
+  { id: '20116', name: 'Encino', ro: 'Jaylen Israel', dm: 'Narek Khudabakhshyan' },
   { id: '20156', name: 'North Hollywood', ro: 'Elias Maldonado', dm: 'Narek Khudabakhshyan' },
   { id: '20171', name: '20171', ro: '', dm: '' },
   { id: '20177', name: '20177', ro: '', dm: '' },
-  { id: '20218', name: '20218', ro: 'Gabriel Alberto', dm: 'Ryan Dolezal' },
+  { id: '20218', name: 'Mission Hills', ro: 'Gabriel Alberto', dm: 'Ryan Dolezal' },
   { id: '20245', name: 'Wendy', ro: 'Oscar Menendez', dm: 'Jacob Elliott' },
   { id: '20255', name: 'Arboles', ro: 'Luis Adrian', dm: 'Narek Khudabakhshyan' },
   { id: '20267', name: 'Balboa', ro: 'Ameena Muhammad', dm: 'Josiah Noray' },
-  { id: '20273', name: '20273', ro: 'Shelby Highfill', dm: 'Ryan Dolezal' },
+  { id: '20273', name: 'Big Bear', ro: 'Shelby Highfill', dm: 'Ryan Dolezal' },
   { id: '20291', name: '20291', ro: '', dm: '' },
   { id: '20292', name: '20292', ro: '', dm: '' },
-  { id: '20294', name: '20294', ro: 'Leo Valdez', dm: 'Josh Smith' },
+  { id: '20294', name: 'Toluca', ro: 'Leonel Valdez', dm: 'Ryan Dolezal' },
   { id: '20300', name: '20300', ro: '', dm: '' },
-  { id: '20311', name: '20311', ro: 'Jordan Baker', dm: 'Narek Khudabakhshyan' },
+  { id: '20311', name: 'Porter Ranch', ro: 'Jordan Baker', dm: 'Narek Khudabakhshyan' },
   { id: '20335', name: 'Goleta', ro: 'Marco Gonzalez', dm: 'Josh Smith', address: '163 N Fairview' },
-  { id: '20352', name: '20352', ro: 'Martin Avianeda', dm: 'Jacob Elliott' },
+  { id: '20352', name: 'San Fernando', ro: 'Martin Avianeda', dm: 'Ryan Dolezal' },
   { id: '20360', name: 'Santa Barbara', ro: 'Chris Ruzylo', dm: 'Narek Khudabakhshyan', address: '199 S Turnpike Rd, Santa Barbara, CA 93111' },
-  { id: '20363', name: '20363', ro: 'Timothy Branam', dm: 'Josiah Noray' },
+  { id: '20363', name: 'Warner Center', ro: 'Timothy Branam', dm: 'Josiah Noray' },
   { id: '20366', name: 'Burbank North', ro: 'Jazmin Santiago', dm: 'Jacob Elliott' },
-  { id: '20381', name: '20381', ro: 'Celeste Bravo', dm: 'Ryan Dolezal' },
-  { id: '20388', name: '20388', ro: 'Maria Bosarreyes', dm: 'Josh Smith' },
-  { id: '20424', name: '20424', ro: 'Jasmine Hernandez', dm: 'Narek Khudabakhshyan' },
+  { id: '20381', name: 'Sylmar', ro: 'Celeste Bravo', dm: 'Ryan Dolezal' },
+  { id: '20388', name: 'Lake Arrowhead', ro: 'Maria Bosarreyes', dm: 'Ryan Dolezal' },
+  { id: '20424', name: 'Studio City', ro: 'Jasmine Moreno', dm: 'Narek Khudabakhshyan' },
 ];
 
 /**
@@ -43,11 +43,11 @@ const STORE_DIRECTORY = [
  * Maps DM name -> array of store IDs they manage.
  */
 const DM_ASSIGNMENTS = {
-  'Jacob Elliott':          ['20245', '20011', '20048', '20116', '20366', '20352'],
-  'Narek Khudabakhshyan':   ['20424', '20156', '20311', '20360', '20255'],
-  'Josh Smith':             ['20013', '20075', '20335', '20388', '20294'],
+  'Josh Smith':             ['20013', '20360', '20075', '20335', '20255'],
+  'Jacob Elliott':          ['20245', '20011', '20048'],
+  'Narek Khudabakhshyan':   ['20424', '20156', '20311', '20116', '20366'],
   'Josiah Noray':           ['20026', '20267', '20363'],
-  'Ryan Dolezal':           ['20381', '20218', '20273'],
+  'Ryan Dolezal':           ['20381', '20218', '20273', '20388', '20294', '20352'],
 };
 
 /**
