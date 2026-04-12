@@ -1,0 +1,65 @@
+.container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+.header { margin-bottom: 24px; }
+.title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--jm-blue); margin-bottom: 4px; }
+.subtitle { font-size: 14px; color: var(--gray-600); line-height: 1.5; }
+
+/* ─── Week Selector ─── */
+.weekBar { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.weekBtn { width: 36px; height: 36px; border: none; border-radius: 8px; background: var(--gray-50); color: var(--gray-600); font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.weekBtn:hover { background: var(--jm-blue); color: #fff; }
+.weekBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+.weekLabel { font-size: 15px; font-weight: 700; color: var(--charcoal); }
+.weekDates { font-size: 12px; color: var(--gray-500); }
+.saveBtn { margin-left: auto; padding: 10px 20px; border: none; border-radius: 8px; background: var(--jm-blue); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.saveBtn:hover { opacity: 0.9; }
+.saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.savedMsg { font-size: 12px; color: #16a34a; font-weight: 600; }
+
+/* ─── Grade ─── */
+.gradeCard { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.gradeCircle { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 900; color: #fff; flex-shrink: 0; }
+.gradeInfo { flex: 1; min-width: 200px; }
+.gradeTitle { font-size: 14px; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+.gradeBar { height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
+.gradeFill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+.gradeMeta { display: flex; gap: 16px; margin-top: 8px; font-size: 12px; color: var(--gray-500); }
+.gradeStat { display: flex; align-items: center; gap: 4px; }
+.greenDot { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; }
+.redDot { width: 8px; height: 8px; border-radius: 50%; background: #dc2626; }
+
+/* ─── Categories ─── */
+.category { background: var(--white); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+.catHeader { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--gray-50); border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+.catTitle { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 800; color: var(--jm-blue); }
+.catBadge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+.catBody { padding: 0; }
+
+/* ─── Metric Rows ─── */
+.metricRow { display: flex; align-items: center; padding: 12px 20px; border-bottom: 1px solid var(--gray-100); gap: 12px; }
+.metricRow:last-child { border-bottom: none; }
+.metricNum { font-size: 11px; font-weight: 700; color: var(--gray-400); min-width: 24px; }
+.metricLabel { flex: 1; font-size: 13px; font-weight: 500; color: var(--charcoal); }
+.metricGoal { font-size: 11px; color: var(--gray-500); min-width: 100px; text-align: right; }
+.metricInput { width: 100px; padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; font-family: inherit; color: var(--charcoal); background: var(--white); text-align: right; }
+.metricInput:focus { outline: none; border-color: var(--jm-blue); box-shadow: 0 0 0 2px rgba(19,74,124,0.1); }
+.metricSelect { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; font-family: inherit; color: var(--charcoal); background: var(--white); }
+.metricSelect:focus { outline: none; border-color: var(--jm-blue); }
+.metricStatus { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.metricGreen { background: rgba(22,163,74,0.12); color: #16a34a; }
+.metricRed { background: rgba(220,38,38,0.12); color: #dc2626; }
+.metricNeutral { background: var(--gray-100); color: var(--gray-400); }
+
+/* ─── Time Finished ─── */
+.timeRow { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: var(--gray-50); border-top: 1px solid var(--border); }
+.timeLabel { font-size: 13px; font-weight: 600; color: var(--charcoal); }
+
+/* ─── Responsive ─── */
+@media (max-width: 670px) {
+  .container { padding: 24px 16px; }
+  .gradeCard { flex-direction: column; align-items: stretch; text-align: center; }
+  .gradeCircle { margin: 0 auto; }
+  .metricRow { flex-wrap: wrap; }
+  .metricGoal { min-width: unset; text-align: left; font-size: 10px; }
+  .weekBar { flex-direction: column; align-items: stretch; }
+  .saveBtn { margin-left: 0; }
+}

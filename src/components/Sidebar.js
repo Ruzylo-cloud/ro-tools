@@ -32,6 +32,7 @@ const SEARCH_ITEMS = [
   { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
   { label: 'FSC Tracker', path: '/dashboard/fsc-tracker', icon: '🎫', keywords: 'fsc free sub card guest recovery complaint' },
   { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
+  { label: 'L10 Scorecard', path: '/dashboard/l10', icon: '📊', keywords: 'l10 scorecard weekly metrics grade meeting dm' },
   { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
   { label: 'Payroll Workbench', path: '/dashboard/tools/payroll', icon: '💵', keywords: 'payroll pay period wages tips tools' },
   { label: 'Stability Snapshot', path: '/dashboard/tools/stability-snapshot', icon: '🧱', keywords: 'stability snapshot role slot staffing tools' },
@@ -648,6 +649,10 @@ export default function Sidebar() {
 
           <Link href="/dashboard/directives" className={`${styles.navLink} ${isActive('/dashboard/directives') ? styles.navLinkActive : ''}`} onClick={navClick}>
             <span className={styles.icon}>📅</span> Directives
+          </Link>
+
+          <Link href="/dashboard/l10" className={`${styles.navLink} ${isActive('/dashboard/l10') ? styles.navLinkActive : ''}`} onClick={navClick}>
+            <span className={styles.icon}>📊</span> L10 Scorecard
           </Link>
 
           <Link href="/dashboard/scoreboard" className={`${styles.navLink} ${isActive('/dashboard/scoreboard') ? styles.navLinkActive : ''}`} onClick={navClick}>
