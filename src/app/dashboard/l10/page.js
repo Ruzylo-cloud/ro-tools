@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useAuth } from '@/components/AuthProvider';
 import styles from './page.module.css';
 
 /**
  * L10 Weekly Scorecard — 30 metrics across 5 categories.
  * ROs fill this out every Monday; DM reviews it in L10 meeting.
+ * DMs/Admins can switch between stores to review all scorecards.
  * Data persists via /api/l10 (JSON on GCS volume).
  */
 
@@ -89,6 +91,7 @@ const CATEGORIES = [
 const ALL_METRICS = CATEGORIES.flatMap(c => c.metrics);
 
 export default function L10Page() {
+  const { user } = useAuth();
   const [week, setWeek] = useState(getCurrentWeek());
   const [values, setValues] = useState({});
   const [timeFinished, setTimeFinished] = useState('');
@@ -96,25 +99,73 @@ export default function L10Page() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [dirty, setDirty] = useState(false);
+  const [error, setError] = useState(null);
+
+  // DM/Admin review mode
+  const [reviewMode, setReviewMode] = useState(false);
+  const [allScorecards, setAllScorecards] = useState([]);
+  const [selectedRO, setSelectedRO] = useState('');
+  const [userRole, setUserRole] = useState(null);
+
+  // Check if user is DM/Admin
+  useEffect(() => {
+    fetch('/api/profile').then(r => r.json()).then(d => {
+      const role = d.profile?.role || '';
+      if (['administrator', 'district_manager'].includes(role) && d.profile?.roleApproved) {
+        setUserRole(role);
+      }
+    }).catch(() => {});
+  }, []);
+
+  // Load all scorecards for DM review
+  const loadAll = useCallback(async (w) => {
+    try {
+      const res = await fetch(`/api/l10?week=${w}&all=true`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setAllScorecards(data.scorecards || []);
+    } catch { setAllScorecards([]); }
+  }, []);
 
   const load = useCallback(async (w) => {
     setLoading(true);
     setSaved(false);
     setDirty(false);
+    setError(null);
     try {
       const res = await fetch(`/api/l10?week=${w}`);
+      if (!res.ok) throw new Error('Failed to load scorecard');
       const data = await res.json();
       setValues(data.values || {});
       setTimeFinished(data.timeFinished || '');
-    } catch {
+    } catch (err) {
       setValues({});
       setTimeFinished('');
+      setError('Could not load scorecard. Please try again.');
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => { load(week); }, [week, load]);
+  useEffect(() => {
+    if (reviewMode && selectedRO) {
+      const card = allScorecards.find(c => c.email === selectedRO);
+      if (card) {
+        setValues(card.values || {});
+        setTimeFinished(card.timeFinished || '');
+      } else {
+        setValues({});
+        setTimeFinished('');
+      }
+      setDirty(false);
+    } else if (!reviewMode) {
+      load(week);
+    }
+  }, [week, reviewMode, selectedRO, allScorecards, load]);
+
+  useEffect(() => {
+    if (reviewMode) loadAll(week);
+  }, [week, reviewMode, loadAll]);
 
   const setValue = (key, val) => {
     setValues(prev => ({ ...prev, [key]: val }));
@@ -138,17 +189,23 @@ export default function L10Page() {
   const gradeColor = grade >= 80 ? '#16a34a' : grade >= 60 ? '#f59e0b' : '#dc2626';
 
   const save = async () => {
+    if (reviewMode) return; // Can't save in review mode
     setSaving(true);
+    setError(null);
     try {
-      await fetch('/api/l10', {
+      const res = await fetch('/api/l10', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ week, values, grade, timeFinished: timeFinished || null }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Save failed');
+      }
       setSaved(true);
       setDirty(false);
     } catch (err) {
-      console.error('[l10] save failed:', err);
+      setError(err.message || 'Failed to save scorecard. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -164,28 +221,76 @@ export default function L10Page() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>L10 Weekly Scorecard</h1>
-        <p className={styles.subtitle}>
-          Fill out your weekly metrics every Monday. Green = goal met, Red = missed.
-          Your DM reviews this during the L10 meeting.
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <h1 className={styles.title}>L10 Weekly Scorecard</h1>
+            <p className={styles.subtitle}>
+              {reviewMode
+                ? 'Reviewing RO scorecards. Select a store to review.'
+                : 'Fill out your weekly metrics every Monday. Green = goal met, Red = missed.'}
+            </p>
+          </div>
+          {userRole && (
+            <button
+              onClick={() => { setReviewMode(!reviewMode); setSelectedRO(''); }}
+              style={{
+                padding: '8px 16px', borderRadius: 8, fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                border: reviewMode ? '2px solid var(--jm-blue)' : '1px solid var(--border)',
+                background: reviewMode ? 'rgba(19,74,124,0.08)' : '#fff',
+                color: reviewMode ? 'var(--jm-blue)' : 'var(--gray-500)',
+              }}
+            >
+              {reviewMode ? 'Back to My Scorecard' : 'Review All Stores'}
+            </button>
+          )}
+        </div>
       </div>
+
+      {/* Error banner */}
+      {error && (
+        <div style={{ padding: '10px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, color: '#dc2626', fontSize: 13, fontWeight: 600, marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {error}
+          <button onClick={() => setError(null)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: 16 }}>x</button>
+        </div>
+      )}
+
+      {/* DM Store Selector */}
+      {reviewMode && (
+        <div style={{ padding: '14px 16px', background: 'rgba(19,74,124,0.04)', border: '1px solid rgba(19,74,124,0.15)', borderRadius: 10, marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+          <label style={{ fontSize: 12, fontWeight: 700, color: 'var(--jm-blue)' }}>Reviewing:</label>
+          <select
+            value={selectedRO}
+            onChange={e => setSelectedRO(e.target.value)}
+            style={{ padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', minWidth: 220 }}
+          >
+            <option value="">Select an RO...</option>
+            {allScorecards.map(c => (
+              <option key={c.email} value={c.email}>{c.name || c.email} — Grade: {c.grade || 0}%</option>
+            ))}
+          </select>
+          <span style={{ fontSize: 12, color: 'var(--gray-400)' }}>
+            {allScorecards.length} scorecard{allScorecards.length !== 1 ? 's' : ''} submitted for Week {week}
+          </span>
+        </div>
+      )}
 
       {/* Week selector */}
       <div className={styles.weekBar}>
-        <button className={styles.weekBtn} onClick={() => changeWeek(-1)} disabled={week <= 1}>‹</button>
+        <button className={styles.weekBtn} onClick={() => changeWeek(-1)} disabled={week <= 1}>&#8249;</button>
         <div>
           <span className={styles.weekLabel}>Week {week}</span>
           <span className={styles.weekDates}> ({getWeekDates(week)})</span>
         </div>
-        <button className={styles.weekBtn} onClick={() => changeWeek(1)} disabled={week >= 52}>›</button>
-        <button
-          className={styles.saveBtn}
-          onClick={save}
-          disabled={saving || !dirty}
-        >
-          {saving ? 'Saving...' : 'Save Scorecard'}
-        </button>
+        <button className={styles.weekBtn} onClick={() => changeWeek(1)} disabled={week >= 52}>&#8250;</button>
+        {!reviewMode && (
+          <button
+            className={styles.saveBtn}
+            onClick={save}
+            disabled={saving || !dirty}
+          >
+            {saving ? 'Saving...' : 'Save Scorecard'}
+          </button>
+        )}
         {saved && <span className={styles.savedMsg}>Saved</span>}
       </div>
 
