@@ -62,6 +62,10 @@ export async function capturePreviewToPdf(previewEl, options = {}) {
 
   await document.fonts?.ready?.catch?.(() => {});
 
+  // Tag the element so we can find its clone
+  const captureId = '__pdf_capture_target__';
+  previewEl.setAttribute('data-capture-id', captureId);
+
   const canvas = await html2canvas(previewEl, {
     scale: 2,
     useCORS: true,
@@ -71,7 +75,7 @@ export async function capturePreviewToPdf(previewEl, options = {}) {
     windowWidth: width,
     backgroundColor: '#ffffff',
     onclone: (clonedDoc) => {
-      const el = clonedDoc.querySelector('[data-preview]') || clonedDoc.body.firstElementChild;
+      const el = clonedDoc.querySelector(`[data-capture-id="${captureId}"]`);
       if (el) {
         el.style.width = width + 'px';
         el.style.height = height + 'px';
@@ -80,6 +84,8 @@ export async function capturePreviewToPdf(previewEl, options = {}) {
       }
     },
   });
+
+  previewEl.removeAttribute('data-capture-id');
 
   const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format });
   const imgData = canvas.toDataURL('image/jpeg', quality);
