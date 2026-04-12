@@ -171,7 +171,7 @@ export default function DashboardPage() {
         <div className={styles.modalBackdrop} onClick={dismissAdminModal}>
           <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <div className={styles.modalIcon}>
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                 <polyline points="9 12 11 14 15 10" />
               </svg>
@@ -296,7 +296,7 @@ export default function DashboardPage() {
       <div className={styles.pillars}>
         <div className={styles.pillar}>
           <div className={styles.pillarIcon}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
               <polyline points="14 2 14 8 20 8" />
               <line x1="16" y1="13" x2="8" y2="13" />
@@ -312,7 +312,7 @@ export default function DashboardPage() {
         </div>
         <div className={styles.pillar}>
           <div className={styles.pillarIcon}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               <line x1="3" y1="9" x2="21" y2="9" />
               <line x1="9" y1="21" x2="9" y2="9" />
@@ -326,7 +326,7 @@ export default function DashboardPage() {
         </div>
         <div className={styles.pillar}>
           <div className={styles.pillarIcon}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
           </div>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
         </div>
         <div className={styles.pillar}>
           <div className={styles.pillarIcon}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 20h9" />
               <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
             </svg>
@@ -416,7 +416,7 @@ export default function DashboardPage() {
       {/* Compliance */}
       <div className={styles.complianceCard}>
         <div className={styles.complianceIcon}>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#134A7C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             <polyline points="9 12 11 14 15 10" />
           </svg>
@@ -457,7 +457,7 @@ export default function DashboardPage() {
       {/* By the Numbers */}
       <div className={styles.pillars}>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', fontWeight: 900, color: '#134A7C', fontFamily: "'Playfair Display', serif" }}>85%</div>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: 'var(--jm-blue)', fontFamily: "'Playfair Display', serif" }}>85%</div>
           <p className={styles.pillarDesc}>faster than manual Word templates</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
@@ -465,7 +465,7 @@ export default function DashboardPage() {
           <p className={styles.pillarDesc}>stores across JM Valley Group</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '32px', fontWeight: 900, color: '#134A7C', fontFamily: "'Playfair Display', serif" }}>54</div>
+          <div style={{ fontSize: '32px', fontWeight: 900, color: 'var(--jm-blue)', fontFamily: "'Playfair Display', serif" }}>54</div>
           <p className={styles.pillarDesc}>pages of training content rebuilt from Director&apos;s originals</p>
         </div>
         <div className={styles.pillar} style={{ textAlign: 'center' }}>
@@ -514,13 +514,13 @@ export default function DashboardPage() {
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
                     <span style={{ fontSize: 13, fontWeight: 700, color: '#111' }}>Profile Completion</span>
-                    <span style={{ fontSize: 13, fontWeight: 800, color: complete ? '#16a34a' : '#134A7C' }}>{pct}%</span>
+                    <span style={{ fontSize: 13, fontWeight: 800, color: complete ? '#16a34a' : 'var(--jm-blue)' }}>{pct}%</span>
                   </div>
                   <div style={{ height: 6, background: 'var(--gray-100)', borderRadius: 3, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${pct}%`, background: complete ? '#16a34a' : '#134A7C', borderRadius: 3, transition: 'width 0.5s ease' }} />
+                    <div style={{ height: '100%', width: `${pct}%`, background: complete ? '#16a34a' : 'var(--jm-blue)', borderRadius: 3, transition: 'width 0.5s ease' }} />
                   </div>
                   {!complete && (
-                    <Link href="/dashboard/profile" style={{ fontSize: 12, color: '#134A7C', fontWeight: 600, marginTop: 4, display: 'inline-block' }}>
+                    <Link href="/dashboard/profile" style={{ fontSize: 12, color: 'var(--jm-blue)', fontWeight: 600, marginTop: 4, display: 'inline-block' }}>
                       Complete your profile →
                     </Link>
                   )}
@@ -530,7 +530,7 @@ export default function DashboardPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', background: 'rgba(19,74,124,0.05)', borderRadius: 8, border: '1px solid rgba(19,74,124,0.1)' }}>
                     <span style={{ fontSize: 18 }}>🏪</span>
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#134A7C' }}>{profile.storeName}{profile.storeNumber ? ` #${profile.storeNumber}` : ''}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)' }}>{profile.storeName}{profile.storeNumber ? ` #${profile.storeNumber}` : ''}</div>
                       {profile.city && <div style={{ fontSize: 11, color: 'var(--gray-500)' }}>{profile.city}</div>}
                     </div>
                   </div>

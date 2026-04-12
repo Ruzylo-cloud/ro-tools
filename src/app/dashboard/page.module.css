@@ -89,6 +89,7 @@
 
 .pillarIcon {
   margin-bottom: 16px;
+  color: var(--jm-blue);
 }
 
 .pillarTitle {
@@ -161,6 +162,7 @@
 .complianceIcon {
   flex-shrink: 0;
   margin-top: 2px;
+  color: var(--jm-blue);
 }
 
 .complianceTitle {
@@ -345,6 +347,7 @@
 
 .modalIcon {
   margin-bottom: 20px;
+  color: var(--jm-blue);
 }
 
 .modalTitle {
