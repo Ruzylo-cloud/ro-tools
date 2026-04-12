@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyCode, saveAppleLink } from '@/lib/apple-verifications';
 import { createSessionToken } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,9 @@ export const dynamic = 'force-dynamic';
  * clients get it set as an httpOnly cookie.
  */
 export async function POST(request) {
+  const { limited } = rateLimit('apple-complete', 60000, 10, request);
+  if (limited) return NextResponse.json({ error: 'Too many attempts. Try again in a minute.' }, { status: 429 });
+
   let body;
   try {
     body = await request.json();

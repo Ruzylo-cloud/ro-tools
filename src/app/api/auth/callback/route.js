@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getTokensFromCode, getUserInfo } from '@/lib/google-auth';
 import { createSessionToken } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,6 +12,8 @@ function getBaseUrl(request) {
 }
 
 export async function GET(request) {
+  const { limited } = rateLimit('auth-callback', 60000, 15, request);
+  if (limited) return NextResponse.redirect(new URL('/?error=rate_limited', getBaseUrl(request)));
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const error = searchParams.get('error');

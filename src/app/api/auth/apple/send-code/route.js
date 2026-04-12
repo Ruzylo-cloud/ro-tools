@@ -6,6 +6,7 @@ import {
   findLinkByEmail,
 } from '@/lib/apple-verifications';
 import { sendServiceEmail } from '@/lib/google-send-email';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,9 @@ export const dynamic = 'force-dynamic';
  * (service account + domain-wide delegation).
  */
 export async function POST(request) {
+  const { limited } = rateLimit('apple-send-code', 60000, 5, request);
+  if (limited) return NextResponse.json({ error: 'Too many attempts. Try again in a minute.' }, { status: 429 });
+
   let body;
   try {
     body = await request.json();
