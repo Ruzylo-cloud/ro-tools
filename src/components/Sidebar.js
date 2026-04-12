@@ -40,7 +40,8 @@ const SEARCH_ITEMS = [
   { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
   { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
-  { label: 'Support & Feedback', path: '/dashboard/support', icon: '💬', keywords: 'support help feedback bug report' },
+  { label: 'Messaging', path: '/dashboard/messaging', icon: '💬', keywords: 'messaging chat channels dm group messages' },
+  { label: 'Support & Feedback', path: '/dashboard/support', icon: '🛟', keywords: 'support help feedback bug report' },
   { label: 'Admin Panel', path: '/dashboard/admin', icon: '⚙️', keywords: 'admin users roles manage' },
 ];
 
@@ -671,8 +672,12 @@ export default function Sidebar() {
             <span className={styles.icon}>📁</span> Documents
           </Link>
 
+          <Link href="/dashboard/messaging" className={`${styles.navLink} ${isActive('/dashboard/messaging') ? styles.navLinkActive : ''}`} onClick={navClick}>
+            <span className={styles.icon}>💬</span> Messaging
+          </Link>
+
           <Link href="/dashboard/support" className={`${styles.navLink} ${isActive('/dashboard/support') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>💬</span> Support
+            <span className={styles.icon}>🛟</span> Support
           </Link>
 
           {isAdmin && (

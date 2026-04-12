@@ -40,7 +40,8 @@ const SEARCH_ITEMS = [
   { label: 'Tier Assessment', path: '/dashboard/tools/tier-assessment', icon: '🎯', keywords: 'abc tier assessment rubric' },
   { label: 'Updates & Changelog', path: '/dashboard/updates', icon: '🆕', keywords: 'updates changelog releases features' },
   { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
-  { label: 'Support & Feedback', path: '/dashboard/support', icon: '💬', keywords: 'support help feedback bug report' },
+  { label: 'Messaging', path: '/dashboard/messaging', icon: '💬', keywords: 'messaging chat channels dm group messages' },
+  { label: 'Support & Feedback', path: '/dashboard/support', icon: '🛟', keywords: 'support help feedback bug report' },
   { label: 'Admin Panel', path: '/dashboard/admin', icon: '⚙️', keywords: 'admin users roles manage' },
 ];
 

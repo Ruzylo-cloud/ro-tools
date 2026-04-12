@@ -42,6 +42,7 @@ const PAGE_TITLES = {
   '/dashboard/history': 'Document History — RO Tools',
   '/dashboard/updates': 'Updates — RO Tools',
   '/dashboard/reading': 'Reading — RO Tools',
+  '/dashboard/messaging': 'Messaging — RO Tools',
   '/dashboard/setup': 'Setup — RO Tools',
 };
 
