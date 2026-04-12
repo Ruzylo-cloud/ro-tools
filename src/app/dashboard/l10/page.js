@@ -106,6 +106,12 @@ export default function L10Page() {
   const [allScorecards, setAllScorecards] = useState([]);
   const [selectedRO, setSelectedRO] = useState('');
   const [userRole, setUserRole] = useState(null);
+  const [reviewComment, setReviewComment] = useState('');
+  const [reviewStatus, setReviewStatus] = useState(null); // status of viewed scorecard
+
+  // History
+  const [showHistory, setShowHistory] = useState(false);
+  const [history, setHistory] = useState([]);
 
   // Check if user is DM/Admin
   useEffect(() => {
@@ -166,6 +172,37 @@ export default function L10Page() {
   useEffect(() => {
     if (reviewMode) loadAll(week);
   }, [week, reviewMode, loadAll]);
+
+  // Load history
+  useEffect(() => {
+    if (showHistory) {
+      fetch('/api/l10?history=true').then(r => r.json()).then(d => setHistory(d.history || [])).catch(() => {});
+    }
+  }, [showHistory]);
+
+  // Track review status of selected scorecard
+  useEffect(() => {
+    if (reviewMode && selectedRO) {
+      const card = allScorecards.find(c => c.email === selectedRO);
+      setReviewStatus(card?.status || 'submitted');
+    }
+  }, [reviewMode, selectedRO, allScorecards]);
+
+  // DM review action
+  const submitReview = async (status) => {
+    if (!selectedRO) return;
+    try {
+      const res = await fetch('/api/l10', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'review', week, targetEmail: selectedRO, status, comment: reviewComment }),
+      });
+      if (res.ok) {
+        setReviewComment('');
+        await loadAll(week);
+      }
+    } catch { setError('Review failed'); }
+  };
 
   const setValue = (key, val) => {
     setValues(prev => ({ ...prev, [key]: val }));
@@ -407,11 +444,114 @@ export default function L10Page() {
                 type="time"
                 value={timeFinished}
                 onChange={e => { setTimeFinished(e.target.value); setDirty(true); setSaved(false); }}
+                disabled={reviewMode}
               />
               <span className={styles.metricGoal}>Goal: 11:00 AM</span>
             </div>
           </div>
+
+          {/* DM Review Actions */}
+          {reviewMode && selectedRO && (
+            <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: 12, padding: 20, marginTop: 16 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--charcoal)', margin: 0 }}>Review Actions</h3>
+                {reviewStatus && (
+                  <span style={{
+                    fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 6,
+                    background: reviewStatus === 'approved' ? 'rgba(22,163,74,0.1)' : reviewStatus === 'needs_revision' ? 'rgba(220,38,38,0.1)' : 'rgba(19,74,124,0.1)',
+                    color: reviewStatus === 'approved' ? '#16a34a' : reviewStatus === 'needs_revision' ? '#dc2626' : 'var(--jm-blue)',
+                  }}>
+                    {reviewStatus === 'approved' ? 'Approved' : reviewStatus === 'needs_revision' ? 'Needs Revision' : 'Submitted'}
+                  </span>
+                )}
+              </div>
+              <textarea
+                value={reviewComment}
+                onChange={e => setReviewComment(e.target.value)}
+                placeholder="Add a comment for the RO (optional)..."
+                maxLength={1000}
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', minHeight: 60, resize: 'vertical', boxSizing: 'border-box', marginBottom: 12 }}
+              />
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  onClick={() => submitReview('approved')}
+                  style={{ padding: '8px 20px', borderRadius: 8, border: 'none', background: '#16a34a', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={() => submitReview('needs_revision')}
+                  style={{ padding: '8px 20px', borderRadius: 8, border: '1px solid #dc2626', background: '#fff', color: '#dc2626', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
+                >
+                  Needs Revision
+                </button>
+                {reviewComment && (
+                  <button
+                    onClick={() => submitReview('comment')}
+                    style={{ padding: '8px 20px', borderRadius: 8, border: '1px solid var(--border)', background: '#fff', color: 'var(--gray-500)', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}
+                  >
+                    Comment Only
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </>
+      )}
+
+      {/* History Toggle */}
+      {!reviewMode && (
+        <div style={{ marginTop: 20, borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+          <button
+            onClick={() => setShowHistory(!showHistory)}
+            style={{ background: 'none', border: 'none', color: 'var(--jm-blue)', fontSize: 13, fontWeight: 700, cursor: 'pointer', padding: 0 }}
+          >
+            {showHistory ? 'Hide History' : 'View Week History'}
+          </button>
+
+          {showHistory && (
+            <div style={{ marginTop: 12 }}>
+              {history.length === 0 ? (
+                <p style={{ fontSize: 13, color: 'var(--gray-400)' }}>No scorecards submitted yet.</p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {history.map(h => (
+                    <button
+                      key={h.week}
+                      onClick={() => { setWeek(h.week); setShowHistory(false); }}
+                      style={{
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        padding: '10px 14px', background: h.week === week ? 'rgba(19,74,124,0.06)' : '#fff',
+                        border: `1px solid ${h.week === week ? 'var(--jm-blue)' : 'var(--border)'}`,
+                        borderRadius: 8, cursor: 'pointer', fontFamily: 'inherit', fontSize: 13, textAlign: 'left', width: '100%',
+                      }}
+                    >
+                      <div>
+                        <span style={{ fontWeight: 700, color: 'var(--charcoal)' }}>Week {h.week}</span>
+                        <span style={{ marginLeft: 8, fontSize: 11, color: 'var(--gray-400)' }}>{getWeekDates(h.week)}</span>
+                      </div>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        <span style={{
+                          fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 4,
+                          background: h.status === 'approved' ? 'rgba(22,163,74,0.1)' : h.status === 'needs_revision' ? 'rgba(220,38,38,0.1)' : 'rgba(19,74,124,0.1)',
+                          color: h.status === 'approved' ? '#16a34a' : h.status === 'needs_revision' ? '#dc2626' : 'var(--jm-blue)',
+                        }}>
+                          {h.status === 'approved' ? 'Approved' : h.status === 'needs_revision' ? 'Revision' : 'Submitted'}
+                        </span>
+                        <span style={{
+                          fontWeight: 800, fontSize: 14,
+                          color: h.grade >= 80 ? '#16a34a' : h.grade >= 60 ? '#f59e0b' : '#dc2626',
+                        }}>
+                          {h.grade}%
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       )}
     </div>
   );

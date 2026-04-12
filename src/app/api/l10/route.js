@@ -41,6 +41,7 @@ function getAllForWeek(week) {
 
 // GET /api/l10?week=13 — get current user's L10 for a week
 // GET /api/l10?week=13&all=true — get all ROs' L10s for a week (DM/Admin only)
+// GET /api/l10?history=true — get all weeks for current user (history view)
 export async function GET(request) {
   const session = getSessionData(request);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -48,12 +49,30 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const week = searchParams.get('week');
   const all = searchParams.get('all') === 'true';
+  const history = searchParams.get('history') === 'true';
+
+  ensureDir();
+
+  // History mode — return all weeks for current user
+  if (history) {
+    const safe = session.email.replace(/[^a-zA-Z0-9]/g, '_');
+    try {
+      const files = fs.readdirSync(L10_DIR).filter(f => f.startsWith(safe + '_week'));
+      const weeks = files.map(f => {
+        try {
+          const data = JSON.parse(fs.readFileSync(path.join(L10_DIR, f), 'utf8'));
+          return { week: data.week, grade: data.grade || 0, savedAt: data.savedAt, status: data.status || 'submitted' };
+        } catch { return null; }
+      }).filter(Boolean).sort((a, b) => b.week - a.week);
+      return NextResponse.json({ history: weeks });
+    } catch {
+      return NextResponse.json({ history: [] });
+    }
+  }
 
   if (!week || !/^\d+$/.test(week)) {
     return NextResponse.json({ error: 'week must be a positive integer' }, { status: 400 });
   }
-
-  ensureDir();
 
   if (all) {
     // RT-282: DM/Admin only — verify role
@@ -129,6 +148,50 @@ export async function POST(request) {
 
   ensureDir();
 
+  // DM review action (approve/reject/comment)
+  if (body.action === 'review') {
+    const profiles = loadJsonFile('profiles.json');
+    const profile = profiles[session.id];
+    const isElevated = isSuperAdmin(session.email) || isDefaultAdmin(session.email)
+      || (profile?.role === 'administrator' && profile?.roleApproved === true)
+      || (profile?.role === 'district_manager' && profile?.roleApproved === true);
+    if (!isElevated) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const targetEmail = body.targetEmail;
+    const status = body.status; // 'approved' | 'needs_revision' | 'comment'
+    const comment = String(body.comment || '').trim().slice(0, 1000);
+
+    if (!targetEmail || !['approved', 'needs_revision', 'comment'].includes(status)) {
+      return NextResponse.json({ error: 'targetEmail and valid status required' }, { status: 400 });
+    }
+
+    const targetPath = getFilePath(targetEmail, week);
+    try {
+      if (!fs.existsSync(targetPath)) {
+        return NextResponse.json({ error: 'Scorecard not found' }, { status: 404 });
+      }
+      const card = JSON.parse(fs.readFileSync(targetPath, 'utf8'));
+      card.status = status;
+      card.reviewedBy = session.email;
+      card.reviewedAt = new Date().toISOString();
+      if (!card.reviewHistory) card.reviewHistory = [];
+      card.reviewHistory.push({
+        status,
+        comment,
+        reviewedBy: session.email,
+        reviewedAt: new Date().toISOString(),
+      });
+      if (comment) card.lastComment = comment;
+      fs.writeFileSync(targetPath, JSON.stringify(card, null, 2));
+      return NextResponse.json({ success: true, status });
+    } catch (err) {
+      console.error('[l10] review error:', err);
+      return NextResponse.json({ error: 'Failed to save review' }, { status: 500 });
+    }
+  }
+
   const data = {
     week,
     email: session.email,
@@ -137,13 +200,31 @@ export async function POST(request) {
     employees: employees || [],
     grade: grade || 0,
     timeFinished: timeFinished || null,
+    status: 'submitted',
     savedAt: new Date().toISOString(),
   };
 
   const filePath = getFilePath(session.email, week);
   try {
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-    return NextResponse.json({ success: true, data });
+    // Preserve existing review data
+    let existing = {};
+    try {
+      if (fs.existsSync(filePath)) {
+        existing = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      }
+    } catch { /* fresh file */ }
+
+    const merged = {
+      ...data,
+      status: existing.status === 'approved' ? 'approved' : 'submitted',
+      reviewedBy: existing.reviewedBy || null,
+      reviewedAt: existing.reviewedAt || null,
+      reviewHistory: existing.reviewHistory || [],
+      lastComment: existing.lastComment || null,
+    };
+
+    fs.writeFileSync(filePath, JSON.stringify(merged, null, 2));
+    return NextResponse.json({ success: true, data: merged });
   } catch (err) {
     console.error('L10 save error:', err);
     return NextResponse.json({ error: 'Failed to save' }, { status: 500 });
