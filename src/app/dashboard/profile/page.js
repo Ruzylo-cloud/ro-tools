@@ -165,8 +165,8 @@ export default function ProfilePage() {
           <div key={idx} style={{ border: '1px solid var(--border)', borderRadius: 12, padding: 20, marginBottom: 16, background: 'var(--gray-50)' }}>
             {isMultiStore && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <strong style={{ color: '#134A7C' }}>Store {idx + 1}</strong>
-                {stores.length > 1 && <button type="button" onClick={() => removeStore(idx)} style={{ color: '#EE3227', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Remove</button>}
+                <strong style={{ color: 'var(--jm-blue)' }}>Store {idx + 1}</strong>
+                {stores.length > 1 && <button type="button" onClick={() => removeStore(idx)} style={{ color: 'var(--jm-red)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>Remove</button>}
               </div>
             )}
             {STORE_FIELDS.map(({ key, label, placeholder, max }) => (
@@ -201,7 +201,7 @@ export default function ProfilePage() {
 
         {isMultiStore && (
           <button type="button" onClick={addStore} style={{
-            width: '100%', padding: 12, background: 'transparent', border: '2px dashed #d1d5db',
+            width: '100%', padding: 12, background: 'transparent', border: '2px dashed var(--border)',
             borderRadius: 10, fontSize: 14, fontWeight: 600, color: 'var(--gray-500)', cursor: 'pointer',
             fontFamily: 'inherit', marginBottom: 20,
           }}>
@@ -288,7 +288,7 @@ export default function ProfilePage() {
         {hasExtendedScopes && (
           <p className={styles.servicesNote}>
             To revoke access, visit your{' '}
-            <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" style={{ color: '#134A7C', fontWeight: 600 }}>
+            <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--jm-blue)', fontWeight: 600 }}>
               Google Account Permissions
             </a>{' '}
             page and remove RO Tools. You&apos;ll be prompted to reconnect when using Drive features.

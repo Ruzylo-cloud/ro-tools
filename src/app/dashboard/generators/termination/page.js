@@ -355,7 +355,7 @@ export default function TerminationPage() {
           <div className={styles.field}>
             <label className={styles.label}>Company Property Returned</label>
             {COMPANY_PROPERTY_ITEMS.map(item => (
-              <label key={item} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: '#2D2D2D', cursor: 'pointer', padding: '2px 0' }}>
+              <label key={item} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'var(--charcoal)', cursor: 'pointer', padding: '2px 0' }}>
                 <input
                   type="checkbox"
                   checked={form.companyPropertyReturned.includes(item)}

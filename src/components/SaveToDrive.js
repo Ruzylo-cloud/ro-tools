@@ -184,7 +184,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
           style={{
             width: '100%',
             padding: '14px',
-            background: '#134A7C',
+            background: 'var(--jm-blue)',
             color: '#fff',
             border: 'none',
             borderRadius: '10px',
@@ -203,20 +203,20 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
       {/* Upgrade prompt — shown when user hasn't granted Drive access */}
       {needsUpgrade && !showPicker && (
         <div style={{
-          border: '1px solid #e5e7eb',
+          border: '1px solid var(--border)',
           borderRadius: '10px',
           padding: '16px',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '13px', color: '#374151', marginBottom: '10px', lineHeight: 1.5 }}>
+          <div style={{ fontSize: '13px', color: 'var(--charcoal)', marginBottom: '10px', lineHeight: 1.5 }}>
             To save files to Google Drive, you need to grant additional access to your account.
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
             <button
               onClick={() => setNeedsUpgrade(false)}
               style={{
-                flex: 1, padding: '10px', background: '#f0f4f8', color: '#6b7280',
-                border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px',
+                flex: 1, padding: '10px', background: 'var(--gray-100)', color: 'var(--gray-500)',
+                border: '1px solid var(--border)', borderRadius: '8px', fontSize: '13px',
                 fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
               }}
             >
@@ -225,7 +225,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
             <button
               onClick={handleUpgrade}
               style={{
-                flex: 1, padding: '10px', background: '#134A7C', color: '#fff',
+                flex: 1, padding: '10px', background: 'var(--jm-blue)', color: '#fff',
                 border: 'none', borderRadius: '8px', fontSize: '13px',
                 fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
               }}
@@ -239,13 +239,13 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
       {/* Folder Picker */}
       {showPicker && (
         <div style={{
-          border: '1px solid #e5e7eb',
+          border: '1px solid var(--border)',
           borderRadius: '10px',
           overflow: 'hidden',
         }}>
           {/* Header */}
           <div style={{
-            background: '#134A7C',
+            background: 'var(--jm-blue)',
             color: '#fff',
             padding: '10px 14px',
             fontSize: '13px',
@@ -265,13 +265,13 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
 
           {/* RT-181: Storage usage bar */}
           {storageQuota && storageQuota.limit > 0 && (
-            <div style={{ padding: '6px 14px', borderBottom: '1px solid #f3f4f6', background: '#f9fafb' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#6b7280', marginBottom: 3 }}>
+            <div style={{ padding: '6px 14px', borderBottom: '1px solid var(--gray-100)', background: 'var(--gray-50)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: 'var(--gray-500)', marginBottom: 3 }}>
                 <span>Drive Storage</span>
                 <span>{(storageQuota.usage / 1073741824).toFixed(1)} GB / {(storageQuota.limit / 1073741824).toFixed(0)} GB</span>
               </div>
-              <div style={{ height: 3, background: '#e5e7eb', borderRadius: 2, overflow: 'hidden' }}>
-                <div style={{ height: '100%', borderRadius: 2, background: storageQuota.usage / storageQuota.limit > 0.9 ? '#dc2626' : '#134A7C', width: `${Math.min(100, (storageQuota.usage / storageQuota.limit) * 100).toFixed(1)}%` }} />
+              <div style={{ height: 3, background: 'var(--border)', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ height: '100%', borderRadius: 2, background: storageQuota.usage / storageQuota.limit > 0.9 ? '#dc2626' : 'var(--jm-blue)', width: `${Math.min(100, (storageQuota.usage / storageQuota.limit) * 100).toFixed(1)}%` }} />
               </div>
             </div>
           )}
@@ -280,8 +280,8 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
           <div style={{
             padding: '8px 14px',
             fontSize: '11px',
-            color: '#6b7280',
-            borderBottom: '1px solid #e5e7eb',
+            color: 'var(--gray-500)',
+            borderBottom: '1px solid var(--border)',
             display: 'flex',
             gap: '4px',
             flexWrap: 'wrap',
@@ -294,7 +294,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                   style={{
                     background: 'none',
                     border: 'none',
-                    color: i === breadcrumb.length - 1 ? '#134A7C' : '#6b7280',
+                    color: i === breadcrumb.length - 1 ? 'var(--jm-blue)' : '#6b7280',
                     fontWeight: i === breadcrumb.length - 1 ? 700 : 400,
                     cursor: 'pointer',
                     padding: 0,
@@ -311,11 +311,11 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
           {/* Folder List */}
           <div style={{ maxHeight: '220px', overflowY: 'auto' }}>
             {loadingFolders ? (
-              <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '12px' }}>
+              <div style={{ padding: '16px', textAlign: 'center', color: 'var(--gray-500)', fontSize: '12px' }}>
                 Loading...
               </div>
             ) : folders.length === 0 && sharedDrives.length === 0 && !isAtRoot ? (
-              <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '12px' }}>
+              <div style={{ padding: '16px', textAlign: 'center', color: 'var(--gray-500)', fontSize: '12px' }}>
                 No subfolders
               </div>
             ) : (
@@ -332,11 +332,11 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                       width: '100%',
                       padding: '8px 14px',
                       border: 'none',
-                      borderBottom: '1px solid #f3f4f6',
-                      background: '#fff',
+                      borderBottom: '1px solid var(--gray-100)',
+                      background: 'var(--white)',
                       cursor: 'pointer',
                       fontSize: '12px',
-                      color: '#2D2D2D',
+                      color: 'var(--charcoal)',
                       fontFamily: 'inherit',
                       textAlign: 'left',
                     }}
@@ -353,12 +353,12 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                       padding: '6px 14px',
                       fontSize: '10px',
                       fontWeight: 700,
-                      color: '#6b7280',
+                      color: 'var(--gray-500)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em',
-                      borderTop: '1px solid #e5e7eb',
-                      borderBottom: '1px solid #f3f4f6',
-                      background: '#f9fafb',
+                      borderTop: '1px solid var(--border)',
+                      borderBottom: '1px solid var(--gray-100)',
+                      background: 'var(--gray-50)',
                     }}>
                       Shared Drives
                     </div>
@@ -373,11 +373,11 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                           width: '100%',
                           padding: '8px 14px',
                           border: 'none',
-                          borderBottom: '1px solid #f3f4f6',
-                          background: '#fff',
+                          borderBottom: '1px solid var(--gray-100)',
+                          background: 'var(--white)',
                           cursor: 'pointer',
                           fontSize: '12px',
-                          color: '#2D2D2D',
+                          color: 'var(--charcoal)',
                           fontFamily: 'inherit',
                           textAlign: 'left',
                         }}
@@ -396,12 +396,12 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                       padding: '6px 14px',
                       fontSize: '10px',
                       fontWeight: 700,
-                      color: '#6b7280',
+                      color: 'var(--gray-500)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.05em',
-                      borderTop: '1px solid #e5e7eb',
-                      borderBottom: '1px solid #f3f4f6',
-                      background: '#f9fafb',
+                      borderTop: '1px solid var(--border)',
+                      borderBottom: '1px solid var(--gray-100)',
+                      background: 'var(--gray-50)',
                     }}>
                       Other
                     </div>
@@ -414,11 +414,11 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                         width: '100%',
                         padding: '8px 14px',
                         border: 'none',
-                        borderBottom: '1px solid #f3f4f6',
-                        background: '#fff',
+                        borderBottom: '1px solid var(--gray-100)',
+                        background: 'var(--white)',
                         cursor: 'pointer',
                         fontSize: '12px',
-                        color: '#2D2D2D',
+                        color: 'var(--charcoal)',
                         fontFamily: 'inherit',
                         textAlign: 'left',
                       }}
@@ -431,7 +431,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
 
                 {/* Empty state when no folders at all */}
                 {folders.length === 0 && sharedDrives.length === 0 && isAtRoot && (
-                  <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '12px' }}>
+                  <div style={{ padding: '16px', textAlign: 'center', color: 'var(--gray-500)', fontSize: '12px' }}>
                     No folders found
                   </div>
                 )}
@@ -442,7 +442,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
           {/* Actions */}
           <div style={{
             padding: '10px 14px',
-            borderTop: '1px solid #e5e7eb',
+            borderTop: '1px solid var(--border)',
             display: 'flex',
             gap: '8px',
           }}>
@@ -451,9 +451,9 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
               style={{
                 flex: 1,
                 padding: '8px',
-                background: '#f0f4f8',
-                color: '#134A7C',
-                border: '1px solid #e5e7eb',
+                background: 'var(--gray-100)',
+                color: 'var(--jm-blue)',
+                border: '1px solid var(--border)',
                 borderRadius: '6px',
                 fontSize: '12px',
                 fontWeight: 600,
@@ -504,7 +504,7 @@ export default function SaveToDrive({ getCanvasRef, fileName, disabled, generato
                 href={result.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: '#134A7C', fontWeight: 600 }}
+                style={{ color: 'var(--jm-blue)', fontWeight: 600 }}
               >
                 Open in Drive
               </a>

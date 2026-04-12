@@ -192,7 +192,7 @@ export default function DashboardLayout({ children }) {
       {/* RT-073: Keyboard shortcut help overlay */}
       {showShortcutHelp && (
         <div onClick={() => setShowShortcutHelp(false)} style={{ position: 'fixed', inset: 0, zIndex: 10000, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div onClick={e => e.stopPropagation()} style={{ background: '#fff', borderRadius: '16px', padding: '28px 32px', width: '360px', maxWidth: '90vw', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
+          <div onClick={e => e.stopPropagation()} style={{ background: 'var(--white)', borderRadius: '16px', padding: '28px 32px', width: '360px', maxWidth: '90vw', boxShadow: '0 20px 60px rgba(0,0,0,0.25)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
               <h2 style={{ fontSize: '17px', fontWeight: 800, color: 'var(--jm-blue)', margin: 0 }}>Keyboard Shortcuts</h2>
               <button onClick={() => setShowShortcutHelp(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: 'var(--gray-400)', lineHeight: 1 }}>×</button>

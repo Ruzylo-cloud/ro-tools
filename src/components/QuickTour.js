@@ -124,7 +124,7 @@ export default function QuickTour() {
       <div style={{
         position: 'fixed', top: '50%', left: '50%',
         transform: 'translate(-50%, -50%)', zIndex: 9999,
-        background: '#fff', borderRadius: '16px', padding: '32px',
+        background: 'var(--white)', borderRadius: '16px', padding: '32px',
         maxWidth: '420px', width: '90%',
         boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
         textAlign: 'center',
@@ -139,14 +139,14 @@ export default function QuickTour() {
         <div style={{
           fontFamily: "'Playfair Display', serif",
           fontSize: '22px', fontWeight: 800,
-          color: '#134A7C', marginBottom: '8px',
+          color: 'var(--jm-blue)', marginBottom: '8px',
         }}>
           {current.title}
         </div>
 
         {/* Description */}
         <p style={{
-          fontSize: '14px', color: '#6b7280',
+          fontSize: '14px', color: 'var(--gray-500)',
           lineHeight: 1.7, margin: '0 0 20px 0',
         }}>
           {current.desc}
@@ -154,7 +154,7 @@ export default function QuickTour() {
 
         {/* Progress bar */}
         <div style={{
-          background: '#f0f2f5', borderRadius: '100px',
+          background: 'var(--gray-100)', borderRadius: '100px',
           height: '6px', marginBottom: '20px', overflow: 'hidden',
         }}>
           <div style={{
@@ -182,10 +182,10 @@ export default function QuickTour() {
               <button
                 onClick={() => goToStep(step - 1)}
                 style={{
-                  padding: '10px 20px', border: '1px solid #e5e7eb',
-                  background: '#fff', borderRadius: '8px',
+                  padding: '10px 20px', border: '1px solid var(--border)',
+                  background: 'var(--white)', borderRadius: '8px',
                   fontSize: '14px', fontWeight: 500, cursor: 'pointer',
-                  color: '#374151',
+                  color: 'var(--charcoal)',
                 }}
               >
                 Back
@@ -194,7 +194,7 @@ export default function QuickTour() {
             <button
               onClick={() => goToStep(step + 1)}
               style={{
-                padding: '10px 24px', background: '#134A7C',
+                padding: '10px 24px', background: 'var(--jm-blue)',
                 color: '#fff', border: 'none', borderRadius: '8px',
                 fontSize: '14px', fontWeight: 600, cursor: 'pointer',
               }}
