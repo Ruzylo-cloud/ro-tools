@@ -6,6 +6,7 @@ import { useToast } from '@/components/Toast';
 import FlyerPreview from '@/components/FlyerPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
+import { capturePreviewToPdf } from '@/lib/form-utils';
 import { useFormDraft } from '@/lib/useFormDraft';
 import styles from './page.module.css';
 
@@ -106,27 +107,8 @@ export default function FlyerPage() {
     if (!flyerRef.current) return;
     setGenerating(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-
-      const canvas = await html2canvas(flyerRef.current, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        width: 612,
-        height: 792,
-      });
-
+      const pdf = await capturePreviewToPdf(flyerRef.current);
       if (!mountedRef.current) return;
-
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'pt',
-        format: 'letter',
-      });
-
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
-      pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
       pdf.save('catering-flyer.pdf');
       logActivity({ generatorType: 'flyer', action: 'download', formData: form, filename: 'catering-flyer.pdf' });
       if (mountedRef.current) {

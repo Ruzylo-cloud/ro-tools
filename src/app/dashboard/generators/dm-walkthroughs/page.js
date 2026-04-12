@@ -7,6 +7,7 @@ import DMWalkthroughPreview from '@/components/DMWalkthroughPreview';
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
+import { capturePreviewToPdf } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const CATEGORIES = [
@@ -90,14 +91,8 @@ export default function DMWalkthroughsPage() {
     if (!previewRef.current) return;
     setGenerating(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-      const canvas = await html2canvas(previewRef.current, {
-        scale: 2, useCORS: true, logging: false, width: 612, height: 792,
-      });
+      const pdf = await capturePreviewToPdf(previewRef.current);
       if (!mountedRef.current) return;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-      pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       const slug = form.storeName ? form.storeName.replace(/\s+/g, '-').toLowerCase() : 'store';
       const fileName = `dm-walkthrough-${slug}-${form.inspectionDate || 'today'}.pdf`;
       pdf.save(fileName);

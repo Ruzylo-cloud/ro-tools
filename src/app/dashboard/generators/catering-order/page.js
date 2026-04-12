@@ -8,7 +8,7 @@ import CateringOrderPreview, { MENU_ITEMS } from '@/components/CateringOrderPrev
 import SaveToDrive from '@/components/SaveToDrive';
 import { logActivity } from '@/lib/log-activity';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired, brandedFilename } from '@/lib/form-utils';
+import { validateRequired, brandedFilename, capturePreviewToPdf } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const PRICE_PER_BOX = 89.95;
@@ -228,15 +228,8 @@ export default function CateringOrderPage() {
     if (!previewRef.current) return;
     setGenerating(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-      const canvas = await html2canvas(previewRef.current, {
-        scale: 2, useCORS: true, logging: false, width: 612, height: 792,
-      });
+      const pdf = await capturePreviewToPdf(previewRef.current);
       if (!mountedRef.current) return;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-      const imgData = canvas.toDataURL('image/jpeg', 0.95);
-      pdf.addImage(imgData, 'JPEG', 0, 0, 612, 792);
       const filename = brandedFilename('CateringOrder', form.customerName || form.companyName || 'Order');
       pdf.save(filename);
       logActivity({ generatorType: 'catering-order', action: 'download', formData: form, filename });

@@ -10,7 +10,7 @@ import ESignButton from '@/components/ESignButton';
 import { logActivity } from '@/lib/log-activity';
 import EmployeeSelect from '@/components/EmployeeSelect';
 import { useFormDraft } from '@/lib/useFormDraft';
-import { validateRequired } from '@/lib/form-utils';
+import { validateRequired, capturePreviewToPdf } from '@/lib/form-utils';
 import styles from './page.module.css';
 
 const FIELDS = [
@@ -102,14 +102,8 @@ export default function MealBreakWaiverPage() {
     if (!previewRef.current) return;
     setGenerating(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-      const canvas = await html2canvas(previewRef.current, {
-        scale: 2, useCORS: true, logging: false, width: 612, height: 792,
-      });
+      const pdf = await capturePreviewToPdf(previewRef.current);
       if (!mountedRef.current) return;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'letter' });
-      pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 612, 792);
       const filename = getFileName();
       pdf.save(filename);
 

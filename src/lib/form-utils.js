@@ -49,3 +49,40 @@ export function addPageNumbers(pdf, options = {}) {
     pdf.text(`Page ${i} of ${total}`, pageWidth - margin, pageHeight - 8, { align: 'right' });
   }
 }
+
+/**
+ * Capture a preview element to PDF with optimized html2canvas settings.
+ * Handles font loading, background rendering, and proper scaling.
+ * Returns the jsPDF instance (caller can add pages or save).
+ */
+export async function capturePreviewToPdf(previewEl, options = {}) {
+  const html2canvas = (await import('html2canvas')).default;
+  const { jsPDF } = await import('jspdf');
+  const { width = 612, height = 792, quality = 0.95, format = 'letter' } = options;
+
+  await document.fonts?.ready?.catch?.(() => {});
+
+  const canvas = await html2canvas(previewEl, {
+    scale: 2,
+    useCORS: true,
+    logging: false,
+    width,
+    height,
+    windowWidth: width,
+    backgroundColor: '#ffffff',
+    onclone: (clonedDoc) => {
+      const el = clonedDoc.querySelector('[data-preview]') || clonedDoc.body.firstElementChild;
+      if (el) {
+        el.style.width = width + 'px';
+        el.style.height = height + 'px';
+        el.style.overflow = 'hidden';
+        el.style.transform = 'none';
+      }
+    },
+  });
+
+  const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format });
+  const imgData = canvas.toDataURL('image/jpeg', quality);
+  pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
+  return pdf;
+}
