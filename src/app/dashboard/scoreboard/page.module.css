@@ -64,6 +64,16 @@
   .container { padding: 28px 16px; }
   .tabs { flex-direction: column; }
 }
+@media (max-width: 460px) {
+  .container { padding: 24px 12px; }
+  .title { font-size: 22px; }
+  .boardRow { padding: 6px 8px; font-size: 12px; }
+}
+@media (max-width: 360px) {
+  .container { padding: 20px 10px; }
+  .title { font-size: 20px; }
+  .subtitle { font-size: 12px; }
+}
 
 /* RT-139: Week Navigator */
 .weekNav {

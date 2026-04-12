@@ -85,6 +85,22 @@
   .rubricGrid { grid-template-columns: 1fr 1fr; }
 }
 
+@media (max-width: 600px) {
+  .container { padding: 24px 12px; }
+  .title { font-size: 20px; }
+  .assessWrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .rubricGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 460px) {
+  .container { padding: 20px 10px; }
+  .subtitle { font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+  .title { font-size: 18px; }
+}
+
 :global([data-theme="dark"]) .picker,
 :global([data-theme="dark"]) .assessWrap,
 :global([data-theme="dark"]) .summary,

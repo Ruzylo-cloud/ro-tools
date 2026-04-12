@@ -68,8 +68,38 @@
 .modalSave:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* ─── Responsive ─── */
+@media (max-width: 900px) {
+  .container { padding: 36px 20px; }
+  .title { font-size: 26px; }
+}
+
 @media (max-width: 768px) {
   .statsRow { grid-template-columns: repeat(2, 1fr); }
   .colReason, .colDate { display: none; }
   .header { flex-direction: column; }
+  .tableWrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+@media (max-width: 600px) {
+  .container { padding: 28px 16px; }
+  .title { font-size: 24px; }
+  .statsRow { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .controls { flex-direction: column; }
+  .searchInput { min-width: unset; }
+  .modal { padding: 20px; margin: 16px; }
+  .modalRow { flex-direction: column; gap: 12px; }
+}
+
+@media (max-width: 460px) {
+  .container { padding: 24px 12px; }
+  .title { font-size: 22px; }
+  .statsRow { grid-template-columns: 1fr; }
+  .colActions { width: auto; }
+  .colStatus { width: 60px; }
+}
+
+@media (max-width: 360px) {
+  .container { padding: 20px 10px; }
+  .title { font-size: 20px; }
+  .subtitle { font-size: 12px; }
 }

@@ -79,11 +79,32 @@
   .plGrid { grid-template-columns: repeat(2, 1fr); }
   .tipRecon { grid-template-columns: repeat(2, 1fr); }
 }
+@media (max-width: 768px) {
+  .header { flex-direction: column; }
+  .toolbar { width: 100%; }
+  .select { width: 100%; }
+}
+
 @media (max-width: 600px) {
   .container { padding: 28px 14px; }
   .title { font-size: 22px; }
   .kpiRow { grid-template-columns: 1fr 1fr; }
   .kpiValue { font-size: 18px; }
+  .plGrid { grid-template-columns: 1fr; }
+  .tipRecon { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 460px) {
+  .container { padding: 24px 12px; }
+  .title { font-size: 20px; }
+  .kpiRow { grid-template-columns: 1fr; }
+  .tipRecon { grid-template-columns: 1fr; }
+  .section { padding: 14px; }
+}
+
+@media (max-width: 360px) {
+  .container { padding: 20px 10px; }
+  .subtitle { font-size: 12px; }
 }
 
 :global([data-theme="dark"]) .section,
