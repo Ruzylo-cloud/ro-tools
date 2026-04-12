@@ -31,7 +31,8 @@ export async function GET(request) {
     }
 
     // Fetch employees from MC
-    const res = await fetch(`${MC_URL}/api/internal/employees?include_all=true`, {
+    const mcParams = storeNumber ? `?store=${storeNumber}` : '';
+    const res = await fetch(`${MC_URL}/api/employees/internal${mcParams}`, {
       headers: { 'X-API-Key': internalApiKey },
       signal: AbortSignal.timeout(10000),
     });
