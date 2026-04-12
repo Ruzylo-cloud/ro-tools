@@ -65,9 +65,11 @@ export default function TierAssessmentPage() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
   const [mcEmployeeError, setMcEmployeeError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Load employees for the selected store
   useEffect(() => {
+    setLoading(true);
     fetch(`/api/employees?store=${storeId}`)
       .then(r => r.json())
       .then(d => {
@@ -78,7 +80,8 @@ export default function TierAssessmentPage() {
           setEmployeeId(String(list[0].id));
         }
       })
-      .catch((e) => { setMcEmployeeError(String(e?.message || e)); });
+      .catch((e) => { setMcEmployeeError(String(e?.message || e)); })
+      .finally(() => setLoading(false));
   }, [storeId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Load rubric once. The rubric response is authoritative for category
@@ -212,7 +215,11 @@ export default function TierAssessmentPage() {
         </div>
       )}
 
-      {tab === 'assess' && (
+      {loading && tab !== 'rubric' && (
+        <div style={{ textAlign: 'center', padding: '48px 24px', color: 'var(--gray-400)', fontSize: '14px' }}>Loading employees…</div>
+      )}
+
+      {tab === 'assess' && !loading && (
         <>
           <div className={styles.summary}>
             <div>
@@ -300,7 +307,7 @@ export default function TierAssessmentPage() {
         </>
       )}
 
-      {tab === 'history' && (
+      {tab === 'history' && !loading && (
         <>
           {sparklineData.length > 1 && (
             <div className={styles.historyCard}>
