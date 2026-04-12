@@ -194,7 +194,7 @@
 - [x] **Missing commands added** — DONE: L10, Stability, Closeout, all People Hub sections, Knowledge Base, AMEX, Store Profile, Messaging
 
 ## Google Sheets / Docs to Replicate in System
-- [ ] **FSC (Free Sub Card) Tracker** — NOT BUILT. Per-store tabs. Columns: Guest Name, Address, Complaint Date/Time, How Many Cards, Note/Reason, Date Sent. Source: Google Sheet "FSC Request" owned by Brittany Heery. Needs new page in RO Control Operations dropdown. Guest recovery for bad reviews/complaints.
+- [x] **FSC (Free Sub Card) Tracker** — BUILT by techy (d77e14f). Page at /dashboard/fsc-tracker with full CRUD API at /api/fsc. Per-store: guest name, address, complaint date, card count, reason, date sent. Added to sidebar under Catering dropdown.
 - [x] **Marketing report calendars** — COVERED by Marketing Directives Calendar tab on RT
 - [x] **JMVG Sales Growth Scorecard** — COVERED by Marketing Directives Scorecard tab on RT
 - [x] **Weekly scoreboard** — COVERED by RT Scoreboard page
