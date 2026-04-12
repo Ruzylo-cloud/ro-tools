@@ -21,7 +21,7 @@
 .chipActive { background: var(--jm-blue); color: white; border-color: var(--jm-blue); }
 
 .gridWrap { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-.gridScroll { overflow-x: auto; }
+.gridScroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .grid { width: 100%; border-collapse: collapse; font-size: 12px; }
 .grid th { padding: 10px 12px; background: var(--jm-blue); color: white; font-weight: 700; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; position: sticky; top: 0; }
 .grid th:first-child { left: 0; z-index: 2; }
