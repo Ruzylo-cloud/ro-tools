@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSession } from '@/lib/session';
+import { hasValidMissionControlApiKey } from '@/lib/internal-api-key';
 import { ALL_WEEKS, calculateTargets } from '@/lib/scoreboard-data';
 import { getStoreName } from '@/lib/store-directory';
 
@@ -8,11 +9,14 @@ export const dynamic = 'force-dynamic';
 /**
  * GET /api/scoreboard/weeks
  * Returns all scoreboard weeks in iOS-compatible format.
- * Shape: [{ id, weekNumber, weekLabel, stores: [{ storeNumber, storeName, weekNumber, labor, cogsVariance, cogsActual, pyGrowth, targetsHit, tier }] }]
+ * Accepts session auth OR internal API key (X-API-Key header) for cross-service access.
  */
-export async function GET() {
+export async function GET(request) {
   const session = getSession();
-  if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  const apiKey = request.headers.get('x-api-key') || request.headers.get('x-dev-key');
+  if (!session && !hasValidMissionControlApiKey(apiKey)) {
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+  }
 
   try {
     const tierMap = {
