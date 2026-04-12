@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSessionToken } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,6 +11,8 @@ export const dynamic = 'force-dynamic';
  * for the iOS app's App Store review flow.
  */
 export async function GET(request) {
+  const { limited } = rateLimit('auth-demo', 60000, 5, request);
+  if (limited) return NextResponse.json({ error: 'Too many demo requests' }, { status: 429 });
   const host = request.headers.get('x-forwarded-host') || request.headers.get('host');
   const proto = request.headers.get('x-forwarded-proto') || 'https';
   const baseUrl = `${proto}://${host}`;

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getExtendedAuthUrl } from '@/lib/google-auth';
 import { getSession } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,9 @@ export const dynamic = 'force-dynamic';
  * to the returnTo URL with their session updated.
  */
 export async function GET(request) {
+  const { limited } = rateLimit('auth-upgrade', 60000, 5, request);
+  if (limited) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+
   const session = getSession();
   if (!session) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
