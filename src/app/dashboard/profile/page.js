@@ -302,7 +302,7 @@ export default function ProfilePage() {
             <div className={styles.serviceDesc}>Add an extra layer of security to your account with an authenticator app. Coming soon — currently secured via Google OAuth.</div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#92400e', padding: '3px 10px', borderRadius: 6 }}>Coming Soon</span>
+            <span style={{ fontSize: 11, fontWeight: 700, background: 'var(--amber-100, #fef3c7)', color: 'var(--amber-800, #92400e)', padding: '3px 10px', borderRadius: 6 }}>Coming Soon</span>
           </div>
         </div>
       </div>
