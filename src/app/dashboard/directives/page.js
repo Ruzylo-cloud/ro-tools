@@ -447,7 +447,7 @@ export default function DirectivesPage() {
           <h1 className={styles.title}>Marketing Directives</h1>
           <p className={styles.subtitle}>Monthly marketing directives, action items, and campaign calendar for JMVG.</p>
         </div>
-        <a href="/dashboard/directives/publish" style={{ background: 'var(--jm-blue)', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Publish & Acks →</a>
+        <a href="/dashboard/directives/publish" style={{ background: 'var(--jm-blue)', color: '#fff', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>Publish & Track Acks →</a>
       </div>
 
       {/* RT-197: New directives notification banner */}

@@ -85,7 +85,31 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
     const scorecards = getAllForWeek(week);
-    return NextResponse.json({ week: parseInt(week), scorecards });
+    // RT-237: Merge in ROs who haven't submitted yet so the review dropdown
+    // is never empty — DMs need to pick a store even before anyone saves.
+    const submittedEmails = new Set(scorecards.map(s => s.email).filter(Boolean));
+    const rosList = [];
+    const seen = new Set();
+    for (const p of Object.values(profiles)) {
+      const email = (p?.email || '').toLowerCase();
+      if (!email || seen.has(email) || submittedEmails.has(email)) continue;
+      // Only include operators / district managers — skip pure admins with no store
+      if (p.role && p.role !== 'operator' && p.role !== 'district_manager') continue;
+      seen.add(email);
+      rosList.push({
+        email: p.email,
+        name: p.displayName || p.userName || p.operatorName || p.email,
+        storeNumber: p.storeNumber || '',
+        grade: 0,
+        status: 'not_submitted',
+        values: {},
+        rocks: [],
+        ids: [],
+        todos: [],
+        timeFinished: '',
+      });
+    }
+    return NextResponse.json({ week: parseInt(week), scorecards: [...scorecards, ...rosList] });
   }
 
   // Return current user's scorecard

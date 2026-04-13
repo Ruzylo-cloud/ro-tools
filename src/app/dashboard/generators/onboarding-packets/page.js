@@ -222,7 +222,7 @@ export default function OnboardingPacketsPage() {
           <h3 className={styles.sectionTitle}>
             Documents ({completedCount}/{totalCount})
           </h3>
-          <div style={{ marginBottom: '8px', background: '#f3f4f6', borderRadius: '4px', height: '6px', overflow: 'hidden' }}>
+          <div style={{ marginBottom: '8px', background: 'var(--gray-100)', borderRadius: '4px', height: '6px', overflow: 'hidden' }}>
             <div style={{
               width: `${totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0}%`,
               height: '100%', background: completedCount === totalCount ? '#16A34A' : 'var(--jm-blue)',
@@ -236,7 +236,7 @@ export default function OnboardingPacketsPage() {
             return (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: '8px',
-                padding: '5px 0', borderBottom: '1px solid #f3f4f6',
+                padding: '5px 0', borderBottom: '1px solid var(--border)',
               }}>
                 <input
                   type="checkbox"
@@ -245,7 +245,7 @@ export default function OnboardingPacketsPage() {
                   style={{ accentColor: 'var(--jm-blue)', width: '16px', height: '16px', cursor: 'pointer' }}
                 />
                 <span style={{
-                  fontSize: '12px', color: isChecked ? '#16A34A' : '#2D2D2D',
+                  fontSize: '12px', color: isChecked ? '#16A34A' : 'var(--charcoal)',
                   textDecoration: isChecked ? 'line-through' : 'none',
                   flex: 1,
                 }}>
