@@ -24,7 +24,7 @@ This file tracks only currently active + imminent work.
 ### Notifications opt-in UI (follow-up to 2026-04-13 force-disable)
 Server-side enforcement landed this session — every profile's
 `notificationPrefs` is force-reset to `{email:false, notifications:false, sms:false, optedInAt:null}`
-on first server boot (see `src/lib/boot-migrations.js`), and `/api/email`
+on first server boot (see `instrumentation.js` → `forceDisableAllProfiles`), and `/api/email`
 now blocks any recipient whose profile hasn't explicitly opted in. The
 user-facing UI is still TODO:
 
