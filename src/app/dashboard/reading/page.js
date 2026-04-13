@@ -1499,7 +1499,8 @@ export default function ReadingPage() {
     e.stopPropagation();
     setFavorites(prev => {
       const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
-      localStorage.setItem('reading-favorites', JSON.stringify(next));
+      try { localStorage.setItem('reading-favorites', JSON.stringify(next)); }
+      catch (err) { console.debug('[reading] favorites save failed (non-fatal):', err); }
       return next;
     });
   };
@@ -1508,7 +1509,8 @@ export default function ReadingPage() {
     e.stopPropagation();
     setReadBooks(prev => {
       const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
-      localStorage.setItem('rt-reading-read', JSON.stringify(next));
+      try { localStorage.setItem('rt-reading-read', JSON.stringify(next)); }
+      catch (err) { console.debug('[reading] read-books save failed (non-fatal):', err); }
       return next;
     });
   };
@@ -2013,7 +2015,8 @@ export default function ReadingPage() {
                         const score = BOOK_QUIZZES[book.id].filter((q, qi) => quizAnswers[qi] === q.a).length;
                         setQuizScores(prev => {
                           const next = { ...prev, [book.id]: score };
-                          localStorage.setItem('rt-reading-quiz-scores', JSON.stringify(next));
+                          try { localStorage.setItem('rt-reading-quiz-scores', JSON.stringify(next)); }
+                          catch (err) { console.debug('[reading] quiz-scores save failed (non-fatal):', err); }
                           return next;
                         });
                       }}

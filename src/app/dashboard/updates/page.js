@@ -38,9 +38,16 @@ export default function UpdatesPage() {
       .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(d => {
         const latest = d.updates?.[0]?.id || '';
-        if (latest) localStorage.setItem(LAST_SEEN_KEY, latest);
+        // Wrap localStorage so Safari Private mode doesn't throw an
+        // unhandled rejection that crashes the updates page mount.
+        if (latest) {
+          try { localStorage.setItem(LAST_SEEN_KEY, latest); }
+          catch (e) { console.debug('[updates] last-seen save failed (non-fatal):', e); }
+        }
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.debug('[updates] last-seen fetch failed (non-fatal):', e instanceof Error ? e.message : String(e));
+      });
   }, []);
 
   // Fetch commits when tab switches to "commits"

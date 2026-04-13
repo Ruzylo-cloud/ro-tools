@@ -95,20 +95,24 @@ export default function Sidebar() {
     setOpenSections({ generators: inGenerators, catering: inCatering, tools: inTools });
   }, [pathname]);
 
-  // Collapse state init
+  // Collapse state init. Wrap localStorage so Safari Private Mode (which
+  // throws on any access) doesn't crash the sidebar mount.
   useEffect(() => {
-    const saved = localStorage.getItem('rt-sidebar-collapsed');
-    if (saved === '1') {
-      setCollapsed(true);
-      document.body.classList.add('rt-sidebar-collapsed');
-    }
+    try {
+      const saved = localStorage.getItem('rt-sidebar-collapsed');
+      if (saved === '1') {
+        setCollapsed(true);
+        document.body.classList.add('rt-sidebar-collapsed');
+      }
+    } catch (e) { console.debug('[sidebar] collapse-state read failed (non-fatal):', e); }
   }, []);
 
   const toggleCollapse = useCallback(() => {
     const next = !collapsed;
     setCollapsed(next);
     document.body.classList.toggle('rt-sidebar-collapsed', next);
-    localStorage.setItem('rt-sidebar-collapsed', next ? '1' : '0');
+    try { localStorage.setItem('rt-sidebar-collapsed', next ? '1' : '0'); }
+    catch (e) { console.debug('[sidebar] collapse-state save failed (non-fatal):', e); }
   }, [collapsed]);
 
   // Load admin/role + stores + unread updates + RC notification count
@@ -158,7 +162,8 @@ export default function Sidebar() {
       const res = await fetch('/api/notifications?mode=list');
       const data = await res.json();
       setNotifItems(Array.isArray(data) ? data : []);
-    } catch {
+    } catch (e) {
+      console.warn('[sidebar] notifications list load failed:', e instanceof Error ? e.message : String(e));
       setNotifItems([]);
     } finally {
       setNotifLoading(false);
@@ -169,9 +174,11 @@ export default function Sidebar() {
     if (notifOpen) loadNotifications();
   }, [notifOpen, loadNotifications]);
 
-  // Theme init
+  // Theme init. Wrap so Safari Private Mode doesn't crash the sidebar.
   useEffect(() => {
-    const saved = localStorage.getItem('ro-tools-theme') || 'light';
+    let saved = 'light';
+    try { saved = localStorage.getItem('ro-tools-theme') || 'light'; }
+    catch (e) { console.debug('[sidebar] theme read failed (non-fatal):', e); }
     setTheme(saved);
     document.documentElement.setAttribute('data-theme', saved);
   }, []);
@@ -180,7 +187,8 @@ export default function Sidebar() {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('ro-tools-theme', next);
+    try { localStorage.setItem('ro-tools-theme', next); }
+    catch (e) { console.debug('[sidebar] theme save failed (non-fatal):', e); }
   }, [theme]);
 
   // Ctrl+K / "/" global search shortcut
@@ -700,7 +708,11 @@ export default function Sidebar() {
                 value={activeStore?.id || ''}
                 onChange={e => {
                   const s = stores.find(x => String(x.id) === e.target.value);
-                  if (s) { setActiveStore(s); localStorage.setItem('jmvg-active-store', String(s.id)); }
+                  if (s) {
+                    setActiveStore(s);
+                    try { localStorage.setItem('jmvg-active-store', String(s.id)); }
+                    catch (err) { console.debug('[sidebar] active-store save failed (non-fatal):', err); }
+                  }
                 }}
                 title="Switch active store"
               >

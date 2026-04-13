@@ -64,7 +64,9 @@ export default function QuickTour() {
 
   useEffect(() => {
     if (!user) return;
-    const done = localStorage.getItem('ro-tools-tour-done');
+    let done = null;
+    try { done = localStorage.getItem('ro-tools-tour-done'); }
+    catch (e) { console.debug('[quickTour] tour-done read failed (non-fatal):', e); }
     if (done === 'true') return;
 
     // Check server-side too
@@ -96,7 +98,8 @@ export default function QuickTour() {
 
   const completeTour = useCallback(() => {
     setVisible(false);
-    localStorage.setItem('ro-tools-tour-done', 'true');
+    try { localStorage.setItem('ro-tools-tour-done', 'true'); }
+    catch (e) { console.debug('[quickTour] tour-done save failed (non-fatal):', e); }
     fetch('/api/profile', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

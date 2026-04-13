@@ -250,7 +250,8 @@ export default function DirectivesPage() {
     setReadIds(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id); else next.add(id);
-      localStorage.setItem('directives-read', JSON.stringify([...next]));
+      try { localStorage.setItem('directives-read', JSON.stringify([...next])); }
+      catch (e) { console.debug('[directives] read-ids save failed (non-fatal):', e); }
       return next;
     });
   };
@@ -258,7 +259,8 @@ export default function DirectivesPage() {
   // Helpers
   const saveOutreach = (entries) => {
     setOutreachEntries(entries);
-    localStorage.setItem('reading-outreach', JSON.stringify(entries));
+    try { localStorage.setItem('reading-outreach', JSON.stringify(entries)); }
+    catch (e) { console.debug('[directives] outreach save failed (non-fatal):', e); }
   };
 
   const addOutreachEntry = () => {
@@ -278,7 +280,8 @@ export default function DirectivesPage() {
   const saveScorecardMonth = () => {
     const updated = { ...scorecard, [scorecardMonth]: { ...(scorecard[scorecardMonth] || {}), ...(scorecardMonthData) } };
     setScorecard(updated);
-    localStorage.setItem('directives-scorecard', JSON.stringify(updated));
+    try { localStorage.setItem('directives-scorecard', JSON.stringify(updated)); }
+    catch (e) { console.debug('[directives] scorecard save failed (non-fatal):', e); }
     setScorecardSaved(true);
     setTimeout(() => setScorecardSaved(false), 2000);
   };

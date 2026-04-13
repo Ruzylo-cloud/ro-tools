@@ -135,7 +135,9 @@ export default function Navbar() {
   const [userRole, setUserRole] = useState('');
 
   useEffect(() => {
-    const saved = localStorage.getItem('ro-tools-theme') || 'light';
+    let saved = 'light';
+    try { saved = localStorage.getItem('ro-tools-theme') || 'light'; }
+    catch (e) { console.debug('[navbar] theme read failed (non-fatal):', e); }
     setTheme(saved);
     document.documentElement.setAttribute('data-theme', saved);
   }, []);
@@ -144,7 +146,8 @@ export default function Navbar() {
     const next = theme === 'light' ? 'dark' : 'light';
     setTheme(next);
     document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('ro-tools-theme', next);
+    try { localStorage.setItem('ro-tools-theme', next); }
+    catch (e) { console.debug('[navbar] theme save failed (non-fatal):', e); }
   }, [theme]);
 
   // Search: Ctrl+K or / to open dropdown
