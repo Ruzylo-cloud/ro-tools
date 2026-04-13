@@ -558,7 +558,7 @@ export default function DashboardPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#111' }}>Profile Completion</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--charcoal)' }}>Profile Completion</span>
                     <span style={{ fontSize: 13, fontWeight: 800, color: complete ? '#16a34a' : 'var(--jm-blue)' }}>{pct}%</span>
                   </div>
                   <div style={{ height: 6, background: 'var(--gray-100)', borderRadius: 3, overflow: 'hidden' }}>

@@ -1,19 +1,22 @@
 /**
  * Updates Feed API — company news feed publish/list.
- * Proxies to Mission Control GET/POST /api/updates.
  *
- * Separate from the existing /api/updates route which serves the navbar bell
- * (backed by the local changelog.js). This subroute is the real MC-backed
- * company news timeline used by the /dashboard/updates publishing UI.
+ * RT-240: Stores updates in /data/updates.json on the mounted GCS volume.
+ * Previously proxied to Mission Control, but MC never shipped the /api/updates
+ * CRUD endpoints, so the UI was permanently stuck in localStorage fallback.
+ * Keeping the state server-side makes the feed shared across users and survives
+ * browser resets, which is what "Company News Feed" was always supposed to be.
  */
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifySessionToken } from '@/lib/session';
+import { loadJsonFileAsync, updateJsonFile } from '@/lib/data';
+import { isSuperAdmin, isDefaultAdmin } from '@/lib/roles';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
 
 export const dynamic = 'force-dynamic';
 
-const MC_URL = process.env.MC_API_URL || 'https://mission-control-1049928336088.us-central1.run.app';
+const UPDATES_FILE = 'updates.json';
 
 async function getSession() {
   const cookieStore = await cookies();
@@ -22,32 +25,23 @@ async function getSession() {
   return verifySessionToken(session.value);
 }
 
-function mcHeaders(extra = {}) {
-  const key = process.env.MC_DEV_API_KEY?.trim() || '';
-  return { 'X-Dev-Key': key, 'x-api-key': key, ...extra };
+function newId() {
+  return `upd_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+async function loadUpdates() {
+  const data = await loadJsonFileAsync(UPDATES_FILE);
+  // File shape: { updates: [...] } — tolerate legacy plain-array dumps.
+  if (Array.isArray(data)) return data;
+  return Array.isArray(data?.updates) ? data.updates : [];
 }
 
 export async function GET() {
   try {
     const session = await getSession();
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-    if (!process.env.MC_DEV_API_KEY) {
-      return NextResponse.json({ error: 'Mission Control API key not configured' }, { status: 503 });
-    }
-
-    const res = await fetch(`${MC_URL}/api/updates`, {
-      headers: mcHeaders(),
-      cache: 'no-store',
-      signal: AbortSignal.timeout(10000),
-    });
-    if (res.status === 404) {
-      return NextResponse.json({ error: 'not-implemented', updates: [] }, { status: 404 });
-    }
-    if (!res.ok) {
-      return NextResponse.json({ error: 'Failed to fetch updates' }, { status: res.status >= 500 ? 502 : res.status });
-    }
-    const data = await res.json();
-    return NextResponse.json(data);
+    const updates = await loadUpdates();
+    return NextResponse.json({ updates });
   } catch (err) {
     console.error('[updates/feed] GET error:', err);
     return NextResponse.json({ error: 'Failed to fetch updates', detail: String(err) }, { status: 500 });
@@ -61,14 +55,19 @@ export async function POST(request) {
 
     const session = await getSession();
     if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
-    if (!process.env.MC_DEV_API_KEY) {
-      return NextResponse.json({ error: 'Mission Control API key not configured' }, { status: 503 });
-    }
+
+    // Only admins publish to the company feed.
+    const profiles = await loadJsonFileAsync('profiles.json');
+    const myProfile = profiles[session.id];
+    const isAdmin = isSuperAdmin(session.email) || isDefaultAdmin(session.email)
+      || (myProfile?.role === 'administrator' && myProfile?.roleApproved === true);
+    if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
 
     let body;
     try { body = await request.json(); } catch { return NextResponse.json({ error: 'Invalid body' }, { status: 400 }); }
 
-    const payload = {
+    const entry = {
+      id: newId(),
       title: String(body.title || '').slice(0, 200),
       bodyMarkdown: String(body.bodyMarkdown || '').slice(0, 20000),
       imageUrl: body.imageUrl ? String(body.imageUrl).slice(0, 500) : null,
@@ -79,23 +78,43 @@ export async function POST(request) {
       createdAt: new Date().toISOString(),
     };
 
-    const res = await fetch(`${MC_URL}/api/updates`, {
-      method: 'POST',
-      headers: mcHeaders({ 'Content-Type': 'application/json' }),
-      body: JSON.stringify(payload),
-      cache: 'no-store',
-      signal: AbortSignal.timeout(10000),
+    await updateJsonFile(UPDATES_FILE, (data) => {
+      const list = Array.isArray(data) ? data : (Array.isArray(data?.updates) ? data.updates : []);
+      return { updates: [entry, ...list].slice(0, 500) };
     });
-    if (res.status === 404) {
-      return NextResponse.json({ error: 'not-implemented', echo: payload }, { status: 404 });
-    }
-    if (!res.ok) {
-      return NextResponse.json({ error: 'Failed to create update' }, { status: res.status >= 500 ? 502 : res.status });
-    }
-    const data = await res.json();
-    return NextResponse.json(data);
+
+    return NextResponse.json(entry);
   } catch (err) {
     console.error('[updates/feed] POST error:', err);
     return NextResponse.json({ error: 'Failed to create update', detail: String(err) }, { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const originError = enforceSameOriginMutation(request);
+    if (originError) return originError;
+
+    const session = await getSession();
+    if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
+
+    const profiles = await loadJsonFileAsync('profiles.json');
+    const myProfile = profiles[session.id];
+    const isAdmin = isSuperAdmin(session.email) || isDefaultAdmin(session.email)
+      || (myProfile?.role === 'administrator' && myProfile?.roleApproved === true);
+    if (!isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
+
+    await updateJsonFile(UPDATES_FILE, (data) => {
+      const list = Array.isArray(data) ? data : (Array.isArray(data?.updates) ? data.updates : []);
+      return { updates: list.filter(u => u.id !== id) };
+    });
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error('[updates/feed] DELETE error:', err);
+    return NextResponse.json({ error: 'Failed to delete update', detail: String(err) }, { status: 500 });
   }
 }
