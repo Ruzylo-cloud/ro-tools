@@ -32,6 +32,8 @@ export default function ProfilePage() {
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
   const [hasExtendedScopes, setHasExtendedScopes] = useState(false);
+  const [notifPrefs, setNotifPrefs] = useState(null);
+  const [notifSaving, setNotifSaving] = useState(false);
   const formRef = useRef(null);
 
   // RT-120: Ctrl+S to save profile
@@ -65,7 +67,32 @@ export default function ProfilePage() {
       })
       .catch(() => setLoading(false));
     checkScopes();
+    fetch('/api/profile/notification-prefs')
+      .then(res => res.ok ? res.json() : null)
+      .then(data => { if (data && data.prefs) setNotifPrefs(data.prefs); })
+      .catch(() => {});
   }, [user, checkScopes]);
+
+  const updateNotifPref = async (key, value) => {
+    const next = { ...(notifPrefs || {}), [key]: value };
+    setNotifPrefs(next);
+    setNotifSaving(true);
+    try {
+      const res = await fetch('/api/profile/notification-prefs', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [key]: value }),
+      });
+      if (!res.ok) throw new Error('save failed');
+      const data = await res.json();
+      if (data.prefs) setNotifPrefs(data.prefs);
+      showToast(value ? 'Notifications enabled' : 'Notifications disabled', 'success');
+    } catch {
+      setNotifPrefs(notifPrefs); // revert
+      showToast('Failed to update notification preference', 'error');
+    }
+    setNotifSaving(false);
+  };
 
   const updateField = (key, value) => {
     setProfile(prev => ({ ...prev, [key]: value }));
@@ -294,6 +321,47 @@ export default function ProfilePage() {
             page and remove RO Tools. You&apos;ll be prompted to reconnect when using Drive features.
           </p>
         )}
+
+        {/* Notifications opt-in — default OFF per 2026-04-13 soft-launch */}
+        <h2 className={styles.servicesTitle} style={{ marginTop: 32 }}>Notifications</h2>
+        <p className={styles.servicesSubtitle}>
+          All channels default to <b>off</b>. Turn on only what you want to receive.
+          {notifPrefs && !notifPrefs.optedInAt && (
+            <span style={{ display: 'block', marginTop: 6, color: 'var(--gray-500)', fontStyle: 'italic' }}>
+              You are not currently receiving any notifications.
+            </span>
+          )}
+        </p>
+
+        {['email', 'notifications', 'sms'].map(key => {
+          const labels = {
+            email: ['Email', 'Generator completion receipts, manager notifications, and catering confirmations.'],
+            notifications: ['In-App Notifications', 'Activity feed from Mission Control (tasks, approvals, directives).'],
+            sms: ['SMS (Text)', 'Time-sensitive alerts only. Requires a phone number on your profile. Reserved — not yet active.'],
+          };
+          const [label, desc] = labels[key];
+          const enabled = !!(notifPrefs && notifPrefs[key]);
+          return (
+            <div key={key} className={styles.serviceCard}>
+              <div className={styles.serviceInfo}>
+                <div className={styles.serviceName}>{label}</div>
+                <div className={styles.serviceDesc}>{desc}</div>
+              </div>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 8, cursor: notifSaving ? 'wait' : 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={enabled}
+                  disabled={notifSaving || notifPrefs === null}
+                  onChange={e => updateNotifPref(key, e.target.checked)}
+                  style={{ width: 18, height: 18, cursor: 'inherit' }}
+                />
+                <span style={{ fontSize: 13, fontWeight: 600, color: enabled ? 'var(--jm-blue)' : 'var(--gray-500)' }}>
+                  {enabled ? 'On' : 'Off'}
+                </span>
+              </label>
+            </div>
+          );
+        })}
 
         {/* RT-250: 2FA option (UI shell — TOTP coming soon) */}
         <div className={styles.serviceCard}>

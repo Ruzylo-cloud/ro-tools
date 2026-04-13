@@ -76,6 +76,7 @@ export default function DashboardPage() {
   const router = useRouter();
   const [profile, setProfile] = useState(null);
   const [showAdminModal, setShowAdminModal] = useState(false);
+  const [showNotifBanner, setShowNotifBanner] = useState(false);
   // RT-033: Recently generated documents
   const [recentDocs, setRecentDocs] = useState(null); // null = loading
   const [recentError, setRecentError] = useState(false);
@@ -95,7 +96,25 @@ export default function DashboardPage() {
         if (data.profile?.lastLoginAt) setLastLogin(data.profile.lastLoginAt);
       })
       .catch((e) => { console.error('[dashboard] Profile load failed:', e); });
+
+    // Notifications opt-in banner — show once on first login if never opted in, never dismissed
+    try {
+      const dismissed = typeof window !== 'undefined' && window.localStorage.getItem('notifOptInDismissed');
+      if (!dismissed) {
+        fetch('/api/profile/notification-prefs')
+          .then(res => res.ok ? res.json() : null)
+          .then(data => {
+            if (data && data.prefs && !data.prefs.optedInAt) setShowNotifBanner(true);
+          })
+          .catch(() => {});
+      }
+    } catch {}
   }, []);
+
+  const dismissNotifBanner = () => {
+    try { window.localStorage.setItem('notifOptInDismissed', '1'); } catch {}
+    setShowNotifBanner(false);
+  };
 
   // RT-053/063: Load stats + pending approvals
   useEffect(() => {
@@ -182,6 +201,31 @@ export default function DashboardPage() {
             </p>
             <button className={styles.modalBtn} onClick={dismissAdminModal}>Got it</button>
           </div>
+        </div>
+      )}
+
+      {/* Notifications opt-in banner (first login, dismissible) */}
+      {showNotifBanner && (
+        <div style={{
+          background: 'linear-gradient(90deg, var(--jm-blue), #1a5c96)',
+          color: '#fff', borderRadius: 12, padding: '14px 18px', marginBottom: 16,
+          display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+        }}>
+          <div style={{ flex: 1, minWidth: 240 }}>
+            <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>Notifications are off by default</div>
+            <div style={{ fontSize: 13, opacity: 0.95 }}>
+              You won&apos;t receive any emails, in-app notifications, or texts until you opt in.
+              Manage your preferences from the Store Profile page.
+            </div>
+          </div>
+          <Link href="/dashboard/profile" onClick={dismissNotifBanner} style={{
+            background: '#fff', color: 'var(--jm-blue)', fontWeight: 700, fontSize: 13,
+            padding: '8px 14px', borderRadius: 8, textDecoration: 'none', whiteSpace: 'nowrap',
+          }}>Manage</Link>
+          <button onClick={dismissNotifBanner} aria-label="Dismiss" style={{
+            background: 'transparent', border: '1px solid rgba(255,255,255,0.4)', color: '#fff',
+            width: 32, height: 32, borderRadius: 8, cursor: 'pointer', fontSize: 16,
+          }}>×</button>
         </div>
       )}
 
