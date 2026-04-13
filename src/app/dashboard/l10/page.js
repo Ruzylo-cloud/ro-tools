@@ -123,7 +123,7 @@ export default function L10Page() {
       if (['administrator', 'district_manager'].includes(role) && d.profile?.roleApproved) {
         setUserRole(role);
       }
-    }).catch(() => {});
+    }).catch((e) => { console.debug('[l10] role check failed (non-fatal):', e); });
   }, []);
 
   // Load all scorecards for DM review
@@ -191,7 +191,7 @@ export default function L10Page() {
   // Load history
   useEffect(() => {
     if (showHistory) {
-      fetch('/api/l10?history=true').then(r => r.json()).then(d => setHistory(d.history || [])).catch(() => {});
+      fetch('/api/l10?history=true').then(r => r.json()).then(d => setHistory(d.history || [])).catch((e) => { console.debug('[l10] history load failed (non-fatal):', e); });
     }
   }, [showHistory]);
 

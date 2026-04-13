@@ -106,13 +106,14 @@ export default function DashboardPage() {
           .then(data => {
             if (data && data.prefs && !data.prefs.optedInAt) setShowNotifBanner(true);
           })
-          .catch(() => {});
+          .catch((e) => { console.debug('[dashboard] notif-prefs banner check failed (non-fatal):', e); });
       }
-    } catch {}
+    } catch (e) { console.debug('[dashboard] notif-banner localStorage failed (non-fatal):', e); }
   }, []);
 
   const dismissNotifBanner = () => {
-    try { window.localStorage.setItem('notifOptInDismissed', '1'); } catch {}
+    try { window.localStorage.setItem('notifOptInDismissed', '1'); }
+    catch (e) { console.debug('[dashboard] notif dismiss save failed (non-fatal):', e); }
     setShowNotifBanner(false);
   };
 

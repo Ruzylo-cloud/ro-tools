@@ -76,7 +76,7 @@ export default function ProfilePage() {
     fetch('/api/profile/notification-prefs')
       .then(res => res.ok ? res.json() : null)
       .then(data => { if (data && data.prefs) setNotifPrefs(data.prefs); })
-      .catch(() => {});
+      .catch((e) => { console.debug('[profile] notif-prefs preload failed (non-fatal):', e); });
   }, [user, checkScopes]);
 
   const updateNotifPref = async (key, value) => {

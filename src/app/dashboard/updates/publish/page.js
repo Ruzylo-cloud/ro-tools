@@ -84,7 +84,7 @@ export default function UpdatesPublishPage() {
     fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(d => {
       setMe(d?.user || null);
       setDraft(prev => ({ ...prev, author: prev.author || d?.user?.name || d?.user?.email || '' }));
-    }).catch(() => {});
+    }).catch((e) => { console.debug('[updates/publish] me load failed (non-fatal):', e); });
   }, []);
 
   // Read last-seen before data loads, then update it after load.
@@ -92,7 +92,7 @@ export default function UpdatesPublishPage() {
     try {
       const ts = parseInt(localStorage.getItem(LAST_SEEN_KEY) || '0', 10);
       setLastSeen(Number.isFinite(ts) ? ts : 0);
-    } catch { setLastSeen(0); }
+    } catch (e) { console.debug('[updates/publish] last-seen read failed (non-fatal):', e); setLastSeen(0); }
   }, []);
 
   const refresh = useCallback(async () => {
