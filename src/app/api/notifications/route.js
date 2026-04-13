@@ -40,7 +40,11 @@ export async function GET(request) {
     const data = await res.json();
     if (mode === 'sync') return NextResponse.json(data);
     return NextResponse.json(mode === 'list' ? data : { count: data.count || 0 });
-  } catch {
+  } catch (e) {
+    // Brief §3h rule 2 — no silent failures. Log so MC/notifications
+    // outages surface in the route-handler logs instead of leaving
+    // the UI silently showing zero notifications forever.
+    console.warn('[notifications] MC fetch failed (degrading to empty):', e instanceof Error ? e.message : String(e));
     return NextResponse.json(mode === 'list' ? [] : mode === 'sync' ? { notifications: [], serverTime: new Date().toISOString() } : { count: 0 });
   }
 }
