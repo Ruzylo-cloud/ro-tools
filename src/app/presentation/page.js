@@ -296,7 +296,7 @@ const SLIDES = [
       'Employee Handbook Generator — standardized onboarding docs',
       'Crew Tools — self-service portal for non-manager employees',
       'Live Scoreboard API — auto-import weekly data from Google Sheets',
-      'Homebase Integration — live schedule and timecard sync across 30+ stores',
+      'Native Schedule Builder rollout — replaces Homebase across 30+ stores',
       'Multi-Language Support — Spanish forms for bilingual staff',
       'Mission Control — full store OS for DMs, Directors, and ownership group',
     ],

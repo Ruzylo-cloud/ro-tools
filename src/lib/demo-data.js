@@ -107,8 +107,8 @@ export const DEMO_TICKETS = [
   {
     id: 'demo-ticket-3',
     type: 'feature',
-    title: 'Employee scheduling integration with Homebase',
-    description: 'It would save time if we could pull shift data from Homebase directly into timesheet correction forms.',
+    title: 'Pull shifts from native Schedule Builder into timesheet correction',
+    description: 'When generating a timesheet correction form, it would save time if the form pre-loaded the scheduled shift from the in-app Schedule Builder so we only have to edit the variance.',
     status: 'open',
     userId: 'demo-user',
     userName: 'Chris Ruzylo',
