@@ -363,14 +363,15 @@ export default function ProfilePage() {
           );
         })}
 
-        {/* RT-250: 2FA option (UI shell — TOTP coming soon) */}
+        {/* RT-250: 2FA status — inherited from Google OAuth. No in-app TOTP
+            shell; if/when we add a native authenticator, replace this card. */}
         <div className={styles.serviceCard}>
           <div className={styles.serviceInfo}>
             <div className={styles.serviceName}>Two-Factor Authentication</div>
-            <div className={styles.serviceDesc}>Add an extra layer of security to your account with an authenticator app. Coming soon — currently secured via Google OAuth.</div>
+            <div className={styles.serviceDesc}>Your account inherits 2FA from your Google Workspace sign-in. Enable 2-Step Verification on your @jmvalley.com Google account to cover RO Tools automatically.</div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, background: 'var(--amber-100, #fef3c7)', color: 'var(--amber-800, #92400e)', padding: '3px 10px', borderRadius: 6 }}>Coming Soon</span>
+            <span style={{ fontSize: 11, fontWeight: 700, background: 'rgba(22,163,74,0.12)', color: '#16a34a', padding: '3px 10px', borderRadius: 6 }}>Google OAuth</span>
           </div>
         </div>
       </div>
