@@ -244,7 +244,12 @@ async function createMessageNotification(session, channelId, content) {
       if (data.pending.length > 500) data.pending = data.pending.slice(-500);
       return data;
     });
-  } catch { /* non-fatal */ }
+  } catch (e) {
+    // Non-fatal: message already persisted; only local unread-tracking
+    // failed. Log at warn so repeated failures are visible in the JSONL
+    // error log (brief §3h rule 2 — no silent failures).
+    console.warn('[messaging] local unread-tracking write failed (non-fatal):', e instanceof Error ? e.message : String(e));
+  }
 }
 
 async function appendAudit(entry) {
