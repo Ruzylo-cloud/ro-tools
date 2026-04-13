@@ -143,16 +143,17 @@ export default function Sidebar() {
         if (latest && latest !== seen) setUnreadCount(1);
       })
       .catch((e) => { console.debug('[sidebar] updates check failed (non-fatal):', e); });
-    fetch('/api/notifications')
+    // RT-247: Authoritative count from list (MC count endpoint is stale —
+    // reports 9 even after clear). Trust ?mode=list across initial + poll.
+    const syncNotifCount = () => fetch('/api/notifications?mode=list')
       .then(r => r.json())
-      .then(d => { if (d.count > 0) setNotifCount(d.count); })
-      .catch((e) => { console.debug('[sidebar] notifications count failed (non-fatal):', e); });
-    const notifInterval = setInterval(() => {
-      fetch('/api/notifications')
-        .then(r => r.json())
-        .then(d => setNotifCount(d.count || 0))
-        .catch((e) => { console.debug('[sidebar] notifications poll failed (non-fatal):', e); });
-    }, 120000);
+      .then(d => {
+        const items = Array.isArray(d) ? d : [];
+        setNotifCount(items.filter(n => !n.read).length);
+      })
+      .catch((e) => { console.debug('[sidebar] notifications poll failed (non-fatal):', e); });
+    syncNotifCount();
+    const notifInterval = setInterval(syncNotifCount, 120000);
     return () => clearInterval(notifInterval);
   }, []);
 
@@ -795,7 +796,9 @@ export default function Sidebar() {
                 {userRole && <div className={styles.userRole}>{userRole.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>}
               </div>
               <button className={styles.signOutBtn} onClick={logout} title="Sign out" aria-label="Sign out">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                {/* RT-245: explicit fill:none + larger 18px + strokeLinecap/Join so the
+                    icon renders clearly on mobile instead of looking like a black square */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'block' }}>
                   <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                   <polyline points="16 17 21 12 16 7" />
                   <line x1="21" y1="12" x2="9" y2="12" />

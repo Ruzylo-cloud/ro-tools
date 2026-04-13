@@ -225,7 +225,10 @@ export default function DashboardPage() {
           }}>Manage</Link>
           <button onClick={dismissNotifBanner} aria-label="Dismiss" style={{
             background: 'transparent', border: '1px solid rgba(255,255,255,0.4)', color: '#fff',
-            width: 32, height: 32, borderRadius: 8, cursor: 'pointer', fontSize: 16,
+            width: 32, height: 32, borderRadius: 8, cursor: 'pointer', fontSize: 18,
+            // RT-244: flex-center so the × glyph is actually in the middle of the box
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            lineHeight: 1, padding: 0, flexShrink: 0,
           }}>×</button>
         </div>
       )}

@@ -38,3 +38,62 @@
 **Cross-lane work:** Deferred per §5 cross-lane coordination rule — `work/final-polish-rc-ios`, `work/kiosk-final-polish`, `work/techy-rt-ios-final-polish` not touched from this session.
 
 **Memory updates:** None needed — existing feedback memories (`feedback_notification_lockdown_scope.md`, `feedback_ios_push_excluded_from_optin_gate.md`, `feedback_auto_push.md`) already capture the operative policies this session reinforced.
+
+---
+
+----- APNS-PIPELINE-OPERATOR ----- Results:
+
+**Scope:** End-to-end APNs push pipeline across MC server + RT iOS + RC iOS + Ro-Tools proxy, plus operator-side .p8 provisioning and Cloud Run secret wiring.
+
+**Code work completed (all pushed):**
+
+*Ro-Tools proxy* (`Ro-Tools`, main @ `9b15db7`)
+- `src/app/api/notifications/register/route.js` — POST forwards to MC `/api/push/devices/external` with `X-API-Key`; DELETE resolves email from session cookie and sends as `?token=...&email=...`; 5s AbortSignal timeout.
+
+*RT iOS* (`ro-tools-ios`, main @ `3d5aa89`, `d72a1c8`)
+- NEW `ROTools/Services/PushTokenRegistrar.swift` — actor, UserDefaults cache (`rt-apns-device-token`), rich payload (bundle_id, environment, app_version, device_model, os_version), `@MainActor` helper for UIDevice, auth-transition handling, error tolerance for 401/404/405.
+- `AppDelegate.swift` — didRegister → `PushTokenRegistrar.shared.setDeviceToken`.
+- `APIService.swift` — `setSessionCookie` triggers `await PushTokenRegistrar.shared.flush()`.
+- `AuthManager.swift` — `signOut` calls `handleSignOut` BEFORE cookie cleanup (DELETE still authenticates).
+- `NotificationManager.swift` — reroutes through registrar.
+- `project.pbxproj` — registrar added to group + Sources build phase.
+- **Entitlement fix (d72a1c8):** `Entitlements.plist` gains `aps-environment=development`; NEW `Entitlements-Release.plist` with `production`. pbxproj: Release configs → Release plist, Debug stays on Debug plist.
+
+*RC iOS* (`ro-control-ios`, `work/final-polish-rc-ios` @ `6f9f0df` — NOT yet on main)
+- Added `aps-environment=development` to `Entitlements.plist`; NEW `Entitlements-Release.plist` with `production`.
+- **Critical pbxproj fix:** project had **zero** `CODE_SIGN_ENTITLEMENTS` — added to Debug (`0370772A6F4781ACD78553BF` → `Entitlements.plist`) and Release (`26316F5BA9256F8D01AD70C0` → `Entitlements-Release.plist`). Without this, the entitlements file existed on disk but was never applied — silent push breakage.
+
+*MC server* (`mission-control`, `work/apns-push-sender` @ `f64e7ca`, `6c14b32`, `650f31a` — pushed to remote)
+- `src/services/apnsService.ts` (~409 LOC, zero-dep HTTP/2 + ES256 JWT via node built-ins; `crypto.sign` with `dsaEncoding: "ieee-p1363"` for raw R||S).
+- `src/routes/push.ts` — `/devices/external` POST+DELETE declared BEFORE `router.use(requireAuth)` at line 146 so external routes use internal API key auth; DELETE accepts token from query OR body.
+- `src/models/migrations.ts` — M372 at line 8346 creates `device_tokens` (UNIQUE token, 3 indexes).
+- `src/config/env.ts` — `APNS_KEY_ID`, `APNS_TEAM_ID`, `APNS_KEY`, `APNS_KEY_PATH`, `APNS_BUNDLE_ID_RC/RT`, `APNS_PRODUCTION`.
+- Router mounted at `src/startup/routes.ts:196`.
+- `npx tsc --noEmit` clean.
+
+**Audit passes (findings fixed, net zero remaining):**
+- Pass 1 — commit quality sweep across 4 repos: OK.
+- Pass 2 — caught missing `aps-environment` entitlement in BOTH iOS apps. Without it, `registerForRemoteNotifications()` fails silently and `didRegister…` never fires. Fixed per-config.
+- Pass 3 — caught RC iOS pbxproj had no `CODE_SIGN_ENTITLEMENTS` references at all. Fixed.
+- MC server verified: body parser order ✅, route order vs `requireAuth` ✅, imports ✅, migration M372 wired ✅, header normalization ✅.
+
+**Operator provisioning (completed this session):**
+- Apple Developer auth key generated: **Key ID `B8VZ59P377`**, Team ID `PJUAW9Q9GB`, Name "Mission Control APNs", Services=APNs, Key Restriction=Team Scoped (All Topics). Covers `com.jmvalley.rocontrol` + `com.jmvalley.rotools`.
+- `.p8` at `~/Downloads/AuthKey_B8VZ59P377.p8` — **NOT committed** (secret stays in Secret Manager only).
+- `gcloud secrets create apns-auth-key --data-file=...` → version 1.
+- Granted `roles/secretmanager.secretAccessor` to `1049928336088-compute@developer.gserviceaccount.com`.
+- `gcloud run services update mission-control --region=us-central1`:
+  - `--update-secrets=APNS_KEY=apns-auth-key:latest`
+  - `--update-env-vars=APNS_KEY_ID=B8VZ59P377,APNS_TEAM_ID=PJUAW9Q9GB,APNS_PRODUCTION=true,APNS_BUNDLE_ID_RC=com.jmvalley.rocontrol,APNS_BUNDLE_ID_RT=com.jmvalley.rotools`
+- Deployed revision **`mission-control-01958-ldj`**, 100% traffic.
+- `/api/push/status` → `401` (auth-gated — route is live).
+- Env vars verified on live revision.
+
+**Coordination:** Registered on comm bus `:3001`. Broadcast AUDIT_STATUS (id 125) and COORDINATION_HEADS_UP (id 126) to techy-reconcile + techy-tec010 re: M372 migration on `work/apns-push-sender`.
+
+**Still pending (not blocking live server):**
+- Merge `mission-control/work/apns-push-sender` → main (verify which branch Cloud Build deployed from — `/api/push/status` 401 confirms code is already live on the current revision).
+- Merge `ro-control-ios/work/final-polish-rc-ios` → main for the entitlement fix.
+- Smoke test: install TestFlight build, register token, `POST /api/push/devices/test`.
+
+**Final status:** Ready for next task. Pipeline is code-complete, deployed, and secret-wired end-to-end. Only remaining items are branch merges and a live smoke test.

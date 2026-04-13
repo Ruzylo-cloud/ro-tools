@@ -99,58 +99,36 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
 
   const errorStyle = hasError ? { borderColor: 'var(--jm-red, #EE3227)' } : {};
 
-  // If no employees loaded, just show a text input
-  if (loading) {
-    return (
-      <input
-        type="text"
-        value={search}
-        onChange={e => handleInputChange(e.target.value)}
-        placeholder={placeholder || 'Loading employees...'}
-        maxLength={100}
-        style={{ ...style, ...errorStyle }}
-      />
-    );
-  }
-
-  if (employees.length === 0) {
-    return (
-      <input
-        type="text"
-        value={search}
-        onChange={e => handleInputChange(e.target.value)}
-        placeholder={placeholder || 'Employee name'}
-        maxLength={100}
-        style={{ ...style, ...errorStyle }}
-      />
-    );
-  }
+  // RT-246: unified input style so loading / empty / populated all render the
+  // same full-width box. Previously the loading + empty branches rendered a
+  // bare input with zero styling, causing a tiny browser-default box.
+  const inputStyle = {
+    width: '100%',
+    padding: '10px 14px',
+    border: '1px solid var(--gray-200, #e5e7eb)',
+    borderRadius: '10px',
+    fontSize: '14px',
+    fontFamily: 'inherit',
+    background: 'var(--white, #fff)',
+    color: 'var(--charcoal, #1a1a2e)',
+    outline: 'none',
+    transition: 'border-color 0.15s',
+    boxSizing: 'border-box',
+    ...errorStyle,
+  };
 
   return (
-    <div ref={ref} style={{ position: 'relative', ...style }}>
+    <div ref={ref} style={{ position: 'relative', width: '100%', ...style }}>
       <input
         type="text"
         value={search}
         onChange={e => handleInputChange(e.target.value)}
         onFocus={() => setOpen(true)}
         onKeyDown={handleKeyDown}
-        placeholder={placeholder || 'Search employees...'}
+        placeholder={placeholder || (loading ? 'Loading employees...' : 'Search employees...')}
         maxLength={100}
         autoComplete="off"
-        style={{
-          width: '100%',
-          padding: '10px 14px',
-          border: '1px solid var(--gray-200, #e5e7eb)',
-          borderRadius: '10px',
-          fontSize: '14px',
-          fontFamily: 'inherit',
-          background: 'var(--white, #fff)',
-          color: 'var(--charcoal, #1a1a2e)',
-          outline: 'none',
-          transition: 'border-color 0.15s',
-          boxSizing: 'border-box',
-          ...(hasError ? { borderColor: 'var(--jm-red, #EE3227)' } : {}),
-        }}
+        style={inputStyle}
       />
       {open && (
         <div style={{

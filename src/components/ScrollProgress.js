@@ -19,7 +19,9 @@ export default function ScrollProgress() {
       right: '0',
       height: '3px',
       background: 'var(--jm-red, #EE3227)',
-      zIndex: '9999',
+      // RT-242: below mobileTopBar (101) and sidebar drawer (200) so the
+      // red bar doesn't cut across the nav logo when the drawer opens.
+      zIndex: '90',
       width: '0%',
       borderRadius: '0 2px 2px 0',
       pointerEvents: 'none',
