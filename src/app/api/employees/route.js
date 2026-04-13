@@ -21,18 +21,21 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
-    // Get user profile to determine role and store
-    const { searchParams } = new URL(request.url);
-    const storeNumber = searchParams.get('store');
+    // RT-249: don't forward the `store` query param to MC. Ro-Tools
+    // profiles store `storeNumber` as the JM numeric (e.g. "20360"),
+    // but MC keys employees by a short UUID slug (e.g. "059f4a5f").
+    // Passing the JM number to MC's ?store= filter returned zero rows
+    // and the search popup showed "no employees match". Fetch the full
+    // set and let the dropdown's client-side search + per-store
+    // grouping handle narrowing.
     const internalApiKey = getMissionControlApiKey();
 
     if (!internalApiKey) {
       return NextResponse.json({ employees: [] });
     }
 
-    // Fetch employees from MC
-    const mcParams = storeNumber ? `?store=${storeNumber}` : '';
-    const res = await fetch(`${MC_URL}/api/employees/internal${mcParams}`, {
+    // Fetch all employees from MC (no store filter — see RT-249 above)
+    const res = await fetch(`${MC_URL}/api/employees/internal`, {
       headers: { 'X-API-Key': internalApiKey },
       signal: AbortSignal.timeout(10000),
     });
@@ -51,13 +54,6 @@ export async function GET(request) {
       if (storeA !== storeB) return storeA.localeCompare(storeB);
       return (a.name || '').localeCompare(b.name || '');
     });
-
-    // If store filter provided, filter to that store
-    if (storeNumber) {
-      employees = employees.filter(e =>
-        String(e.store_number) === storeNumber || String(e.store_id) === storeNumber
-      );
-    }
 
     // Return slim format for dropdown
     const result = employees.map(e => ({
