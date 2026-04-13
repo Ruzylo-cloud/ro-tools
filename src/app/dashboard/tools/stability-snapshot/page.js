@@ -37,6 +37,10 @@ export default function StabilitySnapshotPage() {
   const [selectedStores, setSelectedStores] = useState(() => new Set(STORE_DIRECTORY.map(s => s.id)));
   const [loading, setLoading] = useState(true);
   const [mcError, setMcError] = useState(null);
+  // Inline editor state: { storeNumber, roleKey, employee_name, tier, status }
+  const [editing, setEditing] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -125,6 +129,50 @@ export default function StabilitySnapshotPage() {
   };
   const selectAll = () => setSelectedStores(new Set(STORE_DIRECTORY.map(s => s.id)));
   const clearAll = () => setSelectedStores(new Set());
+
+  const openEditor = (store, slot, key) => {
+    setSaveError(null);
+    setEditing({
+      storeNumber: store.storeNumber,
+      storeName: store.storeName,
+      roleKey: key,
+      roleLabel: roleLabels[key] || key,
+      employee_name: slot.employee_name || '',
+      tier: slot.tier || '',
+      status: slot.status || 'open',
+      notes: slot.notes || '',
+    });
+  };
+
+  const saveCell = async () => {
+    if (!editing) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const res = await fetch('/api/mc/stability/cell', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          store_number: editing.storeNumber,
+          role_slot: editing.roleKey,
+          employee_name: editing.employee_name || null,
+          tier: editing.tier || null,
+          status: editing.employee_name ? 'filled' : 'open',
+          notes: editing.notes || null,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Save failed (${res.status})`);
+      }
+      setEditing(null);
+      await load();
+    } catch (e) {
+      setSaveError(e.message || 'Save failed');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const tierClass = (tier) => {
     const t = (tier || '').toUpperCase();
@@ -218,7 +266,7 @@ export default function StabilitySnapshotPage() {
                     const isOpen = slot.status !== 'filled' || !slot.employee_name;
                     const tierKey = (slot.tier || '').toUpperCase();
                     return (
-                      <td key={store.storeNumber}>
+                      <td key={store.storeNumber} onClick={() => openEditor(store, slot, key)} style={{ cursor: 'pointer' }} title="Click to edit">
                         <div className={styles.cell}>
                           {isOpen ? (
                             <div className={styles.vacant}>— OPEN —</div>
@@ -245,6 +293,68 @@ export default function StabilitySnapshotPage() {
         </div>
       </div>
       {loading && <div style={{ textAlign: 'center', padding: 20, color: 'var(--gray-400)' }}>Loading…</div>}
+
+      {editing && (
+        <div
+          onClick={() => !saving && setEditing(null)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 16 }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{ background: '#fff', borderRadius: 12, padding: 24, width: '100%', maxWidth: 440, boxShadow: '0 20px 60px rgba(0,0,0,0.3)' }}
+          >
+            <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 800, color: 'var(--charcoal)' }}>Edit Stability Slot</h3>
+            <div style={{ fontSize: 12, color: 'var(--gray-500)', marginBottom: 16 }}>
+              Store {editing.storeNumber} — {editing.roleLabel}
+            </div>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase' }}>Employee Name</label>
+            <input
+              value={editing.employee_name}
+              onChange={e => setEditing(ed => ({ ...ed, employee_name: e.target.value }))}
+              placeholder="Leave blank to mark OPEN"
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', marginBottom: 12 }}
+            />
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase' }}>Tier</label>
+            <select
+              value={editing.tier}
+              onChange={e => setEditing(ed => ({ ...ed, tier: e.target.value }))}
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', boxSizing: 'border-box', marginBottom: 12 }}
+            >
+              <option value="">— None —</option>
+              <option value="A">A (top)</option>
+              <option value="B">B (solid)</option>
+              <option value="C">C (needs dev)</option>
+              <option value="D">D (at risk)</option>
+            </select>
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--gray-500)', marginBottom: 4, textTransform: 'uppercase' }}>Notes</label>
+            <textarea
+              value={editing.notes}
+              onChange={e => setEditing(ed => ({ ...ed, notes: e.target.value }))}
+              placeholder="Optional"
+              style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, fontFamily: 'inherit', minHeight: 60, resize: 'vertical', boxSizing: 'border-box', marginBottom: 12 }}
+            />
+            {saveError && (
+              <div style={{ color: '#dc2626', fontSize: 12, fontWeight: 600, marginBottom: 12 }}>{saveError}</div>
+            )}
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => setEditing(null)}
+                disabled={saving}
+                style={{ padding: '8px 16px', borderRadius: 8, border: '1px solid var(--border)', background: '#fff', color: 'var(--gray-500)', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={saveCell}
+                disabled={saving}
+                style={{ padding: '8px 20px', borderRadius: 8, border: 'none', background: 'var(--jm-blue)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}
+              >
+                {saving ? 'Saving…' : 'Save'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {summary && !loading && (
         <div style={{ marginTop: 16, fontSize: 11, color: 'var(--gray-500)', textAlign: 'center' }}>

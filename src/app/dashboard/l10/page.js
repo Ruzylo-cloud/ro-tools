@@ -274,6 +274,47 @@ export default function L10Page() {
   const updateIds = (id, patch) => { setIds(list => list.map(x => x.id === id ? { ...x, ...patch } : x)); setDirty(true); setSaved(false); };
   const removeIds = (id) => { setIds(list => list.filter(x => x.id !== id)); setDirty(true); setSaved(false); };
 
+  // Auto-calc: pull stability snapshot for the current user's store and
+  // prefill the two L10 metrics that are derived from it.
+  const [autoCalcMsg, setAutoCalcMsg] = useState('');
+  const pullFromStability = async () => {
+    setAutoCalcMsg('Pulling from Stability Snapshot…');
+    try {
+      const [snapRes, profRes] = await Promise.all([
+        fetch('/api/mc/stability/snapshot'),
+        fetch('/api/profile'),
+      ]);
+      const snap = await snapRes.json().catch(() => ({}));
+      const prof = await profRes.json().catch(() => ({}));
+      const myStore = String(prof.profile?.storeNumber || '').trim();
+      const snapshots = Array.isArray(snap.snapshots) ? snap.snapshots : [];
+      let mine = null;
+      if (myStore) mine = snapshots.find(s => String(s.storeNumber) === myStore);
+      // Metric: stabilityShifts = filled count minus open count (above baseline)
+      // Metric: stabilityUpdated = Y if we got a real snapshot back for this store
+      let next = { ...values };
+      if (mine) {
+        next.stabilityShifts = String(mine.filledCount || 0);
+        next.stabilityUpdated = 'Y';
+        setAutoCalcMsg(`Filled from store ${myStore}: ${mine.filledCount}/${mine.totalSlots} slots filled.`);
+      } else {
+        // Portfolio fallback: use summary
+        if (snap.summary) {
+          next.stabilityShifts = String(snap.summary.filledSlots || 0);
+          next.stabilityUpdated = 'Y';
+          setAutoCalcMsg(`Portfolio roll-up: ${snap.summary.filledSlots}/${snap.summary.totalSlots} slots filled.`);
+        } else {
+          setAutoCalcMsg('No stability data available from Mission Control.');
+        }
+      }
+      setValues(next);
+      setDirty(true);
+      setSaved(false);
+    } catch (e) {
+      setAutoCalcMsg('Could not pull from Stability Snapshot.');
+    }
+  };
+
   const addTodo = () => { setTodos(t => [...t, { id: uid(), text: '', owner: '', done: false, createdAt: new Date().toISOString() }]); setDirty(true); setSaved(false); };
   const updateTodo = (id, patch) => { setTodos(t => t.map(x => x.id === id ? { ...x, ...patch } : x)); setDirty(true); setSaved(false); };
   const removeTodo = (id) => { setTodos(t => t.filter(x => x.id !== id)); setDirty(true); setSaved(false); };
@@ -359,7 +400,21 @@ export default function L10Page() {
           </button>
         )}
         {saved && <span className={styles.savedMsg}>Saved</span>}
+        {!reviewMode && (
+          <button
+            onClick={pullFromStability}
+            title="Auto-fill stability-related metrics from Mission Control"
+            style={{ marginLeft: 'auto', padding: '8px 14px', borderRadius: 8, border: '1px solid var(--jm-blue)', background: 'rgba(19,74,124,0.06)', color: 'var(--jm-blue)', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
+          >
+            Pull from Stability
+          </button>
+        )}
       </div>
+      {autoCalcMsg && (
+        <div style={{ marginBottom: 12, padding: '8px 14px', background: 'rgba(19,74,124,0.06)', border: '1px solid rgba(19,74,124,0.18)', borderRadius: 8, fontSize: 12, color: 'var(--jm-blue)', fontWeight: 600 }}>
+          {autoCalcMsg}
+        </div>
+      )}
 
       {/* Grade card */}
       <div className={styles.gradeCard}>
