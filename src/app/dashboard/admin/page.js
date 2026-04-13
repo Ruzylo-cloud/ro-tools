@@ -174,6 +174,8 @@ export default function AdminPage() {
   const [confirmAction, setConfirmAction] = useState(null); // { userId, action, userName }
   // RT-223: Bulk selection
   const [bulkSelected, setBulkSelected] = useState([]);
+  // RT-225: Store filter (must be declared before early returns to preserve hook order — React #310)
+  const [storeFilter, setStoreFilter] = useState('');
 
   const handleAction = async (userId, action) => {
     setActionLoading(userId);
@@ -260,7 +262,6 @@ export default function AdminPage() {
   const logsCurrentPage = Math.floor(logsOffset / 50) + 1;
 
   // RT-225: Filtered users by search + store filter
-  const [storeFilter, setStoreFilter] = useState('');
   const filteredApproved = approved.filter(u => {
     if (userSearch) {
       const q = userSearch.toLowerCase();
