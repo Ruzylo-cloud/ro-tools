@@ -95,6 +95,9 @@ export default function L10Page() {
   const [week, setWeek] = useState(getCurrentWeek());
   const [values, setValues] = useState({});
   const [timeFinished, setTimeFinished] = useState('');
+  const [rocks, setRocks] = useState([]); // { id, title, owner, status: 'on-track'|'off-track'|'done' }
+  const [ids, setIds] = useState([]);     // { id, issue, discussion, solution, resolved }
+  const [todos, setTodos] = useState([]); // { id, text, owner, done, createdAt }
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -144,9 +147,15 @@ export default function L10Page() {
       const data = await res.json();
       setValues(data.values || {});
       setTimeFinished(data.timeFinished || '');
+      setRocks(Array.isArray(data.rocks) ? data.rocks : []);
+      setIds(Array.isArray(data.ids) ? data.ids : []);
+      setTodos(Array.isArray(data.todos) ? data.todos : []);
     } catch (err) {
       setValues({});
       setTimeFinished('');
+      setRocks([]);
+      setIds([]);
+      setTodos([]);
       setError('Could not load scorecard. Please try again.');
     } finally {
       setLoading(false);
@@ -159,9 +168,15 @@ export default function L10Page() {
       if (card) {
         setValues(card.values || {});
         setTimeFinished(card.timeFinished || '');
+        setRocks(Array.isArray(card.rocks) ? card.rocks : []);
+        setIds(Array.isArray(card.ids) ? card.ids : []);
+        setTodos(Array.isArray(card.todos) ? card.todos : []);
       } else {
         setValues({});
         setTimeFinished('');
+        setRocks([]);
+        setIds([]);
+        setTodos([]);
       }
       setDirty(false);
     } else if (!reviewMode) {
@@ -233,7 +248,7 @@ export default function L10Page() {
       const res = await fetch('/api/l10', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ week, values, grade, timeFinished: timeFinished || null }),
+        body: JSON.stringify({ week, values, grade, timeFinished: timeFinished || null, rocks, ids, todos }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -247,6 +262,21 @@ export default function L10Page() {
       setSaving(false);
     }
   };
+
+  // ── EOS list helpers (rocks / IDS / todos) ───────────────
+  const uid = () => (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+  const addRock = () => { setRocks(r => [...r, { id: uid(), title: '', owner: '', status: 'on-track' }]); setDirty(true); setSaved(false); };
+  const updateRock = (id, patch) => { setRocks(r => r.map(x => x.id === id ? { ...x, ...patch } : x)); setDirty(true); setSaved(false); };
+  const removeRock = (id) => { setRocks(r => r.filter(x => x.id !== id)); setDirty(true); setSaved(false); };
+
+  const addIds = () => { setIds(list => [...list, { id: uid(), issue: '', discussion: '', solution: '', resolved: false }]); setDirty(true); setSaved(false); };
+  const updateIds = (id, patch) => { setIds(list => list.map(x => x.id === id ? { ...x, ...patch } : x)); setDirty(true); setSaved(false); };
+  const removeIds = (id) => { setIds(list => list.filter(x => x.id !== id)); setDirty(true); setSaved(false); };
+
+  const addTodo = () => { setTodos(t => [...t, { id: uid(), text: '', owner: '', done: false, createdAt: new Date().toISOString() }]); setDirty(true); setSaved(false); };
+  const updateTodo = (id, patch) => { setTodos(t => t.map(x => x.id === id ? { ...x, ...patch } : x)); setDirty(true); setSaved(false); };
+  const removeTodo = (id) => { setTodos(t => t.filter(x => x.id !== id)); setDirty(true); setSaved(false); };
 
   const changeWeek = (delta) => {
     const next = week + delta;
@@ -447,6 +477,148 @@ export default function L10Page() {
                 disabled={reviewMode}
               />
               <span className={styles.metricGoal}>Goal: 11:00 AM</span>
+            </div>
+          </div>
+
+          {/* ── Rocks (quarterly priorities) ── */}
+          <div className={styles.category}>
+            <div className={styles.catHeader}>
+              <span className={styles.catTitle}>Rocks</span>
+              <span className={styles.catBadge}>{rocks.filter(r => r.status === 'done').length}/{rocks.length}</span>
+            </div>
+            <div className={styles.catBody} style={{ padding: 12 }}>
+              {rocks.length === 0 && (
+                <div style={{ fontSize: 12, color: 'var(--gray-400)', padding: '8px 0' }}>No rocks yet. Add a quarterly priority.</div>
+              )}
+              {rocks.map(rock => (
+                <div key={rock.id} style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '6px 0', flexWrap: 'wrap' }}>
+                  <input
+                    placeholder="Rock / priority"
+                    value={rock.title}
+                    onChange={e => updateRock(rock.id, { title: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ flex: '2 1 220px', padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, fontFamily: 'inherit' }}
+                  />
+                  <input
+                    placeholder="Owner"
+                    value={rock.owner}
+                    onChange={e => updateRock(rock.id, { owner: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ flex: '1 1 120px', padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, fontFamily: 'inherit' }}
+                  />
+                  <select
+                    value={rock.status}
+                    onChange={e => updateRock(rock.id, { status: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 12, fontFamily: 'inherit' }}
+                  >
+                    <option value="on-track">On Track</option>
+                    <option value="off-track">Off Track</option>
+                    <option value="done">Done</option>
+                  </select>
+                  {!reviewMode && (
+                    <button onClick={() => removeRock(rock.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: 16, padding: '4px 8px' }}>×</button>
+                  )}
+                </div>
+              ))}
+              {!reviewMode && (
+                <button onClick={addRock} style={{ marginTop: 8, padding: '6px 14px', border: '1px dashed var(--jm-blue)', background: 'rgba(19,74,124,0.04)', color: 'var(--jm-blue)', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>+ Add Rock</button>
+              )}
+            </div>
+          </div>
+
+          {/* ── IDS (Identify / Discuss / Solve) ── */}
+          <div className={styles.category}>
+            <div className={styles.catHeader}>
+              <span className={styles.catTitle}>IDS — Issues</span>
+              <span className={styles.catBadge}>{ids.filter(i => i.resolved).length}/{ids.length}</span>
+            </div>
+            <div className={styles.catBody} style={{ padding: 12 }}>
+              {ids.length === 0 && (
+                <div style={{ fontSize: 12, color: 'var(--gray-400)', padding: '8px 0' }}>No issues yet. Add one to Identify / Discuss / Solve.</div>
+              )}
+              {ids.map(item => (
+                <div key={item.id} style={{ padding: '10px 12px', marginBottom: 8, border: '1px solid var(--border)', borderRadius: 8, background: item.resolved ? 'rgba(22,163,74,0.04)' : '#fff' }}>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+                    <input
+                      type="checkbox"
+                      checked={!!item.resolved}
+                      onChange={e => updateIds(item.id, { resolved: e.target.checked })}
+                      disabled={reviewMode}
+                    />
+                    <input
+                      placeholder="Issue — what needs to be solved?"
+                      value={item.issue}
+                      onChange={e => updateIds(item.id, { issue: e.target.value })}
+                      disabled={reviewMode}
+                      style={{ flex: 1, padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, fontFamily: 'inherit', fontWeight: 600 }}
+                    />
+                    {!reviewMode && (
+                      <button onClick={() => removeIds(item.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: 16 }}>×</button>
+                    )}
+                  </div>
+                  <textarea
+                    placeholder="Discussion notes"
+                    value={item.discussion}
+                    onChange={e => updateIds(item.id, { discussion: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ width: '100%', padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 12, fontFamily: 'inherit', minHeight: 40, resize: 'vertical', boxSizing: 'border-box', marginBottom: 6 }}
+                  />
+                  <textarea
+                    placeholder="Solution / action"
+                    value={item.solution}
+                    onChange={e => updateIds(item.id, { solution: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ width: '100%', padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 12, fontFamily: 'inherit', minHeight: 40, resize: 'vertical', boxSizing: 'border-box' }}
+                  />
+                </div>
+              ))}
+              {!reviewMode && (
+                <button onClick={addIds} style={{ marginTop: 4, padding: '6px 14px', border: '1px dashed var(--jm-blue)', background: 'rgba(19,74,124,0.04)', color: 'var(--jm-blue)', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>+ Add Issue</button>
+              )}
+            </div>
+          </div>
+
+          {/* ── To-Dos ── */}
+          <div className={styles.category}>
+            <div className={styles.catHeader}>
+              <span className={styles.catTitle}>To-Dos</span>
+              <span className={styles.catBadge}>{todos.filter(t => t.done).length}/{todos.length}</span>
+            </div>
+            <div className={styles.catBody} style={{ padding: 12 }}>
+              {todos.length === 0 && (
+                <div style={{ fontSize: 12, color: 'var(--gray-400)', padding: '8px 0' }}>No to-dos yet. Add action items from the meeting.</div>
+              )}
+              {todos.map(todo => (
+                <div key={todo.id} style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '6px 0', flexWrap: 'wrap' }}>
+                  <input
+                    type="checkbox"
+                    checked={!!todo.done}
+                    onChange={e => updateTodo(todo.id, { done: e.target.checked })}
+                    disabled={reviewMode}
+                  />
+                  <input
+                    placeholder="Action item"
+                    value={todo.text}
+                    onChange={e => updateTodo(todo.id, { text: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ flex: '2 1 240px', padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, fontFamily: 'inherit', textDecoration: todo.done ? 'line-through' : 'none', opacity: todo.done ? 0.6 : 1 }}
+                  />
+                  <input
+                    placeholder="Owner"
+                    value={todo.owner}
+                    onChange={e => updateTodo(todo.id, { owner: e.target.value })}
+                    disabled={reviewMode}
+                    style={{ flex: '1 1 120px', padding: '6px 10px', border: '1px solid var(--border)', borderRadius: 6, fontSize: 13, fontFamily: 'inherit' }}
+                  />
+                  {!reviewMode && (
+                    <button onClick={() => removeTodo(todo.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontSize: 16, padding: '4px 8px' }}>×</button>
+                  )}
+                </div>
+              ))}
+              {!reviewMode && (
+                <button onClick={addTodo} style={{ marginTop: 8, padding: '6px 14px', border: '1px dashed var(--jm-blue)', background: 'rgba(19,74,124,0.04)', color: 'var(--jm-blue)', borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>+ Add To-Do</button>
+              )}
             </div>
           </div>
 

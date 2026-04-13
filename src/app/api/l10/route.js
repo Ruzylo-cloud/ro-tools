@@ -95,10 +95,10 @@ export async function GET(request) {
       const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
       return NextResponse.json(data);
     }
-    return NextResponse.json({ week: parseInt(week), values: {}, employees: [], grade: 0 });
+    return NextResponse.json({ week: parseInt(week), values: {}, employees: [], grade: 0, rocks: [], ids: [], todos: [] });
   } catch (err) {
     console.error('[l10] GET read error:', err);
-    return NextResponse.json({ week: parseInt(week), values: {}, employees: [], grade: 0 });
+    return NextResponse.json({ week: parseInt(week), values: {}, employees: [], grade: 0, rocks: [], ids: [], todos: [] });
   }
 }
 
@@ -117,7 +117,7 @@ export async function POST(request) {
   try { body = await request.json(); }
   catch { return NextResponse.json({ error: 'Invalid request body' }, { status: 400 }); }
 
-  const { week, values, employees, grade, timeFinished } = body;
+  const { week, values, employees, grade, timeFinished, rocks, ids, todos } = body;
 
   if (!week || !/^\d+$/.test(String(week))) {
     return NextResponse.json({ error: 'week must be a positive integer' }, { status: 400 });
@@ -144,6 +144,26 @@ export async function POST(request) {
   }
   if (timeFinished && typeof timeFinished === 'string' && timeFinished.length > 100) {
     return NextResponse.json({ error: 'timeFinished too long' }, { status: 400 });
+  }
+
+  // Validate rocks/ids/todos (L10 EOS sections)
+  const validateList = (label, arr, maxItems, maxLen) => {
+    if (arr === undefined || arr === null) return null;
+    if (!Array.isArray(arr)) return `${label} must be an array`;
+    if (arr.length > maxItems) return `${label} too large (max ${maxItems})`;
+    for (const item of arr) {
+      if (typeof item !== 'object' || item === null) return `${label} items must be objects`;
+      if (JSON.stringify(item).length > maxLen) return `${label} item too large`;
+    }
+    return null;
+  };
+  for (const [label, arr, maxItems, maxLen] of [
+    ['rocks', rocks, 20, 2000],
+    ['ids', ids, 100, 2000],
+    ['todos', todos, 200, 1000],
+  ]) {
+    const err = validateList(label, arr, maxItems, maxLen);
+    if (err) return NextResponse.json({ error: err }, { status: 400 });
   }
 
   ensureDir();
@@ -200,6 +220,9 @@ export async function POST(request) {
     employees: employees || [],
     grade: grade || 0,
     timeFinished: timeFinished || null,
+    rocks: Array.isArray(rocks) ? rocks : [],
+    ids: Array.isArray(ids) ? ids : [],
+    todos: Array.isArray(todos) ? todos : [],
     status: 'submitted',
     savedAt: new Date().toISOString(),
   };
@@ -214,8 +237,13 @@ export async function POST(request) {
       }
     } catch { /* fresh file */ }
 
+    // Cascading: carry forward unfinished rocks/ids/todos from prior save as
+    // a baseline if the client didn't send them this save (partial updates).
     const merged = {
       ...data,
+      rocks: rocks !== undefined ? data.rocks : (existing.rocks || []),
+      ids: ids !== undefined ? data.ids : (existing.ids || []),
+      todos: todos !== undefined ? data.todos : (existing.todos || []),
       status: existing.status === 'approved' ? 'approved' : 'submitted',
       reviewedBy: existing.reviewedBy || null,
       reviewedAt: existing.reviewedAt || null,
