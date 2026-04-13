@@ -1,6 +1,12 @@
 import { AuthProvider } from '@/components/AuthProvider';
 import { ToastProvider } from '@/components/Toast';
+import { ensureBootMigrations } from '@/lib/boot-migrations';
 import './globals.css';
+
+// Fire-and-forget boot migrations on first module import.
+// Currently: force-reset all profile notificationPrefs to disabled
+// (see src/lib/notification-prefs.js + RT notifications directive 2026-04-13).
+void ensureBootMigrations();
 
 export const viewport = {
   width: 'device-width',

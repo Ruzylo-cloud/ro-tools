@@ -3,6 +3,7 @@ import { getSession } from '@/lib/session';
 import { getAuthenticatedClient, getGmail } from '@/lib/google-client';
 import { rateLimit } from '@/lib/rate-limit';
 import { enforceSameOriginMutation } from '@/lib/request-origin';
+import { isChannelEnabledFor } from '@/lib/notification-prefs';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,6 +40,21 @@ export async function POST(request) {
     }
   }
 
+  // Notification policy (2026-04-13): all channels default OFF per account.
+  // Never send to a recipient whose profile has not explicitly opted in to
+  // the "email" channel. A recipient with no profile at all (user never
+  // signed in) is always blocked. See src/lib/notification-prefs.js.
+  const allowedRecipients = recipients.filter(addr => isChannelEnabledFor(addr, 'email'));
+  const blockedRecipients = recipients.filter(addr => !allowedRecipients.includes(addr));
+  if (allowedRecipients.length === 0) {
+    return NextResponse.json({
+      success: false,
+      sent: false,
+      blocked: blockedRecipients,
+      reason: 'All recipients have email notifications disabled or have not opted in yet.',
+    }, { status: 200 });
+  }
+
   // Sanitize subject and name to prevent header injection (strip newlines)
   const safeSubject = String(subject).replace(/[\r\n]/g, ' ').slice(0, 500);
   const safeFromName = String(session.name || '').replace(/[\r\n"<>]/g, ' ').slice(0, 200);
@@ -51,7 +67,7 @@ export async function POST(request) {
   try {
     const gmail = getGmail(auth.client);
     const from = session.email;
-    const toStr = recipients.join(', ');
+    const toStr = allowedRecipients.join(', ');
 
     // Build RFC 2822 message
     const messageParts = [
@@ -74,7 +90,12 @@ export async function POST(request) {
       requestBody: { raw },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      sent: true,
+      sentTo: allowedRecipients,
+      blocked: blockedRecipients,
+    });
   } catch (err) {
     console.error('Email send error:', err);
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });

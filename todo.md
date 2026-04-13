@@ -20,7 +20,22 @@ This file tracks only currently active + imminent work.
 ---
 
 ## Active Code Fixes
-_None — see ROADMAP.md for deferred parity backlogs._
+
+### Notifications opt-in UI (follow-up to 2026-04-13 force-disable)
+Server-side enforcement landed this session — every profile's
+`notificationPrefs` is force-reset to `{email:false, notifications:false, sms:false, optedInAt:null}`
+on first server boot (see `src/lib/boot-migrations.js`), and `/api/email`
+now blocks any recipient whose profile hasn't explicitly opted in. The
+user-facing UI is still TODO:
+
+- [ ] **Profile settings toggle** — add a "Notifications" section to
+  `/dashboard/profile` with three switches (Email / In-App / SMS) bound
+  to `GET/PUT /api/profile/notification-prefs`. Default all off, show
+  "You are not currently receiving any notifications" when `optedInAt` is null.
+- [ ] **First-login prompt** — optional lightweight banner/modal on the
+  dashboard the first time a user lands after the force-reset, explaining
+  the opt-in model and linking to the Profile settings page. Dismissible;
+  never shown again once dismissed or once any channel is enabled.
 
 ---
 
