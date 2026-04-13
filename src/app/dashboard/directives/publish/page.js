@@ -13,6 +13,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useToast } from '@/components/Toast';
 import styles from './publish.module.css';
 
 const AUDIENCES = [
@@ -63,6 +64,7 @@ function saveFallback(list) {
 }
 
 export default function DirectivesPublishPage() {
+  const { showToast } = useToast();
   const [me, setMe] = useState(null);
   const [directives, setDirectives] = useState([]);
   const [fallbackMode, setFallbackMode] = useState(false);
@@ -165,14 +167,14 @@ export default function DirectivesPublishPage() {
       } else if (res.ok) {
         await refresh();
       } else {
-        alert('Failed to publish directive (' + res.status + ')');
+        showToast('Failed to publish directive (' + res.status + ')', 'error');
         return;
       }
       setShowForm(false);
       setDraft({ title: '', bodyMarkdown: '', priority: 'medium', audience: ['all'], effectiveDate: '', expiryDate: '', requiresAck: false });
     } catch (e) {
       console.error('[directives] publish error', e);
-      alert('Failed to publish: ' + e.message);
+      showToast('Failed to publish: ' + e.message, 'error');
     }
   };
 
@@ -195,9 +197,9 @@ export default function DirectivesPublishPage() {
       } else if (res.ok) {
         await refresh();
       } else {
-        alert('Archive failed (' + res.status + ')');
+        showToast('Archive failed (' + res.status + ')', 'error');
       }
-    } catch (e) { console.error(e); alert('Archive error: ' + e.message); }
+    } catch (e) { console.error(e); showToast('Archive error: ' + e.message, 'error'); }
   };
 
   const acknowledge = async (d) => {
@@ -217,8 +219,8 @@ export default function DirectivesPublishPage() {
         setDirectives(next); saveFallback(next); setFallbackMode(true);
       } else if (res.ok) {
         await refresh();
-      } else { alert('Ack failed (' + res.status + ')'); }
-    } catch (e) { console.error(e); alert('Ack error: ' + e.message); }
+      } else { showToast('Ack failed (' + res.status + ')', 'error'); }
+    } catch (e) { console.error(e); showToast('Ack error: ' + e.message, 'error'); }
   };
 
   const filtered = useMemo(() => {

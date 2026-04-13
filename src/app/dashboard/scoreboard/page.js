@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getLeaderboards, getWeekScoreboard, getAvailableWeeks } from '@/lib/scoreboard-data';
 import { getStoreName, getStoreLabel, STORE_DIRECTORY } from '@/lib/store-directory';
+import { useToast } from '@/components/Toast';
 import styles from './page.module.css';
 
 const COLOR_MAP = {
@@ -110,6 +111,7 @@ function ServerEntries({ week, saved }) {
 }
 
 export default function ScoreboardPage() {
+  const { showToast } = useToast();
   const [tab, setTab] = useState('leaderboard');
   const availableWeeksInit = getAvailableWeeks();
   const [selectedWeek, setSelectedWeek] = useState(availableWeeksInit.length > 0 ? availableWeeksInit[0].weekNum : 12);
@@ -601,7 +603,7 @@ export default function ScoreboardPage() {
                     setEntrySaved(true);
                     setTimeout(() => setEntrySaved(false), 2500);
                   } catch {
-                    alert('Failed to save entry. Please try again.');
+                    showToast('Failed to save entry. Please try again.', 'error');
                   }
                 }}
                 disabled={!entryForm.storeId || !entryForm.netSales}

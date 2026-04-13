@@ -13,6 +13,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useToast } from '@/components/Toast';
 import styles from './publish.module.css';
 
 const LS_KEY = 'ro-tools:updates:fallback-v1';
@@ -62,6 +63,7 @@ function saveFallback(list) {
 }
 
 export default function UpdatesPublishPage() {
+  const { showToast } = useToast();
   const [me, setMe] = useState(null);
   const [updates, setUpdates] = useState([]);
   const [fallbackMode, setFallbackMode] = useState(false);
@@ -160,7 +162,7 @@ export default function UpdatesPublishPage() {
       } else if (res.ok) {
         await refresh();
       } else {
-        alert('Failed to publish update (' + res.status + ')');
+        showToast('Failed to publish update (' + res.status + ')', 'error');
         return;
       }
       setShowForm(false);
@@ -173,7 +175,7 @@ export default function UpdatesPublishPage() {
       });
     } catch (e) {
       console.error('[updates] publish error', e);
-      alert('Publish error: ' + e.message);
+      showToast('Publish error: ' + e.message, 'error');
     }
   };
 
@@ -195,8 +197,8 @@ export default function UpdatesPublishPage() {
         setUpdates(list); saveFallback(list); setFallbackMode(true);
       } else if (res.ok) {
         await refresh();
-      } else { alert('Pin failed (' + res.status + ')'); }
-    } catch (e) { console.error(e); alert('Pin error: ' + e.message); }
+      } else { showToast('Pin failed (' + res.status + ')', 'error'); }
+    } catch (e) { console.error(e); showToast('Pin error: ' + e.message, 'error'); }
   };
 
   const sorted = useMemo(() => {
