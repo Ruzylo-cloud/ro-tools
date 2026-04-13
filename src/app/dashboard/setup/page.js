@@ -1,10 +1,54 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { searchStores, getStoresForDM, getStoreForRO } from '@/lib/store-directory';
 import styles from './page.module.css';
+
+/**
+ * Parse a Homebase-style address line into {street, city, state}.
+ * Falls back to putting the whole thing in `street` if parsing fails.
+ * Expected shape: "211 E HWY 246 Suite 101, Buellton, CA 93427"
+ */
+function parseAddress(raw) {
+  if (!raw || typeof raw !== 'string') return { street: '', city: '', state: '' };
+  const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
+  if (parts.length >= 3) {
+    const street = parts[0];
+    const city = parts[1];
+    // "CA 93427" → "CA"
+    const state = (parts[2].split(/\s+/)[0] || '').slice(0, 5);
+    return { street, city, state };
+  }
+  if (parts.length === 2) {
+    return { street: parts[0], city: parts[1], state: '' };
+  }
+  return { street: raw, city: '', state: '' };
+}
+
+/**
+ * Build an EMPTY_STORE-shaped object from a STORE_DIRECTORY entry.
+ * Fills in what the local directory knows; leaves phone + operatorPhone
+ * blank because the directory doesn't carry those.
+ */
+function storeEntryFromDirectory(dirEntry) {
+  if (!dirEntry) return null;
+  const { street, city, state } = parseAddress(dirEntry.address || '');
+  return {
+    storeNumber: dirEntry.id,
+    storeName: `Jersey Mike's #${dirEntry.id} - ${dirEntry.name}`,
+    street,
+    city,
+    state,
+    phone: '',
+    operatorName: dirEntry.ro || '',
+    operatorPhone: '',
+    assistantName: '',
+    assistantTitle: 'Catering Coordinator - Assistant Operator',
+    assistantPhone: '',
+  };
+}
 
 const DEFAULT_ADMIN_EMAILS = [
   'chris@jmvalley.com',
@@ -54,6 +98,96 @@ export default function SetupPage() {
   const [storeSearch, setStoreSearch] = useState('');
   const [storeSearchIdx, setStoreSearchIdx] = useState(-1);
   const [suggestions, setSuggestions] = useState([]);
+  const [autoFillNotice, setAutoFillNotice] = useState(null);
+  const autoFilledRef = useRef(false);
+
+  // Auto-prefill from store directory + Homebase-derived employee lookup.
+  // Strategy, in order of preference:
+  //   1. DM email prefix (jacob / narek / josh.s / josiah / ryan) →
+  //      prefill all stores assigned to that DM, set role='district_manager'.
+  //   2. Operator first-name matches a store's RO field → prefill that one
+  //      store, set role='operator'.
+  //   3. Fallback: fetch MC /api/employees, match by email, prefill the
+  //      single store the employee belongs to.
+  // Never overwrites data the user has already started typing (guarded by
+  // `autoFilledRef` + the empty-store check).
+  useEffect(() => {
+    if (autoFilledRef.current) return;
+    if (!user?.email) return;
+
+    const firstStoreEmpty = stores.length === 1 && !stores[0].storeName && !stores[0].street;
+    if (!firstStoreEmpty) return;
+
+    // (1) DM detection via email prefix
+    const dmStores = getStoresForDM(user.email);
+    if (dmStores && dmStores.length > 0) {
+      const mapped = dmStores.map(storeEntryFromDirectory).filter(Boolean);
+      if (mapped.length > 0) {
+        autoFilledRef.current = true;
+        setRole(prev => prev || 'district_manager');
+        setStores(mapped);
+        setDistrictManager(dmStores[0]?.dm || '');
+        setAutoFillNotice(`Detected ${mapped.length} store${mapped.length === 1 ? '' : 's'} assigned to you as district manager. Review and fill in the blanks.`);
+        return;
+      }
+    }
+
+    // (2) Operator detection via RO name match
+    const roStore = getStoreForRO(user.email);
+    if (roStore) {
+      const mapped = storeEntryFromDirectory(roStore);
+      if (mapped) {
+        autoFilledRef.current = true;
+        setRole(prev => prev || 'operator');
+        setStores([mapped]);
+        setDistrictManager(roStore.dm || '');
+        setAutoFillNotice(`Detected you as the operator of ${roStore.name} (#${roStore.id}). Review and fill in any blanks.`);
+        return;
+      }
+    }
+
+    // (3) MC employee lookup fallback — only kick in if nothing local matched.
+    //     Fetches the full employees list (cached server-side by MC), finds the
+    //     record whose email matches the session, and cross-references with
+    //     STORE_DIRECTORY for address/phone details.
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch('/api/employees', { signal: AbortSignal.timeout(5000) });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (cancelled) return;
+        const list = Array.isArray(data?.employees) ? data.employees : [];
+        const normEmail = user.email.toLowerCase();
+        const match = list.find(e => {
+          const empEmail = (e.email || e.work_email || e.personal_email || '').toLowerCase();
+          return empEmail === normEmail;
+        });
+        if (!match || cancelled) return;
+        const storeNum = String(match.store_number || match.store_id || '');
+        if (!storeNum) return;
+        const dirResults = searchStores(storeNum);
+        const dirEntry = dirResults.find(s => s.id === storeNum) || dirResults[0];
+        if (!dirEntry) return;
+        const mapped = storeEntryFromDirectory(dirEntry);
+        if (!mapped) return;
+        // Override the operatorName with the Homebase name if the matched
+        // employee is the store's RO; otherwise keep the directory's RO.
+        if (match.name && (match.position || '').toLowerCase().includes('operator')) {
+          mapped.operatorName = match.name;
+        }
+        autoFilledRef.current = true;
+        setRole(prev => prev || 'operator');
+        setStores([mapped]);
+        setDistrictManager(dirEntry.dm || '');
+        setAutoFillNotice(`Matched your Homebase employee record to ${dirEntry.name} (#${dirEntry.id}). Review and fill in any blanks.`);
+      } catch {
+        // Silent: fallback is best-effort.
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.email]);
 
   const updateStore = (idx, key, value) => {
     setStores(prev => prev.map((s, i) => i === idx ? { ...s, [key]: value } : s));
@@ -251,6 +385,27 @@ export default function SetupPage() {
 
       <div className={styles.form}>
         {error && <div className={styles.error}>{error}</div>}
+
+        {autoFillNotice && (
+          <div style={{
+            background: 'rgba(19, 74, 124, 0.08)',
+            border: '1px solid rgba(19, 74, 124, 0.25)',
+            color: 'var(--jm-blue, #134A7C)',
+            padding: '12px 16px',
+            borderRadius: 8,
+            marginBottom: 16,
+            fontSize: 13,
+            lineHeight: 1.5,
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: 10,
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>{autoFillNotice}</span>
+          </div>
+        )}
 
         {/* Basic Info */}
         <div className={styles.sectionTitle}>Your Info</div>
