@@ -28,11 +28,25 @@ export async function GET() {
     ? { ...profile, role: 'administrator', roleApproved: true, rolePending: false }
     : profile;
 
+  // RT-234: Admins see the full store list so they can pick any store in the sidebar picker
+  let allStores;
+  if (isAdmin) {
+    const seen = new Map();
+    for (const p of Object.values(profiles)) {
+      const num = (p?.storeNumber || '').toString().trim();
+      if (!num || seen.has(num)) continue;
+      const label = p.city ? `${p.city}, ${p.state || ''}`.replace(/,\s*$/, '') : `Store ${num}`;
+      seen.set(num, { id: num, name: label });
+    }
+    allStores = Array.from(seen.values()).sort((a, b) => a.id.localeCompare(b.id));
+  }
+
   // RT-267: Short client-side cache (30s private)
   return NextResponse.json({
     profile: effectiveProfile,
     isAdmin,
     isSuperAdmin: isSuperAdmin(session.email),
+    ...(allStores ? { stores: allStores } : {}),
   }, { headers: { 'Cache-Control': 'private, max-age=30, stale-while-revalidate=60' } });
 }
 

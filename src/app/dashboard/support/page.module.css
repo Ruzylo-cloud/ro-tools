@@ -350,6 +350,23 @@
   border-color: #3d3d4a;
   color: #e8e8ed;
 }
+:global([data-theme="dark"]) .fileInput { color: #c9c9d4; }
+:global([data-theme="dark"]) .fileInput::file-selector-button {
+  background: #2a2a33;
+  color: #e8e8ed;
+  border: 1.5px solid #3d3d4a;
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-right: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+:global([data-theme="dark"]) .fileInput::file-selector-button:hover {
+  background: #34343f;
+  border-color: #4d4d5a;
+}
 @media (max-width: 480px) {
   .fieldRow { grid-template-columns: 1fr; }
 }

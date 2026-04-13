@@ -161,7 +161,12 @@ export default function Sidebar() {
     try {
       const res = await fetch('/api/notifications?mode=list');
       const data = await res.json();
-      setNotifItems(Array.isArray(data) ? data : []);
+      const items = Array.isArray(data) ? data : [];
+      setNotifItems(items);
+      // RT-233: Reconcile badge with list — if list returns empty but count
+      // endpoint claimed >0, the badge is stale (MC-side drift). Trust the list.
+      const unreadInList = items.filter(n => !n.read).length;
+      setNotifCount(unreadInList);
     } catch (e) {
       console.warn('[sidebar] notifications list load failed:', e instanceof Error ? e.message : String(e));
       setNotifItems([]);
