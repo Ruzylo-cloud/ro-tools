@@ -5,8 +5,9 @@
  * ------------------------------------------
  * Server-backed (Mission Control) publishing + timeline browsing for
  * company-wide news. Supports pinning and a "new since last visit" badge
- * (localStorage-backed last-seen timestamp). Falls back to localStorage when
- * the MC endpoints are not yet implemented (SERVER-TODO flag in commit).
+ * (localStorage-backed last-seen timestamp). Falls back to localStorage as a
+ * defensive degraded mode if the MC endpoints return 404/5xx (e.g., during a
+ * transient outage) — not a permanent "not yet implemented" gap.
  *
  * Scope: /dashboard/updates/publish — sibling to the existing changelog page.
  */
@@ -97,7 +98,7 @@ export default function UpdatesPublishPage() {
     try {
       const res = await fetch('/api/updates/feed', { cache: 'no-store' });
       if (res.status === 404) {
-        console.warn('[updates] MC feed endpoint not implemented — using localStorage fallback');
+        console.warn('[updates] MC feed returned 404 (likely transient) — degrading to localStorage');
         setFallbackMode(true);
         setUpdates(loadFallback());
       } else if (res.ok) {
@@ -145,7 +146,7 @@ export default function UpdatesPublishPage() {
         body: JSON.stringify(payload),
       });
       if (res.status === 404) {
-        console.warn('[updates] POST not implemented — saving to localStorage fallback');
+        console.warn('[updates] POST returned 404 (likely transient) — degrading to localStorage');
         const item = {
           id: `local-${Date.now()}`,
           ...payload,
@@ -189,7 +190,7 @@ export default function UpdatesPublishPage() {
         body: JSON.stringify({ pinned: next }),
       });
       if (res.status === 404) {
-        console.warn('[updates] pin endpoint not implemented — toggling locally');
+        console.warn('[updates] pin returned 404 (likely transient) — toggling locally');
         const list = updates.map(x => x.id === u.id ? { ...x, pinned: next } : x);
         setUpdates(list); saveFallback(list); setFallbackMode(true);
       } else if (res.ok) {

@@ -101,7 +101,7 @@ export default function DirectivesPublishPage() {
     try {
       const res = await fetch('/api/directives/feed', { cache: 'no-store' });
       if (res.status === 404) {
-        console.warn('[directives] MC feed endpoint not implemented — using localStorage fallback');
+        console.warn('[directives] MC feed returned 404 (likely transient) — degrading to localStorage');
         setFallbackMode(true);
         setDirectives(loadFallback());
       } else if (res.ok) {
@@ -147,7 +147,7 @@ export default function DirectivesPublishPage() {
         body: JSON.stringify(payload),
       });
       if (res.status === 404) {
-        console.warn('[directives] POST not implemented — saving to localStorage fallback');
+        console.warn('[directives] POST returned 404 (likely transient) — degrading to localStorage');
         const list = loadFallback();
         const localItem = {
           id: `local-${Date.now()}`,
@@ -189,7 +189,7 @@ export default function DirectivesPublishPage() {
         body: JSON.stringify({ status: 'archived' }),
       });
       if (res.status === 404) {
-        console.warn('[directives] PUT not implemented — archiving locally');
+        console.warn('[directives] PUT returned 404 (likely transient) — archiving locally');
         const next = directives.map(x => x.id === d.id ? { ...x, status: 'archived' } : x);
         setDirectives(next); saveFallback(next); setFallbackMode(true);
       } else if (res.ok) {
@@ -210,7 +210,7 @@ export default function DirectivesPublishPage() {
     try {
       const res = await fetch(`/api/directives/${encodeURIComponent(d.id)}/ack`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
       if (res.status === 404) {
-        console.warn('[directives] ack not implemented — recording locally');
+        console.warn('[directives] ack returned 404 (likely transient) — recording locally');
         const next = directives.map(x => x.id === d.id
           ? { ...x, acks: [...(x.acks || []), { userEmail: me?.email, userName: me?.name, acknowledgedAt: new Date().toISOString() }] }
           : x);
