@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { getSessionData } from '@/lib/session';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,6 +37,18 @@ function extractDescription(msg) {
  * Fetches recent commits from the GitHub repo and formats them as changelog entries.
  */
 export async function GET(request) {
+  // Auth-gate: only signed-in users see commit history. Public callers
+  // would let anyone burn our GITHUB_TOKEN rate budget.
+  const session = getSessionData(request);
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  // Rate limit: prevent a single signed-in client from hammering GitHub.
+  const { limited } = rateLimit('updates-commits', 60000, 30, request);
+  if (limited) {
+    return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+  }
+
   try {
     const { searchParams } = new URL(request.url);
     const perPage = Math.min(parseInt(searchParams.get('per_page') || '50', 10), 100);
@@ -45,7 +59,13 @@ export async function GET(request) {
     const token = process.env.GITHUB_TOKEN;
     if (token) headers.Authorization = `Bearer ${token}`;
 
-    const res = await fetch(`${GITHUB_API}?per_page=${perPage}&page=${page}`, { headers, next: { revalidate: 300 } });
+    // 10s timeout — GitHub occasional latency spikes shouldn't hang the
+    // ro-tools route handler indefinitely.
+    const res = await fetch(`${GITHUB_API}?per_page=${perPage}&page=${page}`, {
+      headers,
+      next: { revalidate: 300 },
+      signal: AbortSignal.timeout(10000),
+    });
     if (!res.ok) {
       const text = await res.text();
       console.error('[commits] GitHub API error:', res.status, text.slice(0, 200));
