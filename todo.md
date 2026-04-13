@@ -11,13 +11,13 @@
 
 ## Code Fixes Needed
 - [ ] **RO Tools mobile login still broken** — intermediate session page deployed but untested. Verify on iPhone after Cloud Build deploy completes.
-- [ ] **RO Control JWT_SECRET** — DONE: set as env var on Cloud Run. Verify logins persist after deploy.
-- [ ] **CrewLoginView.swift compile fix** — fixed authManager.baseURL → APIService.shared.baseURL. Committed but not pushed.
+- [x] **RO Control JWT_SECRET** — DONE: set as env var on Cloud Run. Verify logins persist after deploy.
+- [x] **CrewLoginView.swift compile fix** — DONE: file refactored to shared input components (ca2d70b), pushed.
 - [ ] **RO Control iOS needs export** — archive succeeded, export fails until bundle ID registered
 
 ## Feature Completeness (verify each has UI + works)
 - [ ] **People Hub pages** — verify all 10 sections have full UI: Time Clock, Timesheets, Tips, Employee Docs, Performance Notes, Recognition, Certifications, Hiring, Onboarding, HR Forms
-- [ ] **Marketing Directives** — verify 5 tabs: Directives, Outreach, Scorecard, Calendar, Overview
+- [x] **Marketing Directives** — VERIFIED: /dashboard/directives has 6 tabs (overview, directives, outreach, scorecard, calendar, history).
 - [ ] **Schedule Builder** — verify visual blocks, color-coding, coverage heatmap, drag-drop, labor budget
 - [ ] **Checklists auto-generate** — verify no manual button, time-based generation
 - [ ] **L10 inline editing** — verify click-to-edit on scorecard, cascading, IDS, TODO
@@ -28,7 +28,7 @@
 - [ ] **Employee dropdowns** — verify all 9 generators have searchable dropdown with real Homebase data
 - [ ] **Reading/Book Log** — verify per-book pages, extensive content, Audible/Amazon links
 - [ ] **Dark mode** — verify toggle works on all 4 platforms, mid-grey palette consistent
-- [ ] **Quick Tour** — verify shows on first login only, skippable, navigates to pages
+- [x] **Quick Tour** — VERIFIED: QuickTour.js checks server `profile.tourCompleted` + localStorage `ro-tools-tour-done`, shows only if both unset, Skip + Next buttons, router.push per step.
 - [ ] **Auto-setup** — verify @jmvalley.com login auto-fills profile from Homebase data
 - [x] **/welcome page** — UPDATED by techy: added Tools & Analytics (8 items) + Store Operations (8 items) sections covering all new features
 - [ ] **Crew PIN login** — verify schedule first tab, swaps, time off, availability
@@ -187,7 +187,7 @@
 
 ## iOS Apps — Missing Features
 - [ ] **RC iOS kiosk closeout** — MISSING: MidDayCloseoutView.swift + EndOfDayCloseoutView.swift (only 3 of 5 kiosk tabs exist)
-- [ ] **iOS dark mode adaptive colors** — Colors.swift has NO adaptive colors, all static. Need UIColor userInterfaceStyle checks.
+- [x] **iOS dark mode adaptive colors** — DONE: both Colors.swift files use _adaptive() helper with light/dark variants for brand, grays, surfaces, text, nav, inputs (02b3742 + 4286d37).
 - [ ] **RT iOS: 5 new generators** — Food Labels, Work Orders, Manager Log, DM Walk-Throughs, Onboarding Packets need iOS views
 
 ## Command Palette
