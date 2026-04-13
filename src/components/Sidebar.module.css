@@ -499,6 +499,8 @@
 @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* ─── Search overlay ─── */
+/* RT-248: structurally identical to RC's .rc-search-* rules
+   (mc-operator/src/ui/dashCss.ts L326-331). Keep these in sync. */
 .searchOverlay {
   position: fixed;
   inset: 0;
