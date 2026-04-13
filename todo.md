@@ -15,28 +15,12 @@ This file tracks only currently active + imminent work.
 - [ ] **Enable TestFlight public link** — both apps → External Testing → JMVG All → Enable Public Link
 - [ ] **Test both apps on iPhone via TestFlight** — download TestFlight, open public link, install
 - [ ] **RO Control iOS needs export** — archive succeeded, export fails until bundle ID registered
+- [ ] **iPhone smoke test: mobile login** — open ro-tools.app in Safari, sign in with Google, verify redirect lands on /dashboard with ro_session cookie set (intermediate session page flow)
 
 ---
 
 ## Active Code Fixes
-- [ ] **RO Tools mobile login still broken** — intermediate session page deployed but untested. Verify on iPhone after Cloud Build deploy completes.
-
----
-
-## Recently Verified / Completed (audit sweep)
-- [x] **RO Control JWT_SECRET** — set as env var on Cloud Run
-- [x] **CrewLoginView.swift compile fix** — file refactored to shared input components (ca2d70b), pushed
-- [x] **iOS dark mode adaptive colors** — both Colors.swift files use `_adaptive()` helper with light/dark variants (02b3742 + 4286d37)
-- [x] **Quick Tour first-login flow** — QuickTour.js checks server `profile.tourCompleted` + localStorage, Skip + Next, router navigation
-- [x] **Marketing Directives** — /dashboard/directives has 6 tabs (overview, directives, outreach, scorecard, calendar, history)
-- [x] **Reading / Book Log** — /dashboard/reading 2074 lines, 137 book refs, Audible + Amazon links, per-book content
-- [x] **Store Profile RT → MC sync** — POST /api/profile/sync wired with 5s timeout, best-effort non-blocking
-- [x] **/welcome page** — Tools & Analytics + Store Operations sections added
-- [x] **Page titles** — PAGE_TITLES covers all static /dashboard routes; dynamic-route fallbacks for catering-tracker/order/* and packing-slip (78f2c1d)
-- [x] **CSS token mismatches** — rc-nav-user hardcodes replaced with var(--charcoal)
-- [x] **Command palette** — L10, Stability, Closeout, People Hub sections, Knowledge Base, AMEX, Store Profile, Messaging added
-- [x] **FSC Tracker** — built at /dashboard/fsc-tracker + /api/fsc (d77e14f)
-- [x] **Marketing report calendars / Sales Growth Scorecard / Weekly scoreboard / VP attestation / ezCater growth / Master closeout** — all covered
+_None — see ROADMAP.md for deferred parity backlogs._
 
 ---
 
