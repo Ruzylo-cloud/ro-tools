@@ -65,7 +65,13 @@ export default function ProfilePage() {
         setProfile(data.profile || {});
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((e) => {
+        // Brief §3h rule 2 — no silent failures. Log so repeated profile-load
+        // errors surface in the client console instead of leaving the form
+        // blank with no explanation.
+        console.warn('[profile] load failed:', e instanceof Error ? e.message : String(e));
+        setLoading(false);
+      });
     checkScopes();
     fetch('/api/profile/notification-prefs')
       .then(res => res.ok ? res.json() : null)
