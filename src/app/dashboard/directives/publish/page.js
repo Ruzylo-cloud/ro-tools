@@ -3,9 +3,11 @@
 /**
  * Directives Publishing UI
  * --------------------------------
- * Server-backed (Mission Control) publishing, browsing, and acknowledgement UI
- * for leadership directives. Falls back to localStorage if the MC endpoints are
- * not yet implemented on the server side (see commit SERVER-TODO flag).
+ * Server-backed (Mission Control) publishing, browsing, and acknowledgement
+ * UI for leadership directives. MC directives CRUD now ships in
+ * src/routes/directives.ts; the localStorage fallback below is kept as a
+ * defensive degraded mode if MC is unreachable, not as a "not yet
+ * implemented" placeholder.
  *
  * Scope: /dashboard/directives/publish — sibling to the existing directives page.
  */

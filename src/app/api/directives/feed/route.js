@@ -8,7 +8,9 @@
  * NOTE: Uses inline MC fetch helper (DO NOT import src/lib/missionControl.js — under active edit).
  * Sends both X-Dev-Key and x-api-key for compatibility with the MC side's header convention.
  *
- * If MC returns 404, the client falls back to localStorage. See SERVER-TODO in commit message.
+ * MC directives CRUD (src/routes/directives.ts) is shipped, so the 404
+ * branch below is a defensive fallback for transient outages — not a
+ * permanent "not yet implemented" gap as earlier drafts assumed.
  */
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
