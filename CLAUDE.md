@@ -1,7 +1,7 @@
 # RO Tools — Project Rules
 
 ## TOP RULES
-1. **RO Tools is its own separate project.** NOT part of mission-control, money-printer, or any other repo. You may reference other repos for patterns when needed.
+1. **RO Tools is its own separate project.** NOT part of mission-control or any other repo. You may reference other repos for patterns when needed.
 2. **Auto-Push to Main — Always.** Every completed piece of work = immediate `git add` → `git commit` → `git push origin main`. No batching. No "I'll push later." Main must always reflect the latest working state. Build must pass before push.
 
 ## Identity
