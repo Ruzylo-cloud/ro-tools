@@ -35,6 +35,8 @@ const PAGE_TITLES = {
   '/dashboard/tools/tier-assessment': 'Tier Assessment — RO Tools',
   '/dashboard/catering-tracker': 'Catering Tracker — RO Tools',
   '/dashboard/directives': 'Directives — RO Tools',
+  '/dashboard/directives/publish': 'Publish Directive — RO Tools',
+  '/dashboard/updates/publish': 'Publish Update — RO Tools',
   '/dashboard/profile': 'Store Profile — RO Tools',
   '/dashboard/support': 'Support — RO Tools',
   '/dashboard/admin': 'Admin Panel — RO Tools',
@@ -95,7 +97,17 @@ export default function DashboardLayout({ children }) {
 
   // RT-018: Update document.title on route change
   useEffect(() => {
-    const title = PAGE_TITLES[pathname] || 'RO Tools';
+    let title = PAGE_TITLES[pathname];
+    if (!title) {
+      // Dynamic route fallbacks (packing slip, order detail, etc.)
+      if (pathname?.includes('/catering-tracker/order/') && pathname?.endsWith('/packing-slip')) {
+        title = 'Packing Slip — RO Tools';
+      } else if (pathname?.startsWith('/dashboard/catering-tracker/order/')) {
+        title = 'Catering Order — RO Tools';
+      } else {
+        title = 'RO Tools';
+      }
+    }
     document.title = title;
   }, [pathname]);
 
