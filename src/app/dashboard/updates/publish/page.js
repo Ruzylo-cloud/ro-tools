@@ -127,7 +127,8 @@ export default function UpdatesPublishPage() {
   useEffect(() => {
     if (loading || updates.length === 0) return;
     const now = Date.now();
-    try { localStorage.setItem(LAST_SEEN_KEY, String(now)); } catch {}
+    try { localStorage.setItem(LAST_SEEN_KEY, String(now)); }
+    catch (e) { console.debug('[updates/publish] last-seen save failed (non-fatal):', e); }
     // Do NOT overwrite lastSeen state yet — keep badge visible for this session.
   }, [loading, updates]);
 

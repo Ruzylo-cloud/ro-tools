@@ -28,7 +28,10 @@ export default function PackingSlipPage() {
         setOrder(data.order);
         setClient(data.client);
         // Auto-trigger print dialog shortly after render.
-        setTimeout(() => { try { window.print(); } catch {} }, 400);
+        setTimeout(() => {
+          try { window.print(); }
+          catch (e) { console.debug('[packing-slip] window.print failed (non-fatal):', e); }
+        }, 400);
       } catch (e) {
         setError(e.message || 'Failed to load order');
       }

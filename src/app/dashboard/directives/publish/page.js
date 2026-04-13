@@ -87,7 +87,7 @@ export default function DirectivesPublishPage() {
 
   // Load current user (for author display + manager gate on ack list).
   useEffect(() => {
-    fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(d => setMe(d?.user || null)).catch(() => {});
+    fetch('/api/auth/me').then(r => r.ok ? r.json() : null).then(d => setMe(d?.user || null)).catch((e) => { console.debug('[directives/publish] me load failed (non-fatal):', e); });
   }, []);
 
   const isManager = useMemo(() => {
