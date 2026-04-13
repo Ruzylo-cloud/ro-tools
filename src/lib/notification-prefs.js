@@ -2,13 +2,46 @@
  * Notification preference helpers.
  *
  * Policy (per user directive 2026-04-13):
- *   1. All channels — email, in-app notifications, SMS — default to **disabled**
- *      for every account regardless of role.
+ *   1. All server-driven channels — email, in-app notifications, SMS — default
+ *      to **disabled** for every account regardless of role.
  *   2. A channel is ONLY enabled if the user themselves opts in after logging in
  *      for the first time. Any account that was created/imported without the
  *      user ever signing in must not receive anything.
  *   3. Any pre-existing enabled state must be force-reset to disabled at least
  *      once (see `forceDisableAllProfiles` + the boot-time migration below).
+ *
+ * Clarification (2026-04-13, same day):
+ *   The threat model this lockdown protects against is **outbound-to-strangers**:
+ *   the platform announcing itself to people who were imported from Homebase /
+ *   payroll / a roster but were never told the platform exists. An email or SMS
+ *   to such a person leaks the existence of RO Tools / RO Control / Mission
+ *   Control to someone who shouldn't yet know — that's the failure we are
+ *   preventing.
+ *
+ *   **iOS push notifications (RC iOS + RT iOS) are explicitly EXCLUDED from
+ *   this lockdown.** A push notification can only land on a device that has
+ *   the app installed, and the only way to install either app is to have been
+ *   deliberately given the TestFlight or App Store invite. By definition,
+ *   anyone who can receive an iOS push has already been told about the
+ *   platform — the leak vector does not exist on that channel. iOS push opt-in
+ *   defaults and enrollment (`requestAuthorization` /
+ *   `registerForRemoteNotifications`) are therefore allowed and tracked
+ *   separately by the iOS apps, not gated by the email/SMS opt-in flag here.
+ *
+ *   Channel matrix:
+ *     - server → email           : LOCKED (this module gates it)
+ *     - server → SMS             : LOCKED (this module gates it)
+ *     - server → web in-app feed : LOCKED (this module gates it)
+ *     - APNs push → RC iOS / RT iOS : EXCLUDED — **default ON** after
+ *       install once the user taps Allow on the iOS notification
+ *       permission prompt. RC iOS / RT iOS call
+ *       `UNUserNotificationCenter.requestAuthorization` +
+ *       `UIApplication.registerForRemoteNotifications()` on first launch;
+ *       if the user grants permission, all push categories are enabled
+ *       by default with no additional in-app opt-in required. The leak
+ *       vector this lockdown protects against does not apply: receiving
+ *       a push presupposes the user deliberately installed the app from
+ *       a TestFlight / App Store invite they were given.
  *
  * Schema on each profile:
  *   notificationPrefs: {
