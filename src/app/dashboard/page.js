@@ -575,7 +575,7 @@ export default function DashboardPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 14px', background: 'rgba(19,74,124,0.05)', borderRadius: 8, border: '1px solid rgba(19,74,124,0.1)' }}>
                     <span style={{ fontSize: 18 }}>🏪</span>
                     <div>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)' }}>{profile.storeName}{profile.storeNumber ? ` #${profile.storeNumber}` : ''}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--jm-blue)' }}>{profile.storeName === profile.storeNumber ? `#${profile.storeNumber}` : `${profile.storeName}${profile.storeNumber ? ` #${profile.storeNumber}` : ''}`}</div>
                       {profile.city && <div style={{ fontSize: 11, color: 'var(--gray-500)' }}>{profile.city}</div>}
                     </div>
                   </div>
