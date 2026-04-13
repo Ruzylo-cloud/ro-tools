@@ -5,6 +5,11 @@ Each section is a multi-week initiative; pull items back into `todo.md` when act
 
 ---
 
+## Notifications (post-soft-launch polish)
+- [ ] **First-login opt-in prompt** — optional dismissible banner/modal on `/dashboard` the first time a user lands after the 2026-04-13 force-disable, explaining the opt-in model and linking to `/dashboard/profile` notifications section. Never re-shown once dismissed or once any channel is enabled. (Profile settings toggle already shipped.)
+
+---
+
 ## Homebase App Parity — FROM 108 SCREENSHOT REVIEW
 
 ### Schedule
