@@ -198,13 +198,7 @@ export default function Sidebar() {
     if (themeToApply === 'default') {
       document.documentElement.setAttribute('data-theme', modeToApply === 'dark' ? 'dark' : 'light');
     } else {
-      let finalTheme = themeToApply;
-      if (modeToApply === 'light') {
-        const lightVariants = ['pro-gloss-ultra', 'hybrid-v3', 'hybrid-highpop', 'hybrid-v1-balanced'];
-        if (lightVariants.includes(themeToApply)) {
-          finalTheme += '-light';
-        }
-      }
+      let finalTheme = themeToApply + '-' + (modeToApply === 'dark' ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', finalTheme);
     }
   }, []);
