@@ -158,7 +158,7 @@ const Orientation = forwardRef(function Orientation({ data }, ref) {
           {checkItem('Clock in for each shift (no earlier than 5 minutes before shift). Must be in full uniform and ready to work, BEFORE clocking in (hat, apron on, shirt tucked in, items put away in locker).')}
           {checkItem('Punctuality is extremely important. We schedule based on hourly sales.')}
           {checkItem('Out time is always give or take 30 minutes. Checklist must be completed and must be ok\'d by shift lead before leaving.')}
-          {checkItem(<>Homebase - schedule is published every Friday and is available to view on the store iPad. Homebase is also used for TEAM COMMUNICATION - messages from Management or Shift Leads should be read after you clock in for your shift. <b>15 mins will also be automatically added</b> to your check each payroll for time you may spend reading messages at home. Use of Homebase when off the clock is not required.</>)}
+          {checkItem(<>Your schedule is published every Friday and is available on the store iPad. Team updates from management or shift leads should be reviewed after you clock in for your shift. <b>15 mins will also be automatically added</b> to your check each payroll for time you may spend reviewing updates at home. Off-the-clock review is not required.</>)}
           {checkItem('Pay periods: every other Friday, direct deposit is available, sign up on ADP.')}
         </DocumentTemplate>
         {pageNumber(1, TOTAL_PAGES)}

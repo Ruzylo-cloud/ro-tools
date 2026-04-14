@@ -315,7 +315,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           {checkItem('Ask every guest Shore Points.')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS - Deep Clean videos
           </div>
           {checkItem('Scrub Trays')}
           {checkItem('Floor Grout')}
@@ -352,7 +352,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           {checkItem(<>Tap bell and say &quot;thank you&quot; for guest tips</>)}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS - Deep Clean videos
           </div>
           {checkItem('Baseboards Bruh')}
 
@@ -446,7 +446,7 @@ const TrainingPacketLevel2 = forwardRef(function TrainingPacketLevel2({ data }, 
           {checkItem('Apply mayo, bacon and other dressings to lids when sprinkler or guest requests them')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS - Deep Clean videos
           </div>
           {checkItem('Front Line Sweep')}
           {checkItem('Cabinet Doors')}

@@ -257,7 +257,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
           {checkItem('Put day dot stickers on all prepped foods')}
           {checkItem('Put all produce (prep bins and backups) away in the walk-in')}
           {checkItem('Do ALL opening dishes')}
-          {checkItem('Check off remainder of opener list on Jolt')}
+          {checkItem('Check off the remainder of the opener list in the store checklist system')}
           {checkItem(<>Communicate whatever bread/bacon (if any) is left with the shift lead {'{'}if you still have rosemary to be made after 10am it must already be ready to go with parmesan and rosemary{'}'}</>)}
 
           <div style={{ fontSize: '7pt', fontWeight: 700, color: '#EE3227', marginTop: '4px', marginBottom: '2px', lineHeight: 1.4 }}>
@@ -292,7 +292,7 @@ const TrainingPacketOpener = forwardRef(function TrainingPacketOpener({ data }, 
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '2px', marginBottom: '2px' }}>&#9745; OPENER CHECKLIST</div>
           <div style={{ fontSize: '6pt', color: '#2D2D2D', lineHeight: 1.4, paddingLeft: '10px', marginBottom: '2px' }}>
-            <div>&bull; Review Jolt opener checklist together</div>
+            <div>&bull; Review the opener checklist together</div>
             <div>&bull; Check off groups of 2-3 items as you do them</div>
             <div>&bull; Complete with and under supervision of trainer or shift lead.</div>
             <div>&bull; Don&apos;t forget to always answer the phone especially before 10 am as this is when catering orders come in.</div>

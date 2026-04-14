@@ -157,6 +157,11 @@ export default function Sidebar() {
     return () => clearInterval(notifInterval);
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle('rt-mobile-nav-open', mobileOpen);
+    return () => document.body.classList.remove('rt-mobile-nav-open');
+  }, [mobileOpen]);
+
   const loadNotifications = useCallback(async () => {
     setNotifLoading(true);
     try {
@@ -308,8 +313,9 @@ export default function Sidebar() {
       });
       setNotifItems(prev => prev.map(n => ({ ...n, read: 1 })));
       setNotifCount(0);
+      await loadNotifications();
     } catch (e) { console.debug('[sidebar] mark-all-read failed (non-fatal):', e); }
-  }, []);
+  }, [loadNotifications]);
 
   const toggleNotifications = useCallback(() => {
     setSearchOpen(false);

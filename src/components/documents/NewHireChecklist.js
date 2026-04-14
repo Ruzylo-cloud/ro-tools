@@ -79,7 +79,7 @@ const NewHireChecklist = forwardRef(function NewHireChecklist({ data }, ref) {
         {checkItem('Verify Food Handler Card is obtained or scheduled')}
         {checkItem('Uniform ordered/ready (shirt, hat, apron)')}
         {checkItem('ADP account setup - send team member link')}
-        {checkItem('Add to Homebase schedule')}
+        {checkItem('Add to the store schedule')}
         {checkItem('Prepare training packet (Level 1-3)')}
       </div>
 
@@ -94,7 +94,7 @@ const NewHireChecklist = forwardRef(function NewHireChecklist({ data }, ref) {
         {checkItem('Tour of store - all stations, break area, lockers, emergency exits')}
         {checkItem('Introduce to team members on shift')}
         {checkItem('Review uniform policy and phone policy')}
-        {checkItem('Review schedule / Homebase / communication expectations')}
+        {checkItem('Review schedule and communication expectations')}
         {checkItem('Begin Level 1 Training Packet')}
         {checkItem('Assign training buddy/shift lead')}
       </div>

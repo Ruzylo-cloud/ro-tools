@@ -21,6 +21,7 @@ export async function GET(request) {
       date: entry.date,
       category: entry.category,
       title: entry.title,
+      description: entry.description,
     }));
 
     return NextResponse.json({ updates });

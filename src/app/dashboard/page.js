@@ -12,7 +12,7 @@ const QUICK_ACTIONS = [
   { href: '/dashboard/generators/written-warning', icon: '📝', label: 'Written Warning' },
   { href: '/dashboard/generators/evaluation', icon: '⭐', label: 'Evaluation' },
   { href: '/dashboard/generators/catering-order', icon: '📦', label: 'Catering Order' },
-  { href: '/dashboard/scoreboard', icon: '📊', label: 'Scoreboard' },
+  { href: '/dashboard/support', icon: '🛟', label: 'Support' },
   { href: '/dashboard/generators/injury-report', icon: '🚑', label: 'Injury Report' },
   { href: '/dashboard/generators/coaching-form', icon: '💬', label: 'Coaching Form' },
   { href: '/dashboard/flyer', icon: '📋', label: 'Catering Flyer' },
@@ -225,11 +225,15 @@ export default function DashboardPage() {
           }}>Manage</Link>
           <button onClick={dismissNotifBanner} aria-label="Dismiss" style={{
             background: 'transparent', border: '1px solid rgba(255,255,255,0.4)', color: '#fff',
-            width: 32, height: 32, borderRadius: 8, cursor: 'pointer', fontSize: 18,
-            // RT-244: flex-center so the × glyph is actually in the middle of the box
+            width: 32, height: 32, borderRadius: 8, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             lineHeight: 1, padding: 0, flexShrink: 0,
-          }}>×</button>
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ display: 'block', margin: 'auto', flexShrink: 0 }}>
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
       )}
 

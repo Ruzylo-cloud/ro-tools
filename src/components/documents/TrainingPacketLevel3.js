@@ -319,7 +319,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           {checkItem('No food left on the grill')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS - Deep Clean videos
           </div>
           {checkItem('Cleaning the grill with Oil')}
           {checkItem('Dumping Grease & Oil')}
@@ -356,7 +356,7 @@ const TrainingPacketLevel3 = forwardRef(function TrainingPacketLevel3({ data }, 
           {checkItem('Make a R17 in under 2 minutes')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS - Deep Clean videos
           </div>
           {checkItem('Walk in Floors & Corners')}
           {checkItem('Sneeze Guard Posts')}

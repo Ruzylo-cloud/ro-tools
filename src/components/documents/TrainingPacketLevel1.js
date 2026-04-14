@@ -229,7 +229,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
           {checkItem('No tomatoes falling off the sub from uneven lettuce')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS on iPad - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS on iPad - Deep Clean videos
           </div>
           {checkItem('Deep Clean intro and Wash Sinks')}
           {checkItem('Towel Talk')}
@@ -302,7 +302,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
           ])}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos
+            &bull; TRAINING VIDEOS - Deep Clean videos
           </div>
           {checkItem('Goo Gone')}
           {checkItem('Magic Eraser')}
@@ -406,7 +406,7 @@ const TrainingPacketLevel1 = forwardRef(function TrainingPacketLevel1({ data }, 
           {checkItem('Sprinkle 2 subs at a time')}
 
           <div style={{ fontSize: '6.5pt', fontWeight: 700, marginTop: '4px', marginBottom: '2px' }}>
-            &bull; TRAINING VIDEOS - Jolt Deep Clean videos - watch after lunch rush.
+            &bull; TRAINING VIDEOS - Deep Clean videos - watch after lunch rush.
           </div>
           {checkItem('Rinsing O/V Bottles')}
           {checkItem('Mop Vac')}

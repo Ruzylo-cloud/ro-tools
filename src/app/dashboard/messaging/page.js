@@ -50,8 +50,16 @@ export default function MessagingPage() {
   const [groupMembers, setGroupMembers] = useState('');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
   const messagesEndRef = useRef(null);
+  const messagesScrollerRef = useRef(null);
   const inputRef = useRef(null);
   const pollRef = useRef(null);
+  const shouldAutoScrollRef = useRef(true);
+  const lastMessageStateRef = useRef({ channelId: null, lastId: null, count: 0 });
+
+  const isNearBottom = useCallback((el) => {
+    if (!el) return true;
+    return el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+  }, []);
 
   // Load channels
   const loadChannels = useCallback(async () => {
@@ -83,6 +91,7 @@ export default function MessagingPage() {
 
   useEffect(() => {
     if (activeChannel) {
+      shouldAutoScrollRef.current = true;
       loadMessages(activeChannel.id);
       setMobileSidebarOpen(false);
     }
@@ -98,10 +107,35 @@ export default function MessagingPage() {
     return () => clearInterval(pollRef.current);
   }, [activeChannel, loadMessages, loadChannels]);
 
-  // Auto-scroll on new messages
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    const el = messagesScrollerRef.current;
+    if (!el) return;
+    const handleScroll = () => {
+      shouldAutoScrollRef.current = isNearBottom(el);
+    };
+    handleScroll();
+    el.addEventListener('scroll', handleScroll);
+    return () => el.removeEventListener('scroll', handleScroll);
+  }, [activeChannel, isNearBottom]);
+
+  // Auto-scroll on channel changes and only when the user is already near the bottom
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    const prev = lastMessageStateRef.current;
+    const channelId = activeChannel?.id || null;
+    const channelChanged = prev.channelId !== channelId;
+    const newestChanged = prev.lastId !== (lastMessage?.id || null) || prev.count !== messages.length;
+
+    if (channelChanged || (newestChanged && shouldAutoScrollRef.current)) {
+      messagesEndRef.current?.scrollIntoView({ behavior: channelChanged ? 'auto' : 'smooth' });
+    }
+
+    lastMessageStateRef.current = {
+      channelId,
+      lastId: lastMessage?.id || null,
+      count: messages.length,
+    };
+  }, [messages, activeChannel]);
 
   // Send message
   const handleSend = async () => {
@@ -117,6 +151,7 @@ export default function MessagingPage() {
       });
       if (res.ok) {
         setInput('');
+        shouldAutoScrollRef.current = true;
         await loadMessages(activeChannel.id);
         inputRef.current?.focus();
       }
@@ -289,7 +324,7 @@ export default function MessagingPage() {
               )}
             </div>
 
-            <div className={styles.chatMessages}>
+            <div ref={messagesScrollerRef} className={styles.chatMessages}>
               {msgLoading && messages.length === 0 && (
                 <div style={{ textAlign: 'center', padding: 32, color: 'var(--gray-400)' }}>Loading messages...</div>
               )}

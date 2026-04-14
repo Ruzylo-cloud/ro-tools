@@ -25,15 +25,17 @@ export default function ScrollProgress() {
       width: '0%',
       borderRadius: '0 2px 2px 0',
       pointerEvents: 'none',
-      transition: 'width 0.1s linear',
+      opacity: '1',
+      transition: 'width 0.1s linear, opacity 0.15s ease',
     });
     document.body.appendChild(bar);
 
     // Responsive: below topbar on mobile, after sidebar on desktop
     const mq = window.matchMedia('(max-width: 768px)');
     const applyLayout = () => {
+      bar.style.opacity = document.body.classList.contains('rt-mobile-nav-open') ? '0' : '1';
       if (mq.matches) {
-        bar.style.top = 'var(--rt-topbar-h, 56px)';
+        bar.style.top = 'calc(var(--rt-topbar-h, 56px) + var(--rt-safe-top, 0px))';
         bar.style.left = '0';
       } else {
         bar.style.top = '0';

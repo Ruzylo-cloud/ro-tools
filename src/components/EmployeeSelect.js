@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
 /**
  * EmployeeSelect — searchable dropdown for employee fields in generators.
@@ -19,6 +19,7 @@ import { useState, useEffect, useRef } from 'react';
 export default function EmployeeSelect({ value, onChange, onPositionFill, storeNumber, placeholder, label, style, hasError }) {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState(value || '');
   const [highlightIdx, setHighlightIdx] = useState(-1);
@@ -31,9 +32,15 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
       .then(r => { if (!r.ok) throw new Error(r.statusText); return r.json(); })
       .then(data => {
         setEmployees(data.employees || []);
+        setLoadFailed(false);
         setLoading(false);
       })
-      .catch((e) => { console.error('[EmployeeSelect] employee load failed:', e); setLoading(false); });
+      .catch((e) => {
+        console.error('[EmployeeSelect] employee load failed:', e);
+        setEmployees([]);
+        setLoadFailed(true);
+        setLoading(false);
+      });
   }, [storeNumber]);
 
   // Close on outside click
@@ -48,7 +55,12 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
   // Sync external value changes
   useEffect(() => { setSearch(value || ''); }, [value]);
 
-  const filtered = employees.filter(e =>
+  const scopedEmployees = useMemo(() => {
+    if (!storeNumber) return employees;
+    return employees.filter(e => String(e.store_number || '') === String(storeNumber));
+  }, [employees, storeNumber]);
+
+  const filtered = scopedEmployees.filter(e =>
     e.name.toLowerCase().includes((search || '').toLowerCase())
   );
 
@@ -104,10 +116,11 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
   // bare input with zero styling, causing a tiny browser-default box.
   const inputStyle = {
     width: '100%',
-    padding: '10px 14px',
+    minHeight: '44px',
+    padding: '12px 14px',
     border: '1px solid var(--gray-200, #e5e7eb)',
     borderRadius: '10px',
-    fontSize: '14px',
+    fontSize: '16px',
     fontFamily: 'inherit',
     background: 'var(--white, #fff)',
     color: 'var(--charcoal, #1a1a2e)',
@@ -138,14 +151,23 @@ export default function EmployeeSelect({ value, onChange, onPositionFill, storeN
           right: 0,
           maxHeight: '280px',
           overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch',
           background: 'var(--white, #fff)',
           border: '1px solid var(--gray-200, #e5e7eb)',
           borderRadius: '12px',
           boxShadow: '0 8px 30px rgba(0,0,0,0.1)',
-          zIndex: 100,
+          zIndex: 300,
           padding: '6px',
         }}>
-          {Object.keys(grouped).length === 0 ? (
+          {loading ? (
+            <div style={{ padding: '12px', color: 'var(--gray-400, #9ca3af)', fontSize: '13px', textAlign: 'center' }}>
+              Loading employees...
+            </div>
+          ) : loadFailed ? (
+            <div style={{ padding: '12px', color: 'var(--gray-500, #6b7280)', fontSize: '13px', textAlign: 'center' }}>
+              Couldn&apos;t load the employee list. You can still type manually.
+            </div>
+          ) : Object.keys(grouped).length === 0 ? (
             <div style={{ padding: '12px', color: 'var(--gray-400, #9ca3af)', fontSize: '13px', textAlign: 'center' }}>
               No employees match &ldquo;{search}&rdquo;
             </div>
