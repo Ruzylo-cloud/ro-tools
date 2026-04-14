@@ -279,6 +279,27 @@
   gap: 6px;
   margin-bottom: 4px;
 }
+.themeSelectorWrap {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+.themeSelect {
+  flex: 2;
+  padding: 4px 6px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+  background: var(--gray-50);
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--gray-600);
+  outline: none;
+}
+:global([data-theme="dark"]) .themeSelect {
+  background: #1e1e24;
+  border-color: #3d3d4a;
+  color: #a0a0b0;
+}
 .footerIconBtn {
   flex: 1;
   display: flex;

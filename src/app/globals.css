@@ -497,6 +497,112 @@ kbd {
 }
 .dropdown-menu-item:hover { background: var(--gray-50); }
 
+/* ═══ Enterprise Themes ═══ */
+
+/* 3. Hybrid V1 Balanced (Dark) */
+[data-theme="hybrid-v1-balanced"] {
+  --white: #05080f;
+  --gray-50: #0c1221;
+  --gray-100: #141c2f;
+  --border: rgba(255, 255, 255, 0.2);
+  --charcoal: #ffffff;
+  --text: #ffffff;
+  --gray-400: rgba(255, 255, 255, 0.6);
+  --jm-red: #ee3227;
+  --jm-blue: #134a7c;
+}
+
+/* 4. Hybrid V1 Balanced Light */
+[data-theme="hybrid-v1-balanced-light"] {
+  --white: #ffffff;
+  --gray-50: #f0f4f8;
+  --gray-100: #e2e8f0;
+  --border: rgba(255, 255, 255, 0.9);
+  --charcoal: #1a1a2e;
+  --text: #1a1a2e;
+  --gray-400: #6b7280;
+  --jm-red: #ee3227;
+  --jm-blue: #134a7c;
+}
+
+/* 5. Hybrid V3 High Pop (Dark) */
+[data-theme="hybrid-v3-highpop"] {
+  --white: #0f172a;
+  --gray-50: #1e293b;
+  --gray-100: #334155;
+  --border: #ee3227;
+  --charcoal: #ffffff;
+  --text: #ffffff;
+  --gray-400: rgba(255, 255, 255, 0.7);
+  --jm-red: #ee3227;
+  --jm-blue: #134a7c;
+}
+
+/* 6. Hybrid V3 High Pop Light */
+[data-theme="hybrid-v3-highpop-light"] {
+  --white: #f1f5f9;
+  --gray-50: #e2e8f0;
+  --gray-100: #cbd5e1;
+  --border: #ee3227;
+  --charcoal: #0f172a;
+  --text: #0f172a;
+  --gray-400: #64748b;
+  --jm-red: #ee3227;
+  --jm-blue: #134a7c;
+}
+
+/* 7. Ultra Professional Gloss (Light) */
+[data-theme="ultra-pro-gloss-light"] {
+  --white: #ffffff;
+  --gray-50: #f0f4f8;
+  --gray-100: #e2e8f0;
+  --border: rgba(255, 255, 255, 0.7);
+  --charcoal: #1a1a2e;
+  --text: #1a1a2e;
+  --gray-400: #6b7280;
+  --jm-red: #ee3227;
+  --jm-blue: #134a7c;
+}
+
+/* 8. Obsidian Professional Gloss (Dark) */
+[data-theme="ultra-pro-gloss-dark"] {
+  --white: #151921;
+  --gray-50: #0B0E14;
+  --gray-100: #1e242e;
+  --border: rgba(255, 255, 255, 0.1);
+  --charcoal: #E0E6ED;
+  --text: #E0E6ED;
+  --gray-400: #8b949e;
+  --jm-red: #ee3227;
+  --jm-blue: #4a90e2;
+}
+
+/* 9. Hybrid V3 Midnight */
+[data-theme="hybrid-v3-midnight"] {
+  --white: #121212;
+  --gray-50: #050505;
+  --gray-100: #1a1a1a;
+  --border: rgba(255, 255, 255, 0.05);
+  --charcoal: #e0e0e0;
+  --text: #e0e0e0;
+  --gray-400: #888888;
+  --jm-red: #EE3227;
+  --jm-blue: #134A7C;
+}
+
+/* 10. Hybrid V2 Atmospheric */
+[data-theme="hybrid-v2-atmospheric"] {
+  --white: #0f172a;
+  --gray-50: #020617;
+  --gray-100: #1e293b;
+  --border: rgba(255, 255, 255, 0.12);
+  --charcoal: #ffffff;
+  --text: #ffffff;
+  --gray-400: rgba(255, 255, 255, 0.5);
+  --jm-red: #ee3227;
+  --jm-blue: #134a7c;
+}
+
 /* ─── RT-023: Side panel / drawer ─── */
 .side-panel {
   position: fixed; top: 0; right: -480px;

@@ -152,6 +152,8 @@ export async function POST(request) {
           address: body.storeAddress,
           phone: body.storePhone,
           manager_name: body.operatorName,
+          theme_preference: body.theme_preference,
+          theme_mode: body.theme_mode,
           source: 'ro-tools',
         }),
         signal: AbortSignal.timeout(5000),

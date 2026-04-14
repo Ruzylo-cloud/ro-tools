@@ -21,6 +21,8 @@ export const DEMO_PROFILE = {
   assistantName: 'Adrian Llamas',
   assistantTitle: 'Assistant Restaurant Operator',
   assistantPhone: '(805) 555-0200',
+  theme_preference: 'default',
+  theme_mode: 'auto',
   stores: [
     {
       storeNumber: '20360',

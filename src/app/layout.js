@@ -42,13 +42,28 @@ export default function RootLayout({ children }) {
       <body>
         {/* RT-283: Skip to content link */}
         <a href="#main-content" className="skip-to-content">Skip to content</a>
-        {/* RT-DM-INIT: Initialize dark mode from localStorage before first paint — prevents flash */}
+        {/* RT-DM-INIT: Enterprise Theme Engine initialization — prevents flash */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
-              var t = localStorage.getItem('ro-tools-theme') || 'light';
-              document.documentElement.setAttribute('data-theme', t);
-            } catch(e) { console.debug('[layout] theme init failed (non-fatal):', e); }
+              var p = localStorage.getItem('mc-theme-pref') || 'default';
+              var m = localStorage.getItem('mc-theme-mode') || 'auto';
+              
+              var apply = function(pref, mode) {
+                var finalMode = mode === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode;
+                if (pref === 'default') {
+                  document.documentElement.setAttribute('data-theme', finalMode);
+                } else {
+                  var theme = pref;
+                  if (finalMode === 'light') {
+                    var lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
+                    if (lightVariants.indexOf(pref) !== -1) theme += '-light';
+                  }
+                  document.documentElement.setAttribute('data-theme', theme);
+                }
+              };
+              apply(p, m);
+            } catch(e) { console.debug('[layout] theme init failed:', e); }
           })();
         `}} />
         {/* RT-270: Service worker registration */}

@@ -185,22 +185,61 @@ export default function Sidebar() {
     if (notifOpen) loadNotifications();
   }, [notifOpen, loadNotifications]);
 
-  // Theme init. Wrap so Safari Private Mode doesn't crash the sidebar.
-  useEffect(() => {
-    let saved = 'light';
-    try { saved = localStorage.getItem('ro-tools-theme') || 'light'; }
-    catch (e) { console.debug('[sidebar] theme read failed (non-fatal):', e); }
-    setTheme(saved);
-    document.documentElement.setAttribute('data-theme', saved);
+  // Theme Engine
+  const applyTheme = useCallback((pref, mode) => {
+    let themeToApply = pref || 'default';
+    let modeToApply = mode || 'auto';
+
+    if (modeToApply === 'auto') {
+      modeToApply = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    if (themeToApply === 'default') {
+      document.documentElement.setAttribute('data-theme', modeToApply === 'dark' ? 'dark' : 'light');
+    } else {
+      let finalTheme = themeToApply;
+      if (modeToApply === 'light') {
+        const lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
+        if (lightVariants.includes(themeToApply)) {
+          finalTheme += '-light';
+        }
+      }
+      document.documentElement.setAttribute('data-theme', finalTheme);
+    }
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    setTheme(next);
-    document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('ro-tools-theme', next); }
-    catch (e) { console.debug('[sidebar] theme save failed (non-fatal):', e); }
-  }, [theme]);
+  useEffect(() => {
+    let p = 'default';
+    let m = 'auto';
+    try {
+      p = localStorage.getItem('mc-theme-pref') || 'default';
+      m = localStorage.getItem('mc-theme-mode') || 'auto';
+    } catch (e) { }
+    setThemePref(p);
+    setThemeMode(m);
+    applyTheme(p, m);
+
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => { if (m === 'auto') applyTheme(p, 'auto'); };
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [applyTheme]);
+
+  const updateThemePref = async (p) => {
+    setThemePref(p);
+    applyTheme(p, themeMode);
+    localStorage.setItem('mc-theme-pref', p);
+    try { await fetch('/api/profile/theme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theme_preference: p }) }); }
+    catch (e) { }
+  };
+
+  const updateThemeMode = async (m) => {
+    setThemeMode(m);
+    applyTheme(themePref, m);
+    localStorage.setItem('mc-theme-mode', m);
+    try { await fetch('/api/profile/theme', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ theme_mode: m }) }); }
+    catch (e) { }
+  };
 
   // Ctrl+K / "/" global search shortcut
   useEffect(() => {
@@ -545,7 +584,9 @@ export default function Sidebar() {
 
           {/* Overview */}
           <Link href="/dashboard" className={`${styles.navLink} ${isActive('/dashboard', true) ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>📌</span> Overview
+            <span className={styles.icon}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </span> Overview
           </Link>
 
           {/* Generators (collapsible) */}
@@ -742,7 +783,32 @@ export default function Sidebar() {
             )}
           </div>
 
-          {/* Icon row: Notifications + Dark mode toggle */}
+          {/* Theme Switcher */}
+          <div className={styles.footerIconRow} style={{ marginBottom: '8px' }}>
+            <div className={styles.themeSelectorWrap}>
+              <button 
+                onClick={() => updateThemeMode(themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light')} 
+                className={styles.footerIconBtn} 
+                title={`Mode: ${themeMode}`}
+              >
+                {themeMode === 'light' ? '☀️' : themeMode === 'dark' ? '🌙' : '🌓'}
+              </button>
+              <select 
+                value={themePref} 
+                onChange={(e) => updateThemePref(e.target.value)}
+                className={styles.themeSelect}
+              >
+                <option value="default">Classic</option>
+                <option value="hybrid-v1-balanced">Balanced</option>
+                <option value="hybrid-v3-highpop">High Pop</option>
+                <option value="ultra-pro-gloss">Glossy</option>
+                <option value="hybrid-v3-midnight">Midnight</option>
+                <option value="hybrid-v2-atmospheric">Atmospheric</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Icon row: Notifications */}
           <div className={styles.footerIconRow}>
             <button
               className={styles.footerIconBtn}
@@ -758,26 +824,6 @@ export default function Sidebar() {
               {notifCount > 0 && (
                 <span className={styles.iconBtnBadge}>{notifCount > 9 ? '9+' : notifCount}</span>
               )}
-            </button>
-            <button
-              className={styles.footerIconBtn}
-              onClick={toggleTheme}
-              title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-              aria-label="Toggle dark mode"
-            >
-              {theme === 'light' ? (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                </svg>
-              ) : (
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                  <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                </svg>
-              )}
-              <span>{theme === 'light' ? 'Dark' : 'Light'}</span>
             </button>
           </div>
 
@@ -813,7 +859,7 @@ export default function Sidebar() {
             </div>
           )}
           <div className={styles.footerVersion}>
-            RO Tools v2.9.8 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group
+            RO Tools v3.0.0 &nbsp;&middot;&nbsp; &copy; 2026 JM Valley Group
           </div>
         </div>
       </aside>
