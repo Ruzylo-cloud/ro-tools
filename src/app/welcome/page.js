@@ -5,57 +5,53 @@ const RED = '#EE3227';
 const NAVY = '#0d2d4a';
 
 const LINKS = [
-  { icon: '🎬', label: 'Live Presentation', desc: 'Interactive slideshow for meetings', url: '/presentation', color: BLUE },
-  { icon: '🖥️', label: 'Live App (RO Tools)', desc: 'ro-tools.app — all 15 generators + scoreboard + catering', url: 'https://ro-tools.app', color: '#1a5a94', external: true },
-  { icon: '📱', label: 'iOS App — RO Tools', desc: 'TestFlight — generators, catering CRM, scoreboard on iPhone', url: 'https://testflight.apple.com/join/rotools', color: '#555', external: true },
-  { icon: '📱', label: 'iOS App — RO Control', desc: 'TestFlight — store kiosk, timeclock, closeout, schedule', url: 'https://testflight.apple.com/join/rocontrol', color: '#555', external: true },
-  { icon: '🏪', label: 'Store Kiosk Demo', desc: 'Crew timeclock, checklist, closeout — tablet mode', url: '/demo', color: '#2d7a4a', external: false },
-  { icon: '🔐', label: 'Security Findings', desc: 'Why to replace Vantage Point, Homebase, Jolt, Drive & Docs', url: '/security', color: '#c0392b' },
-  { icon: '⚖️', label: 'Liability Protection', desc: 'How the platform protects JMVG from human-error liability', url: '/liability', color: '#6c3483' },
+  { label: 'Live Presentation', desc: 'Interactive slideshow for meetings', url: '/presentation', color: BLUE },
+  { label: 'Live App (RO Tools)', desc: 'ro-tools.app — all 15 generators + scoreboard + catering', url: 'https://ro-tools.app', color: '#1a5a94', external: true },
+  { label: 'iOS App — RO Tools', desc: 'TestFlight — generators, catering CRM, scoreboard on iPhone', url: 'https://testflight.apple.com/join/rotools', color: '#555', external: true },
+  { label: 'iOS App — RO Control', desc: 'TestFlight — store kiosk, timeclock, closeout, schedule', url: 'https://testflight.apple.com/join/rocontrol', color: '#555', external: true },
+  { label: 'Store Kiosk Demo', desc: 'Crew timeclock, checklist, closeout — tablet mode', url: '/demo', color: '#2d7a4a', external: false },
+  { label: 'Security Findings', desc: 'Why to replace Vantage Point, Homebase, Jolt, Drive & Docs', url: '/security', color: '#c0392b' },
+  { label: 'Liability Protection', desc: 'How the platform protects JMVG from human-error liability', url: '/liability', color: '#6c3483' },
 ];
 
 const GENERATORS = [
-  { icon: '⚠️', name: 'Written Warning', tag: 'HR' },
-  { icon: '⭐', name: 'Performance Eval', tag: 'HR' },
-  { icon: '🤝', name: 'Coaching Form', tag: 'HR' },
-  { icon: '🏥', name: 'Injury Report', tag: 'OSHA' },
-  { icon: '📤', name: 'Resignation', tag: 'HR' },
-  { icon: '🛑', name: 'Termination', tag: 'CA Law' },
-  { icon: '🍽️', name: 'Meal Break Waiver', tag: 'CA §512' },
-  { icon: '⏰', name: 'Timesheet Correction', tag: 'Payroll' },
-  { icon: '📄', name: 'Attestation Correction', tag: 'CA §226.7' },
-  { icon: '📦', name: 'Onboarding Packet', tag: 'New Hire' },
-  { icon: '🏆', name: 'DM Walk-Through', tag: 'Inspection' },
-  { icon: '📝', name: 'Catering Order', tag: 'Revenue' },
-  { icon: '🏷️', name: 'Food Labels', tag: 'Food Safety' },
-  { icon: '🔧', name: 'Work Orders', tag: 'Maintenance' },
-  { icon: '📓', name: 'Manager Log', tag: 'Daily Ops' },
+  { name: 'Written Warning', tag: 'HR' },
+  { name: 'Performance Eval', tag: 'HR' },
+  { name: 'Coaching Form', tag: 'HR' },
+  { name: 'Injury Report', tag: 'OSHA' },
+  { name: 'Resignation', tag: 'HR' },
+  { name: 'Termination', tag: 'CA Law' },
+  { name: 'Meal Break Waiver', tag: 'CA §512' },
+  { name: 'Timesheet Correction', tag: 'Payroll' },
+  { name: 'Attestation Correction', tag: 'CA §226.7' },
+  { name: 'Onboarding Packet', tag: 'New Hire' },
+  { name: 'DM Walk-Through', tag: 'Inspection' },
+  { name: 'Catering Order', tag: 'Revenue' },
+  { name: 'Food Labels', tag: 'Food Safety' },
+  { name: 'Work Orders', tag: 'Maintenance' },
+  { name: 'Manager Log', tag: 'Daily Ops' },
 ];
 
 const PLATFORMS = [
   {
-    icon: '🌐',
     name: 'RO Tools Web',
     url: 'ro-tools.app',
     desc: 'Manager platform — 15 generators, catering CRM, scoreboard, directives, L10 scorecard, e-signatures, training library.',
     color: BLUE,
   },
   {
-    icon: '📱',
     name: 'RO Tools iOS',
     url: 'TestFlight',
     desc: 'Mobile companion — generate docs on-the-go, catering tracking, offline sync, push notifications.',
     color: '#1a5a94',
   },
   {
-    icon: '🏪',
     name: 'RO Control iOS',
     url: 'TestFlight',
     desc: 'Store kiosk app — crew PIN timeclock, break attestations, digital signatures, mid-day & EOD closeouts, schedule viewer.',
     color: '#2d7a4a',
   },
   {
-    icon: '🖥️',
     name: 'Mission Control',
     url: 'Internal',
     desc: 'Full store OS — tasks, scheduling, employee management, analytics, AI assistant (Jarvis), announcements, email.',
@@ -64,25 +60,25 @@ const PLATFORMS = [
 ];
 
 const TOOLS = [
-  { icon: '💵', name: 'Payroll Workbench', desc: 'Biweekly pay periods, tips reconciliation, hours tracking' },
-  { icon: '🧱', name: 'Stability Snapshot', desc: 'Role-based staffing grid with vacancy tracking per store' },
-  { icon: '🎯', name: 'Tier Assessment', desc: 'ABC employee scoring with weighted rubric categories' },
-  { icon: '🎫', name: 'FSC Tracker', desc: 'Free Sub Card guest recovery — complaint tracking & mailing' },
-  { icon: '📊', name: 'Weekly Scoreboard', desc: 'Net sales, COGs, labor %, PY growth across all 30 stores' },
-  { icon: '📅', name: 'Marketing Directives', desc: 'Monthly campaigns, outreach tracker, scorecard, calendar' },
-  { icon: '📚', name: 'Reading Library', desc: '15 leadership books with excerpts, discussion questions, Audible links' },
-  { icon: '✍️', name: 'E-Signatures', desc: 'Digital signing with manager approval workflow, tamper-evident logs' },
+  { name: 'Payroll Workbench', desc: 'Biweekly pay periods, tips reconciliation, hours tracking' },
+  { name: 'Stability Snapshot', desc: 'Role-based staffing grid with vacancy tracking per store' },
+  { name: 'Tier Assessment', desc: 'ABC employee scoring with weighted rubric categories' },
+  { name: 'FSC Tracker', desc: 'Free Sub Card guest recovery — complaint tracking & mailing' },
+  { name: 'Weekly Scoreboard', desc: 'Net sales, COGs, labor %, PY growth across all 30 stores' },
+  { name: 'Marketing Directives', desc: 'Monthly campaigns, outreach tracker, scorecard, calendar' },
+  { name: 'Reading Library', desc: '15 leadership books with excerpts, discussion questions, Audible links' },
+  { name: 'E-Signatures', desc: 'Digital signing with manager approval workflow, tamper-evident logs' },
 ];
 
 const OPERATIONS = [
-  { icon: '📆', name: 'Schedule Builder', desc: 'Homebase-style week grid, day timeline, coverage heatmap, weather' },
-  { icon: '👥', name: 'People Hub', desc: 'Employee records, time clock, timesheets, tips, docs, certifications' },
-  { icon: '✅', name: 'Checklists', desc: 'Auto-generated by shift (4 AM cron), scoring, photo evidence' },
-  { icon: '🔒', name: 'Kiosk Mode', desc: '5-tab crew station: clock, on-shift, checklists, mid-day, EOD closeout' },
-  { icon: '💰', name: 'Daily Closeout', desc: 'Register counts, variance tracking, bacon/bread waste, shift lead sections' },
-  { icon: '📈', name: 'L10 Scorecard', desc: '30 weekly metrics, cascading goals, IDS, to-do tracking for DMs' },
-  { icon: '🤖', name: 'Jarvis AI', desc: 'Natural language assistant for store data, scheduling, employee lookup' },
-  { icon: '📣', name: 'Announcements', desc: 'Cross-store updates with read tracking, pinning, and acknowledgment' },
+  { name: 'Schedule Builder', desc: 'Homebase-style week grid, day timeline, coverage heatmap, weather' },
+  { name: 'People Hub', desc: 'Employee records, time clock, timesheets, tips, docs, certifications' },
+  { name: 'Checklists', desc: 'Auto-generated by shift (4 AM cron), scoring, photo evidence' },
+  { name: 'Kiosk Mode', desc: '5-tab crew station: clock, on-shift, checklists, mid-day, EOD closeout' },
+  { name: 'Daily Closeout', desc: 'Register counts, variance tracking, bacon/bread waste, shift lead sections' },
+  { name: 'L10 Scorecard', desc: '30 weekly metrics, cascading goals, IDS, to-do tracking for DMs' },
+  { name: 'Jarvis AI', desc: 'Natural language assistant for store data, scheduling, employee lookup' },
+  { name: 'Announcements', desc: 'Cross-store updates with read tracking, pinning, and acknowledgment' },
 ];
 
 const STATS = [
@@ -96,7 +92,12 @@ const STATS = [
 
 export default function WelcomePage() {
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif", background: '#f8fafc', color: '#1a1a2e', minHeight: '100vh' }}>
+    <div style={{ position: 'relative' }}>
+
+<div style={{ position: 'fixed', top: '-20%', left: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 60%)', zIndex: 0, pointerEvents: 'none' }}></div>
+<div style={{ position: 'fixed', bottom: '-20%', right: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(238, 50, 39, 0.1) 0%, transparent 60%)', zIndex: 0, pointerEvents: 'none' }}></div>
+
+    <div style={{ fontFamily: "'DM Sans', sans-serif", background: '#0b0f19', color: '#f8fafc', minHeight: '100vh' }}>
 
       {/* HERO */}
       <div style={{
@@ -148,7 +149,7 @@ export default function WelcomePage() {
             margin: '0 auto 44px',
             lineHeight: 1.55,
           }}>
-            The complete operational platform built for JM Valley Group — standardizing every document, workflow, compliance form, and store operation across all 30 locations.
+            The v3.0.0 ecosystem: The complete operational platform built for JM Valley Group — standardizing every document, workflow, compliance form, and store operation across all 30 locations with 5 synced themes, automated compliance, and enterprise-grade security.
           </p>
 
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -166,14 +167,23 @@ export default function WelcomePage() {
             }}>
               Open Live App
             </a>
+
+            <a href="/demo" style={{
+              background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa', padding: '14px 32px',
+              borderRadius: 10, fontWeight: 700, fontSize: 16, border: '1px solid rgba(59, 130, 246, 0.3)',
+              textDecoration: 'none', display: 'inline-block',
+            }}>
+              Interactive Demo
+            </a>
+
           </div>
         </div>
       </div>
 
       {/* STATS BAR */}
       <div style={{
-        background: '#fff',
-        borderBottom: '1px solid #e8ecf0',
+        background: 'rgba(30, 41, 59, 0.5)',
+        borderBottom: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)',
         padding: '28px 40px',
       }}>
         <div style={{
@@ -208,8 +218,8 @@ export default function WelcomePage() {
               rel={link.external ? 'noopener noreferrer' : undefined}
               style={{
                 display: 'flex', alignItems: 'flex-start', gap: 16, padding: '20px 22px',
-                background: '#fff', borderRadius: 14, textDecoration: 'none', color: 'inherit',
-                border: '1px solid #e8ecf0',
+                background: 'rgba(30, 41, 59, 0.5)', borderRadius: 14, textDecoration: 'none', color: 'inherit',
+                border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
                 transition: 'box-shadow 0.15s, transform 0.15s',
               }}
@@ -237,7 +247,7 @@ export default function WelcomePage() {
           {PLATFORMS.map(p => (
             <div key={p.name} style={{
               padding: '24px',
-              background: '#fff',
+              background: 'rgba(30, 41, 59, 0.5)',
               borderRadius: 14,
               border: `1px solid ${p.color}30`,
               borderTop: `4px solid ${p.color}`,
@@ -262,17 +272,17 @@ export default function WelcomePage() {
         }}>
           {GENERATORS.map(g => (
             <div key={g.name} style={{
-              background: '#fff',
+              background: 'rgba(30, 41, 59, 0.5)',
               borderRadius: 10,
               padding: '14px 16px',
-              border: '1px solid #e8ecf0',
+              border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
               display: 'flex',
               alignItems: 'center',
               gap: 10,
             }}>
               <span style={{ fontSize: 20 }}>{g.icon}</span>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#1a1a2e', lineHeight: 1.2 }}>{g.name}</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#f8fafc', lineHeight: 1.2 }}>{g.name}</div>
                 <div style={{ fontSize: 11, color: RED, fontWeight: 700, marginTop: 2 }}>{g.tag}</div>
               </div>
             </div>
@@ -291,17 +301,17 @@ export default function WelcomePage() {
         }}>
           {TOOLS.map(t => (
             <div key={t.name} style={{
-              background: '#fff',
+              background: 'rgba(30, 41, 59, 0.5)',
               borderRadius: 12,
               padding: '18px 20px',
-              border: '1px solid #e8ecf0',
+              border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
               display: 'flex',
               alignItems: 'flex-start',
               gap: 12,
             }}>
               <span style={{ fontSize: 24, flexShrink: 0, marginTop: 2 }}>{t.icon}</span>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', marginBottom: 4 }}>{t.name}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#f8fafc', marginBottom: 4 }}>{t.name}</div>
                 <div style={{ fontSize: 12, color: '#777', lineHeight: 1.45 }}>{t.desc}</div>
               </div>
             </div>
@@ -320,17 +330,17 @@ export default function WelcomePage() {
         }}>
           {OPERATIONS.map(o => (
             <div key={o.name} style={{
-              background: '#fff',
+              background: 'rgba(30, 41, 59, 0.5)',
               borderRadius: 12,
               padding: '18px 20px',
-              border: '1px solid #e8ecf0',
+              border: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
               display: 'flex',
               alignItems: 'flex-start',
               gap: 12,
             }}>
               <span style={{ fontSize: 24, flexShrink: 0, marginTop: 2 }}>{o.icon}</span>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', marginBottom: 4 }}>{o.name}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#f8fafc', marginBottom: 4 }}>{o.name}</div>
                 <div style={{ fontSize: 12, color: '#777', lineHeight: 1.45 }}>{o.desc}</div>
               </div>
             </div>
@@ -339,7 +349,7 @@ export default function WelcomePage() {
 
         {/* WHAT WE NEED */}
         <div style={{
-          background: '#fff',
+          background: 'rgba(30, 41, 59, 0.5)',
           borderRadius: 16,
           border: '2px solid #f0c040',
           padding: '36px 40px',
@@ -347,14 +357,14 @@ export default function WelcomePage() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
             <span style={{ fontSize: 28 }}>🔑</span>
-            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#1a1a2e', margin: 0 }}>What We Still Need</h3>
+            <h3 style={{ fontSize: 20, fontWeight: 800, color: '#f8fafc', margin: 0 }}>What We Still Need</h3>
           </div>
           <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6, marginBottom: 20 }}>
             The infrastructure to support everything below is already built and ready to go — we just need the access to wire it up.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             <div style={{
-              background: '#fefce8', borderRadius: 12, padding: '20px 24px',
+              background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '20px 24px',
               border: '1px solid #f0c04050',
             }}>
               <div style={{ fontWeight: 700, fontSize: 15, color: '#92400e', marginBottom: 8 }}>FlexePOS Admin Account</div>
@@ -363,7 +373,7 @@ export default function WelcomePage() {
               </div>
             </div>
             <div style={{
-              background: '#fefce8', borderRadius: 12, padding: '20px 24px',
+              background: 'rgba(255,255,255,0.05)', borderRadius: 12, padding: '20px 24px',
               border: '1px solid #f0c04050',
             }}>
               <div style={{ fontWeight: 700, fontSize: 15, color: '#92400e', marginBottom: 8 }}>DM / Admin Vantage Point Access</div>
@@ -383,7 +393,7 @@ export default function WelcomePage() {
         }}>
           <a href="/liability" style={{
             textDecoration: 'none',
-            background: 'linear-gradient(135deg, #6c3483, #8e44ad)',
+            background: 'rgba(108,52,131,0.1)', border: '1px solid rgba(108,52,131,0.2)',
             borderRadius: 16, padding: '32px',
             color: '#fff',
           }}>
@@ -397,7 +407,7 @@ export default function WelcomePage() {
 
           <a href="/security" style={{
             textDecoration: 'none',
-            background: 'linear-gradient(135deg, #c0392b, #e74c3c)',
+            background: 'rgba(220,38,38,0.1)', border: '1px solid rgba(220,38,38,0.2)',
             borderRadius: 16, padding: '32px',
             color: '#fff',
           }}>
@@ -449,6 +459,7 @@ export default function WelcomePage() {
         </div>
 
       </div>
+    </div>
     </div>
   );
 }

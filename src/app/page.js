@@ -17,38 +17,32 @@ const GoogleIcon = () => (
 
 const TOOLS = [
   {
-    icon: '\u{1F4C4}',
     name: 'Document Generators',
     desc: '15 professional generators — catering orders, written warnings, evaluations, coaching forms, injury reports, resignations, terminations, meal break waivers, timesheet and attestation corrections, work orders, manager logs, DM walk-throughs, onboarding packets, and food labels. All auto-filled and downloadable as PDF.',
     highlight: true,
     stat: '15 Forms',
   },
   {
-    icon: '\u{1F4CB}',
     name: 'Catering Flyer Builder',
     desc: 'Print-ready catering flyers with your store address, phone, manager names, full menu, and pricing. Branded and professional — just download and distribute.',
     stat: 'PDF Ready',
   },
   {
-    icon: '\u{1F4CA}',
     name: 'Catering Tracker',
     desc: 'Full CRM for catering clients. Track orders, revenue, follow-up schedules, notable dates, and reorder frequency. Auto-logs clients from generated orders.',
     stat: 'Live CRM',
   },
   {
-    icon: '\u{1F4C5}',
     name: 'Marketing Directives',
     desc: 'Monthly marketing directives, ALL RO meeting action items, JMVG scorecard tracking, and the full 2026 campaign calendar. Always current.',
     stat: 'Updated Weekly',
   },
   {
-    icon: '\u{1F4C2}',
     name: 'Training Documents',
     desc: 'Level 1-3 training packets, Slicer, Opener, Shift Lead, Orientation, and New Hire Checklist. All JMVG-branded and ready to print or save to Google Drive. Includes knowledge-check quizzes.',
     stat: '8 Templates',
   },
   {
-    icon: '\u{1F3C6}',
     name: 'Weekly Scoreboard',
     desc: 'Live leaderboards across all 30+ stores. Track sales growth, labor targets, COGs, and see where your store ranks — updated weekly.',
     stat: '12 Weeks',
@@ -121,6 +115,10 @@ export default function LandingPage() {
 
   return (
     <>
+      
+<div style={{ position: 'fixed', top: '-20%', left: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 60%)', zIndex: -1 }}></div>
+<div style={{ position: 'fixed', bottom: '-20%', right: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(238, 50, 39, 0.1) 0%, transparent 60%)', zIndex: -1 }}></div>
+
       {/* NAV */}
       <nav id="mainNav" className={styles.nav}>
         <a href="#" className={styles.navLogo}>
@@ -147,7 +145,7 @@ export default function LandingPage() {
               Your store&apos;s<br />command center.<br /><span>One login.</span>
             </h1>
             <p className={styles.heroSub}>
-              Generators, trackers, directives, and documents — all branded to your store and ready in seconds. Sign in with your @jmvalley.com account and everything auto-fills.
+              The v3.0.0 ecosystem: Generators, trackers, directives, and documents — featuring 5 synced themes, ambient design, and automated compliance. Built for Jersey Mike's Valley operators. Sign in with your @jmvalley.com account and everything auto-fills.
             </p>
             {/* RT-242/246: Auth error display */}
             {authError && (
@@ -159,6 +157,14 @@ export default function LandingPage() {
               <button className={styles.btnPrimary} onClick={() => login(rememberMe)}>
                 <GoogleIcon /> Sign In with Google
               </button>
+              <a href="/demo" style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                padding: '16px 36px', background: 'rgba(59, 130, 246, 0.15)', color: '#60a5fa',
+                border: '1px solid rgba(59, 130, 246, 0.3)', borderRadius: '12px',
+                fontFamily: 'DM Sans, sans-serif', fontSize: '15px', fontWeight: 600,
+                textDecoration: 'none', transition: 'all 0.3s'
+              }}>Interactive Demo</a>
+
               {/* RT-243/TEC-007: Apple Sign-In is iOS-only (RT17/RC10). Web access
                   requires an @jmvalley.com Google Workspace account, so a web
                   Apple button would be inherently non-functional. Removed the

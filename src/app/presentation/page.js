@@ -45,7 +45,7 @@ const SLIDES = [
       'No centralized marketing directives or performance tracking',
     ],
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#EE3227',
   },
   // SOLUTION
@@ -62,7 +62,7 @@ const SLIDES = [
       'Live scoreboard — 12 weeks of performance data, store comparison, export',
     ],
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#134A7C',
   },
   // BY THE NUMBERS
@@ -86,24 +86,24 @@ const SLIDES = [
     label: 'DOCUMENT GENERATORS',
     title: '15 Professional PDF Generators',
     items: [
-      { icon: '📝', name: 'Catering Order', desc: 'Auto-calculated pricing' },
-      { icon: '⚠️', name: 'Written Warning', desc: 'Progressive discipline' },
-      { icon: '⭐', name: 'Performance Eval', desc: '10-category scoring' },
-      { icon: '🤝', name: 'Coaching Form', desc: 'Verbal coaching docs' },
-      { icon: '🏥', name: 'Injury Report', desc: 'OSHA compliant + HR email' },
-      { icon: '📤', name: 'Resignation Form', desc: 'Exit docs + final pay' },
-      { icon: '🛑', name: 'Termination Form', desc: 'CA final pay compliant' },
-      { icon: '🍽️', name: 'Meal Break Waiver', desc: 'CA Labor Code §512' },
-      { icon: '⏰', name: 'Timesheet Correction', desc: 'Clock in/out fixes' },
-      { icon: '📄', name: 'Attestation Correction', desc: 'Meal/rest break forms' },
-      { icon: '🏷️', name: 'Food Labels', desc: 'Prep/expiry date labels' },
-      { icon: '🔧', name: 'Work Orders', desc: 'Equipment maintenance' },
-      { icon: '📓', name: 'Manager Log', desc: 'Daily shift notes' },
-      { icon: '🏆', name: 'DM Walk-Through', desc: '14-category scoring + grade' },
-      { icon: '📦', name: 'Onboarding Packet', desc: 'New hire doc checklist' },
+      { name: 'Catering Order', desc: 'Auto-calculated pricing' },
+      { name: 'Written Warning', desc: 'Progressive discipline' },
+      { name: 'Performance Eval', desc: '10-category scoring' },
+      { name: 'Coaching Form', desc: 'Verbal coaching docs' },
+      { name: 'Injury Report', desc: 'OSHA compliant + HR email' },
+      { name: 'Resignation Form', desc: 'Exit docs + final pay' },
+      { name: 'Termination Form', desc: 'CA final pay compliant' },
+      { name: 'Meal Break Waiver', desc: 'CA Labor Code §512' },
+      { name: 'Timesheet Correction', desc: 'Clock in/out fixes' },
+      { name: 'Attestation Correction', desc: 'Meal/rest break forms' },
+      { name: 'Food Labels', desc: 'Prep/expiry date labels' },
+      { name: 'Work Orders', desc: 'Equipment maintenance' },
+      { name: 'Manager Log', desc: 'Daily shift notes' },
+      { name: 'DM Walk-Through', desc: '14-category scoring + grade' },
+      { name: 'Onboarding Packet', desc: 'New hire doc checklist' },
     ],
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
   },
   // WRITTEN WARNING DEEP DIVE
   {
@@ -121,7 +121,7 @@ const SLIDES = [
     ],
     stat: { value: '85%', label: 'faster than Word templates' },
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#EE3227',
   },
   // CATERING ORDER
@@ -139,7 +139,7 @@ const SLIDES = [
     ],
     stat: { value: '80%', label: 'faster order creation' },
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#134A7C',
   },
   // CATERING TRACKER
@@ -157,7 +157,7 @@ const SLIDES = [
     ],
     stat: { value: '#1', label: 'growth opportunity for JMVG' },
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#16a34a',
   },
   // SCOREBOARD
@@ -184,14 +184,14 @@ const SLIDES = [
     label: 'BEYOND DOCUMENTS',
     title: 'Operations & Analytics Tools',
     items: [
-      { icon: '💵', name: 'Payroll Workbench', desc: 'Tips, hours, pay periods' },
-      { icon: '🧱', name: 'Stability Snapshot', desc: 'Staffing grid per store' },
-      { icon: '🎯', name: 'Tier Assessment', desc: 'ABC employee scoring' },
-      { icon: '🎫', name: 'FSC Tracker', desc: 'Guest recovery tracking' },
-      { icon: '📅', name: 'Marketing Directives', desc: 'Campaigns & calendar' },
-      { icon: '📚', name: 'Reading Library', desc: '15 leadership books' },
-      { icon: '📈', name: 'L10 Scorecard', desc: '30 weekly metrics' },
-      { icon: '✍️', name: 'E-Signatures', desc: 'Digital signing workflow' },
+      { name: 'Payroll Workbench', desc: 'Tips, hours, pay periods' },
+      { name: 'Stability Snapshot', desc: 'Staffing grid per store' },
+      { name: 'Tier Assessment', desc: 'ABC employee scoring' },
+      { name: 'FSC Tracker', desc: 'Guest recovery tracking' },
+      { name: 'Marketing Directives', desc: 'Campaigns & calendar' },
+      { name: 'Reading Library', desc: '15 leadership books' },
+      { name: 'L10 Scorecard', desc: '30 weekly metrics' },
+      { name: 'E-Signatures', desc: 'Digital signing workflow' },
     ],
     bg: 'linear-gradient(135deg, #134A7C 0%, #1a5a94 100%)',
     color: '#fff',
@@ -211,7 +211,7 @@ const SLIDES = [
       'Role-based access, rate limiting, input sanitization, path traversal guards',
     ],
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#134A7C',
   },
   // TIME SAVINGS
@@ -228,7 +228,7 @@ const SLIDES = [
       { task: 'Training Pack', before: '45 min', after: '5 min', savings: '89%' },
     ],
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
   },
   // ARCHITECTURE
   {
@@ -248,7 +248,7 @@ const SLIDES = [
       { label: 'Cost', value: '$0/month at current scale' },
     ],
     bg: '#f8fafc',
-    color: '#1a1a2e',
+    color: '#f8fafc',
   },
   // iOS APPS
   {
@@ -258,7 +258,6 @@ const SLIDES = [
     apps: [
       {
         name: 'RO Tools',
-        icon: '📱',
         color: '#134A7C',
         desc: 'The full management platform on your phone',
         bullets: [
@@ -271,7 +270,6 @@ const SLIDES = [
       },
       {
         name: 'RO Control',
-        icon: '🖥',
         color: '#EE3227',
         desc: 'Kiosk + manager operations for iPads',
         bullets: [
@@ -285,7 +283,7 @@ const SLIDES = [
     ],
     stat: { value: '2', label: 'iOS apps on TestFlight' },
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
   },
   // ROADMAP
   {
@@ -301,7 +299,7 @@ const SLIDES = [
       'Mission Control — full store OS for DMs, Directors, and ownership group',
     ],
     bg: '#fff',
-    color: '#1a1a2e',
+    color: '#f8fafc',
     accent: '#134A7C',
   },
   // CLOSING
@@ -371,7 +369,7 @@ function SlideContent({ slide, visible }) {
         <h2 style={{ fontSize: 40, fontWeight: 800, fontFamily: "'Playfair Display', serif", letterSpacing: -1, marginBottom: 40, color: '#134A7C' }}>{slide.title}</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10, maxWidth: 1100 }}>
           {slide.items.map((item, i) => (
-            <div key={i} style={{ background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 14px', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+            <div key={i} style={{ background: '#0b0f19', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, padding: '16px 14px', display: 'flex', gap: 10, alignItems: 'flex-start' }}>
               <span style={{ fontSize: 20 }}>{item.icon}</span>
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: '#134A7C', marginBottom: 2 }}>{item.name}</div>
@@ -449,7 +447,7 @@ function SlideContent({ slide, visible }) {
         <h2 style={{ fontSize: 40, fontWeight: 800, fontFamily: "'Playfair Display', serif", letterSpacing: -1, marginBottom: 40, color: '#134A7C' }}>{slide.title}</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, maxWidth: 1000 }}>
           {slide.apps.map((app, i) => (
-            <div key={i} style={{ background: '#f8fafc', border: `2px solid ${app.color}`, borderRadius: 16, padding: '28px 24px' }}>
+            <div key={i} style={{ background: '#0b0f19', border: `2px solid ${app.color}`, borderRadius: 16, padding: '28px 24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                 <span style={{ fontSize: 28 }}>{app.icon}</span>
                 <div>
@@ -486,7 +484,7 @@ function SlideContent({ slide, visible }) {
         <h2 style={{ fontSize: 40, fontWeight: 800, fontFamily: "'Playfair Display', serif", letterSpacing: -1, marginBottom: 40, color: '#134A7C' }}>{slide.title}</h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, maxWidth: 800 }}>
           {slide.items.map((item, i) => (
-            <div key={i} style={{ display: 'flex', gap: 12, padding: '14px 16px', background: '#fff', borderRadius: 10, border: '1px solid #e5e7eb' }}>
+            <div key={i} style={{ display: 'flex', gap: 12, padding: '14px 16px', background: 'rgba(30, 41, 59, 0.5)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.08)' }}>
               <span style={{ fontSize: 13, fontWeight: 700, color: '#134A7C', minWidth: 90 }}>{item.label}</span>
               <span style={{ fontSize: 13, color: '#374151' }}>{item.value}</span>
             </div>

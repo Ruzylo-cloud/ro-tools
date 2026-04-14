@@ -10,39 +10,39 @@ import styles from './Sidebar.module.css';
 const MC_BASE_URL = 'https://mission-control-1049928336088.us-central1.run.app';
 
 const SEARCH_ITEMS = [
-  { label: 'Dashboard Overview', path: '/dashboard', icon: '📌', keywords: 'home overview dashboard' },
-  { label: 'All Generators', path: '/dashboard/generators', icon: '📄', keywords: 'forms generate documents all' },
-  { label: 'Catering Order', path: '/dashboard/generators/catering-order', icon: '📝', keywords: 'catering order customer client' },
-  { label: 'Written Warning', path: '/dashboard/generators/written-warning', icon: '⚠️', keywords: 'warning discipline write-up hr' },
-  { label: 'Employee Evaluation', path: '/dashboard/generators/evaluation', icon: '📋', keywords: 'evaluation review performance' },
-  { label: 'Coaching Form', path: '/dashboard/generators/coaching-form', icon: '🗣️', keywords: 'coaching counseling conversation' },
-  { label: 'Injury Report', path: '/dashboard/generators/injury-report', icon: '🩺', keywords: 'injury incident report accident' },
-  { label: 'Resignation Letter', path: '/dashboard/generators/resignation', icon: '✉️', keywords: 'resignation quit two week notice' },
-  { label: 'Termination Form', path: '/dashboard/generators/termination', icon: '📋', keywords: 'termination fire let go separation' },
-  { label: 'Meal Break Waiver', path: '/dashboard/generators/meal-break-waiver', icon: '🍽️', keywords: 'meal break waiver lunch california' },
-  { label: 'Timesheet Correction', path: '/dashboard/generators/timesheet-correction', icon: '⏰', keywords: 'timesheet time correction punch' },
-  { label: 'Attestation Correction', path: '/dashboard/generators/attestation-correction', icon: '✍️', keywords: 'attestation correction shift' },
-  { label: 'DM Walkthrough', path: '/dashboard/generators/dm-walkthroughs', icon: '🔍', keywords: 'dm district manager walkthrough inspection' },
-  { label: 'Manager Log', path: '/dashboard/generators/manager-log', icon: '📓', keywords: 'manager log daily notes' },
-  { label: 'Work Order', path: '/dashboard/generators/work-orders', icon: '🔧', keywords: 'work order repair maintenance' },
-  { label: 'Onboarding Packet', path: '/dashboard/generators/onboarding-packets', icon: '🆕', keywords: 'onboarding new hire orientation packet' },
-  { label: 'Food Labels', path: '/dashboard/generators/food-labels', icon: '🏷️', keywords: 'food label date prep labels' },
-  { label: 'Signatures', path: '/dashboard/signatures', icon: '✍️', keywords: 'esign signatures documents sign' },
-  { label: 'Catering Flyer', path: '/dashboard/flyer', icon: '🖨️', keywords: 'flyer catering print menu' },
-  { label: 'Catering Tracker', path: '/dashboard/catering-tracker', icon: '📊', keywords: 'catering crm tracker clients orders' },
-  { label: 'FSC Tracker', path: '/dashboard/fsc-tracker', icon: '🎫', keywords: 'fsc free sub card guest recovery complaint' },
-  { label: 'Marketing Directives', path: '/dashboard/directives', icon: '📅', keywords: 'directives marketing monthly campaign' },
-  { label: 'L10 Scorecard', path: '/dashboard/l10', icon: '📊', keywords: 'l10 scorecard weekly metrics grade meeting dm' },
-  { label: 'Scoreboard', path: '/dashboard/scoreboard', icon: '🏆', keywords: 'scoreboard leaderboard scores sales rankings' },
-  { label: 'Payroll Workbench', path: '/dashboard/tools/payroll', icon: '💵', keywords: 'payroll pay period wages tips tools' },
-  { label: 'Stability Snapshot', path: '/dashboard/tools/stability-snapshot', icon: '🧱', keywords: 'stability snapshot role slot staffing tools' },
-  { label: 'Tier Assessment', path: '/dashboard/tools/tier-assessment', icon: '🎯', keywords: 'abc tier assessment rubric employees tools' },
-  { label: 'Reading List', path: '/dashboard/reading', icon: '📚', keywords: 'reading books library leadership development' },
-  { label: 'Store Profile', path: '/dashboard/profile', icon: '🏪', keywords: 'store profile address phone managers' },
-  { label: 'Documents', path: '/dashboard/documents', icon: '📁', keywords: 'documents files library' },
-  { label: 'Messaging', path: '/dashboard/messaging', icon: '💬', keywords: 'messaging chat channels dm group messages' },
-  { label: 'Support & Feedback', path: '/dashboard/support', icon: '🛟', keywords: 'support help feedback bug report' },
-  { label: 'Admin Panel', path: '/dashboard/admin', icon: '⚙️', keywords: 'admin users roles manage' },
+  { label: 'Dashboard Overview', path: '/dashboard', keywords: 'home overview dashboard' },
+  { label: 'All Generators', path: '/dashboard/generators', keywords: 'forms generate documents all' },
+  { label: 'Catering Order', path: '/dashboard/generators/catering-order', keywords: 'catering order customer client' },
+  { label: 'Written Warning', path: '/dashboard/generators/written-warning', keywords: 'warning discipline write-up hr' },
+  { label: 'Employee Evaluation', path: '/dashboard/generators/evaluation', keywords: 'evaluation review performance' },
+  { label: 'Coaching Form', path: '/dashboard/generators/coaching-form', keywords: 'coaching counseling conversation' },
+  { label: 'Injury Report', path: '/dashboard/generators/injury-report', keywords: 'injury incident report accident' },
+  { label: 'Resignation Letter', path: '/dashboard/generators/resignation', keywords: 'resignation quit two week notice' },
+  { label: 'Termination Form', path: '/dashboard/generators/termination', keywords: 'termination fire let go separation' },
+  { label: 'Meal Break Waiver', path: '/dashboard/generators/meal-break-waiver', keywords: 'meal break waiver lunch california' },
+  { label: 'Timesheet Correction', path: '/dashboard/generators/timesheet-correction', keywords: 'timesheet time correction punch' },
+  { label: 'Attestation Correction', path: '/dashboard/generators/attestation-correction', keywords: 'attestation correction shift' },
+  { label: 'DM Walkthrough', path: '/dashboard/generators/dm-walkthroughs', keywords: 'dm district manager walkthrough inspection' },
+  { label: 'Manager Log', path: '/dashboard/generators/manager-log', keywords: 'manager log daily notes' },
+  { label: 'Work Order', path: '/dashboard/generators/work-orders', keywords: 'work order repair maintenance' },
+  { label: 'Onboarding Packet', path: '/dashboard/generators/onboarding-packets', keywords: 'onboarding new hire orientation packet' },
+  { label: 'Food Labels', path: '/dashboard/generators/food-labels', keywords: 'food label date prep labels' },
+  { label: 'Signatures', path: '/dashboard/signatures', keywords: 'esign signatures documents sign' },
+  { label: 'Catering Flyer', path: '/dashboard/flyer', keywords: 'flyer catering print menu' },
+  { label: 'Catering Tracker', path: '/dashboard/catering-tracker', keywords: 'catering crm tracker clients orders' },
+  { label: 'FSC Tracker', path: '/dashboard/fsc-tracker', keywords: 'fsc free sub card guest recovery complaint' },
+  { label: 'Marketing Directives', path: '/dashboard/directives', keywords: 'directives marketing monthly campaign' },
+  { label: 'L10 Scorecard', path: '/dashboard/l10', keywords: 'l10 scorecard weekly metrics grade meeting dm' },
+  { label: 'Scoreboard', path: '/dashboard/scoreboard', keywords: 'scoreboard leaderboard scores sales rankings' },
+  { label: 'Payroll Workbench', path: '/dashboard/tools/payroll', keywords: 'payroll pay period wages tips tools' },
+  { label: 'Stability Snapshot', path: '/dashboard/tools/stability-snapshot', keywords: 'stability snapshot role slot staffing tools' },
+  { label: 'Tier Assessment', path: '/dashboard/tools/tier-assessment', keywords: 'abc tier assessment rubric employees tools' },
+  { label: 'Reading List', path: '/dashboard/reading', keywords: 'reading books library leadership development' },
+  { label: 'Store Profile', path: '/dashboard/profile', keywords: 'store profile address phone managers' },
+  { label: 'Documents', path: '/dashboard/documents', keywords: 'documents files library' },
+  { label: 'Messaging', path: '/dashboard/messaging', keywords: 'messaging chat channels dm group messages' },
+  { label: 'Support & Feedback', path: '/dashboard/support', keywords: 'support help feedback bug report' },
+  { label: 'Admin Panel', path: '/dashboard/admin', keywords: 'admin users roles manage' },
 ];
 
 function searchFilter(q) {
@@ -200,7 +200,7 @@ export default function Sidebar() {
     } else {
       let finalTheme = themeToApply;
       if (modeToApply === 'light') {
-        const lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
+        const lightVariants = ['pro-gloss-ultra', 'hybrid-v3', 'hybrid-highpop', 'hybrid-v1-balanced'];
         if (lightVariants.includes(themeToApply)) {
           finalTheme += '-light';
         }
