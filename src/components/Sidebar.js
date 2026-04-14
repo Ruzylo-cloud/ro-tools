@@ -63,7 +63,8 @@ export default function Sidebar() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [latestUpdateId, setLatestUpdateId] = useState('');
   const [notifCount, setNotifCount] = useState(0);
-  const [theme, setTheme] = useState('light');
+  const [themePref, setThemePref] = useState('default');
+  const [themeMode, setThemeMode] = useState('auto');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [stores, setStores] = useState([]);

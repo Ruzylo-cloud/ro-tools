@@ -239,8 +239,8 @@ export default function DashboardPage() {
 
       {/* Hero */}
       <div className={styles.hero}>
-        <h1 className={styles.heroTitle}>{getGreeting()}{firstName ? `, ${firstName}` : ''}</h1>
-        <p className={styles.heroDate}>{currentDate}</p>
+        <h1 className={styles.heroTitle} suppressHydrationWarning>{getGreeting()}{firstName ? `, ${firstName}` : ''}</h1>
+        <p className={styles.heroDate} suppressHydrationWarning>{currentDate}</p>
         {/* RT-071: Last login */}
         {lastLogin && (
           <p style={{ fontSize: '11px', color: 'var(--gray-400)', marginBottom: '8px' }}>
