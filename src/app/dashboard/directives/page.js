@@ -77,11 +77,12 @@ export default function DirectivesPage() {
   // RT-196: Rich text directive editor
   const [showCreateDirective, setShowCreateDirective] = useState(false);
   const [draftDirective, setDraftDirective] = useState({ title: '', category: 'operations', body: '' });
-  const [savedDrafts, setSavedDrafts] = useState(() => { try { return JSON.parse(localStorage.getItem('directive-drafts') || '[]'); } catch { return []; } });
+  const [savedDrafts, setSavedDrafts] = useState([]);
   const richEditorRef = useRef(null);
 
   // Load from localStorage on mount
   useEffect(() => {
+    try { setSavedDrafts(JSON.parse(localStorage.getItem('directive-drafts') || '[]')); } catch { setSavedDrafts([]); }
     try {
       const stored = localStorage.getItem('reading-outreach');
       if (stored) setOutreachEntries(JSON.parse(stored));

@@ -1,0 +1,146 @@
+
+> ro-tools@3.0.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Experiments (use with caution):
+    · instrumentationHook
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/50) ...
+   Generating static pages (12/50) 
+   Generating static pages (24/50) 
+   Generating static pages (37/50) 
+ ✓ Generating static pages (50/50)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                              Size     First Load JS
+┌ ○ /                                                    6.25 kB        99.3 kB
+├ ○ /_not-found                                          142 B          88.1 kB
+├ ƒ /api/admin/approve                                   0 B                0 B
+├ ƒ /api/admin/drive-scan                                0 B                0 B
+├ ƒ /api/admin/user-sync                                 0 B                0 B
+├ ƒ /api/admin/users                                     0 B                0 B
+├ ƒ /api/auth/apple/complete                             0 B                0 B
+├ ƒ /api/auth/apple/lookup                               0 B                0 B
+├ ƒ /api/auth/apple/send-code                            0 B                0 B
+├ ƒ /api/auth/callback                                   0 B                0 B
+├ ƒ /api/auth/demo                                       0 B                0 B
+├ ƒ /api/auth/login                                      0 B                0 B
+├ ƒ /api/auth/logout                                     0 B                0 B
+├ ƒ /api/auth/me                                         0 B                0 B
+├ ƒ /api/auth/scopes                                     0 B                0 B
+├ ƒ /api/auth/session                                    0 B                0 B
+├ ƒ /api/auth/upgrade                                    0 B                0 B
+├ ƒ /api/catering/clients                                0 B                0 B
+├ ƒ /api/catering/clients/[id]                           0 B                0 B
+├ ƒ /api/catering/orders                                 0 B                0 B
+├ ƒ /api/catering/orders/[id]                            0 B                0 B
+├ ƒ /api/directives                                      0 B                0 B
+├ ƒ /api/directives/[id]                                 0 B                0 B
+├ ƒ /api/directives/[id]/ack                             0 B                0 B
+├ ƒ /api/directives/feed                                 0 B                0 B
+├ ƒ /api/directives/outreach                             0 B                0 B
+├ ƒ /api/directives/static                               0 B                0 B
+├ ƒ /api/drive/folders                                   0 B                0 B
+├ ƒ /api/drive/quota                                     0 B                0 B
+├ ƒ /api/drive/upload                                    0 B                0 B
+├ ƒ /api/email                                           0 B                0 B
+├ ƒ /api/employees                                       0 B                0 B
+├ ƒ /api/employees/documents                             0 B                0 B
+├ ƒ /api/fsc                                             0 B                0 B
+├ ƒ /api/google/docs                                     0 B                0 B
+├ ƒ /api/google/drive                                    0 B                0 B
+├ ƒ /api/google/sheets                                   0 B                0 B
+├ ƒ /api/l10                                             0 B                0 B
+├ ƒ /api/logs                                            0 B                0 B
+├ ƒ /api/logs/analytics                                  0 B                0 B
+├ ƒ /api/mc/payroll                                      0 B                0 B
+├ ƒ /api/mc/payroll/breakdown                            0 B                0 B
+├ ƒ /api/mc/payroll/entries                              0 B                0 B
+├ ƒ /api/mc/stability                                    0 B                0 B
+├ ƒ /api/mc/stability/assessments                        0 B                0 B
+├ ƒ /api/mc/stability/cell                               0 B                0 B
+├ ƒ /api/mc/stability/rubric                             0 B                0 B
+├ ƒ /api/mc/stability/snapshot                           0 B                0 B
+├ ƒ /api/messaging/audit                                 0 B                0 B
+├ ƒ /api/messaging/channels                              0 B                0 B
+├ ƒ /api/messaging/messages                              0 B                0 B
+├ ƒ /api/notifications                                   0 B                0 B
+├ ƒ /api/notifications/register                          0 B                0 B
+├ ƒ /api/profile                                         0 B                0 B
+├ ƒ /api/profile/notification-prefs                      0 B                0 B
+├ ƒ /api/profile/setup                                   0 B                0 B
+├ ƒ /api/profile/theme                                   0 B                0 B
+├ ƒ /api/scoreboard                                      0 B                0 B
+├ ƒ /api/scoreboard/entries                              0 B                0 B
+├ ƒ /api/scoreboard/weeks                                0 B                0 B
+├ ƒ /api/signing                                         0 B                0 B
+├ ƒ /api/signing/[token]                                 0 B                0 B
+├ ƒ /api/signing/create                                  0 B                0 B
+├ ƒ /api/signing/manager/[token]                         0 B                0 B
+├ ƒ /api/support                                         0 B                0 B
+├ ƒ /api/updates                                         0 B                0 B
+├ ƒ /api/updates/[id]/pin                                0 B                0 B
+├ ƒ /api/updates/commits                                 0 B                0 B
+├ ƒ /api/updates/feed                                    0 B                0 B
+├ ○ /dashboard                                           8.81 kB         116 kB
+├ ○ /dashboard/admin                                     6.54 kB        94.5 kB
+├ ○ /dashboard/catering-tracker                          14.8 kB         103 kB
+├ ƒ /dashboard/catering-tracker/order/[id]/packing-slip  2.33 kB        93.7 kB
+├ ○ /dashboard/directives                                11.3 kB        99.3 kB
+├ ○ /dashboard/directives/publish                        4.82 kB        92.7 kB
+├ ○ /dashboard/documents                                 48.3 kB         140 kB
+├ ○ /dashboard/flyer                                     6.07 kB        98.1 kB
+├ ○ /dashboard/fsc-tracker                               3.8 kB         91.7 kB
+├ ○ /dashboard/generators                                5.83 kB         102 kB
+├ ○ /dashboard/generators/attestation-correction         5.07 kB         102 kB
+├ ○ /dashboard/generators/catering-order                 9.2 kB          101 kB
+├ ○ /dashboard/generators/coaching-form                  7.67 kB        99.7 kB
+├ ○ /dashboard/generators/dm-walkthroughs                5.97 kB          98 kB
+├ ○ /dashboard/generators/evaluation                     5.9 kB          103 kB
+├ ○ /dashboard/generators/food-labels                    6.56 kB        98.6 kB
+├ ○ /dashboard/generators/injury-report                  9.61 kB         102 kB
+├ ○ /dashboard/generators/manager-log                    5.44 kB        97.5 kB
+├ ○ /dashboard/generators/meal-break-waiver              5.24 kB         102 kB
+├ ○ /dashboard/generators/onboarding-packets             5.47 kB         102 kB
+├ ○ /dashboard/generators/resignation                    5.59 kB         102 kB
+├ ○ /dashboard/generators/termination                    6.12 kB         103 kB
+├ ○ /dashboard/generators/timesheet-correction           4.83 kB         102 kB
+├ ○ /dashboard/generators/work-orders                    7.16 kB        99.2 kB
+├ ○ /dashboard/generators/written-warning                5.74 kB         103 kB
+├ ○ /dashboard/history                                   3.71 kB         100 kB
+├ ○ /dashboard/l10                                       7.32 kB        95.2 kB
+├ ○ /dashboard/messaging                                 4.95 kB        92.9 kB
+├ ○ /dashboard/profile                                   5.85 kB         102 kB
+├ ○ /dashboard/reading                                   81.6 kB         170 kB
+├ ○ /dashboard/scoreboard                                18.2 kB         106 kB
+├ ○ /dashboard/setup                                     6.35 kB        94.3 kB
+├ ○ /dashboard/signatures                                2.93 kB        90.9 kB
+├ ○ /dashboard/support                                   4.68 kB        92.6 kB
+├ ○ /dashboard/tools/payroll                             5.97 kB        93.9 kB
+├ ○ /dashboard/tools/stability-snapshot                  5.24 kB        93.2 kB
+├ ○ /dashboard/tools/tier-assessment                     5.32 kB        93.2 kB
+├ ○ /dashboard/updates                                   2.42 kB         101 kB
+├ ○ /dashboard/updates/publish                           3.98 kB        91.9 kB
+├ ○ /demo                                                524 B          88.5 kB
+├ ○ /liability                                           5.59 kB        93.5 kB
+├ ○ /presentation                                        7.31 kB         104 kB
+├ ○ /privacy                                             421 B           102 kB
+├ ○ /security                                            5.25 kB        93.2 kB
+├ ƒ /sign/[token]                                        3.35 kB        91.3 kB
+├ ○ /terms                                               425 B           102 kB
+└ ○ /welcome                                             5.01 kB        92.9 kB
++ First Load JS shared by all                            87.9 kB
+  ├ chunks/2117-0c662b3ba47ad558.js                      31.9 kB
+  ├ chunks/fd9d1056-d1e6587f9d9598d1.js                  53.7 kB
+  └ other shared chunks (total)                          2.37 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

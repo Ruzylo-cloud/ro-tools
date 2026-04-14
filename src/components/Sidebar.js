@@ -597,7 +597,7 @@ export default function Sidebar() {
               onClick={() => toggleSection('generators')}
               aria-expanded={openSections.generators}
             >
-              <span className={styles.icon}>📄</span>
+              
               Generators
               <ChevronIcon open={openSections.generators} />
             </button>
@@ -607,49 +607,49 @@ export default function Sidebar() {
                   All Generators
                 </Link>
                 <Link href="/dashboard/generators/written-warning" className={`${styles.subLink} ${isActive('/dashboard/generators/written-warning') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>⚠️</span> Written Warning
+                  Written Warning
                 </Link>
                 <Link href="/dashboard/generators/evaluation" className={`${styles.subLink} ${isActive('/dashboard/generators/evaluation') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>📋</span> Evaluation
+                  Evaluation
                 </Link>
                 <Link href="/dashboard/generators/coaching-form" className={`${styles.subLink} ${isActive('/dashboard/generators/coaching-form') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🗣️</span> Coaching Form
+                  Coaching Form
                 </Link>
                 <Link href="/dashboard/generators/injury-report" className={`${styles.subLink} ${isActive('/dashboard/generators/injury-report') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🩺</span> Injury Report
+                  Injury Report
                 </Link>
                 <Link href="/dashboard/generators/resignation" className={`${styles.subLink} ${isActive('/dashboard/generators/resignation') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>✉️</span> Resignation
+                  Resignation
                 </Link>
                 <Link href="/dashboard/generators/termination" className={`${styles.subLink} ${isActive('/dashboard/generators/termination') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>📋</span> Termination
+                  Termination
                 </Link>
                 <Link href="/dashboard/generators/meal-break-waiver" className={`${styles.subLink} ${isActive('/dashboard/generators/meal-break-waiver') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🍽️</span> Meal Break Waiver
+                  Meal Break Waiver
                 </Link>
                 <Link href="/dashboard/generators/timesheet-correction" className={`${styles.subLink} ${isActive('/dashboard/generators/timesheet-correction') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>⏰</span> Timesheet Correction
+                  Timesheet Correction
                 </Link>
                 <Link href="/dashboard/generators/attestation-correction" className={`${styles.subLink} ${isActive('/dashboard/generators/attestation-correction') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>✍️</span> Attestation
+                  Attestation
                 </Link>
                 <Link href="/dashboard/generators/dm-walkthroughs" className={`${styles.subLink} ${isActive('/dashboard/generators/dm-walkthroughs') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🔍</span> DM Walk-Through
+                  DM Walk-Through
                 </Link>
                 <Link href="/dashboard/generators/manager-log" className={`${styles.subLink} ${isActive('/dashboard/generators/manager-log') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>📓</span> Manager Log
+                  Manager Log
                 </Link>
                 <Link href="/dashboard/generators/work-orders" className={`${styles.subLink} ${isActive('/dashboard/generators/work-orders') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🔧</span> Work Orders
+                  Work Orders
                 </Link>
                 <Link href="/dashboard/generators/onboarding-packets" className={`${styles.subLink} ${isActive('/dashboard/generators/onboarding-packets') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🆕</span> Onboarding Packet
+                  Onboarding Packet
                 </Link>
                 <Link href="/dashboard/generators/food-labels" className={`${styles.subLink} ${isActive('/dashboard/generators/food-labels') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🏷️</span> Food Labels
+                  Food Labels
                 </Link>
                 <Link href="/dashboard/signatures" className={`${styles.subLink} ${isActive('/dashboard/signatures') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>✍️</span> Signatures
+                  Signatures
                 </Link>
               </div>
             )}
@@ -662,23 +662,23 @@ export default function Sidebar() {
               onClick={() => toggleSection('catering')}
               aria-expanded={openSections.catering}
             >
-              <span className={styles.icon}>🍱</span>
+              
               Catering
               <ChevronIcon open={openSections.catering} />
             </button>
             {openSections.catering && (
               <div className={styles.subItems}>
                 <Link href="/dashboard/flyer" className={`${styles.subLink} ${pathname === '/dashboard/flyer' ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🖨️</span> Catering Flyer
+                  Catering Flyer
                 </Link>
                 <Link href="/dashboard/generators/catering-order" className={`${styles.subLink} ${isActive('/dashboard/generators/catering-order') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>📝</span> Catering Order
+                  Catering Order
                 </Link>
                 <Link href="/dashboard/catering-tracker" className={`${styles.subLink} ${isActive('/dashboard/catering-tracker') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>📊</span> Catering Tracker
+                  Catering Tracker
                 </Link>
                 <Link href="/dashboard/fsc-tracker" className={`${styles.subLink} ${isActive('/dashboard/fsc-tracker') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🎫</span> FSC Tracker
+                  FSC Tracker
                 </Link>
               </div>
             )}
@@ -691,62 +691,62 @@ export default function Sidebar() {
               onClick={() => toggleSection('tools')}
               aria-expanded={openSections.tools}
             >
-              <span className={styles.icon}>🛠️</span>
+              
               Tools
               <ChevronIcon open={openSections.tools} />
             </button>
             {openSections.tools && (
               <div className={styles.subItems}>
                 <Link href="/dashboard/tools/payroll" className={`${styles.subLink} ${isActive('/dashboard/tools/payroll') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>💵</span> Payroll Workbench
+                  Payroll Workbench
                 </Link>
                 <Link href="/dashboard/tools/stability-snapshot" className={`${styles.subLink} ${isActive('/dashboard/tools/stability-snapshot') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🧱</span> Stability Snapshot
+                  Stability Snapshot
                 </Link>
                 <Link href="/dashboard/tools/tier-assessment" className={`${styles.subLink} ${isActive('/dashboard/tools/tier-assessment') ? styles.subLinkActive : ''}`} onClick={navClick}>
-                  <span>🎯</span> Tier Assessment
+                  Tier Assessment
                 </Link>
               </div>
             )}
           </div>
 
           <Link href="/dashboard/directives" className={`${styles.navLink} ${isActive('/dashboard/directives') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>📅</span> Directives
+             Directives
           </Link>
 
           <Link href="/dashboard/l10" className={`${styles.navLink} ${isActive('/dashboard/l10') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>📊</span> L10 Scorecard
+             L10 Scorecard
           </Link>
 
           <Link href="/dashboard/scoreboard" className={`${styles.navLink} ${isActive('/dashboard/scoreboard') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>🏆</span> Scoreboard
+             Scoreboard
           </Link>
 
           <Link href="/dashboard/reading" className={`${styles.navLink} ${isActive('/dashboard/reading') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>📚</span> Reading
+             Reading
           </Link>
 
           <Link href="/dashboard/profile" className={`${styles.navLink} ${isActive('/dashboard/profile') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>🏪</span> Store Profile
+             Store Profile
           </Link>
 
           <Link href="/dashboard/documents" className={`${styles.navLink} ${isActive('/dashboard/documents') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>📁</span> Documents
+             Documents
           </Link>
 
           <Link href="/dashboard/messaging" className={`${styles.navLink} ${isActive('/dashboard/messaging') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>💬</span> Messaging
+             Messaging
           </Link>
 
           <Link href="/dashboard/support" className={`${styles.navLink} ${isActive('/dashboard/support') ? styles.navLinkActive : ''}`} onClick={navClick}>
-            <span className={styles.icon}>🛟</span> Support
+             Support
           </Link>
 
           {isAdmin && (
             <>
               <div className={styles.divider} />
               <Link href="/dashboard/admin" className={`${styles.navLink} ${isActive('/dashboard/admin') ? styles.navLinkActive : ''}`} onClick={navClick}>
-                <span className={styles.icon}>⚙️</span> Admin Panel
+                 Admin Panel
               </Link>
             </>
           )}
@@ -785,29 +785,30 @@ export default function Sidebar() {
           </div>
 
           {/* Theme Switcher */}
-          <div className={styles.footerIconRow} style={{ marginBottom: '8px' }}>
-            <div className={styles.themeSelectorWrap}>
-              <button 
-                onClick={() => updateThemeMode(themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light')} 
-                className={styles.footerIconBtn} 
-                title={`Mode: ${themeMode}`}
-              >
-                {themeMode === 'light' ? '☀️' : themeMode === 'dark' ? '🌙' : '🌓'}
-              </button>
-              <select 
-                value={themePref} 
-                onChange={(e) => updateThemePref(e.target.value)}
-                className={styles.themeSelect}
-              >
-                <option value="default">Classic</option>
-                <option value="hybrid-v1-balanced">Balanced</option>
-                <option value="hybrid-v3-highpop">High Pop</option>
-                <option value="ultra-pro-gloss">Glossy</option>
-                <option value="hybrid-v3-midnight">Midnight</option>
-                <option value="hybrid-v2-atmospheric">Atmospheric</option>
-              </select>
+          {isAdmin && (
+            <div className={styles.footerIconRow} style={{ marginBottom: '8px' }}>
+              <div className={styles.themeSelectorWrap}>
+                <button 
+                  onClick={() => updateThemeMode(themeMode === 'light' ? 'dark' : themeMode === 'dark' ? 'auto' : 'light')} 
+                  className={styles.footerIconBtn} 
+                  title={`Mode: ${themeMode}`}
+                >
+                  {themeMode === 'light' ? '☀️' : themeMode === 'dark' ? '🌙' : '🌓'}
+                </button>
+                <select 
+                  value={themePref} 
+                  onChange={(e) => updateThemePref(e.target.value)}
+                  className={styles.themeSelect}
+                >
+                  <option value="default">American Classic</option>
+                  <option value="pro-gloss-ultra">Pro Gloss Ultra</option>
+                  <option value="hybrid-v3">Hybrid v3</option>
+                  <option value="hybrid-highpop">Hybrid Highpop</option>
+                  <option value="hybrid-v1-balanced">Hybrid v1 Balanced</option>
+                </select>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Icon row: Notifications */}
           <div className={styles.footerIconRow}>

@@ -147,23 +147,11 @@ const FILE_NAMES = {
 export default function DocumentsPage() {
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [docDraft, setDocDraft, clearDocDraft] = useFormDraft('documents', { selected: 'level1', employeeName: '', startDate: '', position: '', managerName: '' });
+  const [docDraft, setDocDraft, clearDocDraft, isDraftLoaded] = useFormDraft('documents', { selected: 'level1', employeeName: '', startDate: '', position: '', managerName: '' });
 
-  const selected = (() => {
-    if (typeof window !== 'undefined') {
-      const t = new URLSearchParams(window.location.search).get('template');
-      if (t && COMPONENT_MAP[t]) return t;
-    }
-    return docDraft.selected || 'level1';
-  })();
+  const [selected, setSelected] = useState('level1');
+  const [form, setForm] = useState({ employeeName: '', startDate: '', position: '', managerName: '' });
 
-  const [form, setForm] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const n = new URLSearchParams(window.location.search).get('name');
-      if (n) return { employeeName: n };
-    }
-    return { employeeName: docDraft.employeeName || '', startDate: docDraft.startDate || '', position: docDraft.position || '', managerName: docDraft.managerName || '' };
-  });
   const [showSuccess, setShowSuccess] = useState(false);
   const mountedRef = useRef(true);
   const [storeInfo, setStoreInfo] = useState({});
@@ -171,14 +159,28 @@ export default function DocumentsPage() {
   const [generating, setGenerating] = useState(false);
   const [generateProgress, setGenerateProgress] = useState(0); // RT-172: progress indicator
   const [showPreview, setShowPreview] = useState(true); // RT-165: toggle preview
+  
   // RT-164: Recently used templates
-  const [recentTemplates, setRecentTemplates] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('rt-recent-docs') || '[]'); } catch (e) { console.debug('[documents] recent docs read failed (non-fatal):', e); return []; }
-  });
+  const [recentTemplates, setRecentTemplates] = useState([]);
+  
   // RT-178: Training progress tracking (employee → completed levels)
-  const [trainingProgress, setTrainingProgress] = useState(() => {
-    try { return JSON.parse(localStorage.getItem('rt-training-progress') || '{}'); } catch (e) { console.debug('[documents] training progress read failed (non-fatal):', e); return {}; }
-  });
+  const [trainingProgress, setTrainingProgress] = useState({});
+
+  useEffect(() => {
+    try { setRecentTemplates(JSON.parse(localStorage.getItem('rt-recent-docs') || '[]')); } catch (e) {}
+    try { setTrainingProgress(JSON.parse(localStorage.getItem('rt-training-progress') || '{}')); } catch (e) {}
+    
+    // Process URL params and Draft only on client
+    const t = new URLSearchParams(window.location.search).get('template');
+    if (t && COMPONENT_MAP[t]) setSelected(t);
+    else if (docDraft.selected) setSelected(docDraft.selected);
+
+    const n = new URLSearchParams(window.location.search).get('name');
+    if (n) setForm(prev => ({ ...prev, employeeName: n }));
+    else if (isDraftLoaded) {
+      setForm({ employeeName: docDraft.employeeName || '', startDate: docDraft.startDate || '', position: docDraft.position || '', managerName: docDraft.managerName || '' });
+    }
+  }, [docDraft, isDraftLoaded]);
   // RT-179: Show certificate option after successful download
   const [lastDownload, setLastDownload] = useState(null);
   // RT-180: End quiz/assessment
