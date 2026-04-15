@@ -198,7 +198,18 @@ export default function Sidebar() {
     if (themeToApply === 'default') {
       document.documentElement.setAttribute('data-theme', modeToApply === 'dark' ? 'dark' : 'light');
     } else {
-      let finalTheme = themeToApply + '-' + (modeToApply === 'dark' ? 'dark' : 'light');
+      let finalTheme = themeToApply;
+      if (modeToApply === 'light') {
+        const lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'pro-gloss-ultra'];
+        if (lightVariants.includes(themeToApply)) {
+          finalTheme += '-light';
+        }
+      } else {
+        const darkVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'pro-gloss-ultra'];
+        if (darkVariants.includes(themeToApply)) {
+          finalTheme += '-dark';
+        }
+      }
       document.documentElement.setAttribute('data-theme', finalTheme);
     }
   }, []);

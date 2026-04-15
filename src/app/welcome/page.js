@@ -356,7 +356,6 @@ export default function WelcomePage() {
           marginBottom: 64,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-            <span style={{ fontSize: 28 }}>🔑</span>
             <h3 style={{ fontSize: 20, fontWeight: 800, color: '#f8fafc', margin: 0 }}>What We Still Need</h3>
           </div>
           <p style={{ fontSize: 14, color: '#555', lineHeight: 1.6, marginBottom: 20 }}>
@@ -397,7 +396,6 @@ export default function WelcomePage() {
             borderRadius: 16, padding: '32px',
             color: '#fff',
           }}>
-            <div style={{ fontSize: 36, marginBottom: 14 }}>⚖️</div>
             <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Liability Protection</div>
             <div style={{ fontSize: 14, opacity: 0.85, lineHeight: 1.5, marginBottom: 16 }}>
               Full audit trails, tamper-evident logging, digital signatures, and automated compliance — protecting JMVG from costly human-error liability claims.
@@ -411,7 +409,6 @@ export default function WelcomePage() {
             borderRadius: 16, padding: '32px',
             color: '#fff',
           }}>
-            <div style={{ fontSize: 36, marginBottom: 14 }}>🔐</div>
             <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 8 }}>Security Findings</div>
             <div style={{ fontSize: 14, opacity: 0.85, lineHeight: 1.5, marginBottom: 16 }}>
               Why Vantage Point, Homebase, Jolt, Google Drive, and Google Docs create unacceptable data risk, vendor lock-in, and compliance gaps for JMVG.
@@ -434,15 +431,14 @@ export default function WelcomePage() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
             {[
-              ['🔒', 'Auth via Google OAuth', '@jmvalley.com only'],
-              ['☁️', 'Google Cloud Run', 'Auto-scaling, 99.9% uptime'],
-              ['📦', 'Google Cloud Storage', 'All data in JMVG org'],
-              ['🔑', 'Secret Manager', 'Zero plaintext credentials'],
-              ['📊', 'Structured logging', '7-day retention, JSONL'],
-              ['🛡️', 'JWT + PBKDF2', '100k iterations, SHA-512'],
-            ].map(([icon, title, sub]) => (
+              ['Auth via Google OAuth', '@jmvalley.com only'],
+              ['Google Cloud Run', 'Auto-scaling, 99.9% uptime'],
+              ['Google Cloud Storage', 'All data in JMVG org'],
+              ['Secret Manager', 'Zero plaintext credentials'],
+              ['Structured logging', '7-day retention, JSONL'],
+              ['JWT + PBKDF2', '100k iterations, SHA-512'],
+            ].map(([title, sub]) => (
               <div key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <span style={{ fontSize: 20 }}>{icon}</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700 }}>{title}</div>
                   <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2 }}>{sub}</div>

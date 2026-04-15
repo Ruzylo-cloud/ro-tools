@@ -6,7 +6,6 @@ const NAVY = '#0d2d4a';
 
 const PROTECTIONS = [
   {
-    icon: '🔐',
     title: 'Tamper-Evident Document Storage',
     category: 'Integrity',
     color: '#1a5a94',
@@ -14,7 +13,6 @@ const PROTECTIONS = [
     protects: 'Protects against post-dispute document alteration claims',
   },
   {
-    icon: '✍️',
     title: 'Timestamped Digital Signatures',
     category: 'E-Signature',
     color: '#2d7a4a',
@@ -22,7 +20,6 @@ const PROTECTIONS = [
     protects: 'Protects against "I never signed that" or "that\'s not my signature" disputes',
   },
   {
-    icon: '🍽️',
     title: 'California Meal Break Attestation',
     category: 'CA §226.7 / §512',
     color: '#8e44ad',
@@ -30,7 +27,6 @@ const PROTECTIONS = [
     protects: 'Protects against DLSE missed-meal-premium claims across all 30 locations',
   },
   {
-    icon: '⏰',
     title: 'PIN-Verified Timeclock with Store Geofence',
     category: 'Timeclock Integrity',
     color: '#d35400',
@@ -38,7 +34,6 @@ const PROTECTIONS = [
     protects: 'Protects against time fraud, buddy-punching, and disputed timesheet claims',
   },
   {
-    icon: '📋',
     title: 'HR Document Generation with Legal Compliance',
     category: 'California Labor Law',
     color: '#c0392b',
@@ -46,7 +41,6 @@ const PROTECTIONS = [
     protects: 'Protects against defective-document claims that void disciplinary actions or create liability',
   },
   {
-    icon: '📊',
     title: 'Full Structured Audit Log',
     category: 'Chain of Custody',
     color: '#1a5a94',
@@ -54,7 +48,6 @@ const PROTECTIONS = [
     protects: 'Protects against "we don\'t know what happened" scenarios in HR disputes and OSHA inspections',
   },
   {
-    icon: '🏥',
     title: 'OSHA-Compliant Injury Reports',
     category: 'OSHA 300 / 301',
     color: '#2d7a4a',
@@ -62,7 +55,6 @@ const PROTECTIONS = [
     protects: 'Protects against OSHA citation for failure to maintain injury and illness records',
   },
   {
-    icon: '🔑',
     title: 'Role-Based Access Control',
     category: 'Access Control',
     color: '#8e44ad',
@@ -187,13 +179,6 @@ export default function LiabilityPage() {
               padding: '24px',
             }}>
               <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', marginBottom: 12 }}>
-                <div style={{
-                  width: 44, height: 44, borderRadius: 10, flexShrink: 0,
-                  background: p.color + '15',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
-                }}>
-                  {p.icon}
-                </div>
                 <div>
                   <div style={{
                     fontSize: 10, fontWeight: 700, letterSpacing: 1.5, textTransform: 'uppercase',
@@ -270,15 +255,14 @@ export default function LiabilityPage() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
             {[
-              ['🔒', 'Google Cloud Storage', 'Immutable object storage — records cannot be deleted or modified'],
-              ['📊', 'Cloud Logging', 'Every action logged with user, store, IP, and timestamp'],
-              ['🔑', 'Secret Manager', 'Zero plaintext credentials — no credential-exposure liability'],
-              ['☁️', 'Cloud Run (99.9% SLA)', 'Records always accessible — no vendor-outage excuse'],
-              ['🛡️', 'JWT + PBKDF2 Auth', 'SHA-512 PIN hashing — no weak credential exposure'],
-              ['🌐', 'JMVG Google Org', 'All data under @jmvalley.com — no third-party data custody'],
-            ].map(([icon, title, sub]) => (
+              ['Google Cloud Storage', 'Immutable object storage — records cannot be deleted or modified'],
+              ['Cloud Logging', 'Every action logged with user, store, IP, and timestamp'],
+              ['Secret Manager', 'Zero plaintext credentials — no credential-exposure liability'],
+              ['Cloud Run (99.9% SLA)', 'Records always accessible — no vendor-outage excuse'],
+              ['JWT + PBKDF2 Auth', 'SHA-512 PIN hashing — no weak credential exposure'],
+              ['JMVG Google Org', 'All data under @jmvalley.com — no third-party data custody'],
+            ].map(([title, sub]) => (
               <div key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <span style={{ fontSize: 20 }}>{icon}</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700 }}>{title}</div>
                   <div style={{ fontSize: 12, opacity: 0.65, marginTop: 2, lineHeight: 1.4 }}>{sub}</div>
