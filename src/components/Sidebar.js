@@ -200,12 +200,12 @@ export default function Sidebar() {
     } else {
       let finalTheme = themeToApply;
       if (modeToApply === 'light') {
-        const lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'pro-gloss-ultra'];
+        const lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
         if (lightVariants.includes(themeToApply)) {
           finalTheme += '-light';
         }
       } else {
-        const darkVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'pro-gloss-ultra'];
+        const darkVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
         if (darkVariants.includes(themeToApply)) {
           finalTheme += '-dark';
         }
