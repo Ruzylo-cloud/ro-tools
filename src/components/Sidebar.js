@@ -199,16 +199,14 @@ export default function Sidebar() {
       document.documentElement.setAttribute('data-theme', modeToApply === 'dark' ? 'dark' : 'light');
     } else {
       let finalTheme = themeToApply;
-      if (modeToApply === 'light') {
-        const lightVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
-        if (lightVariants.includes(themeToApply)) {
-          finalTheme += '-light';
-        }
-      } else {
-        const darkVariants = ['hybrid-v1-balanced', 'hybrid-v3-highpop', 'ultra-pro-gloss'];
-        if (darkVariants.includes(themeToApply)) {
-          finalTheme += '-dark';
-        }
+      if (themeToApply === 'ultra-pro-gloss') {
+        finalTheme = modeToApply === 'dark' ? 'ultra-pro-gloss-dark' : 'ultra-pro-gloss-light';
+      } else if (themeToApply === 'hybrid-v1-balanced') {
+        finalTheme = modeToApply === 'dark' ? 'hybrid-v1-balanced' : 'hybrid-v1-balanced-light';
+      } else if (themeToApply === 'hybrid-v3-highpop') {
+        finalTheme = modeToApply === 'dark' ? 'hybrid-v3-highpop' : 'hybrid-v3-highpop-light';
+      } else if (themeToApply === 'hybrid-v3') {
+        finalTheme = modeToApply === 'dark' ? 'dark' : 'light';
       }
       document.documentElement.setAttribute('data-theme', finalTheme);
     }
