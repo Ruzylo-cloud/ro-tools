@@ -202,9 +202,9 @@ export default function Sidebar() {
       if (themeToApply === 'ultra-pro-gloss') {
         finalTheme = modeToApply === 'dark' ? 'ultra-pro-gloss-dark' : 'ultra-pro-gloss-light';
       } else if (themeToApply === 'hybrid-v1-balanced') {
-        finalTheme = modeToApply === 'dark' ? 'hybrid-v1-balanced' : 'hybrid-v1-balanced-light';
+        finalTheme = modeToApply === 'dark' ? 'hybrid-v1-balanced-dark' : 'hybrid-v1-balanced-light';
       } else if (themeToApply === 'hybrid-v3-highpop') {
-        finalTheme = modeToApply === 'dark' ? 'hybrid-v3-highpop' : 'hybrid-v3-highpop-light';
+        finalTheme = modeToApply === 'dark' ? 'hybrid-v3-highpop-dark' : 'hybrid-v3-highpop-light';
       } else if (themeToApply === 'hybrid-v3') {
         finalTheme = modeToApply === 'dark' ? 'dark' : 'light';
       }

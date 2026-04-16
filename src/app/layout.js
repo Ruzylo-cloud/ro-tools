@@ -58,9 +58,9 @@ export default function RootLayout({ children }) {
                   if (pref === 'ultra-pro-gloss') {
                     theme = finalMode === 'dark' ? 'ultra-pro-gloss-dark' : 'ultra-pro-gloss-light';
                   } else if (pref === 'hybrid-v1-balanced') {
-                    theme = finalMode === 'dark' ? 'hybrid-v1-balanced' : 'hybrid-v1-balanced-light';
+                    theme = finalMode === 'dark' ? 'hybrid-v1-balanced-dark' : 'hybrid-v1-balanced-light';
                   } else if (pref === 'hybrid-v3-highpop') {
-                    theme = finalMode === 'dark' ? 'hybrid-v3-highpop' : 'hybrid-v3-highpop-light';
+                    theme = finalMode === 'dark' ? 'hybrid-v3-highpop-dark' : 'hybrid-v3-highpop-light';
                   } else if (pref === 'hybrid-v3') {
                     theme = finalMode === 'dark' ? 'dark' : 'light';
                   }
