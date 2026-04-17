@@ -300,7 +300,7 @@ export default function Navbar() {
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
                 onBlur={handleSearchBlur}
-                placeholder="Search... (Ctrl+K)"
+                placeholder="Search RO Tools... (⌘K)"
                 maxLength={100}
                 autoFocus
                 className={styles.searchInput}
