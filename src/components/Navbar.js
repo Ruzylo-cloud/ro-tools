@@ -127,28 +127,10 @@ export default function Navbar() {
     setOpenDropdown(null);
   }, []);
 
-  // Dark mode toggle
-  const [theme, setTheme] = useState('light');
   // RT-064: Notification bell
   const [unreadCount, setUnreadCount] = useState(0);
   // RT-070: User role
   const [userRole, setUserRole] = useState('');
-
-  useEffect(() => {
-    let saved = 'light';
-    try { saved = localStorage.getItem('ro-tools-theme') || 'light'; }
-    catch (e) { console.debug('[navbar] theme read failed (non-fatal):', e); }
-    setTheme(saved);
-    document.documentElement.setAttribute('data-theme', saved);
-  }, []);
-
-  const toggleTheme = useCallback(() => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    setTheme(next);
-    document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('ro-tools-theme', next); }
-    catch (e) { console.debug('[navbar] theme save failed (non-fatal):', e); }
-  }, [theme]);
 
   // Search: Ctrl+K or / to open dropdown
   useEffect(() => {
@@ -368,10 +350,7 @@ export default function Navbar() {
             {userRole.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
           </span>
         )}
-        {/* Theme toggle */}
-        <button className={styles.iconBtn} onClick={toggleTheme} aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'} title={theme === 'light' ? 'Dark mode' : 'Light mode'} style={{ fontSize: '18px' }}>
-          {theme === 'light' ? '\u{1F319}' : '\u{2600}\u{FE0F}'}
-        </button>
+        {/* Theme toggle removed — handled by Sidebar enterprise theme engine */}
         {/* RT-029: Profile dropdown */}
         {user && (
           <div className={styles.profileWrap}>
@@ -388,7 +367,7 @@ export default function Navbar() {
                   <img src={user.picture} alt="" width={28} height={28} className={styles.avatarImg} loading="lazy" />
                 ) : (
                   <span className={styles.avatarInitials}>
-                    {(user.name || user.email || '?').slice(0, 1).toUpperCase()}
+                    {(user.name || user.email || '?').split(' ').map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || '?'}
                   </span>
                 )}
               </div>

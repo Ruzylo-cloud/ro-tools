@@ -51,21 +51,22 @@ export default function RootLayout({ children }) {
               
               var apply = function(pref, mode) {
                 var finalMode = mode === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode;
-                if (pref === 'default') {
+                if (pref === 'default' || pref === 'jm-red' || pref === 'forest-green' || pref === 'default-blue') {
                   document.documentElement.setAttribute('data-theme', finalMode);
                 } else {
                   var theme = pref;
                   if (pref === 'ultra-pro-gloss') {
-                    theme = finalMode === 'dark' ? 'ultra-pro-gloss-dark' : 'ultra-pro-gloss-light';
+                    theme = finalMode === 'dark' ? 'pro-gloss-ultra-dark' : 'pro-gloss-ultra-light';
                   } else if (pref === 'hybrid-v1-balanced') {
                     theme = finalMode === 'dark' ? 'hybrid-v1-balanced-dark' : 'hybrid-v1-balanced-light';
                   } else if (pref === 'hybrid-v3-highpop') {
-                    theme = finalMode === 'dark' ? 'hybrid-v3-highpop-dark' : 'hybrid-v3-highpop-light';
+                    theme = finalMode === 'dark' ? 'hybrid-highpop-dark' : 'hybrid-highpop-light';
                   } else if (pref === 'hybrid-v3') {
-                    theme = finalMode === 'dark' ? 'dark' : 'light';
+                    theme = finalMode === 'dark' ? 'hybrid-v3-dark' : 'hybrid-v3-light';
                   }
                   document.documentElement.setAttribute('data-theme', theme);
                 }
+                document.documentElement.setAttribute('data-brand', pref);
               };
               apply(p, m);
             } catch(e) { console.debug('[layout] theme init failed:', e); }

@@ -195,21 +195,25 @@ export default function Sidebar() {
       modeToApply = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
 
-    if (themeToApply === 'default') {
+    // Brand themes (jm-red, forest-green, default-blue) use the default
+    // light/dark surface and apply brand color via CSS token overrides.
+    if (themeToApply === 'default' || themeToApply === 'jm-red' || themeToApply === 'forest-green' || themeToApply === 'default-blue') {
       document.documentElement.setAttribute('data-theme', modeToApply === 'dark' ? 'dark' : 'light');
     } else {
       let finalTheme = themeToApply;
       if (themeToApply === 'ultra-pro-gloss') {
-        finalTheme = modeToApply === 'dark' ? 'ultra-pro-gloss-dark' : 'ultra-pro-gloss-light';
+        finalTheme = modeToApply === 'dark' ? 'pro-gloss-ultra-dark' : 'pro-gloss-ultra-light';
       } else if (themeToApply === 'hybrid-v1-balanced') {
         finalTheme = modeToApply === 'dark' ? 'hybrid-v1-balanced-dark' : 'hybrid-v1-balanced-light';
       } else if (themeToApply === 'hybrid-v3-highpop') {
-        finalTheme = modeToApply === 'dark' ? 'hybrid-v3-highpop-dark' : 'hybrid-v3-highpop-light';
+        finalTheme = modeToApply === 'dark' ? 'hybrid-highpop-dark' : 'hybrid-highpop-light';
       } else if (themeToApply === 'hybrid-v3') {
-        finalTheme = modeToApply === 'dark' ? 'dark' : 'light';
+        finalTheme = modeToApply === 'dark' ? 'hybrid-v3-dark' : 'hybrid-v3-light';
       }
       document.documentElement.setAttribute('data-theme', finalTheme);
     }
+    // Persist brand-color attribute for CSS token overrides
+    document.documentElement.setAttribute('data-brand', themeToApply);
   }, []);
 
   useEffect(() => {
@@ -488,7 +492,7 @@ export default function Sidebar() {
                 maxLength={100}
                 onKeyDown={handleSearchKeyDown}
                 onBlur={() => setTimeout(() => setSearchOpen(false), 150)}
-                placeholder="Search pages... (⌘K)"
+                placeholder="Search RO Tools... (⌘K)"
                 className={styles.searchInput}
                 autoComplete="off"
               />
@@ -571,17 +575,19 @@ export default function Sidebar() {
         </Link>
 
         {/* Search trigger */}
-        <button
-          className={styles.searchTrigger}
-          onClick={() => { setSearchOpen(v => !v); setTimeout(() => searchInputRef.current?.focus(), 50); }}
-          aria-label="Search (⌘K)"
-        >
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <span>Search...</span>
-          <kbd className={styles.kbdHint}>⌘K</kbd>
-        </button>
+        <div className={styles.searchWrap}>
+          <button
+            className={styles.searchTrigger}
+            onClick={() => { setSearchOpen(v => !v); setTimeout(() => searchInputRef.current?.focus(), 50); }}
+            aria-label="Search (⌘K)"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+              <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <span>Search...</span>
+            <kbd className={styles.kbdHint}>⌘K</kbd>
+          </button>
+        </div>
 
         {/* Navigation */}
         <nav className={styles.nav} aria-label="Main navigation">
@@ -804,9 +810,12 @@ export default function Sidebar() {
                   className={styles.themeSelect}
                 >
                   <option value="default">American Classic</option>
-                  <option value="pro-gloss-ultra">Pro Gloss Ultra</option>
+                  <option value="jm-red">Jersey Mike's Red</option>
+                  <option value="forest-green">Forest Green</option>
+                  <option value="default-blue">Default Blue</option>
+                  <option value="ultra-pro-gloss">Pro Gloss Ultra</option>
                   <option value="hybrid-v3">Hybrid v3</option>
-                  <option value="hybrid-highpop">Hybrid Highpop</option>
+                  <option value="hybrid-v3-highpop">Hybrid Highpop</option>
                   <option value="hybrid-v1-balanced">Hybrid v1 Balanced</option>
                 </select>
               </div>
